@@ -1,13 +1,13 @@
-import { Button, buttonVariants } from '@/components/ui/button';
-import React from 'react';
-import { RouterProvider } from 'react-router-dom';
-import clientRouters from './routes/clientRouter';
+import React from "react";
+import { RouterProvider } from "react-router-dom";
+import clientRouters from "./routes/clientRouter";
+import { ThemeProvider } from "./context/themeProvider";
 
 const ClientApp = () => {
     return (
-        <div>
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <RouterProvider router={clientRouters} />
-        </div>
+        </ThemeProvider>
     );
 };
 

@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     darkMode: ["class"],
-    content: ["./src/**/*.{js,jsx,ts,tsx}"],
+    content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
     theme: {
         extend: {
             borderRadius: {
@@ -71,13 +71,13 @@ module.exports = {
                     bgDark: "#0F172A",
                     bgGray: "#1E293B",
                     bgLightGray: "#334155",
-                    textLightGray:"#E5E7EB",
-                    textLight:"#F8FFC",
+                    textLightGray: "#E5E7EB",
+                    textLight: "#F8FFC",
                     textWhite: "#FFFFFF",
                     border: "rgba(255, 255, 255, 0.1)",
                     shadow: "rgba(51, 51, 51, 0.25)",
                     link: "#3B82F6",
-                    hoverLink:"#3B82F6"
+                    hoverLink: "#3B82F6",
                 },
             },
             fontFamily: {
