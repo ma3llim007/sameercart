@@ -15,7 +15,7 @@ const Footer = () => {
     const year = useMemo(() => currentYear(), []);
 
     return (
-        <div className="w-full px-4 sm:px-8 pt-8 bg-footer text-white lg:px-9 xl:px-0 2xl:px-0">
+        <div className="w-full px-4 sm:px-8 pt-8 bg-light-blue text-white lg:px-9 xl:px-0 2xl:px-0">
             <div className="container mx-auto">
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-16 lg:grid-cols-4 lg:gap-1 xl:gap-0">
                     <div className="w-4/5">

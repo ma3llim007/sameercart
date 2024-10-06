@@ -26,7 +26,7 @@ const SideBar = ({ isOpenModel, handleModel, wishListQty, cartQty }) => {
             variants={sideBarVariants}
             initial="hidden"
             animate={isOpenModel ? "visiable": "hidden"}
-            className="top-0 h-full inset-0 w-full fixed overflow-y-scroll bg-light-bgLighterGray text-light-bgLighterGray dark:bg-dark-bgGray transition-transform ease-in-out duration-300 delay-75 xl:hidden 2xl:hidden">
+            className="top-0 h-full z-40 inset-0 w-full fixed overflow-y-scroll bg-light-bgLighterGray text-light-textDarkGray dark:bg-dark-bgGray dark:text-dark-textWhite transition-transform ease-in-out duration-300 delay-75 xl:hidden 2xl:hidden">
             <div className="w-full">
                 <div className="px-4 sm:px-10 lg:px-12">
                     <div className="flex py-2 justify-end items-center">

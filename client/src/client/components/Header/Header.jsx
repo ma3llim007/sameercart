@@ -15,19 +15,29 @@ import {
 import useSticky from "../../hooks/useSticky";
 import Logo from "../Logo";
 import SideBar from "./SideBar";
+import { catgoryAndSubCategory } from "@/client/data/cateagoryAndSubCategory";
 
 const Header = () => {
     const isSticky = useSticky(100);
     const [MobileNavOpen, setMobileNavOpen] = useState(false);
+    const [openIndex, setOpenIndex] = useState(null);
     const handleMobileModel = () => {
         setMobileNavOpen(prev => !prev);
     };
+    const handleMouseEnter = index => {
+        setOpenIndex(index);
+    };
+
+    const handleMouseLeave = () => {
+        setOpenIndex(null);
+    };
+
     const cartQty = 1;
     const wishListQty = 1;
     const price = "20.00";
     return (
         <>
-            <header className="w-screen flex flex-col text-xs sm:text-sm lg:text-base xl:text-base 2xl:text-base mb-2 shadow select-none bg-light-bgWhite dark:bg-dark-bgDark">
+            <header className="w-screen flex flex-col text-xs sm:text-sm lg:text-base xl:text-base 2xl:text-base shadow select-none bg-light-bgWhite dark:bg-dark-bgDark">
                 <div className="w-full">
                     <div className="px-4 sm:px-10 lg:px-12 xl:px-4 2xl:px-4">
                         <div className="w-full flex mt-2 flex-col sm:flex-row sm:gap-5 sm:justify-between sm:items-center">
@@ -156,7 +166,7 @@ const Header = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="max-w-7xl md:w-full mx-auto mt-3 xl:hidden 2xl:hidden">
+                        <div className="max-w-7xl md:w-full mx-auto my-3 xl:hidden 2xl:hidden">
                             <div className="flex">
                                 <div className="relative w-full">
                                     <input
@@ -178,7 +188,7 @@ const Header = () => {
                         </div>
                     </div>
                     <div
-                        className={`hidden justify-between h-12 px-5 xl:flex 2xl:flex bg-light-blue text-light-bgLighterGray items-center gap-5 w-full z-20 transform transition-all duration-300 ease-in-out ${isSticky ? "fixed bg-light-blue top-0 left-0 shadow-lg opacity-100 translate-y-0 mt-0" : "relative mt-2"} `}
+                        className={`hidden justify-between h-12 px-5 py-8 xl:flex 2xl:flex bg-light-blue text-light-bgLighterGray items-center gap-5 w-full z-20 transform transition-all duration-300 ease-in-out ${isSticky ? "fixed bg-light-blue top-0 left-0 shadow-lg opacity-100 translate-y-0 mt-0 z-50" : "relative mt-2"} `}
                     >
                         <nav className="w-[85%] mr-5">
                             <ul className="flex gap-5 py-2 font-semibold items-center">
@@ -193,26 +203,70 @@ const Header = () => {
                                     About Us
                                     <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
                                 </NavLink>
-                                <NavLink className="relative group">
-                                    Category 1
-                                    <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
-                                </NavLink>
-                                <NavLink className="relative group">
-                                    Category 2
-                                    <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
-                                </NavLink>
-                                <NavLink className="relative group">
-                                    Category 3
-                                    <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
-                                </NavLink>
-                                <NavLink className="relative group">
-                                    Category 4
-                                    <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
-                                </NavLink>
-                                <NavLink className="relative group">
-                                    Category 5
-                                    <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
-                                </NavLink>
+                                <div className="relative inline-flex">
+                                    {catgoryAndSubCategory.map(
+                                        (category, index) => (
+                                            <div
+                                                key={category.id}
+                                                className="relative inline-block"
+                                                onMouseEnter={() =>
+                                                    handleMouseEnter(index)
+                                                }
+                                            >
+                                                <Link
+                                                    to={`/${category.slug}`}
+                                                    className="flex items-center gap-1 px-4 py-2
+                                                     transition-colors duration-200"
+                                                    aria-haspopup="true"
+                                                    aria-expanded={
+                                                        openIndex === index
+                                                    }
+                                                >
+                                                    {category.name}
+                                                    <IoIosArrowDown />
+                                                </Link>
+                                                <div
+                                                    className={`absolute left-0 mt-[6px] w-52 bg-light-bgWhite text-light-textGray dark:bg-dark-bgGray dark:text-dark-textWhite rounded-b-md shadow-lg transition-opacity transform duration-300 ease-in-out ${openIndex === index ? "opacity-100 translate-y-2" : "opacity-0 translate-y-2"}`}
+                                                    style={{
+                                                        pointerEvents:
+                                                            openIndex === index
+                                                                ? "auto"
+                                                                : "none",
+                                                    }}
+                                                >
+                                                    <ul
+                                                        onMouseLeave={
+                                                            handleMouseLeave
+                                                        }
+                                                        className="py-2 divide-y divide-light-border dark:divide-dark-border"
+                                                    >
+                                                        {category?.subcategories.map(
+                                                            (
+                                                                subCategory,
+                                                                subIndex
+                                                            ) => (
+                                                                <li
+                                                                    key={
+                                                                        subIndex
+                                                                    }
+                                                                >
+                                                                    <Link
+                                                                        to={`/${category.slug}/${subCategory.slug}`}
+                                                                        className="block px-4 py-2 text-sm "
+                                                                    >
+                                                                        {
+                                                                            subCategory.name
+                                                                        }
+                                                                    </Link>
+                                                                </li>
+                                                            )
+                                                        )}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        )
+                                    )}
+                                </div>
                                 <NavLink
                                     className="relative group"
                                     to={"/contact-us"}
