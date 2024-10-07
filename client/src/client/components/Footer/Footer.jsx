@@ -47,22 +47,22 @@ const Footer = () => {
                         </h4>
                         <ul className="flex flex-col font-medium gap-2">
                             <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link>Delivery</Link>
+                                <Link to={'/delivery'}>Delivery</Link>
                             </li>
                             <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link>About Us</Link>
+                                <Link to={'/about-us'}>About Us</Link>
                             </li>
                             <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link>Secure Payment</Link>
+                                <Link to={'/secure-payment'}>Secure Payment</Link>
                             </li>
                             <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link>Contact Us</Link>
+                                <Link to={'/contact-us'}>Contact Us</Link>
                             </li>
                             <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link>Sitemap</Link>
+                                <Link to={'/sitemap'}>Sitemap</Link>
                             </li>
                             <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link>Stores</Link>
+                                <Link to={'/stores'}>Stores</Link>
                             </li>
                         </ul>
                     </div>
@@ -72,22 +72,22 @@ const Footer = () => {
                         </h4>
                         <ul className="flex flex-col font-medium gap-2">
                             <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link>Legal Notice</Link>
+                                <Link to={'/legal-notice'}>Legal Notice</Link>
                             </li>
                             <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link>Prices Drop</Link>
+                                <Link to={'/prices-drop'}>Prices Drop</Link>
                             </li>
                             <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link>New Products</Link>
+                                <Link to={'/category'}>Category's</Link>
                             </li>
                             <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link>Best Sales</Link>
+                                <Link to={'/best-sales'}>Best Sales</Link>
                             </li>
                             <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link>Login</Link>
+                                <Link to={'/login'}>Login</Link>
                             </li>
                             <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link>My Account</Link>
+                                <Link to={'/my-account'}>My Account</Link>
                             </li>
                         </ul>
                     </div>

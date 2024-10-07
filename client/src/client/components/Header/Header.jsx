@@ -6,12 +6,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
 import { FaBagShopping } from "react-icons/fa6";
 import { BiSolidUserVoice } from "react-icons/bi";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import useSticky from "../../hooks/useSticky";
 import Logo from "../Logo";
 import SideBar from "./SideBar";
@@ -20,38 +15,26 @@ import { catgoryAndSubCategory } from "@/client/data/cateagoryAndSubCategory";
 const Header = () => {
     const isSticky = useSticky(100);
     const [MobileNavOpen, setMobileNavOpen] = useState(false);
-    const [openIndex, setOpenIndex] = useState(null);
+
     const handleMobileModel = () => {
         setMobileNavOpen(prev => !prev);
-    };
-    const handleMouseEnter = index => {
-        setOpenIndex(index);
-    };
-
-    const handleMouseLeave = () => {
-        setOpenIndex(null);
     };
 
     const cartQty = 1;
     const wishListQty = 1;
     const price = "20.00";
+
     return (
         <>
             <header className="w-screen flex flex-col text-xs sm:text-sm lg:text-base xl:text-base 2xl:text-base shadow select-none bg-light-bgWhite dark:bg-dark-bgDark">
                 <div className="w-full">
                     <div className="px-4 sm:px-10 lg:px-12 xl:px-4 2xl:px-4">
                         <div className="w-full flex mt-2 flex-col sm:flex-row sm:gap-5 sm:justify-between sm:items-center">
-                            <div className="text-center text-light-textGray dark:text-dark-textLightGray">
-                                Welcome you to SameerCart Store!
-                            </div>
+                            <div className="text-center text-light-textGray dark:text-dark-textLightGray">Welcome you to SameerCart Store!</div>
                             <div className="flex justify-center text-center items-center gap-2">
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <div
-                                            className="flex cursor-pointer items-center outline-none"
-                                            role="button"
-                                            tabIndex="0"
-                                        >
+                                        <div className="flex gap-1 cursor-pointer items-center outline-none" role="button" tabIndex="0">
                                             Setting <IoIosArrowDown />
                                         </div>
                                     </DropdownMenuTrigger>
@@ -60,26 +43,13 @@ const Header = () => {
                                         className="border-none bg-light-bgLightGray text-light-textDarkGray dark:bg-dark-deep dark:text-dark-textWhite z-40"
                                         sideOffset={10}
                                     >
-                                        <DropdownMenuItem
-                                            asChild
-                                            className="py-2 px-4 cursor-pointer"
-                                        >
-                                            <Link to={"/my-account"}>
-                                                My Account
-                                            </Link>
+                                        <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
+                                            <Link to={"/my-account"}>My Account</Link>
                                         </DropdownMenuItem>
-                                        <DropdownMenuItem
-                                            asChild
-                                            className="py-2 px-4 cursor-pointer"
-                                        >
-                                            <Link to={"/checkout"}>
-                                                Checkout
-                                            </Link>
+                                        <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
+                                            <Link to={"/checkout"}>Checkout</Link>
                                         </DropdownMenuItem>
-                                        <DropdownMenuItem
-                                            asChild
-                                            className="py-2 px-4 cursor-pointer"
-                                        >
+                                        <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
                                             <Link to={"/login"}>Login</Link>
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
@@ -112,9 +82,7 @@ const Header = () => {
                                                     className="absolute top-0 end-0 p-2.5 font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                                 >
                                                     <CiSearch className="font-bold text-xl" />
-                                                    <span className="sr-only">
-                                                        Search
-                                                    </span>
+                                                    <span className="sr-only">Search</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -127,12 +95,8 @@ const Header = () => {
                                                 <BiSolidUserVoice />
                                             </div>
                                             <div className="pr-2 xl:pr-6 2xl:pr-5">
-                                                <p className="text-xs font-normal">
-                                                    Call Us:
-                                                </p>
-                                                <p className="text-base font-bold">
-                                                    +91 12345 67890
-                                                </p>
+                                                <p className="text-xs font-normal">Call Us:</p>
+                                                <p className="text-base font-bold">+91 12345 67890</p>
                                             </div>
                                         </div>
                                         <div className="items-center gap-2 hidden sm:flex md:flex">
@@ -155,9 +119,7 @@ const Header = () => {
                                                 </Link>
                                             </div>
                                         </div>
-                                        <p className="text-base xl:text-base font-semibold">
-                                            ${price}
-                                        </p>
+                                        <p className="text-base xl:text-base font-semibold">${price}</p>
                                         <FaBars
                                             onClick={handleMobileModel}
                                             className="text-2xl ml-1 cursor-pointer font-extrabold lg:hidden xl:hidden 2xl:hidden"
@@ -196,81 +158,49 @@ const Header = () => {
                                     Home
                                     <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
                                 </NavLink>
-                                <NavLink
-                                    className="relative group"
-                                    to={"/about-us"}
-                                >
+                                <NavLink className="relative group" to={"/about-us"}>
                                     About Us
                                     <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
                                 </NavLink>
-                                <div className="relative inline-flex">
-                                    {catgoryAndSubCategory.map(
-                                        (category, index) => (
-                                            <div
-                                                key={category.id}
-                                                className="relative inline-block"
-                                                onMouseEnter={() =>
-                                                    handleMouseEnter(index)
-                                                }
-                                            >
+                                <div className="inline-flex gap-5">
+                                    {catgoryAndSubCategory.map(category => (
+                                        <DropdownMenu key={category?.id}>
+                                            <div className="flex items-center gap-1">
                                                 <Link
-                                                    to={`/${category.slug}`}
-                                                    className="flex items-center gap-1 px-4 py-2
-                                                     transition-colors duration-200"
+                                                    to={`/${category?.slug}`}
+                                                    className="flex gap-1 cursor-pointer items-center outline-none"
+                                                    role="button"
+                                                    tabIndex={0}
                                                     aria-haspopup="true"
-                                                    aria-expanded={
-                                                        openIndex === index
-                                                    }
+                                                    aria-expanded="false"
                                                 >
-                                                    {category.name}
-                                                    <IoIosArrowDown />
+                                                    {category?.name}
                                                 </Link>
-                                                <div
-                                                    className={`absolute left-0 mt-[6px] w-52 bg-light-bgWhite text-light-textGray dark:bg-dark-bgGray dark:text-dark-textWhite rounded-b-md shadow-lg transition-opacity transform duration-300 ease-in-out ${openIndex === index ? "opacity-100 translate-y-2" : "opacity-0 translate-y-2"}`}
-                                                    style={{
-                                                        pointerEvents:
-                                                            openIndex === index
-                                                                ? "auto"
-                                                                : "none",
-                                                    }}
-                                                >
-                                                    <ul
-                                                        onMouseLeave={
-                                                            handleMouseLeave
-                                                        }
-                                                        className="py-2 divide-y divide-light-border dark:divide-dark-border"
+                                                <DropdownMenuTrigger asChild>
+                                                    <button
                                                     >
-                                                        {category?.subcategories.map(
-                                                            (
-                                                                subCategory,
-                                                                subIndex
-                                                            ) => (
-                                                                <li
-                                                                    key={
-                                                                        subIndex
-                                                                    }
-                                                                >
-                                                                    <Link
-                                                                        to={`/${category.slug}/${subCategory.slug}`}
-                                                                        className="block px-4 py-2 text-base "
-                                                                    >
-                                                                        {
-                                                                            subCategory.name
-                                                                        }
-                                                                    </Link>
-                                                                </li>
-                                                            )
-                                                        )}
-                                                    </ul>
-                                                </div>
+                                                        <IoIosArrowDown />
+                                                    </button>
+                                                </DropdownMenuTrigger>
                                             </div>
-                                        )
-                                    )}
+
+                                            <DropdownMenuContent
+                                                align="center"
+                                                className="border-none rounded-t-none divide-y divide-light-border dark:divide-dark-border bg-light-blue text-light-textWhite dark:bg-dark dark:text-dark-textWhite z-40"
+                                                sideOffset={22}
+                                            >
+                                                {category?.subcategories.map(subcategory => (
+                                                    <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer " key={subcategory?.id}>
+                                                        <Link to={`${category.slug}/${subcategory?.slug}`} className="px-4 py-2 text-base">
+                                                            {subcategory?.name}
+                                                        </Link>
+                                                    </DropdownMenuItem>
+                                                ))}
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    ))}
                                 </div>
-                                <NavLink
-                                    className="relative group"
-                                    to={"/contact-us"}
-                                >
+                                <NavLink className="relative group" to={"/contact-us"}>
                                     Contact Us
                                     <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
                                 </NavLink>
