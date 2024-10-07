@@ -1,11 +1,26 @@
-import { motion,easeInOut } from "framer-motion";
+import { motion, easeInOut } from "framer-motion";
 import React from "react";
-import { FaFacebook, FaGoogle, FaInstagram, FaLinkedinIn, FaRegHeart, FaRegUser, FaTwitter } from "react-icons/fa";
+import {
+    FaFacebook,
+    FaGoogle,
+    FaInstagram,
+    FaLinkedinIn,
+    FaPlus,
+    FaRegHeart,
+    FaRegUser,
+    FaTwitter,
+} from "react-icons/fa";
 import { FaBagShopping } from "react-icons/fa6";
 import { IoCloseSharp } from "react-icons/io5";
 import { Link, NavLink } from "react-router-dom";
 
-const SideBar = ({ isOpenModel, handleModel, wishListQty, cartQty }) => {
+const SideBar = ({
+    isOpenModel,
+    handleModel,
+    wishListQty,
+    cartQty,
+    catgoryAndSubCategory,
+}) => {
     // Define animation variants
     const sideBarVariants = {
         hidden: {
@@ -21,12 +36,14 @@ const SideBar = ({ isOpenModel, handleModel, wishListQty, cartQty }) => {
             },
         },
     };
+
     return (
         <motion.div
             variants={sideBarVariants}
             initial="hidden"
-            animate={isOpenModel ? "visiable": "hidden"}
-            className="top-0 h-full z-40 inset-0 w-full fixed overflow-y-scroll bg-light-bgLighterGray text-light-textDarkGray dark:bg-dark-bgGray dark:text-dark-textWhite transition-transform ease-in-out duration-300 delay-75 xl:hidden 2xl:hidden">
+            animate={isOpenModel ? "visiable" : "hidden"}
+            className="top-0 h-full z-40 inset-0 w-full fixed overflow-y-scroll bg-light-bgLighterGray text-light-textDarkGray dark:bg-dark-bgGray dark:text-dark-textWhite transition-transform ease-in-out duration-300 delay-75 lg:hidden xl:hidden 2xl:hidden"
+        >
             <div className="w-full">
                 <div className="px-4 sm:px-10 lg:px-12">
                     <div className="flex py-2 justify-end items-center">
@@ -37,23 +54,68 @@ const SideBar = ({ isOpenModel, handleModel, wishListQty, cartQty }) => {
                     </div>
                 </div>
                 <hr className="my-2 opacity-25" />
-                <nav className="w-full">
-                    <ul
-                        className="flex flex-col items-center gap-5 p-2 text-xl font-semibold overflow-y-scroll"
-                        onClick={handleModel}
-                    >
-                        <NavLink to={"/"}>Home</NavLink>
-                        <NavLink to={"/about-us"}>About Us</NavLink>
-                        <NavLink>Category 1</NavLink>
-                        <NavLink>Category 2</NavLink>
-                        <NavLink>Category 3</NavLink>
-                        <NavLink>Category 4</NavLink>
-                        <NavLink>Category 5</NavLink>
-                        <NavLink to={"/contact-us"}>Contact Us</NavLink>
+                <nav className="w-full px-5 mt-10 mb-5">
+                    <ul className="flex flex-col items-start gap-5 p-2 text-xl font-semibold overflow-y-scroll">
+                        <NavLink onClick={handleModel} to={"/"}>
+                            Home
+                        </NavLink>
+                        <NavLink onClick={handleModel} to={"/about-us"}>
+                            About Us
+                        </NavLink>
+                        <div className="w-full space-y-2">
+                            {catgoryAndSubCategory.map(category => (
+                                <nav
+                                    className="group rounded-md"
+                                    key={category.id}
+                                >
+                                    <input
+                                        type="checkbox"
+                                        id={`toggle-${category?.id}`}
+                                        className="hidden peer"
+                                    />
+                                    <label
+                                        htmlFor={`toggle-${category?.id}`}
+                                        className="flex justify-between items-center py-2 cursor-pointer rounded-md"
+                                    >
+                                        <Link
+                                            onClick={handleModel}
+                                            to={`/${category?.slug}`}
+                                        >
+                                            {category?.name}
+                                        </Link>
+                                        <div className="px-2 py-1 text-base">
+                                            <FaPlus className="transform peer-checked:rotate-45 transition-transform duration-300" />
+                                        </div>
+                                    </label>
+
+                                    <ul className="ml-4 mt-2 space-y-1 hidden peer-checked:block transition-all duration-700 ease-in-out transform">
+                                        {category?.subcategories.map(
+                                            (subcategory, index) => (
+                                                <li
+                                                    key={index}
+                                                    className="py-1"
+                                                >
+                                                    <Link
+                                                        onClick={handleModel}
+                                                        to={`/${category.slug}/${subcategory.slug}`}
+                                                        className="block px-3 py-1 underline underline-offset-4"
+                                                    >
+                                                        {subcategory?.name}
+                                                    </Link>
+                                                </li>
+                                            )
+                                        )}
+                                    </ul>
+                                </nav>
+                            ))}
+                        </div>
+                        <NavLink onClick={handleModel} to={"/contact-us"}>
+                            Contact Us
+                        </NavLink>
                     </ul>
                 </nav>
-                <div className="w-full mt-2 mb-6">
-                    <div className="flex justify-center gap-5 items-center">
+                <div className="w-full px-5 mb-6">
+                    <div className="flex justify-start gap-5 p-2 items-center">
                         <Link
                             to="/my-account"
                             className="flex items-center"
@@ -79,14 +141,10 @@ const SideBar = ({ isOpenModel, handleModel, wishListQty, cartQty }) => {
                         </div>
                     </div>
                 </div>
-                <div className="w-full my-2 mx-auto">
-                    <ul className="flex flex-wrap justify-center gap-5 items-center">
+                <div className="w-full px-5 my-2 mx-auto">
+                    <ul className="flex flex-wrap justify-start gap-5 items-center">
                         <li className="bg-light-blue p-2 rounded-full">
-                            <a
-                                target="_blank"
-                                href="#"
-                                onClick={handleModel}
-                            >
+                            <a target="_blank" href="#" onClick={handleModel}>
                                 <FaFacebook className="font-bold text-xl text-light-textWhite" />
                             </a>
                         </li>

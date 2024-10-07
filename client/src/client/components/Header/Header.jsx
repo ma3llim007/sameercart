@@ -160,7 +160,7 @@ const Header = () => {
                                         </p>
                                         <FaBars
                                             onClick={handleMobileModel}
-                                            className="text-2xl ml-1 cursor-pointer font-extrabold xl:hidden 2xl:hidden"
+                                            className="text-2xl ml-1 cursor-pointer font-extrabold lg:hidden xl:hidden 2xl:hidden"
                                         />
                                     </div>
                                 </div>
@@ -188,10 +188,10 @@ const Header = () => {
                         </div>
                     </div>
                     <div
-                        className={`hidden justify-between h-12 px-5 py-8 xl:flex 2xl:flex bg-light-blue text-light-bgLighterGray items-center gap-5 w-full z-20 transform transition-all duration-300 ease-in-out ${isSticky ? "fixed bg-light-blue top-0 left-0 shadow-lg opacity-100 translate-y-0 mt-0 z-50" : "relative mt-2"} `}
+                        className={`hidden justify-between h-12 px-5 py-8 lg:flex xl:flex 2xl:flex bg-light-blue text-light-bgLighterGray items-center gap-5 w-full z-20 transform transition-all duration-300 ease-in-out ${isSticky ? "fixed bg-light-blue top-0 left-0 shadow-lg opacity-100 translate-y-0 mt-0 z-50" : "relative mt-2"} `}
                     >
-                        <nav className="w-[85%] mr-5">
-                            <ul className="flex gap-5 py-2 font-semibold items-center">
+                        <nav className="w-[85%] mr-5 lg:w-full">
+                            <ul className="flex gap-5 py-2 font-semibold items-center lg:justify-center xl:justify-start 2xl:justify-start">
                                 <NavLink to={"/"} className="relative group">
                                     Home
                                     <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
@@ -252,7 +252,7 @@ const Header = () => {
                                                                 >
                                                                     <Link
                                                                         to={`/${category.slug}/${subCategory.slug}`}
-                                                                        className="block px-4 py-2 text-sm "
+                                                                        className="block px-4 py-2 text-base "
                                                                     >
                                                                         {
                                                                             subCategory.name
@@ -276,7 +276,7 @@ const Header = () => {
                                 </NavLink>
                             </ul>
                         </nav>
-                        <div className="text-sm w-[15%]">
+                        <div className="text-sm w-[15%] lg:hidden xl:block 2xl:block">
                             <p>Free Shipping on Orders $50+</p>
                         </div>
                     </div>
@@ -287,6 +287,7 @@ const Header = () => {
                 wishListQty={wishListQty}
                 handleModel={handleMobileModel}
                 isOpenModel={MobileNavOpen}
+                catgoryAndSubCategory={catgoryAndSubCategory}
             />
         </>
     );
