@@ -10,7 +10,7 @@ const Categories = ({ categories }) => {
     const swiperRef = useRef(null);
     return (
         <>
-            <section className="w-full flex flex-col p-3 relative group">
+            <section className="w-full flex flex-col my-10 relative group">
                 <SectionHeader title="Popular Categories" />
                 <Swiper
                     modules={[Navigation, Pagination, Autoplay]}

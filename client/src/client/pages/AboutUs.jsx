@@ -1,10 +1,12 @@
-import React from 'react';
+import React from "react";
+import { Banner, Container } from "../components";
 
 const AboutUs = () => {
     return (
-        <div>
-            <h1>About US</h1>
-        </div>
+        <>
+            <Banner image={bannerImage} />
+            <Container>About Us</Container>
+        </>
     );
 };
 

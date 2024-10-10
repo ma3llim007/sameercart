@@ -4,7 +4,7 @@ import { TbTruckReturn } from "react-icons/tb";
 
 const IconSection = () => {
     return (
-        <section className="w-full grid grid-cols-1 place-content-start items-center py-6 sm:grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
+        <section className="w-full grid grid-cols-1 place-content-start items-center my-10 sm:grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
             <div className="flex gap-4 items-center">
                 <FaShippingFast className="font-bold text-5xl" />
                 <div className="text-base leading-7 py-2">

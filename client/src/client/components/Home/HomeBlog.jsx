@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 const HomeBlog = () => {
     return (
-        <section className="w-full overflow-hidden py-6 ">
+        <section className="w-full overflow-hidden my-6 ">
             <div className="w-full text-center mx-auto max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl px-2 py-1">
                 <h4 className="uppercase text-base sm:text-xl xl:text-2xl 2xl:text-2xl text-light-blue dark:text-dark-light font-bold leading-relaxed">blog</h4>
                 <h3 className="text-base sm:text-2xl lg:text-3xl xl:text-4xl 2xl:text-4xl font-bold leading-relaxed">Read Our Latest Blog</h3>

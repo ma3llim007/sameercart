@@ -18,7 +18,7 @@ const ProductsSection = ({title="Featured Products"}) => {
     const products = useMemo(() => productsData.slice(0, 10), []);
     const swiperRef = useRef(null);
     return (
-        <section className="w-full flex flex-col p-3 relative">
+        <section className="w-full flex flex-col my-10 relative">
             <SectionHeader title={title}/>
             <Swiper
                 modules={[Navigation, Pagination]}
