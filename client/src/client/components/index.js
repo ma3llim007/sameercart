@@ -1,18 +1,27 @@
-import Header from "./Header/Header";
-import Footer from "./Footer/Footer";
-import Slider from "./Home/Slider";
-import IconSection from "./Home/IconSection";
-import InfoCardSection from "./Home/InfoCardSection";
-import Container from "./Container";
-import Categories from "./Home/Categories";
-import ProductsSection from "./Home/ProductsSection";
-import HomeBanner from "./Home/HomeBanner";
-import HomeBlog from "./Home/HomeBlog";
-import Banner from "./Banner";
-import ShippingMethods from "./Delivery/ShippingMethods";
-import OrderProcessingTime from "./Delivery/OrderProcessingTime";
-import DeliveryPolicies from "./Delivery/DeliveryPolicies";
-import ReturnsAndExchanges from "./Delivery/ReturnsAndExchanges";
+import React from "react";
+
+const Header = React.lazy(() => import("./Header/Header"));
+const Footer = React.lazy(() => import("./Footer/Footer"));
+const Slider = React.lazy(() => import("./Home/Slider"));
+const IconSection = React.lazy(() => import("./Home/IconSection"));
+const InfoCardSection = React.lazy(() => import("./Home/InfoCardSection"));
+const Container = React.lazy(() => import("./Container"));
+const Categories = React.lazy(() => import("./Home/Categories"));
+const ProductsSection = React.lazy(() => import("./Home/ProductsSection"));
+const HomeBanner = React.lazy(() => import("./Home/HomeBanner"));
+const HomeBlog = React.lazy(() => import("./Home/HomeBlog"));
+const Banner = React.lazy(() => import("./Banner"));
+const ShippingMethods = React.lazy(() => import("./Delivery/ShippingMethods"));
+const OrderProcessingTime = React.lazy(() => import("./Delivery/OrderProcessingTime"));
+const DeliveryPolicies = React.lazy(() => import("./Delivery/DeliveryPolicies"));
+const ReturnsAndExchanges = React.lazy(() => import("./Delivery/ReturnsAndExchanges"));
+const FAQsSection = React.lazy(() => import("./Delivery/FaqSection"));
+const CompanyOverview = React.lazy(() => import("./AboutUs/CompanyOverview"));
+const OurStory = React.lazy(() => import("./AboutUs/OurStory"));
+const Team = React.lazy(() => import("./AboutUs/Team"));
+const OurValues = React.lazy(() => import("./AboutUs/OurValues"));
+const Testimonails = React.lazy(() => import("./AboutUs/Testimonails"));
+
 export {
     Header,
     Footer,
@@ -29,4 +38,10 @@ export {
     OrderProcessingTime,
     DeliveryPolicies,
     ReturnsAndExchanges,
+    FAQsSection,
+    CompanyOverview,
+    OurStory,
+    Team,
+    OurValues,
+    Testimonails,
 };

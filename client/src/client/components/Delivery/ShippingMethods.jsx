@@ -16,7 +16,7 @@ const ShippingMethods = () => {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 place-content-center items-center gap-4 py-4">
                 {shippingCard.map(card => (
-                    <div key={card?.title} className="flex flex-col justify-center items-center p-6 space-y-3 group bg-light-gray dark:bg-dark-bgGray shadow-xl rounded-lg hover:cursor-default transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl">
+                    <div key={card?.title} className="flex flex-col justify-center items-center p-6 space-y-3 group bg-light-gray dark:bg-dark-bgGray rounded-lg hover:cursor-default transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl">
                         <div className="w-12 h-12 shadow-md rounded-full flex justify-center items-center group-hover:bg-light-deep group-hover:dark:bg-dark-deep group-hover:text-light-textWhite transition-colors duration-300 ease-in-out">
                             <card.icon className="text-3xl" />
                         </div>

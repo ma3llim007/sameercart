@@ -1,7 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
+import bannerImage from "../assets/banner/delivery.webp";
 
-const Banner = ({ image, title }) => {
+const Banner = ({ image=bannerImage, title }) => {
     return (
         <section className="w-full h-96 relative">
             <img loading="lazy" className="w-full h-full object-cover " src={image} alt="Banner Image" />

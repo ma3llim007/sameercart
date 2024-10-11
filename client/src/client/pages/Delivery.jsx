@@ -1,7 +1,6 @@
 import React from "react";
-import { Banner, Container, DeliveryPolicies, OrderProcessingTime, ReturnsAndExchanges, ShippingMethods } from "../components";
+import { Banner, Container, DeliveryPolicies, FAQsSection, OrderProcessingTime, ReturnsAndExchanges, ShippingMethods } from "../components";
 import bannerImage from "../assets/banner/delivery.webp";
-import FAQsSection from "../components/Delivery/Faq";
 
 const Delivery = () => {
     return (

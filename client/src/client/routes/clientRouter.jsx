@@ -15,7 +15,7 @@ const Delivery = lazy(() => import("../pages/Delivery"));
 const clientRouters = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<ClientLayout />}>
-            <Route path="" element={<Home />} />
+            <Route index path="" element={<Home />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/delivery" element={<Delivery />} />
             <Route path="/contact-us" element={<ContactUs />} />

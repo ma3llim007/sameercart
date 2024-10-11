@@ -36,13 +36,13 @@ const faqs = [
 const FAQsSection = () => {
     return (
         <section className="w-full my-20">
-        <div className="w-full text-center">
-            <h2 className="text-3xl mb-4 font-bold underline decoration-2">Frequently Asked Questions</h2>
-        </div>
-        <div className="w-full">
-            <Faq lists={faqs} />
-        </div>
-    </section>
+            <div className="w-full text-center">
+                <h2 className="text-3xl mb-4 font-bold underline decoration-2">Frequently Asked Questions</h2>
+            </div>
+            <div className="w-full">
+                <Faq lists={faqs} />
+            </div>
+        </section>
     );
 };
 

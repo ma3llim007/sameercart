@@ -41,6 +41,7 @@ module.exports = {
     				foreground: 'hsl(var(--destructive-foreground))'
     			},
     			border: 'hsl(var(--border))',
+    			shadow: 'hsl(var(--shadow))',
     			input: 'hsl(var(--input))',
     			ring: 'hsl(var(--ring))',
     			chart: {
@@ -61,8 +62,6 @@ module.exports = {
     				textGray: '#47494A',
     				textDarkGray: '#1D1D1D',
     				textWhite: '#FFFFFF',
-    				border: 'rgba(255, 255, 255, 0.1)',
-    				shadow: 'rgba(51, 51, 51, 0.25)',
     				link: '#146CDA',
     				hoverLink: '#146CDA'
     			},
@@ -78,8 +77,6 @@ module.exports = {
     				textLightGray: '#E5E7EB',
     				textLight: '#F8FFC',
     				textWhite: '#FFFFFF',
-    				border: 'rgba(255, 255, 255, 0.1)',
-    				shadow: 'rgba(51, 51, 51, 0.25)',
     				link: '#3B82F6',
     				hoverLink: '#3B82F6'
     			}

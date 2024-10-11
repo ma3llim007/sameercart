@@ -13,7 +13,7 @@
         --textDarkGray: #1D1D1D;
         --textWhite: #FFFFFF;
         --border: rgba(255, 255, 255, 0.1);
-        --shadow: rgba(51, 51, 51, 0.25);
+        --shadow: rgba(51, 51, 51, 0.30);
         --link: #146CDA;
         /* Existing Variables */
         --background: var(--bgWhite);
