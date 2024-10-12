@@ -46,22 +46,22 @@ const Footer = () => {
                             information
                         </h4>
                         <ul className="flex flex-col font-medium gap-2">
-                            <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
+                            <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={'/delivery'}>Delivery</Link>
                             </li>
-                            <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
+                            <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={'/about-us'}>About Us</Link>
                             </li>
-                            <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
+                            <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={'/secure-payment'}>Secure Payment</Link>
                             </li>
-                            <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
+                            <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={'/contact-us'}>Contact Us</Link>
                             </li>
-                            <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
+                            <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={'/sitemap'}>Sitemap</Link>
                             </li>
-                            <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
+                            <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={'/stores'}>Stores</Link>
                             </li>
                         </ul>
@@ -71,22 +71,22 @@ const Footer = () => {
                             custom links
                         </h4>
                         <ul className="flex flex-col font-medium gap-2">
-                            <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
+                            <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={'/legal-notice'}>Legal Notice</Link>
                             </li>
-                            <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
+                            <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={'/prices-drop'}>Prices Drop</Link>
                             </li>
-                            <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
+                            <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={'/category'}>Category's</Link>
                             </li>
-                            <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
+                            <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={'/best-sales'}>Best Sales</Link>
                             </li>
-                            <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
+                            <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={'/login'}>Login</Link>
                             </li>
-                            <li className="hover:ml-4 transition-all ease-in-out duration-300 cursor-pointer">
+                            <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={'/my-account'}>My Account</Link>
                             </li>
                         </ul>

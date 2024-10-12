@@ -33,6 +33,7 @@ const Slider = ({ sliderData }) => {
                         >
                             <div className="relative w-full h-full flex items-center justify-center">
                                 <img
+                                    loading="lazy"
                                     src={slider.imageUrl}
                                     alt={`Slider ${index + 1}`}
                                     className="w-full h-full object-cover"

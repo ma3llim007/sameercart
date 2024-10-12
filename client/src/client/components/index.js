@@ -21,6 +21,9 @@ const OurStory = React.lazy(() => import("./AboutUs/OurStory"));
 const Team = React.lazy(() => import("./AboutUs/Team"));
 const OurValues = React.lazy(() => import("./AboutUs/OurValues"));
 const Testimonails = React.lazy(() => import("./AboutUs/Testimonails"));
+const Faq = React.lazy(() => import("./Faq"));
+const GetInTouch = React.lazy(() => import("./Contact/GetInTouch"));
+const Map = React.lazy(() => import("./Contact/Map"));
 
 export {
     Header,
@@ -44,4 +47,7 @@ export {
     Team,
     OurValues,
     Testimonails,
+    Faq,
+    GetInTouch,
+    Map,
 };

@@ -12,13 +12,13 @@ const TestimonailsData = [
         id: 3,
         image: image3,
         name: "Alice Johnson",
-        location: "Sydney, Australia",
+        location: "Sophia",
         message: "The best investment I've made this year. Simply outstanding!",
     },
     {
         id: 4,
         image: image3,
-        name: "Michael Brown",
+        name: "Isabella",
         location: "Toronto, Canada",
         message: "Exceptional quality and fantastic customer service. Would buy again!",
     },
@@ -36,7 +36,7 @@ const Testimonails = () => {
                 navigation={true}
                 loop={true}
                 pagination={{ clickable: true }}
-                autoplay={{ delay: 10000, disableOnInteraction: false }}
+                autoplay={{ delay: 5000, disableOnInteraction: false }}
                 breakpoints={{
                     640: {
                         slidesPerView: 2,

@@ -10,7 +10,7 @@ const CheckOut = lazy(() => import("../pages/CheckOut"));
 const Login = lazy(() => import("../pages/Login"));
 const ClientNotFound = lazy(() => import("../pages/ClientNotFound"));
 const Delivery = lazy(() => import("../pages/Delivery"));
-
+const SecurePayment = lazy(()=>import("../pages/SecurePayment"))
 // Client Router
 const clientRouters = createBrowserRouter(
     createRoutesFromElements(
@@ -18,6 +18,7 @@ const clientRouters = createBrowserRouter(
             <Route index path="" element={<Home />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/delivery" element={<Delivery />} />
+            <Route path="/secure-payment" element={<SecurePayment />} />
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/terms-and-conditions" element={<TermsAndCondition />} />
             <Route path="/my-account" element={<MyAccount />} />
