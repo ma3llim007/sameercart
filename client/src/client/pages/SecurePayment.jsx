@@ -70,14 +70,14 @@ const SecurePayment = () => {
                 </section>
                 <hr />
                 <section className="w-full my-5 px-4 py-2">
-                    <h1 className="text-3xl font-bold mb-2 text-light-blue dark:text-dark-textWhite">Accepted Payment Methods</h1>
+                    <h2 className="text-3xl font-bold mb-2 text-light-blue dark:text-dark-textWhite">Accepted Payment Methods</h2>
                     <p className="text-lg mb-3">We offer a wide range of secure payment options:</p>
                     <div className="w-2/4 my-4 flex flex-wrap gap-5 text-4xl ">
-                        <FaCreditCard />
-                        <FaCcVisa />
-                        <FaCcMastercard />
-                        <FaPaypal />
-                        <FaGooglePay />
+                        <FaCreditCard aria-label="Credit Card" />
+                        <FaCcVisa aria-label="CC Visa" />
+                        <FaCcMastercard aria-label="CC MasterCard" />
+                        <FaPaypal aria-label="Pay Pal" />
+                        <FaGooglePay aria-label="Google Pay" />
                     </div>
                 </section>
                 <hr />
