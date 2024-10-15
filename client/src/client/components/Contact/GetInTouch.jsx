@@ -7,7 +7,7 @@ const GetInTouch = () => {
     return (
         <section className="w-full my-20">
             <div className="w-full mb-5">
-                <h1 className="text-3xl font-bold underline underline-offset-2 decoration-2 text-center">Get In Touch</h1>
+                <h1 className="text-3xl font-bold underline underline-offset-2 decoration-2 text-center text-light-blue dark:text-dark-light">Get In Touch</h1>
             </div>
             <div className="grid grid-cols-3 gap-10 items-center place-content-center">
                 <div className="flex flex-col gap-10 bg-light-gray/50 dark:bg-dark-gray/30 p-10 rounded-lg">

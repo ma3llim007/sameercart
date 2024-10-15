@@ -33,7 +33,6 @@ const LegalNotice = () => {
                         </li>
                     </ul>
                 </section>
-                <hr />
                 <section className="w-full my-10">
                     <div className="w-full mb-5">
                         <h1 className="text-3xl text-light-deep font-bold underline underline-offset-2 decoration-2">Intellectual Property</h1>
@@ -44,7 +43,6 @@ const LegalNotice = () => {
                         </p>
                     </div>
                 </section>
-                <hr />
                 <section className="w-full my-10">
                     <div className="w-full mb-5">
                         <h1 className="text-3xl text-light-deep font-bold underline underline-offset-2 decoration-2">Liability</h1>
@@ -55,14 +53,12 @@ const LegalNotice = () => {
                         </p>
                     </div>
                 </section>
-                <hr />
                 <section className="w-full my-10">
                     <div className="w-full mb-5">
                         <h1 className="text-3xl text-light-deep font-bold underline underline-offset-2 decoration-2">Privacy Policy</h1>
                         <p> Please refer to our <Link className="text-light-link dark:text-dark-link" to={'/privacy-policy'} >Privacy Policy</Link> for detailed information about how we handle your data and ensure compliance with applicable data protection laws. </p>
                     </div>
                 </section>
-                <hr />
                 <section className="w-full my-10">
                     <div className="w-full mb-5">
                         <h1 className="text-3xl text-light-deep font-bold underline underline-offset-2 decoration-2">Contact</h1>

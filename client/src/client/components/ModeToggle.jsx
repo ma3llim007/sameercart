@@ -1,11 +1,6 @@
 import { Moon, Sun, Monitor } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useTheme } from "../context/themeProvider";
 
 export function ModeToggle() {
@@ -25,10 +20,7 @@ export function ModeToggle() {
             >
                 <DropdownMenuItem
                     className={`cursor-pointer
-                        ${
-                            theme === "light" &&
-                            "bg-light-blue text-light-textWhite font-bold shadow cursor-pointer"
-                        }`}
+                        ${theme === "light" && "bg-light-blue text-light-textWhite font-bold shadow cursor-pointer"}`}
                     onClick={() => setTheme("light")}
                 >
                     <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all mr-2" />
@@ -45,10 +37,7 @@ export function ModeToggle() {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                     className={`cursor-pointer
-                        ${
-                            theme === "system" &&
-                            "bg-light-deep dark:bg-dark-dark font-bold shadow cursor-pointer"
-                        }`}
+                        ${theme === "system" && "bg-light-deep dark:bg-dark-dark font-bold shadow cursor-pointer"}`}
                     onClick={() => setTheme("system")}
                 >
                     <Monitor className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all mr-2" />

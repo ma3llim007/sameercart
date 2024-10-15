@@ -55,16 +55,16 @@ const Footer = () => {
                                 <Link to={"/legal-notice"}>Legal Notice</Link>
                             </li>
                             <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link to={"/prices-drop"}>Prices Drop</Link>
+                                <Link to={"/return-policy"}>Return Policy</Link>
                             </li>
                             <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={"/category"}>Category's</Link>
                             </li>
                             <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link to={"/best-sales"}>Best Sales</Link>
+                                <Link to={"/terms-and-conditions"}>Terms & Condition</Link>
                             </li>
                             <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link to={"/login"}>Login</Link>
+                                <Link to={"/privacy-policy"}>Privacy polics</Link>
                             </li>
                             <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={"/my-account"}>My Account</Link>
