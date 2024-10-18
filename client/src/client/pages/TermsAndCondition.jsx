@@ -8,7 +8,7 @@ const TermsAndCondition = () => {
         <>
             <Banner image={termsAndcondition} title={"Terms And Condition"} />
             <Container>
-                <section className="w-full mb-5 mt-10 px-4 py-4">
+                <section className="w-full mb-5 mt-10 p-4">
                     <h1 className="text-3xl font-bold text-light-blue dark:text-dark-light mb-3">Introduction</h1>
                     <p className="text-lg">
                         Welcome to SameerCart. By accessing and using this website, you agree to comply with and be bound by the following Terms and
@@ -17,7 +17,7 @@ const TermsAndCondition = () => {
                         website.
                     </p>
                 </section>
-                <section className="w-full mb-5 mt-10 px-4 py-4">
+                <section className="w-full mb-5 mt-10 p-4">
                     <h1 className="text-3xl font-bold text-light-blue dark:text-dark-light mb-3">Account Information</h1>
                     <p className="text-lg">
                         To access certain features of our website, you may be required to create an account. You are responsible for maintaining the
@@ -25,7 +25,7 @@ const TermsAndCondition = () => {
                         SameerCart is not liable for any loss or damage arising from your failure to protect your account details.
                     </p>
                 </section>
-                <section className="w-full mb-5 mt-10 px-4 py-4">
+                <section className="w-full mb-5 mt-10 p-4">
                     <h1 className="text-3xl font-bold text-light-blue dark:text-dark-light mb-3">Purchases and Payment Terms</h1>
                     <p className="text-lg">
                         All prices displayed on our website are in Rupee. We reserve the right to modify pricing without prior notice. Payments are
@@ -34,7 +34,7 @@ const TermsAndCondition = () => {
                         option for a full refund.
                     </p>
                 </section>
-                <section className="w-full mb-5 mt-10 px-4 py-4">
+                <section className="w-full mb-5 mt-10 p-4">
                     <h1 className="text-3xl font-bold text-light-blue dark:text-dark-light mb-3">Shipping and Delivery</h1>
                     <p className="text-lg">
                         Orders are typically processed and shipped within 05 business days of purchase. Delivery times may vary depending on your
@@ -42,7 +42,7 @@ const TermsAndCondition = () => {
                         information is accurate to avoid delays or issues with delivery.
                     </p>
                 </section>
-                <section className="w-full mb-5 mt-10 px-4 py-4">
+                <section className="w-full mb-5 mt-10 p-4">
                     <h1 className="text-3xl font-bold text-light-blue dark:text-dark-light mb-3">Returns and Refunds</h1>
                     <p className="text-lg">
                         We accept returns within 7 days from the date of purchase. Items must be returned in their original condition and packaging.
@@ -54,7 +54,7 @@ const TermsAndCondition = () => {
                         your original payment method.
                     </p>
                 </section>
-                <section className="w-full mb-5 mt-10 px-4 py-4">
+                <section className="w-full mb-5 mt-10 p-4">
                     <h1 className="text-3xl font-bold text-light-blue dark:text-dark-light mb-3">User Conduct</h1>
                     <p className="text-lg">
                         You agree to use our website and services responsibly and in compliance with applicable laws. Prohibited activities include,
@@ -62,7 +62,7 @@ const TermsAndCondition = () => {
                         for unlawful purposes. Violation of these terms may result in the suspension or termination of your account and legal action.
                     </p>
                 </section>
-                <section className="w-full mb-5 mt-10 px-4 py-4">
+                <section className="w-full mb-5 mt-10 p-4">
                     <h1 className="text-3xl font-bold text-light-blue dark:text-dark-light mb-3">Intellectual Property</h1>
                     <p className="text-lg">
                         All content on this website, including but not limited to text, graphics, logos, images, and software, is the property of
@@ -70,7 +70,7 @@ const TermsAndCondition = () => {
                         reproduce, distribute, or create derivative works from any content on this site without prior written consent.
                     </p>
                 </section>
-                <section className="w-full mb-5 mt-10 px-4 py-4">
+                <section className="w-full mb-5 mt-10 p-4">
                     <h1 className="text-3xl font-bold text-light-blue dark:text-dark-light mb-3">Limitation of Liability</h1>
                     <p className="text-lg">
                         SameerCart strives to ensure the accuracy and reliability of the information provided on this website, but we do not guarantee
@@ -79,7 +79,7 @@ const TermsAndCondition = () => {
                     </p>
                 </section>
 
-                <section className="w-full mb-5 mt-10 px-4 py-4">
+                <section className="w-full mb-5 mt-10 p-4">
                     <h1 className="text-3xl font-bold text-light-blue dark:text-dark-light mb-3">Privacy Policy</h1>
                     <p className="text-lg">
                         Protecting your privacy is important to us. Any personal information you provide to us will be handled in accordance with our
@@ -87,7 +87,7 @@ const TermsAndCondition = () => {
                         use, and protect your data.
                     </p>
                 </section>
-                <section className="w-full mb-5 mt-10 px-4 py-4">
+                <section className="w-full mb-5 mt-10 p-4">
                     <h1 className="text-3xl font-bold text-light-blue dark:text-dark-light mb-3">Termination</h1>
                     <p className="text-lg">
                         We reserve the right to terminate or suspend your account and access to our website at our sole discretion, with or without
@@ -95,7 +95,7 @@ const TermsAndCondition = () => {
                         provisions of these terms which by their nature should survive termination will remain in effect.
                     </p>
                 </section>
-                <section className="w-full mb-5 mt-10 px-4 py-4">
+                <section className="w-full mb-5 mt-10 p-4">
                     <h1 className="text-3xl font-bold text-light-blue dark:text-dark-light mb-3">Governing Law</h1>
                     <p className="text-lg">
                         These Terms and Conditions are governed by and construed in accordance with the laws of India/Telanagana. You agree to submit
@@ -103,7 +103,7 @@ const TermsAndCondition = () => {
                         terms.
                     </p>
                 </section>
-                <section className="w-full mb-5 mt-10 px-4 py-4">
+                <section className="w-full mb-5 mt-10 p-4">
                     <h1 className="text-3xl font-bold text-light-blue dark:text-dark-light mb-3">Changes to Terms</h1>
                     <p className="text-lg">
                         SameerCart reserves the right to update or modify these Terms and Conditions at any time without prior notice. Any changes

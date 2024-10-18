@@ -61,7 +61,7 @@ const Testimonails = () => {
                             </div>
                             <div className="flex flex-col space-y-2 justify-center items-center my-2">
                                 <h4 className="text-2xl font-bold">{testimonail?.name}</h4>
-                                <p className="text-light-gray dark:text-dark-textLightGray">{testimonail?.location}</p>
+                                <p className="text-light-textGray dark:text-dark-textLightGray">{testimonail?.location}</p>
                                 <div className="w-4/5 mx-auto text-center">
                                     <p>{testimonail?.message}</p>
                                 </div>

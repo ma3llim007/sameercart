@@ -1,19 +1,45 @@
-import {
-    createBrowserRouter,
-    createRoutesFromElements,
-    Route,
-} from 'react-router-dom';
-import AdminLayout from '../layouts/AdminLayout';
-import { AdminNotFound, AdminProfile, Dashboard } from '../pages';
+import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
+import { AdminNotFound, AdminProfile, Dashboard, Login } from "../pages";
+import DashboardLayout from "../layouts/DashboardLayout";
+import AuthLayout from "../layouts/AuthLayout";
 
-const adminRouters = createBrowserRouter(
-    createRoutesFromElements(
-        <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="/admin-profile" element={<AdminProfile />} />
-            <Route path="*" element={<AdminNotFound />} />
-        </Route>
-    )
-);
+const adminRouters = createBrowserRouter([
+    {
+        path: "admin",
+        element: <DashboardLayout />,
+        children: [
+            {
+                index: true,
+                element: <Dashboard />,
+            },
+            {
+                path: "dashboard",
+                element: <Dashboard />,
+            },
+            {
+                path: "profile",
+                element: <AdminProfile />,
+            },
+        ],
+    },
+    {
+        path: "admin/auth",
+        element: <AuthLayout />,
+        children: [
+            {
+                index: true,
+                element: <Login />,
+            },
+            {
+                path: 'login',
+                element: <Login />,
+            },
+        ],
+    },
+    {
+        path: "*",
+        element: <AdminNotFound />,
+    },
+]);
 
 export default adminRouters;

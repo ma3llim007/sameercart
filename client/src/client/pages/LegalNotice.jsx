@@ -8,7 +8,7 @@ const LegalNotice = () => {
         <>
             <Banner image={legalNoticeBanner} title={"Legal Notice"} />
             <Container>
-                <section className="w-full my-10">
+                <section className="w-full my-10 p-4">
                     <div className="w-full mb-5">
                         <h1 className="text-3xl text-light-deep font-bold underline underline-offset-2 decoration-2">Company Information</h1>
                     </div>
@@ -33,7 +33,7 @@ const LegalNotice = () => {
                         </li>
                     </ul>
                 </section>
-                <section className="w-full my-10">
+                <section className="w-full my-10 p-4">
                     <div className="w-full mb-5">
                         <h1 className="text-3xl text-light-deep font-bold underline underline-offset-2 decoration-2">Intellectual Property</h1>
                         <p>
@@ -43,7 +43,7 @@ const LegalNotice = () => {
                         </p>
                     </div>
                 </section>
-                <section className="w-full my-10">
+                <section className="w-full my-10 p-4">
                     <div className="w-full mb-5">
                         <h1 className="text-3xl text-light-deep font-bold underline underline-offset-2 decoration-2">Liability</h1>
                         <p>
@@ -53,13 +53,13 @@ const LegalNotice = () => {
                         </p>
                     </div>
                 </section>
-                <section className="w-full my-10">
+                <section className="w-full my-10 p-4">
                     <div className="w-full mb-5">
                         <h1 className="text-3xl text-light-deep font-bold underline underline-offset-2 decoration-2">Privacy Policy</h1>
                         <p> Please refer to our <Link className="text-light-link dark:text-dark-link" to={'/privacy-policy'} >Privacy Policy</Link> for detailed information about how we handle your data and ensure compliance with applicable data protection laws. </p>
                     </div>
                 </section>
-                <section className="w-full my-10">
+                <section className="w-full my-10 p-4">
                     <div className="w-full mb-5">
                         <h1 className="text-3xl text-light-deep font-bold underline underline-offset-2 decoration-2">Contact</h1>
                         <p>If you have any questions or concerns regarding this legal notice, please feel free to contact us at <a className="text-light-link dark:text-dark-link" href="mailto:mohdsameer68257@gmail.com">mohdsameer68257@gmail.com</a></p>
