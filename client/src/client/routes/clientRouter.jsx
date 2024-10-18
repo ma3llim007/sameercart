@@ -10,7 +10,10 @@ const CheckOut = lazy(() => import("../pages/CheckOut"));
 const Login = lazy(() => import("../pages/Login"));
 const ClientNotFound = lazy(() => import("../pages/ClientNotFound"));
 const Delivery = lazy(() => import("../pages/Delivery"));
-const SecurePayment = lazy(()=>import("../pages/SecurePayment"))
+const SecurePayment = lazy(() => import("../pages/SecurePayment"));
+const LegalNotice = lazy(() => import("../pages/LegalNotice"));
+const ReturnPolicy = lazy(() => import("../pages/ReturnPolicy"));
+const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy"));
 // Client Router
 const clientRouters = createBrowserRouter(
     createRoutesFromElements(
@@ -19,8 +22,11 @@ const clientRouters = createBrowserRouter(
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/delivery" element={<Delivery />} />
             <Route path="/secure-payment" element={<SecurePayment />} />
+            <Route path="/legal-notice" element={<LegalNotice />} />
+            <Route path="/return-policy" element={<ReturnPolicy />} />
             <Route path="/contact-us" element={<ContactUs />} />
             <Route path="/terms-and-conditions" element={<TermsAndCondition />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/my-account" element={<MyAccount />} />
             <Route path="/checkout" element={<CheckOut />} />
             <Route path="/login" element={<Login />} />

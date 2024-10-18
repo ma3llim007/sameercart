@@ -186,12 +186,12 @@ const Header = () => {
 
                                             <DropdownMenuContent
                                                 align="center"
-                                                className="border-none rounded-t-none divide-y divide-light-border dark:divide-dark-border bg-light-blue text-light-textWhite dark:bg-dark dark:text-dark-textWhite z-40"
+                                                className="min-w-[8rem] overflow-hidden p-1 shadow-md border-none divide-light-border dark:divide-dark-border bg-light-blue text-light-textWhite dark:text-dark-textWhite z-40"
                                                 sideOffset={22}
                                             >
                                                 {category?.subcategories.map(subcategory => (
-                                                    <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer " key={subcategory?.id}>
-                                                        <Link to={`${category.slug}/${subcategory?.slug}`} className="px-4 py-2 text-base">
+                                                    <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer" key={subcategory?.id}>
+                                                        <Link to={`${category.slug}/${subcategory?.slug}`} className="px-4 py-2 text-base border-b rounded-none border-opacity-50 border-light-gray">
                                                             {subcategory?.name}
                                                         </Link>
                                                     </DropdownMenuItem>

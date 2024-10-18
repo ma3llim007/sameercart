@@ -4,7 +4,7 @@ import bannerImage from "../assets/banner/delivery.webp";
 
 const Banner = ({ image=bannerImage, title }) => {
     return (
-        <section className="w-full h-96 relative">
+        <section className="w-full h-96 relative select-none">
             <img loading="lazy" className="w-full h-full object-cover " src={image} alt="Banner Image" />
             <div className="absolute w-full h-full top-0 left-0 right-0 text-white bg-black bg-opacity-50 flex justify-center items-center">
                 <motion.div

@@ -7,10 +7,10 @@ const GetInTouch = () => {
     return (
         <section className="w-full my-20">
             <div className="w-full mb-5">
-                <h1 className="text-3xl font-bold underline underline-offset-2 decoration-2 text-center">Get In Touch</h1>
+                <h1 className="text-3xl font-bold underline underline-offset-2 decoration-2 text-center text-light-blue dark:text-dark-light">Get In Touch</h1>
             </div>
             <div className="grid grid-cols-3 gap-10 items-center place-content-center">
-                <div className="flex flex-col gap-10 bg-light-gray/50 dark:bg-dark-gray p-10 rounded-lg">
+                <div className="flex flex-col gap-10 bg-light-gray/50 dark:bg-dark-gray/30 p-10 rounded-lg">
                     <div className="flex gap-5 items-center group">
                         <div className="w-12 h-12 border rounded-full inline-flex justify-center items-center group-hover:bg-light-deep group-hover:text-white transition-colors duration-300 ease-in-out transform">
                             <FaPhoneAlt className="text-lg" />
@@ -81,7 +81,7 @@ const GetInTouch = () => {
                         </ul>
                     </div>
                 </div>
-                <div className="w-full col-span-2 bg-light-gray/50 dark:bg-dark-gray  p-10 rounded-lg">
+                <div className="w-full col-span-2 bg-light-gray/50 dark:bg-dark-gray/30  p-10 rounded-lg">
                     <form action="#" method="post" className="space-y-10">
                         <div className="w-full grid grid-cols-2 gap-5">
                             <input

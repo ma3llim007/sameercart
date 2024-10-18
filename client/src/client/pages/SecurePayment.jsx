@@ -28,15 +28,14 @@ const SecurePayment = () => {
             <Banner image={securePaymentBanner} title={"Secure Payment"} />
             <Container>
                 <section className="w-full mb-5 mt-10 px-4 py-4">
-                    <h1 className="text-3xl font-bold text-light-blue dark:text-dark-textWhite">Secure Payment</h1>
+                    <h1 className="text-3xl font-bold text-light-blue dark:text-dark-light">Secure Payment</h1>
                     <p className="text-lg">
                         At <span className="font-bold">SameerCart</span>, we take your security seriously. Our secure payment systems and
                         industry-leading encryption ensure that your personal information stays safe throughout the transaction process.
                     </p>
                 </section>
-                <hr />
                 <section className="w-full my-5 px-4 py-2">
-                    <h1 className="text-3xl font-bold mb-2 text-light-blue dark:text-dark-textWhite">How We Protect Your Data</h1>
+                    <h1 className="text-3xl font-bold mb-2 text-light-blue dark:text-dark-light">How We Protect Your Data</h1>
                     <ul className="space-y-4 overflow-hidden">
                         <li className="flex items-center gap-2 text-lg">
                             <MdOutlineDoubleArrow className="text-2xl" />
@@ -68,19 +67,17 @@ const SecurePayment = () => {
                         </li>
                     </ul>
                 </section>
-                <hr />
                 <section className="w-full my-5 px-4 py-2">
-                    <h1 className="text-3xl font-bold mb-2 text-light-blue dark:text-dark-textWhite">Accepted Payment Methods</h1>
+                    <h2 className="text-3xl font-bold mb-2 text-light-blue dark:text-dark-light">Accepted Payment Methods</h2>
                     <p className="text-lg mb-3">We offer a wide range of secure payment options:</p>
                     <div className="w-2/4 my-4 flex flex-wrap gap-5 text-4xl ">
-                        <FaCreditCard />
-                        <FaCcVisa />
-                        <FaCcMastercard />
-                        <FaPaypal />
-                        <FaGooglePay />
+                        <FaCreditCard aria-label="Credit Card" />
+                        <FaCcVisa aria-label="CC Visa" />
+                        <FaCcMastercard aria-label="CC MasterCard" />
+                        <FaPaypal aria-label="Pay Pal" />
+                        <FaGooglePay aria-label="Google Pay" />
                     </div>
                 </section>
-                <hr />
                 <section className="w-full my-20">
                     <div className="w-full text-center">
                         <h2 className="text-3xl mb-4 font-bold underline decoration-2">Frequently Asked Questions</h2>
