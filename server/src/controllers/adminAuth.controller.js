@@ -1,11 +1,8 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { Admin } from "../models/admin.model.js";
-import { uploadCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
-const { sign } = jwt;
 
 // Generating Access And Refresh Token
 const generateAccessAndRefeshTokens = async (adminId) => {
