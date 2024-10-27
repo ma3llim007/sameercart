@@ -1,6 +1,6 @@
 import React, { useId } from "react";
 
-const Input = React.forwardRef(function Input({ label, type = "text", className = "", ...props }, ref) {
+const Input = React.forwardRef(function Input({ label, type = "text", error, className = "", ...props }, ref) {
     const id = useId();
     return (
         <>
@@ -11,8 +11,10 @@ const Input = React.forwardRef(function Input({ label, type = "text", className 
                     ref={ref}
                     {...props}
                     id={id}
-                    className={`px-3 py-2 rounded-lg bg-white text-black outline-none focus:bg-gray-50 duration-200 border border-gray-200 w-full ${className}`}
+                    autoComplete="off"
+                    className={`px-3 py-2 rounded-lg bg-white text-black outline-none text-lg focus:bg-gray-50 duration-200 border border-gray-200 w-full ${className}`}
                 />
+                {error && <p className="text-red-700 font-bold my-2 text-base px-2">{error}</p>}
             </div>
         </>
     );

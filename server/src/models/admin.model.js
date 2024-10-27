@@ -1,12 +1,13 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
-import jwt, { sign } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+const { sign } = jwt;
 
 const adminSchema = new Schema(
     {
         username: {
             type: String,
-            required: [true,"Username Is Required"],
+            required: [true, "Username Is Required"],
             unique: true,
             lowercase: true,
             trim: true,
@@ -20,12 +21,12 @@ const adminSchema = new Schema(
         },
         fullName: {
             type: String,
-            required: [true,"Full Name Is Required"],
+            required: [true, "Full Name Is Required"],
             trim: true,
         },
         phoneNumber: {
             type: String,
-            required: [true,"Phone Number Is Required"],
+            required: [true, "Phone Number Is Required"],
         },
         password: {
             type: String,
@@ -33,6 +34,14 @@ const adminSchema = new Schema(
         },
         refreshToken: {
             type: String,
+        },
+        isActive: {
+            type: Boolean,
+            default: false,
+        },
+        asOwnerShip: {
+            type: Boolean,
+            default: false,
         },
     },
     { timestamps: true }
