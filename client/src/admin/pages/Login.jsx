@@ -5,11 +5,14 @@ import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import { LoginApi } from "../api/authApi";
 
 const loginScheme = Yup.object().shape({
     email: Yup.string().required("Email Is Required").email("Enter a Valid Email"),
-    password: Yup.string().required("Password Is Required").min(8, "Password Must Be At Least 8 Characters").max(16,"Password Should Be Must Under 16 Characters"),
+    password: Yup.string()
+        .required("Password Is Required")
+        .min(8, "Password Must Be At Least 8 Characters")
+        .max(16, "Password Should Be Must Under 16 Characters"),
 });
 
 const Login = () => {
@@ -20,18 +23,32 @@ const Login = () => {
         formState: { errors },
     } = useForm({ resolver: yupResolver(loginScheme) });
 
-    
+    // Mutation Login
+    const { mutate, isError, error, isPending, status } = useMutation({
+        mutationFn: LoginApi,
+        onError: error => {
+            const message = error.response?.data?.message || "Login failed";
+            setError("root", { message });
+        },
+        onSuccess: data => {
+            console.log("Login successful:", data);
+        },
+    });
 
     const formSubmithandler = async data => {
-        console.log(data);
+        mutate(data);
     };
     return (
         <section className="w-screen h-screen bg-gray-400">
             <div className="container mx-auto flex justify-center items-center h-full">
                 <div className="bg-white rounded-lg shadow-2xl p-8 w-full max-w-md">
-                    <h1 className="text-3xl font-bold text-center mb-4">Admin Panel</h1>
+                    <h1 className="text-3xl font-bold text-center">Admin Panel</h1>
                     <p className="text-base text-center mb-6 text-gray-600">Sign in to start your session</p>
-                    {errors.root && <p className="text-red-500 text-center">{errors.root.message}</p>}
+                    {errors.root && (
+                        <div className="w-full my-4 bg-red-500 text-center rounded-md border border-red-600 py-3 px-4">
+                            <p className="text-white font-bold text-sm">{errors.root.message}</p>
+                        </div>
+                    )}
                     <form onSubmit={handleSubmit(formSubmithandler)} className="space-y-4">
                         <Input
                             placeholder="Email"
