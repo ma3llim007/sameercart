@@ -24,6 +24,7 @@ const generateAccessAndRefeshTokens = async (adminId) => {
 const HttpOptions = {
     httpOnly: true,
     secure: true,
+    sameSite: "strict"
 };
 
 // Register Admin
@@ -89,6 +90,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
     const { accessToken, refreshToken } = await generateAccessAndRefeshTokens(adminIsExisted._id);
     const loggedInAdmin = await Admin.findById(adminIsExisted._id).select("-password -refreshToken");
+    
     return res
         .status(200)
         .cookie("accessToken", accessToken, HttpOptions)

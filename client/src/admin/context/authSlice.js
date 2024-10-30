@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     status: false,
-    userDate: null,
+    admin: null,
 };
 
 const authSlice = createSlice({
@@ -10,8 +10,10 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         login: (state, action) => {
+            console.log(action);
+            
             state.status = true;
-            state.userDate = action.payload; // have to update as per the api
+            state.admin = action.payload.admin; // have to update as per the api
         },
         logout: (state, action) => {
             state.status = false;

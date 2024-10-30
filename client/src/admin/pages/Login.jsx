@@ -1,21 +1,18 @@
 import React from "react";
 import Input from "../components/Form/Input";
 import { Button } from "@/components/ui/button";
-import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
-import { LoginApi } from "../api/authApi";
-
-const loginScheme = Yup.object().shape({
-    email: Yup.string().required("Email Is Required").email("Enter a Valid Email"),
-    password: Yup.string()
-        .required("Password Is Required")
-        .min(8, "Password Must Be At Least 8 Characters")
-        .max(16, "Password Should Be Must Under 16 Characters"),
-});
+import { adminLogin } from "../services/authService";
+import { loginScheme } from "../validation/LoginSchema";
+import { login } from "../context/authSlice";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const {
         register,
         handleSubmit,
@@ -24,14 +21,15 @@ const Login = () => {
     } = useForm({ resolver: yupResolver(loginScheme) });
 
     // Mutation Login
-    const { mutate, isError, error, isPending, status } = useMutation({
-        mutationFn: LoginApi,
+    const { mutate } = useMutation({
+        mutationFn: adminLogin,
         onError: error => {
-            const message = error.response?.data?.message || "Login failed";
+            const message = error.response?.data?.message;
             setError("root", { message });
         },
         onSuccess: data => {
-            console.log("Login successful:", data);
+            dispatch(login(data?.data?.admin));
+            navigate("/admin/");
         },
     });
 
@@ -39,9 +37,9 @@ const Login = () => {
         mutate(data);
     };
     return (
-        <section className="w-screen h-screen bg-gray-400">
+        <section className="w-screen h-screen bg-slate-950">
             <div className="container mx-auto flex justify-center items-center h-full">
-                <div className="bg-white rounded-lg shadow-2xl p-8 w-full max-w-md">
+                <div className="bg-stone-50 rounded-lg shadow-2xl p-8 w-full max-w-md">
                     <h1 className="text-3xl font-bold text-center">Admin Panel</h1>
                     <p className="text-base text-center mb-6 text-gray-600">Sign in to start your session</p>
                     {errors.root && (

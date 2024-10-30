@@ -2,7 +2,7 @@ import React from "react";
 import { RouterProvider } from "react-router-dom";
 import adminRouters from "./routes/adminRouter";
 import { Provider } from "react-redux";
-import adminStore from "./context/store";
+import adminStore from "./context/adminStore";
 
 const AdminApp = () => {
     return (
