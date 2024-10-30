@@ -10,10 +10,8 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         login: (state, action) => {
-            console.log(action);
-            
             state.status = true;
-            state.admin = action.payload.admin; // have to update as per the api
+            state.admin = action.payload.admin;
         },
         logout: (state, action) => {
             state.status = false;

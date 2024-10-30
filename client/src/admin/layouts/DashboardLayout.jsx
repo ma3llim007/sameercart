@@ -4,6 +4,10 @@ import { Outlet, useNavigate } from "react-router-dom";
 export default function DashboardLayout() {
     const navigate = useNavigate();
     const authStatus = useSelector(state => state.auth.status);
+
+    console.log(authStatus);
+    
+    
     useEffect(() => {
         if (!authStatus) {
             navigate("/admin/auth/login");

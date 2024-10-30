@@ -9,6 +9,7 @@ import { loginScheme } from "../validation/LoginSchema";
 import { login } from "../context/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import toastService from "@/services/toastService";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -30,6 +31,7 @@ const Login = () => {
         onSuccess: data => {
             dispatch(login(data?.data?.admin));
             navigate("/admin/");
+            toastService.success("Admin Login Sucessfully!");
         },
     });
 
