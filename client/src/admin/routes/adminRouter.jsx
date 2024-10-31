@@ -1,4 +1,4 @@
-import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import { AdminNotFound, AdminProfile, Dashboard, Login } from "../pages";
 import AuthLayout from "../layouts/AuthLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
@@ -31,7 +31,7 @@ const adminRouters = createBrowserRouter([
                 element: <Login />,
             },
             {
-                path: 'login',
+                path: "login",
                 element: <Login />,
             },
         ],

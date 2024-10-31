@@ -4,8 +4,10 @@ import { Outlet, useNavigate } from "react-router-dom";
 export default function DashboardLayout() {
     const navigate = useNavigate();
     const authStatus = useSelector(state => state.auth.status);
-
+    const admin = useSelector(state => state.auth);
     console.log(authStatus);
+    console.log(admin);
+    
     
     
     useEffect(() => {

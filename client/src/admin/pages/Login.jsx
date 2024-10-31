@@ -1,5 +1,4 @@
 import React from "react";
-import Input from "../components/Form/Input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,6 +9,7 @@ import { login } from "../context/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import toastService from "@/services/toastService";
+import { Input } from "../components";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ const Login = () => {
         },
         onSuccess: data => {
             dispatch(login(data?.data?.admin));
-            navigate("/admin/");
+            navigate("/admin/dashboard");
             toastService.success("Admin Login Sucessfully!");
         },
     });
@@ -75,7 +75,7 @@ const Login = () => {
                                     Remember Me
                                 </label>
                             </div>
-                            <Button variant="adPrimary" size="lg">
+                            <Button className="adPrimary" size="lg">
                                 Sign In
                             </Button>
                         </div>

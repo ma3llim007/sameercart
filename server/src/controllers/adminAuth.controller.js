@@ -58,7 +58,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        return res.status(401).json(new ApiError(422, "Both Field Are Required"));
+        return res.status(422).json(new ApiError(422, "Both Field Are Required"));
     }
 
     const adminIsExisted = await Admin.findOne({ email });
