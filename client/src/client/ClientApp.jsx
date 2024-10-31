@@ -6,11 +6,11 @@ import Loader from "./components/Loader/Loader";
 
 const ClientApp = () => {
     return (
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        // <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <Suspense fallback={<Loader />}>
                 <RouterProvider router={clientRouters} />
             </Suspense>
-        </ThemeProvider>
+        // </ThemeProvider>
     );
 };
 
