@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AdminNotFound, AdminProfile, Dashboard, Login } from "../pages";
+import { AddAdmins, AdminNotFound, AdminProfile, Dashboard, Login } from "../pages";
 import AuthLayout from "../layouts/AuthLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 
@@ -20,6 +20,19 @@ const adminRouters = createBrowserRouter([
                 path: "profile",
                 element: <AdminProfile />,
             },
+            {
+                path: "admins",
+                children: [
+                    {
+                        index: true,
+                        element: <AddAdmins />,
+                    },
+                    {
+                        path: "add-admin",
+                        element: <AddAdmins />,
+                    },
+                ]
+            }
         ],
     },
     {
