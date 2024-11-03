@@ -29,8 +29,8 @@ const Login = () => {
             setError("root", { message });
         },
         onSuccess: data => {
-            dispatch(login(data?.data?.admin));
-            
+            const { admin, accessToken } = data?.data;
+            dispatch(login({ admin, accessToken }));
             navigate("/admin/dashboard");
             toastService.success("Admin Login Sucessfully!");
         },

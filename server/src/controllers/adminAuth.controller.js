@@ -101,7 +101,6 @@ const loginAdmin = asyncHandler(async (req, res) => {
                 {
                     admin: loggedInAdmin,
                     accessToken,
-                    refreshToken,
                 },
                 "Admin Logged In Successfully"
             )

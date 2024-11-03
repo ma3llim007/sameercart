@@ -3,17 +3,10 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import { AdminSideBar, Footer, Header } from "../components";
+import useAuthRedirect from "../hooks/useAuthRedirect";
 
 export default function DashboardLayout() {
-    const navigate = useNavigate();
-    const { status: authStatus, admin } = useSelector(state => state.auth);
-
-    useEffect(() => {
-        if (!authStatus || !admin || !admin.asOwnerShip) {
-            navigate("/admin/auth/login", { replace: true });
-        }
-    }, [authStatus, admin, navigate]);
-    
+    const { admin } = useAuthRedirect();
     return (
         <SidebarProvider>
             <AdminSideBar username={admin?.username} />
