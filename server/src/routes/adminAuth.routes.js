@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+    adminList,
     loginAdmin,
     logOutAdmin,
     refreshAccessTokenAdmin,
@@ -13,5 +14,6 @@ router.route("/register").post(registerAdmin);
 router.route("/login").post(loginAdmin);
 router.route("/logout").post(verifyAdmin, logOutAdmin);
 router.route("/refresh-token").post(refreshAccessTokenAdmin);
+router.route("/admin-list").get(verifyAdmin, adminList);
 
 export default router;

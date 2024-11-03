@@ -9,11 +9,11 @@ export default function DashboardLayout() {
     const { status: authStatus, admin } = useSelector(state => state.auth);
 
     useEffect(() => {
-        if (!authStatus) {
-            navigate("/admin/auth/login");
+        if (!authStatus || !admin || !admin.asOwnerShip) {
+            navigate("/admin/auth/login", { replace: true });
         }
-    }, [authStatus]);
-
+    }, [authStatus, admin, navigate]);
+    
     return (
         <SidebarProvider>
             <AdminSideBar username={admin?.username} />

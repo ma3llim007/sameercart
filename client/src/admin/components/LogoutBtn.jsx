@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { adminLogOut } from "../services/authService";
 import { Button } from "@/components/ui/button";
@@ -20,14 +19,12 @@ import {
 const LogoutBtn = () => {
     const dispatch = useDispatch();
     const { admin } = useSelector(state => state.auth);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const { mutate } = useMutation({
         mutationFn: adminLogOut,
         onSuccess: data => {
             dispatch(logout());
-            toastService.info("Admin Logout Successfully");
-            setIsDialogOpen(false);
+            toastService.info(data?.message);
         },
         onError: error => {
             throw Error("Something Went Wrong While Log-Out", error);
@@ -45,14 +42,16 @@ const LogoutBtn = () => {
                 <AlertDialogTrigger asChild>
                     <Button className="adDanger">Logout</Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent className="bg-white">
+                <AlertDialogContent className="bg-white dark:bg-slate-950">
                     <AlertDialogHeader>
                         <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
                         <AlertDialogDescription>Are you sure you want to log out? This will end your current session.</AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction className="adDanger" onClick={logoutHandler}>Continue</AlertDialogAction>
+                        <AlertDialogAction className="adDanger" onClick={logoutHandler}>
+                            Continue
+                        </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>

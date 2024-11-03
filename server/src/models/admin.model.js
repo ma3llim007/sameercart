@@ -1,7 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-const { sign } = jwt;
 
 const adminSchema = new Schema(
     {
@@ -50,9 +49,12 @@ const adminSchema = new Schema(
 // hashing the password
 adminSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
-
-    this.password = await bcrypt.hash(this.password, 10);
-    next();
+    try {
+        this.password = await bcrypt.hash(this.password, 10);
+        next();
+    } catch (error) {
+        next(error);
+    }
 });
 
 // checking password is correct
@@ -78,7 +80,7 @@ adminSchema.methods.generateAccessToken = function () {
 
 // generating refresh token
 adminSchema.methods.generateRefreshToken = function () {
-    return jwt.sign(
+    const refreshToken = jwt.sign(
         {
             _id: this._id,
         },
@@ -87,6 +89,8 @@ adminSchema.methods.generateRefreshToken = function () {
             expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
         }
     );
+    this.refreshToken = refreshToken;
+    return refreshToken;
 };
 
 export const Admin = mongoose.model("Admin", adminSchema);

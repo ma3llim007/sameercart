@@ -64,10 +64,13 @@ export function AdminSideBar({ username, ...props }) {
                 <SidebarGroup>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {navBar.map((items) => {
+                            {navBar.map(items => {
                                 if (items?.innerLists) {
                                     return (
-                                        <Collapsible key={items?.name} className="group/collapsible [&[data-state=open]>button>svg:first-child]:rotate-90">
+                                        <Collapsible
+                                            key={items?.name}
+                                            className="group/collapsible [&[data-state=open]>button>svg:first-child]:rotate-90"
+                                        >
                                             <CollapsibleTrigger asChild>
                                                 <SidebarMenuButton>
                                                     <ChevronRight className="transition-transform" />
@@ -77,7 +80,7 @@ export function AdminSideBar({ username, ...props }) {
                                             </CollapsibleTrigger>
                                             <CollapsibleContent>
                                                 <SidebarMenuSub>
-                                                    {items?.innerLists.map((item) => (
+                                                    {items?.innerLists.map(item => (
                                                         <SidebarMenuButton key={item?.name} className="data-[active=true]:bg-transparent" asChild>
                                                             <Link to={item?.urlLink}>
                                                                 <FaList />

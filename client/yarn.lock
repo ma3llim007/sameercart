@@ -936,12 +936,36 @@
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.59.16.tgz#aa4616e8a9c12afeef4cfbf3ed0f55f404d66e67"
   integrity sha512-crHn+G3ltqb5JG0oUv6q+PMz1m1YkjpASrXTU+sYWW9pLk0t2GybUHNRqYPZWhxgjPaVGC4yp92gSFEJgYEsPw==
 
+"@tanstack/query-devtools@5.58.0":
+  version "5.58.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.58.0.tgz#5c68ce90562e154004de4372bc0a28fcd94cdf31"
+  integrity sha512-iFdQEFXaYYxqgrv63ots+65FGI+tNp5ZS5PdMU1DWisxk3fez5HG3FyVlbUva+RdYS5hSLbxZ9aw3yEs97GNTw==
+
+"@tanstack/react-query-devtools@^5.59.18":
+  version "5.59.18"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.59.18.tgz#8f05c12f078f0ff8587ad1fff2a010ebcb77bce3"
+  integrity sha512-9JqRPbt7p3mo0HhQpwxv7btu58o0Ew7CErFGgrO9s/fzj2+i1C2/XI1rSkYJKhKcun/iLRn56+zx2rYLkMiPoQ==
+  dependencies:
+    "@tanstack/query-devtools" "5.58.0"
+
 "@tanstack/react-query@^5.59.16":
   version "5.59.16"
   resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.59.16.tgz#1e701c6e6681965c04aa426df9da54b8edc6db1b"
   integrity sha512-MuyWheG47h6ERd4PKQ6V8gDyBu3ThNG22e1fRVwvq6ap3EqsFhyuxCAwhNP/03m/mLg+DAb0upgbPaX6VB+CkQ==
   dependencies:
     "@tanstack/query-core" "5.59.16"
+
+"@tanstack/react-table@^8.20.5":
+  version "8.20.5"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-table/-/react-table-8.20.5.tgz#19987d101e1ea25ef5406dce4352cab3932449d8"
+  integrity sha512-WEHopKw3znbUZ61s9i0+i9g8drmDo6asTWbrQh8Us63DAk/M0FkmIqERew6P71HI75ksZ2Pxyuf4vvKh9rAkiA==
+  dependencies:
+    "@tanstack/table-core" "8.20.5"
+
+"@tanstack/table-core@8.20.5":
+  version "8.20.5"
+  resolved "https://registry.yarnpkg.com/@tanstack/table-core/-/table-core-8.20.5.tgz#3974f0b090bed11243d4107283824167a395cf1d"
+  integrity sha512-P9dF7XbibHph2PFRz8gfBKEXEY/HJPOhym8CHmjF8y3q5mWpKx9xtZapXQUWCgkqvsK0R46Azuz+VaxD4Xl+Tg==
 
 "@types/babel__core@^7.20.5":
   version "7.20.5"
@@ -2316,6 +2340,11 @@ jiti@^1.21.0:
   version "1.21.6"
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.21.6.tgz#6c7f7398dd4b3142767f9a168af2f317a428d268"
   integrity sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==
+
+js-cookie@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-3.0.5.tgz#0b7e2fd0c01552c58ba86e0841f94dc2557dcdbc"
+  integrity sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"

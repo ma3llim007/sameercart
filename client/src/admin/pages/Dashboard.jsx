@@ -1,10 +1,11 @@
-import React from 'react';
-import LogoutBtn from '../components/LogoutBtn';
+import React from "react";
+import LogoutBtn from "../components/LogoutBtn";
 
 const Dashboard = () => {
     return (
         <div>
             <h1>Dashboard</h1>
+            <LogoutBtn />
         </div>
     );
 };

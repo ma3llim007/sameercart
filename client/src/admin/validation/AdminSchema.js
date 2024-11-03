@@ -7,14 +7,16 @@ export const registerAdmin = Yup.object().shape({
         .max(20, "Username must be at most 20 characters long")
         .matches(/^[a-zA-Z0-9]*$/, "Username can only contain letters and numbers"),
     email: Yup.string().required("Email is required").email("Must be a valid email"),
-    fullname: Yup.string()
+    fullName: Yup.string()
         .required("Full name is required")
         .min(2, "Full name must be at least 2 characters long")
         .max(50, "Full name must be at most 50 characters long")
         .matches(/^[a-zA-Z\s]+$/, "Full name can only contain letters and spaces"),
-    phonenumber: Yup.string()
+    phoneNumber: Yup.string()
         .required("Phone number is required")
-        .matches(/^\d{10}$/, "Phone number must be 10 digits long"),
+        .matches(/^[0-9]+$/, "Phone number should contain only numbers")
+        .min(10, "Phone number must be exactly 10 digits long")
+        .max(10, "Phone number must be exactly 10 digits long"),
     password: Yup.string()
         .required("Password is required")
         .min(8, "Password must be at least 8 characters long")

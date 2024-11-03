@@ -30,6 +30,7 @@ const Login = () => {
         },
         onSuccess: data => {
             dispatch(login(data?.data?.admin));
+            
             navigate("/admin/dashboard");
             toastService.success("Admin Login Sucessfully!");
         },
@@ -41,7 +42,7 @@ const Login = () => {
     return (
         <section className="w-screen h-screen bg-slate-950">
             <div className="container mx-auto flex justify-center items-center h-full">
-                <div className="bg-stone-50 rounded-lg shadow-2xl p-8 w-full max-w-md">
+                <div className="bg-stone-50 rounded-lg shadow-2xl p-8 w-full max-w-md text-black">
                     <h1 className="text-3xl font-bold text-center">Admin Panel</h1>
                     <p className="text-base text-center mb-6 text-gray-600">Sign in to start your session</p>
                     {errors.root && (

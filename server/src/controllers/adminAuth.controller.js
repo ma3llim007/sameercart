@@ -24,7 +24,7 @@ const generateAccessAndRefeshTokens = async (adminId) => {
 const HttpOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: "strict"
+    sameSite: "strict",
 };
 
 // Register Admin
@@ -90,7 +90,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
     const { accessToken, refreshToken } = await generateAccessAndRefeshTokens(adminIsExisted._id);
     const loggedInAdmin = await Admin.findById(adminIsExisted._id).select("-password -refreshToken");
-    
+
     return res
         .status(200)
         .cookie("accessToken", accessToken, HttpOptions)
@@ -110,6 +110,9 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
 // LogOut Admin
 const logOutAdmin = asyncHandler(async (req, res) => {
+    if (!req.admin || !req.admin._id) {
+        return res.status(400).json(new ApiError(400, "Admin Not Authenticated"));
+    }
     await Admin.findByIdAndUpdate(
         req.admin._id,
         {
@@ -158,4 +161,10 @@ const refreshAccessTokenAdmin = asyncHandler(async (req, res) => {
     }
 });
 
-export { registerAdmin, loginAdmin, logOutAdmin, refreshAccessTokenAdmin };
+// Admin List
+const adminList = asyncHandler(async (req, res) => {
+    const adminsList = await Admin.find().select("-password -refreshToken");
+    res.status(200).json(new ApiResponse(200, adminsList, "Admin List Fetch Successfully"));
+});
+
+export { registerAdmin, loginAdmin, logOutAdmin, refreshAccessTokenAdmin, adminList };
