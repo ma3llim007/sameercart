@@ -1,4 +1,4 @@
-import axiosInstance from "./axiosInstance";
+import axiosInstance from "@/services/axiosInstance";
 
 const adminLogin = async ({ email, password }) => {
     try {
@@ -20,4 +20,9 @@ const adminLogOut = async id => {
     }
 };
 
-export { adminLogin, adminLogOut };
+const checkAuthStatus = async () => {
+    const response = await axiosInstance.get("auth/check-session");
+    return response.data;
+};
+
+export { adminLogin, adminLogOut, checkAuthStatus };

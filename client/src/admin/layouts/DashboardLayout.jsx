@@ -1,12 +1,15 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
-import { AdminSideBar, Footer, Header } from "../components";
-import useAuthRedirect from "../hooks/useAuthRedirect";
+import { Outlet } from "react-router-dom";
+import { AdminSideBar, Footer, Header, Loading } from "../components";
+import useAuth from "../hooks/useAuth";
+import toastService from "@/services/toastService";
 
 export default function DashboardLayout() {
-    const { admin } = useAuthRedirect();
+    const { admin, isError, isLoading } = useAuth();
+
+    if (isLoading) return <Loading />;
+    if (isError) return toastService.error("Login First Access Admin Panel");
+
     return (
         <SidebarProvider>
             <AdminSideBar username={admin?.username} />

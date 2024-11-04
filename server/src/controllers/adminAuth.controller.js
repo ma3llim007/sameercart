@@ -20,6 +20,16 @@ const generateAccessAndRefeshTokens = async (adminId) => {
     }
 };
 
+// Verify Token
+const verifyToken = (token, secret) => {
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, secret, (err, decoded) => {
+            if (err) return reject(err);
+            resolve(decoded);
+        });
+    });
+};
+
 // HTTP OPTIONS
 const HttpOptions = {
     httpOnly: true,
@@ -160,10 +170,26 @@ const refreshAccessTokenAdmin = asyncHandler(async (req, res) => {
     }
 });
 
+// Check session
+const checkSession = asyncHandler(async (req, res) => {
+    const accessToken = req.cookies.accessToken;
+    if (!accessToken) {
+        return res.status(401).json(new ApiError(401, "Access Token Is Required"));
+    }
+    try {
+        const admin = await verifyToken(accessToken, process.env.ACCESS_TOKEN_SECRET);
+        res.status(200).json(
+            new ApiResponse(200, { isAuthenticated: true, admin }, "Admin AccessToken Verified Successfully")
+        );
+    } catch (error) {
+        return res.status(403).json(new ApiError(403, "Access Token Is Not Valid"));
+    }
+});
+
 // Admin List
 const adminList = asyncHandler(async (req, res) => {
     const adminsList = await Admin.find().select("-password -refreshToken");
     res.status(200).json(new ApiResponse(200, adminsList, "Admin List Fetch Successfully"));
 });
 
-export { registerAdmin, loginAdmin, logOutAdmin, refreshAccessTokenAdmin, adminList };
+export { registerAdmin, loginAdmin, logOutAdmin, refreshAccessTokenAdmin, adminList, checkSession };

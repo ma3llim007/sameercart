@@ -1,5 +1,5 @@
+import axiosInstance from "@/services/axiosInstance";
 import toastService from "@/services/toastService";
-import axiosInstance from "./axiosInstance";
 
 const registerAdminSer = async credential => {
     try {
