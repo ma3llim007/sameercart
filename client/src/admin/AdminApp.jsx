@@ -4,7 +4,7 @@ import adminRouters from "./routes/adminRouter";
 import { Provider } from "react-redux";
 import adminStore, { adminStorePeristor } from "./context/adminStore";
 import { PersistGate } from "redux-persist/integration/react";
-import "./styles/Buttons.css";
+import "../styles/colors.css";
 
 const AdminApp = () => {
     return (

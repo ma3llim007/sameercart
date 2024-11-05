@@ -7,7 +7,7 @@ const registerAdminSer = async credential => {
         return response.data;
     } catch (error) {
         const errorMessage = error?.response?.data?.message || "Registration failed. Please try again.";
-        toastService.error(errorMessage);
+        throw new Error(errorMessage);
     }
 };
 

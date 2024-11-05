@@ -76,7 +76,7 @@ const Login = () => {
                                     Remember Me
                                 </label>
                             </div>
-                            <Button className="adPrimary" size="lg">
+                            <Button className="Primary" size="lg">
                                 Sign In
                             </Button>
                         </div>

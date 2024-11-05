@@ -1,36 +1,36 @@
-.adBtn {
+.Btn {
     @apply bg-gray-200 hover:bg-gray-500 text-gray-800 p-2 rounded ease-in-out duration-200 shadow-sm hover:text-white;
 }
 
-.adPrimary {
+.Primary {
     @apply bg-blue-700 hover:bg-blue-800 text-white ease-in-out duration-200 font-semibold shadow-sm;
 }
 
-.adSuccess {
+.Success {
     @apply bg-green-500 hover:bg-green-600 text-white font-semibold ease-in-out duration-200 shadow-sm;
 }
 
-.adSecondary {
+.Secondary {
     @apply bg-gray-500 hover:bg-gray-600 text-white font-semibold ease-in-out duration-200 shadow-sm;
 }
 
-.adDanger {
+.Danger {
     @apply bg-red-500 hover:bg-red-600 text-white font-semibold ease-in-out duration-200 shadow-sm;
 }
 
-.adWarning {
+.Warning {
     @apply bg-yellow-500 hover:bg-yellow-600 text-white font-semibold ease-in-out duration-200 shadow-sm;
 }
 
-.adInfo {
+.Info {
     @apply bg-teal-500 hover:bg-teal-600 text-white font-semibold ease-in-out duration-200 shadow-sm;
 }
 
-.adLight {
+.Light {
     @apply bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold ease-in-out duration-200 shadow-sm;
 }
 
-.adDark {
+.Dark {
     @apply bg-gray-800 hover:bg-gray-700 text-white font-semibold ease-in-out duration-200 shadow-sm;
 }
 

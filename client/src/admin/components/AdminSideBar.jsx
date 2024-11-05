@@ -46,7 +46,7 @@ const navBar = [
 ];
 export function AdminSideBar({ username, ...props }) {
     return (
-        <Sidebar {...props}>
+        <Sidebar {...props} className="select-none">
             <SidebarContent>
                 <SidebarGroup>
                     <div className="flex items-center space-x-2 py-2 px-2">

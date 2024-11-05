@@ -24,7 +24,7 @@ const AddAdmins = () => {
             toastService.success(data?.message);
         },
         onError: error => {
-            const message = error.response?.data?.message;
+            const message = error?.message;
             setError("root", { message });
         },
     });
@@ -114,7 +114,7 @@ const AddAdmins = () => {
                         </div>
 
                         <div className="w-full border-t !mt-6">
-                            <Button className="adPrimary my-2 btnXl">Add</Button>
+                            <Button className="Primary my-2 btnXl">Add</Button>
                         </div>
                     </form>
                 </div>

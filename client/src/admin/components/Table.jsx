@@ -90,7 +90,7 @@ const Table = ({ columns, data, paginationOptions = { pageSize: 10 }, sortable =
                                 <TableHead
                                     key={header.id}
                                     onClick={header.column.getToggleSortingHandler()}
-                                    className={`py-2 border border-gray-500 border-opacity-25 select-none font-bold text-lg {${sortable} ? "cursor-pointer" : ""}`}
+                                    className={`py-2 border border-gray-500 border-opacity-25 select-none font-bold text-base {${sortable} ? "cursor-pointer" : ""}`}
                                 >
                                     <div className="w-full flex items-center p-1 justify-between">
                                         {flexRender(header.column.columnDef.header, header.getContext())}

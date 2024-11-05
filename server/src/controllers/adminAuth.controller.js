@@ -44,10 +44,10 @@ const registerAdmin = asyncHandler(async (req, res) => {
         return res.status(422).json(new ApiError(422, "Both Field Are Required"));
     }
     const existedAdmin = await Admin.findOne({
-        email,
+        $or: [{ email }, { username }],
     });
     if (existedAdmin) {
-        return res.status(409).json(new ApiError(409, "Admin With This Email is Already Exists"));
+        return res.status(409).json(new ApiError(409, "Admin With This Email Or Username is Already Exists"));
     }
 
     const admin = await Admin.create({
