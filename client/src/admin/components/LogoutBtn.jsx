@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
-import { adminLogOut } from "../services/authService";
 import { Button } from "@/components/ui/button";
 import toastService from "@/services/toastService";
 import {
@@ -14,19 +13,23 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import crudService from "@/api/crudService";
+import { logout } from "@/features/admin/authSlice";
+import { storePeristor } from "@/store";
 
 const LogoutBtn = () => {
     const dispatch = useDispatch();
     const { admin } = useSelector(state => state.auth);
 
     const { mutate } = useMutation({
-        mutationFn: adminLogOut,
+        mutationFn: () => crudService.post("auth/logout", {}, true),
         onSuccess: data => {
             dispatch(logout());
             toastService.info(data?.message);
+            storePeristor.purge();
         },
         onError: error => {
-            throw Error("Something Went Wrong While Log-Out", error);
+            toastService.error("Something Went Wrong While Log-Out");
         },
     });
 

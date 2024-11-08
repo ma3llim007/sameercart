@@ -1,14 +1,14 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
-import { adminLogin } from "../services/authService";
 import { loginScheme } from "../validation/LoginSchema";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import toastService from "@/services/toastService";
 import { Input } from "../components";
+import crudService from "@/api/crudService";
+import { login } from "@/features/admin/authSlice";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ const Login = () => {
 
     // Mutation Login
     const { mutate } = useMutation({
-        mutationFn: adminLogin,
+        mutationFn: data => crudService.post("auth/login", data, true),
         onError: error => {
             const message = error.response?.data?.message;
             setError("root", { message });

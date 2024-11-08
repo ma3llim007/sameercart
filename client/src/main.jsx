@@ -13,10 +13,10 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, storePeristor } from "./store";
+import queryClient from "./api/queryClientConfig";
 
 const pathName = window.location.pathname;
 const isAdmin = pathName.startsWith("/admin");
-const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>

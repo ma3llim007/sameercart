@@ -1,14 +1,19 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { Outlet } from "react-router-dom";
-import { AdminSideBar, Footer, Header, Loading } from "../components";
+import { Outlet, useNavigate } from "react-router-dom";
+import { AdminSideBar, Footer, Header } from "../components";
 import useAuth from "../hooks/useAuth";
 import toastService from "@/services/toastService";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export default function DashboardLayout() {
-    const { admin, isError, isLoading } = useAuth();
-
-    if (isLoading) return <Loading />;
-    if (isError) return toastService.error("Login First Access Admin Panel");
+    const navigate = useNavigate();
+    const { status, admin, accessToken } = useSelector(state => state.auth);
+    useEffect(() => {
+        if (!status || !admin || !admin.asOwnerShip || !accessToken) {
+            navigate("/admin/auth/login", { replace: true });
+        }
+    }, [admin, status, accessToken]);
 
     return (
         <SidebarProvider>
