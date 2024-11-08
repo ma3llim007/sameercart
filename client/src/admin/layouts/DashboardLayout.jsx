@@ -1,8 +1,6 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Outlet, useNavigate } from "react-router-dom";
 import { AdminSideBar, Footer, Header } from "../components";
-import useAuth from "../hooks/useAuth";
-import toastService from "@/services/toastService";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 

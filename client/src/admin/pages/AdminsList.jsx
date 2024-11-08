@@ -1,26 +1,26 @@
 import React from "react";
 import { Loading, Table } from "../components";
 import { useQuery } from "@tanstack/react-query";
-import { adminListSer } from "../services/adminService";
 import toastService from "@/services/toastService";
 import Badge from "@/components/Badge";
 import { Button } from "@/components/ui/button";
+import crudService from "@/api/crudService";
 
 const AdminsList = () => {
     const {
-        data: adminData = [],
+        data: adminData,
         isError,
         isLoading,
         error,
     } = useQuery({
         queryKey: ["admins"],
-        queryFn: adminListSer,
-        staleTime: 10 * 60 * 1000,
-        retry: 2,
+        queryFn: () => crudService.get("auth/admin-list", {}, true),
         onError: err => {
             toastService.error("Error fetching admin data:", err.message);
         },
     });
+    console.log(adminData);
+    
 
     const adminColumns = [
         { accessorKey: "no", header: "No." },
@@ -53,7 +53,7 @@ const AdminsList = () => {
         },
     ];
 
-    const newAdminData = adminData.map((admin, index) => ({
+    const newAdminData = adminData?.data?.map((admin, index) => ({
         no: index + 1,
         ...admin,
     }));

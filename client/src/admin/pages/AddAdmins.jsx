@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerAdmin } from "../validation/AdminSchema";
 import { useMutation } from "@tanstack/react-query";
-import { registerAdminSer } from "../services/adminService";
 import { useNavigate } from "react-router-dom";
 import toastService from "@/services/toastService";
+import crudService from "@/api/crudService";
 
 const AddAdmins = () => {
     const {
@@ -17,8 +17,9 @@ const AddAdmins = () => {
         formState: { errors },
     } = useForm({ resolver: yupResolver(registerAdmin), mode: "onChange" });
     const navigate = useNavigate();
+
     const { mutate } = useMutation({
-        mutationFn: registerAdminSer,
+        mutationFn: data => crudService.post("auth/register", data, true),
         onSuccess: data => {
             navigate("/admin/admins/admin-list");
             toastService.success(data?.message);
@@ -29,7 +30,7 @@ const AddAdmins = () => {
         },
     });
 
-    const handleAdminRegister = async data => {
+    const handleAdminRegister = data => {
         mutate(data);
     };
     const PreventAction = e => e.preventDefault();
