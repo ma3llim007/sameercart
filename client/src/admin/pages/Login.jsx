@@ -5,7 +5,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { adminLogin } from "../services/authService";
 import { loginScheme } from "../validation/LoginSchema";
-import { login } from "../context/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import toastService from "@/services/toastService";

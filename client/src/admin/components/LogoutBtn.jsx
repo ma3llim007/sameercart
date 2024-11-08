@@ -2,7 +2,6 @@ import { useMutation } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { adminLogOut } from "../services/authService";
 import { Button } from "@/components/ui/button";
-import { logout } from "../context/authSlice";
 import toastService from "@/services/toastService";
 import {
     AlertDialog,

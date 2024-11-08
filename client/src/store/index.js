@@ -1,27 +1,27 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import authSlice from "./authSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
+import { authSlice } from "@/features";
 
 // configuration for Persistence
 const PersistenConfig = {
-    key: "admin_sameercart",
+    key: "sameer_cart",
     version: 1,
     storage,
 };
 
 // persist the slice
-const persistAdminReducer = persistReducer(PersistenConfig, authSlice);
+const persistStoreReducer = persistReducer(PersistenConfig, authSlice);
 
 // create a root reducer
 const rootReducer = combineReducers({
-    auth: persistAdminReducer,
+    auth: persistStoreReducer,
 });
 
-const adminStore = configureStore({
+const store = configureStore({
     reducer: rootReducer,
     middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false }),
 });
 
-export const adminStorePeristor = persistStore(adminStore);
-export default adminStore;
+const storePeristor = persistStore(store);
+export { store, storePeristor };
