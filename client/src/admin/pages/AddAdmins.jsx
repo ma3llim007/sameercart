@@ -19,7 +19,7 @@ const AddAdmins = () => {
     const navigate = useNavigate();
 
     const { mutate } = useMutation({
-        mutationFn: data => crudService.post("auth/register", data, true),
+        mutationFn: data => crudService.post("auth/register", true, data),
         onSuccess: data => {
             navigate("/admin/admins/admin-list");
             toastService.success(data?.message);

@@ -173,12 +173,13 @@ const refreshAccessTokenAdmin = asyncHandler(async (req, res) => {
 // Check session
 const checkSession = asyncHandler(async (req, res) => {
     const accessToken = req.cookies.accessToken;
+    
     if (!accessToken) {
         return res.status(401).json(new ApiError(401, "Access Token Is Required"));
     }
     try {
         const admin = await verifyToken(accessToken, process.env.ACCESS_TOKEN_SECRET);
-        res.status(200).json(
+        return res.status(200).json(
             new ApiResponse(200, { isAuthenticated: true, admin }, "Admin AccessToken Verified Successfully")
         );
     } catch (error) {

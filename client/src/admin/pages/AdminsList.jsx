@@ -1,5 +1,5 @@
 import React from "react";
-import { Loading, Table } from "../components";
+import { ButtonWithAlert, Loading, Table } from "../components";
 import { useQuery } from "@tanstack/react-query";
 import toastService from "@/services/toastService";
 import Badge from "@/components/Badge";
@@ -7,20 +7,17 @@ import { Button } from "@/components/ui/button";
 import crudService from "@/api/crudService";
 
 const AdminsList = () => {
-    const {
-        data: adminData,
-        isError,
-        isLoading,
-        error,
-    } = useQuery({
-        queryKey: ["admins"],
-        queryFn: () => crudService.get("auth/admin-list", {}, true),
+    const { data: adminData, isLoading } = useQuery({
+        queryKey: ["adminsList"],
+        queryFn: () => crudService.get("auth/admin-list",true),
         onError: err => {
             toastService.error("Error fetching admin data:", err.message);
         },
     });
-    console.log(adminData);
-    
+
+    const handleDeleteAdmin = id => {
+        console.log(id);
+    };
 
     const adminColumns = [
         { accessorKey: "no", header: "No." },
@@ -47,7 +44,13 @@ const AdminsList = () => {
             cell: ({ row }) => (
                 <div className="flex space-x-4">
                     <Button onClick={() => console.log(row.original._id)}>Edit</Button>
-                    <Button>Delete</Button>
+                    <ButtonWithAlert
+                        buttonTitle="Delete"
+                        dialogTitle="Delete Admin ?"
+                        dialogDesc="Are You Sure Want To Delete Admin."
+                        dialogActionBtnColor="Primary"
+                        dialogActionfn={() => handleDeleteAdmin(row.original?._id)}
+                    />
                 </div>
             ),
         },

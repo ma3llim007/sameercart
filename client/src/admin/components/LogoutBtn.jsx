@@ -22,7 +22,7 @@ const LogoutBtn = () => {
     const { admin } = useSelector(state => state.auth);
 
     const { mutate } = useMutation({
-        mutationFn: () => crudService.post("auth/logout", {}, true),
+        mutationFn: () => crudService.post("auth/logout", true),
         onSuccess: data => {
             dispatch(logout());
             toastService.info(data?.message);

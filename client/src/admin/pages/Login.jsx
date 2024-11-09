@@ -22,7 +22,7 @@ const Login = () => {
 
     // Mutation Login
     const { mutate } = useMutation({
-        mutationFn: data => crudService.post("auth/login", data, true),
+        mutationFn: data => crudService.post("auth/login", true, data),
         onError: error => {
             const message = error.response?.data?.message;
             setError("root", { message });

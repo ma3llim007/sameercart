@@ -1,17 +1,18 @@
 import { axiosInstanceAuth, axiosInstancePublic } from "./apiInstance";
 
 const crudService = {
-    get: async (url, params = {}, authRequired = false) => {
+    get: async (url, authRequired = false, params = {}) => {
         const axiosInstance = authRequired ? axiosInstanceAuth : axiosInstancePublic;
         const response = await axiosInstance.get(url, { params });
+        console.log(response.data);
         return response.data;
     },
-    post: async (url, data = {}, authRequired = false) => {
+    post: async (url, authRequired = false, data = {}) => {
         const axiosInstance = authRequired ? axiosInstanceAuth : axiosInstancePublic;
         const response = await axiosInstance.post(url, data);
         return response.data;
     },
-    put: async (url, data = {}, authRequired = false) => {
+    put: async (url, authRequired = false, data = {}) => {
         const axiosInstance = authRequired ? axiosInstanceAuth : axiosInstancePublic;
         const response = await axiosInstance.put(url, data);
         return response.data;
