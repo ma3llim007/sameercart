@@ -2,13 +2,13 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
-import { loginScheme } from "../validation/LoginSchema";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import toastService from "@/services/toastService";
 import { Input } from "../components";
 import crudService from "@/api/crudService";
 import { login } from "@/features/admin/authSlice";
+import { adminLoginSchema } from "@/validation";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -18,7 +18,7 @@ const Login = () => {
         handleSubmit,
         setError,
         formState: { errors },
-    } = useForm({ resolver: yupResolver(loginScheme) });
+    } = useForm({ resolver: yupResolver(adminLoginSchema) });
 
     // Mutation Login
     const { mutate } = useMutation({

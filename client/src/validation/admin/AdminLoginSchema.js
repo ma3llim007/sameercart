@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 
 // Validation schema for the login form
-export const loginScheme = Yup.object().shape({
+export const adminLoginSchema = Yup.object().shape({
     email: Yup.string().required("Email Is Required").email("Enter a Valid Email"),
     password: Yup.string()
         .required("Password Is Required")
