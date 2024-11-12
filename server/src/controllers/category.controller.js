@@ -11,29 +11,29 @@ const addCategory = asyncHandler(async (req, res) => {
     const categoryImage = req.file?.path;
 
     if (!categoryName?.trim() || !categorySlug?.trim()) {
-        res.status(422).json(new ApiError(422, "All Field Are Required"));
+        return res.status(422).json(new ApiError(422, "All Field Are Required"));
     }
 
     if (!categoryImage) {
-        res.status(422).json(new ApiError(422, "Category Image Is Required"));
+        return res.status(422).json(new ApiError(422, "Category Image Is Required"));
     }
 
     const categoryExisted = await Category.findOne({ categorySlug });
     if (categoryExisted) {
-        res.status(409).json(new ApiError(409, "Category Is Already Exists"));
+        return res.status(409).json(new ApiError(409, "Category Is Already Exists"));
     }
 
     let categoryUpload;
     try {
         categoryUpload = await uploadCloudinary(categoryImage, "sameerCart/category");
     } catch (error) {
-        res.status(500).json(new ApiError(500, "Failed To Upload Category Image."));
+        return res.status(500).json(new ApiError(500, "Failed To Upload Category Image."));
     }
 
     const category = await Category.create({
         categoryName,
         categorySlug,
-        categoryImage: categoryUpload.url,
+        categoryImage: categoryUpload?.url,
         addedBy: req.admin._id,
     });
 
@@ -52,16 +52,16 @@ const updateCategory = asyncHandler(async (req, res) => {
     const categoryImage = req.file?.path;
 
     if (!categoryId) {
-        res.status(422).json(new ApiError(422, "Category ID is Required"));
+        return res.status(422).json(new ApiError(422, "Category ID is Required"));
     }
 
     if (!isValidObjectId(categoryId)) {
-        res.status(404).json(new ApiError(404, "Invalid Category Id"));
+        return res.status(404).json(new ApiError(404, "Invalid Category Id"));
     }
 
     const category = await Category.findById(categoryId);
     if (!category) {
-        res.status(404).json(new ApiError(401, "Category Not Found"));
+        return res.status(404).json(new ApiError(401, "Category Not Found"));
     }
 
     // Handle category image upload and removal
@@ -77,7 +77,7 @@ const updateCategory = asyncHandler(async (req, res) => {
             try {
                 removeImage("sameerCart/category/", publicId);
             } catch (error) {
-                res.status(500).json(new ApiError(500, "Failed To Remove Previous Category Image"));
+                return res.status(500).json(new ApiError(500, "Failed To Remove Previous Category Image"));
             }
         }
         // Upload the new image
@@ -85,7 +85,7 @@ const updateCategory = asyncHandler(async (req, res) => {
             const categoryUpload = await uploadCloudinary(categoryImage, "sameerCart/category");
             category.categoryImage = categoryUpload.url;
         } catch (error) {
-            res.status(500).json(new ApiError(500, "Failed To Upload Category Image."));
+            return res.status(500).json(new ApiError(500, "Failed To Upload Category Image."));
         }
     }
     await category.save();
@@ -97,18 +97,21 @@ const updateCategory = asyncHandler(async (req, res) => {
 const deleteCategory = asyncHandler(async (req, res) => {
     const { categoryId } = req.params;
 
+    if (!categoryId || categoryId.trim() === "") {
+        return res.status(422).json(new ApiError(422, "Category ID Is Required"));
+    }
     if (!categoryId || !isValidObjectId(categoryId)) {
-        res.status(400).json(new ApiError(400, "Invalid Category ID"));
+        return res.status(400).json(new ApiError(400, "Invalid Category ID"));
     }
 
     const category = await Category.findById(categoryId);
     if (!category) {
-        res.status(404).json(new ApiError(401, "Category Not Found"));
+        return res.status(404).json(new ApiError(401, "Category Not Found"));
     }
     const categoryImage = category?.categoryImage;
     const deleteCate = await Category.deleteOne({ _id: categoryId });
     if (deleteCate.deletedCount === 0) {
-        res.status(500).json(new ApiError(500, "Something Went Wrong While Deleting The Category"))
+        return res.status(500).json(new ApiError(500, "Something Went Wrong While Deleting The Category"));
     }
     if (deleteCate && categoryImage) {
         const parts = categoryImage.split("/");
@@ -117,11 +120,34 @@ const deleteCategory = asyncHandler(async (req, res) => {
         try {
             removeImage("sameerCart/category/", publicId);
         } catch (error) {
-            res.status(500).json(new ApiError(500, "Failed To Remove Previous Category Image"))
+            return res.status(500).json(new ApiError(500, "Failed To Remove Previous Category Image"));
         }
     }
 
     return res.status(200).json(new ApiResponse(200, {}, "Category Delete Successfully"));
 });
 
-export { addCategory, categories, deleteCategory, updateCategory };
+// Toggle category
+const toggleCategory = asyncHandler(async (req, res) => {
+    const { categoryId } = req.params;
+    const { isActive } = req.body;
+
+    if (!categoryId || categoryId.trim() === "") {
+        return res.status(422).json(new ApiError(422, "Category ID is Required"));
+    }
+
+    if (!isValidObjectId(categoryId)) {
+        return res.status(404).json(new ApiError(404, "Invalid Category Id"));
+    }
+
+    const category = await Category.findById({ _id: categoryId });
+
+    if (!category) {
+        return res.status(404).json(new ApiError(401, "Category Not Found"));
+    }
+    category.isActive = isActive;
+    await category.save();
+    return res.status(200).json(new ApiResponse(200, category, "Category Status Updated Successfully"));
+});
+
+export { addCategory, categories, deleteCategory, updateCategory, toggleCategory };

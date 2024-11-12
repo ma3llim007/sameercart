@@ -1,7 +1,7 @@
 import { flexRender, getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import React, { useMemo, useState } from "react";
 import { Input, Loading } from "./index";
-import { Table as CnTable, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table as CnTable, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { ImSortAmountDesc, ImSortAmountAsc } from "react-icons/im";
 

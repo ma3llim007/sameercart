@@ -10,7 +10,7 @@ import {
     SidebarMenuItem,
     SidebarMenuSub,
 } from "@/components/ui/sidebar";
-import { FaHome, FaList, FaUsers, FaUserCog } from "react-icons/fa";
+import { FaHome, FaList, FaUsers, FaCube, FaCubes } from "react-icons/fa";
 import avatar from "../assets/avatar5.png";
 import { AiFillDashboard } from "react-icons/ai";
 import { Link } from "react-router-dom";
@@ -20,26 +20,44 @@ const navBar = [
     { name: "Main Site", Icon: FaHome, urlLink: "/" },
     { name: "Dashboard", Icon: AiFillDashboard, urlLink: "/admin/dashboard" },
     {
-        name: "Manage Admin",
-        Icon: FaUserCog,
-        innerLists: [
-            {
-                name: "Add Admin",
-                urlLink: "/admin/admins/add-admin",
-            },
-            {
-                name: "Admin List",
-                urlLink: "/admin/admins/admin-list",
-            },
-        ],
-    },
-    {
         name: "Manage User",
         Icon: FaUsers,
         innerLists: [
             {
+                name: "Add User",
+                urlLink: "/admin/users/add-user",
+            },
+            {
                 name: "User List",
                 urlLink: "/admin/users/user-list",
+            },
+        ],
+    },
+    {
+        name: "Manage Category",
+        Icon: FaCube,
+        innerLists: [
+            {
+                name: "Add Category",
+                urlLink: "/admin/category/add-category",
+            },
+            {
+                name: "Category List",
+                urlLink: "/admin/category/category-list",
+            },
+        ],
+    },
+    {
+        name: "Manage Sub-Category",
+        Icon: FaCubes,
+        innerLists: [
+            {
+                name: "Add Sub-Category",
+                urlLink: "/admin/sub-category/add-sub-category",
+            },
+            {
+                name: "Sub-Category List",
+                urlLink: "/admin/sub-category/sub-category-list",
             },
         ],
     },

@@ -2,7 +2,7 @@ import Dashboard from "./Dashboard";
 import AdminProfile from "./AdminProfile";
 import AdminNotFound from "./AdminNotFound";
 import Login from "./Login";
-import AddAdmins from "./AddAdmins";
-import AdminsList from "./AdminsList";
+import AddCategory from "./AddCategory";
+import CategoryList from "./CategoryList";
 
-export { Dashboard, AdminProfile, AdminNotFound, Login, AddAdmins, AdminsList };
+export { Dashboard, AdminProfile, AdminNotFound, Login, AddCategory, CategoryList };

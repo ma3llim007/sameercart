@@ -18,7 +18,7 @@ const ButtonWithAlert = ({
     dialogDesc,
     dialogCancelTitle = "Cancel",
     dialogActionTitle = "Continue",
-    dialogActionBtnColor,
+    dialogActionBtnColor = "Primary",
     dialogActionfn,
 }) => {
     return (

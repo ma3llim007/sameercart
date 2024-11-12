@@ -23,7 +23,19 @@
 }
 
 .Info {
-    @apply bg-teal-500 hover:bg-teal-600 text-white font-semibold ease-in-out duration-200 shadow-sm;
+    @apply bg-sky-400 hover:bg-sky-500 text-white font-semibold ease-in-out duration-200 shadow-sm;
+}
+
+.Cyan {
+    @apply bg-cyan-600 hover:bg-cyan-700 text-white font-semibold ease-in-out duration-200 shadow-sm;
+}
+
+.Teal {
+    @apply bg-teal-600 hover:bg-teal-700 text-white font-semibold ease-in-out duration-200 shadow-sm;
+}
+
+.Purple {
+    @apply bg-purple-600 hover:bg-purple-700 text-white font-semibold ease-in-out duration-200 shadow-sm;
 }
 
 .Light {

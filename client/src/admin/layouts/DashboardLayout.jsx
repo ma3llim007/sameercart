@@ -5,9 +5,16 @@ import useAuth from "../hooks/useAuth";
 import toastService from "@/services/toastService";
 
 export default function DashboardLayout() {
-    const { admin, isError, isLoading } = useAuth();
-    if (isLoading) return <Loading />;
-    if (isError) return toastService.error("Login First Access Admin Panel");
+    const { admin, isError, isAuthenticated, isLoading } = useAuth();
+
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    if (isError) {
+        toastService.error("Please Log In To Access The Admin Panel");
+        return null;
+    }
 
     return (
         <SidebarProvider>

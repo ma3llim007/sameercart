@@ -3,6 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { Admin } from "../models/admin.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
+import { isValidObjectId } from "mongoose";
 
 // Generating Access And Refresh Token
 const generateAccessAndRefeshTokens = async (adminId) => {
@@ -173,24 +174,24 @@ const refreshAccessTokenAdmin = asyncHandler(async (req, res) => {
 // Check session
 const checkSession = asyncHandler(async (req, res) => {
     const accessToken = req.cookies.accessToken;
-    
+
     if (!accessToken) {
         return res.status(401).json(new ApiError(401, "Access Token Is Required"));
     }
     try {
         const admin = await verifyToken(accessToken, process.env.ACCESS_TOKEN_SECRET);
-        return res.status(200).json(
-            new ApiResponse(200, { isAuthenticated: true, admin }, "Admin AccessToken Verified Successfully")
-        );
+        return res
+            .status(200)
+            .json(new ApiResponse(200, { isAuthenticated: true, admin }, "Admin AccessToken Verified Successfully"));
     } catch (error) {
         return res.status(403).json(new ApiError(403, "Access Token Is Not Valid"));
     }
 });
 
-// Admin List
-const adminList = asyncHandler(async (req, res) => {
-    const adminsList = await Admin.find().select("-password -refreshToken");
-    res.status(200).json(new ApiResponse(200, adminsList, "Admin List Fetch Successfully"));
-});
-
-export { registerAdmin, loginAdmin, logOutAdmin, refreshAccessTokenAdmin, adminList, checkSession };
+export {
+    registerAdmin,
+    loginAdmin,
+    logOutAdmin,
+    refreshAccessTokenAdmin,
+    checkSession,
+};

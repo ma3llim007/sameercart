@@ -1,9 +1,23 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AddAdmins, AdminNotFound, AdminProfile, AdminsList, Dashboard, Login } from "../pages";
+import { AddCategory, AdminNotFound, AdminProfile, CategoryList, Dashboard, Login } from "../pages";
 import AuthLayout from "../layouts/AuthLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 
 const adminRouters = createBrowserRouter([
+    {
+        path: "admin/auth",
+        element: <AuthLayout />,
+        children: [
+            {
+                index: true,
+                element: <Login />,
+            },
+            {
+                path: "login",
+                element: <Login />,
+            },
+        ],
+    },
     {
         path: "admin",
         element: <DashboardLayout />,
@@ -21,35 +35,21 @@ const adminRouters = createBrowserRouter([
                 element: <AdminProfile />,
             },
             {
-                path: "admins",
+                path: "category",
                 children: [
                     {
                         index: true,
-                        element: <AddAdmins />,
+                        element: <AddCategory />,
                     },
                     {
-                        path: "add-admin",
-                        element: <AddAdmins />,
+                        path:"add-category",
+                        element: <AddCategory />,
                     },
                     {
-                        path: "admin-list",
-                        element: <AdminsList />,
+                        path:"category-list",
+                        element: <CategoryList />,
                     },
-                ]
-            }
-        ],
-    },
-    {
-        path: "admin/auth",
-        element: <AuthLayout />,
-        children: [
-            {
-                index: true,
-                element: <Login />,
-            },
-            {
-                path: "login",
-                element: <Login />,
+                ],
             },
         ],
     },
