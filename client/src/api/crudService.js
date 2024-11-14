@@ -6,9 +6,14 @@ const crudService = {
         const response = await axiosInstance.get(url, { params });
         return response.data;
     },
-    post: async (url, authRequired = false, data = {}) => {
+    post: async (url, authRequired = false, data = {}, contentType = "application/json", moreHeaders = {}) => {
         const axiosInstance = authRequired ? axiosInstanceAuth : axiosInstancePublic;
-        const response = await axiosInstance.post(url, data);
+        const response = await axiosInstance.post(url, data, {
+            headers: {
+                "Content-Type": contentType,
+                ...moreHeaders,
+            },
+        });
         return response.data;
     },
     put: async (url, authRequired = false, data = {}) => {

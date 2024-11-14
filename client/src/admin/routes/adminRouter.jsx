@@ -42,20 +42,20 @@ const adminRouters = createBrowserRouter([
                         element: <AddCategory />,
                     },
                     {
-                        path:"add-category",
+                        path:"add-category/",
                         element: <AddCategory />,
                     },
                     {
-                        path:"category-list",
+                        path:"category-list/",
                         element: <CategoryList />,
                     },
                 ],
             },
+            {
+                path: "*",
+                element: <AdminNotFound />,
+            },
         ],
-    },
-    {
-        path: "*",
-        element: <AdminNotFound />,
     },
 ]);
 

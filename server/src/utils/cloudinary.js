@@ -9,8 +9,8 @@ cloudinary.config({
 
 // Uploading Image on Cloudinary
 const uploadCloudinary = async (filePath, folderPath = "ecommerce") => {
+    if (!filePath) return null;
     try {
-        if (!filePath) return null;
         const response = await cloudinary.uploader.upload(filePath, {
             resource_type: "auto",
             folder: folderPath,
@@ -21,7 +21,7 @@ const uploadCloudinary = async (filePath, folderPath = "ecommerce") => {
         fs.unlinkSync(filePath);
         return null;
     }
-}
+};
 
 // Removing Image From Cloudinary
 const removeImage = async (folderPath, fileUrl) => {
@@ -34,6 +34,6 @@ const removeImage = async (folderPath, fileUrl) => {
         console.error("Error While Removing Image From Cloudinary", e);
         return null;
     }
-}
+};
 
-export { uploadCloudinary, removeImage }
+export { uploadCloudinary, removeImage };
