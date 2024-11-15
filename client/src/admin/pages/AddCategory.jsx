@@ -108,7 +108,13 @@ const AddCategory = () => {
                         </div>
                         <div className="w-full border-t !mt-6">
                             <Button disabled={isPending} className="Primary my-2 btnXl">
-                                <FaPlus /> Add
+                                {isPending ? (
+                                    <Loading height="7" weight="7" />
+                                ) : (
+                                    <>
+                                        <FaPlus /> Add
+                                    </>
+                                )}
                             </Button>
                         </div>
                     </form>
