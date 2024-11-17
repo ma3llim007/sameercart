@@ -6,6 +6,7 @@ import crudService from "@/api/crudService";
 import Badge from "@/components/Badge";
 import { Button } from "@/components/ui/button";
 import toastService from "@/services/toastService";
+import { formatDateTime } from "@/utils";
 
 const CategoryList = () => {
     const queryClient = useQueryClient();
@@ -53,8 +54,12 @@ const CategoryList = () => {
             accessorKey: "categoryImage",
             header: "Category Image",
             cell: ({ row }) => (
-                <div className="flex justify-center max-w-32">
-                    <img src={row.original?.categoryImage} className="w-full object-center rounded-md" alt="Category Image" />
+                <div className="w-full flex justify-center">
+                    <img
+                        src={row.original?.categoryImage}
+                        className="min-w-28 max-w-28 min-h-20 max-h-20 object-center rounded-md"
+                        alt="Category Image"
+                    />
                 </div>
             ),
         },
@@ -67,6 +72,11 @@ const CategoryList = () => {
                     title={row.original?.isActive ? "Active" : "InActive"}
                 />
             ),
+        },
+        {
+            accessorKey: "updatedAt",
+            header: "Date Time",
+            cell: ({ row }) => <p className="text-wrap">{formatDateTime(row.original?.updatedAt)}</p>,
         },
         {
             header: "Actions",
