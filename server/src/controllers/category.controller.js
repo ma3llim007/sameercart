@@ -18,12 +18,16 @@ const addCategory = asyncHandler(async (req, res) => {
         return res.status(422).json(new ApiError(422, "Category Image Is Required"));
     }
 
+    if (!categoryName || !categorySlug || !categoryImage) {
+        return res.status(422).json(new ApiError(422, "All Field Are Required"));
+    }
+
     const categoryExisted = await Category.findOne({ categorySlug });
     if (categoryExisted) {
         return res.status(409).json(new ApiError(409, "Category Is Already Exists"));
     }
 
-    let categoryUpload;
+    let categoryUpload = null;
     try {
         categoryUpload = await uploadCloudinary(categoryImage, "sameerCart/category");
     } catch (error) {
@@ -33,11 +37,11 @@ const addCategory = asyncHandler(async (req, res) => {
     const category = await Category.create({
         categoryName,
         categorySlug,
-        categoryImage: categoryUpload?.url,
+        categoryImage: categoryUpload?.secure_url,
         addedBy: req.admin._id,
     });
 
-    return res.status(200).json(new ApiResponse(200, category, "Category Added Successfully"));
+    return res.status(201).json(new ApiResponse(201, category, "Category Created Successfully"));
 });
 
 // Category List
@@ -128,7 +132,7 @@ const updateCategory = asyncHandler(async (req, res) => {
         // Upload the new image
         try {
             const categoryUpload = await uploadCloudinary(categoryImage, "sameerCart/category");
-            category.categoryImage = categoryUpload.url;
+            category.categoryImage = categoryUpload.secure_url;
         } catch (error) {
             return res.status(500).json(new ApiError(500, "Failed To Upload Category Image."));
         }
@@ -159,9 +163,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
         return res.status(500).json(new ApiError(500, "Something Went Wrong While Deleting The Category"));
     }
     if (deleteCate && categoryImage) {
-        const parts = categoryImage.split("/");
-        const lastPart = parts.pop();
-        const [publicId] = lastPart.split(".");
+        const publicId = extractPublicId(categoryImage);
         try {
             removeImage("sameerCart/category/", publicId);
         } catch (error) {
@@ -188,7 +190,7 @@ const toggleCategory = asyncHandler(async (req, res) => {
     const category = await Category.findById({ _id: categoryId });
 
     if (!category) {
-        return res.status(404).json(new ApiError(401, "Category Not Found"));
+        return res.status(404).json(new ApiError(404, "Category Not Found"));
     }
     category.isActive = isActive;
     await category.save();

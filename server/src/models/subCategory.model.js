@@ -23,10 +23,10 @@ const subCategorySchema = new Schema(
             type: Boolean,
             default: true,
         },
-        categoryId: {
+        parentCategory: {
             type: Schema.Types.ObjectId,
             ref: "Category",
-            required: [true,"Category Is Required"],
+            required: [true,"Parent Category Is Required"],
         },
         addedBy: {
             type: Schema.Types.ObjectId,

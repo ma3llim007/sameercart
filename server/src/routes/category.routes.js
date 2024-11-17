@@ -19,4 +19,5 @@ router.route("/update-category/").patch(upload.single("categoryImage"), updateCa
 router.route("/delete-category/:categoryId").delete(deleteCategory);
 router.route("/toggle-category/:categoryId").patch(toggleCategory);
 router.route("/get-category/:categoryId").get(getCateogryById);
+
 export default router;
