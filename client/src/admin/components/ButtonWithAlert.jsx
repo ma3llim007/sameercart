@@ -29,9 +29,9 @@ const ButtonWithAlert = ({
             <AlertDialogContent className="bg-white dark:bg-slate-950">
                 <AlertDialogHeader>
                     <AlertDialogTitle>{dialogTitle}</AlertDialogTitle>
-                    <AlertDialogDescription>{dialogDesc}</AlertDialogDescription>
+                    {dialogDesc && <AlertDialogDescription>{dialogDesc}</AlertDialogDescription>}
                 </AlertDialogHeader>
-                <AlertDialogFooter>
+                <AlertDialogFooter className="mt-2">
                     <AlertDialogCancel>{dialogCancelTitle}</AlertDialogCancel>
                     <AlertDialogAction onClick={dialogActionfn} className={dialogActionBtnColor}>
                         {dialogActionTitle}

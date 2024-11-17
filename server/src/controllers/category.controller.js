@@ -3,7 +3,7 @@ import { Category } from "../models/category.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { removeImage, uploadCloudinary } from "../utils/cloudinary.js";
+import { extractPublicId, removeImage, uploadCloudinary } from "../utils/cloudinary.js";
 
 // Add Category
 const addCategory = asyncHandler(async (req, res) => {
@@ -46,6 +46,26 @@ const categories = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, categorys, "Categorys Fetch Successfully"));
 });
 
+// get category by id
+const getCateogryById = asyncHandler(async (req, res) => {
+    const { categoryId } = req.params;
+
+    if (!categoryId || categoryId.trim() === "") {
+        return res.status(422).json(new ApiError(422, "Category ID Is Required"));
+    }
+
+    if (!isValidObjectId(categoryId)) {
+        return res.status(400).json(new ApiError(400, "Invalid Category ID"));
+    }
+
+    const category = await Category.findById(categoryId);
+    if (!category) {
+        return res.status(404).json(new ApiError(401, "Category Not Found"));
+    }
+
+    return res.status(200).json(new ApiResponse(200, category, "Category Fetch Successfully"));
+});
+
 // Update Category
 const updateCategory = asyncHandler(async (req, res) => {
     const { categoryName, categorySlug, categoryId } = req.body;
@@ -64,16 +84,41 @@ const updateCategory = asyncHandler(async (req, res) => {
         return res.status(404).json(new ApiError(401, "Category Not Found"));
     }
 
-    // Handle category image upload and removal
+    // Check if at least one field is provided for update
+    if (!categoryName && !categorySlug && !categoryImage) {
+        return res
+            .status(400)
+            .json(new ApiError(400, "At least one field (Name, Slug, or Image) is required for update"));
+    }
+
+    const duplicateCategory = await Category.findOne({
+        _id: { $ne: categoryId },
+        $or: [
+            { categoryName: categoryName ? categoryName : category.categoryName },
+            { categorySlug: categorySlug ? categorySlug : category.categorySlug },
+        ],
+    });
+
+    // Check if there's a conflict with either name or slug
+    if (duplicateCategory) {
+        if (duplicateCategory.categoryName === categoryName) {
+            return res.status(409).json(new ApiError(409, "Category Name Already Exists"));
+        }
+        if (duplicateCategory.categorySlug === categorySlug) {
+            return res.status(409).json(new ApiError(409, "Category Slug Already Exists"));
+        }
+    }
+
+    // Update fields if there are no conflicts
     if (categoryName) category.categoryName = categoryName;
     if (categorySlug) category.categorySlug = categorySlug;
+
+    // Handle category image upload and Remove the previous image
     if (categoryImage) {
         const previousCatImage = category.categoryImage;
 
         if (categoryImage && previousCatImage) {
-            const parts = previousCatImage.split("/");
-            const lastPart = parts.pop();
-            const [publicId] = lastPart.split(".");
+            const publicId = extractPublicId(previousCatImage);
             try {
                 removeImage("sameerCart/category/", publicId);
             } catch (error) {
@@ -100,7 +145,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
     if (!categoryId || categoryId.trim() === "") {
         return res.status(422).json(new ApiError(422, "Category ID Is Required"));
     }
-    if (!categoryId || !isValidObjectId(categoryId)) {
+    if (!isValidObjectId(categoryId)) {
         return res.status(400).json(new ApiError(400, "Invalid Category ID"));
     }
 
@@ -150,4 +195,4 @@ const toggleCategory = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, category, "Category Status Updated Successfully"));
 });
 
-export { addCategory, categories, deleteCategory, updateCategory, toggleCategory };
+export { addCategory, categories, deleteCategory, updateCategory, toggleCategory, getCateogryById };

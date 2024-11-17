@@ -4,5 +4,6 @@ import AdminNotFound from "./AdminNotFound";
 import Login from "./Login";
 import AddCategory from "./AddCategory";
 import CategoryList from "./CategoryList";
+import EditCategory from "./EditCategory";
 
-export { Dashboard, AdminProfile, AdminNotFound, Login, AddCategory, CategoryList };
+export { Dashboard, AdminProfile, AdminNotFound, Login, AddCategory, CategoryList, EditCategory };

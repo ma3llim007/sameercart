@@ -15,3 +15,14 @@ export const isValidFileType = file => {
 
     return isValid;
 };
+
+export const isValidExtensions = file => {
+    const isValid = validFileExtensions.includes(file.type);
+
+    if (!isValid) {
+        console.warn("File type does not match valid types.");
+        return false;
+    }
+
+    return isValid;
+};

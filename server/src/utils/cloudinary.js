@@ -36,4 +36,10 @@ const removeImage = async (folderPath, fileUrl) => {
     }
 };
 
-export { uploadCloudinary, removeImage };
+const extractPublicId = (imageUrl) => {
+    const parts = imageUrl.split("/");
+    const lastPart = parts.pop();
+    return lastPart.split(".")[0];
+};
+
+export { uploadCloudinary, removeImage,extractPublicId };

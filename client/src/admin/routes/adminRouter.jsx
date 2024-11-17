@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AddCategory, AdminNotFound, AdminProfile, CategoryList, Dashboard, Login } from "../pages";
+import { AddCategory, AdminNotFound, AdminProfile, CategoryList, Dashboard, EditCategory, Login } from "../pages";
 import AuthLayout from "../layouts/AuthLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 
@@ -42,12 +42,16 @@ const adminRouters = createBrowserRouter([
                         element: <AddCategory />,
                     },
                     {
-                        path:"add-category/",
+                        path: "add-category/",
                         element: <AddCategory />,
                     },
                     {
-                        path:"category-list/",
+                        path: "category-list/",
                         element: <CategoryList />,
+                    },
+                    {
+                        path: "edit-category/:categoryId",
+                        element: <EditCategory />,
                     },
                 ],
             },

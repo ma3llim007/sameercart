@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const PageHeader = ({ title, controller, controllerUrl, page }) => {
     return (
-        <section className="w-full flex items-center justify-between py-2 px-4">
+        <section className="w-full flex items-center justify-between py-2 px-4 select-none">
             <h1 className="text-3xl font-bold">{title}</h1>
             <Breadcrumb className="hidden lg:block">
                 <BreadcrumbList>
