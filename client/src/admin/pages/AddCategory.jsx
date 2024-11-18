@@ -43,12 +43,17 @@ const AddCategory = () => {
 
     // Updating the slug value on title change
     useEffect(() => {
-        const subscription = watch((value, { name }) => {
-            if (name === "categoryName" && value.categoryName) {
-                const transfromedSlug = slugTransform(value.categoryName);
-                setValue("categorySlug", transfromedSlug, { shouldValidate: true });
+        const updateSlug = (name, value) => {
+            if (name === "categoryName") {
+                const transformedSlug = slugTransform(value.categoryName || "");
+                setValue("categorySlug", transformedSlug, { shouldValidate: true });
             }
+        };
+
+        const subscription = watch((value, { name }) => {
+            updateSlug(name, value);
         });
+
         return () => subscription.unsubscribe();
     }, [watch, setValue]);
 

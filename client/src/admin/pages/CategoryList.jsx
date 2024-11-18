@@ -29,7 +29,8 @@ const CategoryList = () => {
             toastService.success(data?.message);
         },
         onError: error => {
-            toastService.error(error.response?.data.message);
+            const errorMessage = error?.response?.data?.message || error?.message || "An error occurred";
+            toastService.error(errorMessage);
         },
     });
 
@@ -118,7 +119,7 @@ const CategoryList = () => {
             ),
         },
     ];
-    const categoryData = data?.data?.map((data, index) => ({ no: index + 1, ...data }));
+    const categoryData = data?.data?.map((data, index) => ({ no: index + 1, ...data })) || [];
 
     if (isLoading) return <Loading />;
     return (

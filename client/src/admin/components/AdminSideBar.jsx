@@ -13,12 +13,12 @@ import {
 import { FaHome, FaList, FaUsers, FaCube, FaCubes } from "react-icons/fa";
 import avatar from "../assets/avatar5.png";
 import { AiFillDashboard } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 
 const navBar = [
     { name: "Main Site", Icon: FaHome, urlLink: "/" },
-    { name: "Dashboard", Icon: AiFillDashboard, urlLink: "/admin/dashboard" },
+    { name: "Dashboard", Icon: AiFillDashboard, urlLink: "/admin/dashboard", segment: "dashboard" },
     {
         name: "Manage User",
         Icon: FaUsers,
@@ -32,6 +32,7 @@ const navBar = [
                 urlLink: "/admin/users/user-list",
             },
         ],
+        segment: "users",
     },
     {
         name: "Manage Category",
@@ -46,6 +47,7 @@ const navBar = [
                 urlLink: "/admin/category/category-list",
             },
         ],
+        segment: "category",
     },
     {
         name: "Manage Sub-Category",
@@ -53,16 +55,20 @@ const navBar = [
         innerLists: [
             {
                 name: "Add Sub-Category",
-                urlLink: "/admin/sub-category/add-sub-category",
+                urlLink: "/admin/sub-category/add-subcategory",
             },
             {
                 name: "Sub-Category List",
-                urlLink: "/admin/sub-category/sub-category-list",
+                urlLink: "/admin/sub-category/subcategory-list",
             },
         ],
+        segment: "sub-category",
     },
 ];
 export function AdminSideBar({ username, ...props }) {
+    const { pathname } = useLocation();
+    const segment = pathname.split("/")[2] || "";
+
     return (
         <Sidebar {...props} className="select-none">
             <SidebarContent>
@@ -86,13 +92,14 @@ export function AdminSideBar({ username, ...props }) {
                                 if (items?.innerLists) {
                                     return (
                                         <Collapsible
+                                            defaultOpen={segment === items?.segment}
                                             key={items?.name}
                                             className="group/collapsible [&[data-state=open]>button>svg:first-child]:rotate-90"
                                         >
                                             <CollapsibleTrigger asChild>
                                                 <SidebarMenuButton>
                                                     <ChevronRight className="transition-transform" />
-                                                    <items.Icon />
+                                                    {items.Icon && <items.Icon />}
                                                     {items?.name}
                                                 </SidebarMenuButton>
                                             </CollapsibleTrigger>
@@ -115,7 +122,7 @@ export function AdminSideBar({ username, ...props }) {
                                         <SidebarMenuItem key={items?.name}>
                                             <SidebarMenuButton asChild>
                                                 <Link to={items?.urlLink} target={items?.name === "Main Site" ? "_blank" : "_self"}>
-                                                    <items.Icon />
+                                                    {items.Icon && <items.Icon />}
                                                     {items?.name}
                                                 </Link>
                                             </SidebarMenuButton>

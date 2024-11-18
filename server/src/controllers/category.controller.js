@@ -197,4 +197,18 @@ const toggleCategory = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, category, "Category Status Updated Successfully"));
 });
 
-export { addCategory, categories, deleteCategory, updateCategory, toggleCategory, getCateogryById };
+// options category with only name and _id
+const getOptionsCategory = asyncHandler(async (req, res) => {
+    const category = await Category.aggregate([
+        { $match: { isActive: true } },
+        {
+            $project: {
+                categoryName: 1,
+                _id: 1,
+            },
+        },
+    ]);
+    return res.status(200).json(new ApiResponse(200, category, "Categorys Options Fetch Successfully"));
+});
+
+export { addCategory, categories, deleteCategory, updateCategory, toggleCategory, getCateogryById, getOptionsCategory };

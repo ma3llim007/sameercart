@@ -65,6 +65,7 @@ const EditCategory = () => {
         onSuccess: data => {
             navigate("/admin/category/category-list");
             queryClient.invalidateQueries("categoryList");
+            queryClient.removeQueries(["category", categoryId]);
             toastService.success(data?.message);
         },
         onError: error => {
@@ -75,11 +76,15 @@ const EditCategory = () => {
 
     // Automatically update slug when category name changes
     useEffect(() => {
-        const subscription = watch((value, { name }) => {
-            if (name === "categoryName" && value.categoryName) {
-                const transfromedSlug = slugTransform(value.categoryName);
-                setValue("categorySlug", transfromedSlug, { shouldValidate: true });
+        const updateSlug = (name, value) => {
+            if (name === "categoryName") {
+                const transformedSlug = slugTransform(value.categoryName || "");
+                setValue("categorySlug", transformedSlug, { shouldValidate: true });
             }
+        };
+
+        const subscription = watch((value, { name }) => {
+            updateSlug(name, value);
         });
         return () => subscription.unsubscribe();
     }, [watch, setValue]);
@@ -150,12 +155,12 @@ const EditCategory = () => {
                             </div>
                         </div>
                         <div className="w-full border-t !mt-6">
-                            <Button disabled={isPending} className="Primary my-2 btnXl">
+                            <Button disabled={isPending} className="Success my-2 btnXl">
                                 {isPending ? (
                                     <Loading height="7" weight="7" />
                                 ) : (
                                     <>
-                                        <FaEdit /> Add
+                                        <FaEdit /> Update
                                     </>
                                 )}
                             </Button>

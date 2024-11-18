@@ -72,6 +72,7 @@ const getSubCategory = asyncHandler(async (req, res) => {
                     subCategoryName: 1,
                     subCategorySlug: 1,
                     subCategoryImage: 1,
+                    updatedAt: 1,
                     isActive: 1,
                 },
             },
@@ -144,6 +145,7 @@ const getSubCategoryById = asyncHandler(async (req, res) => {
             {
                 $project: {
                     categoryName: "$category.categoryName",
+                    parentCategory: "$category._id",
                     subCategoryName: 1,
                     subCategorySlug: 1,
                     subCategoryImage: 1,

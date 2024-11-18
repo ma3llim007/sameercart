@@ -4,6 +4,7 @@ import {
     categories,
     deleteCategory,
     getCateogryById,
+    getOptionsCategory,
     toggleCategory,
     updateCategory,
 } from "../controllers/category.controller.js";
@@ -19,5 +20,6 @@ router.route("/update-category/").patch(upload.single("categoryImage"), updateCa
 router.route("/delete-category/:categoryId").delete(deleteCategory);
 router.route("/toggle-category/:categoryId").patch(toggleCategory);
 router.route("/get-category/:categoryId").get(getCateogryById);
+router.route("/options-category").get(getOptionsCategory);
 
 export default router;

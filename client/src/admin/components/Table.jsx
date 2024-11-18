@@ -45,7 +45,11 @@ const Table = ({ columns, data, paginationOptions = { pageSize: 10 }, sortable =
         return <Loading />;
     }
     if (data?.length === 0) {
-        return <div className="text-center p-4">{emptyMessage}</div>;
+        return (
+            <div className="text-center px-4 py-8">
+                <h3 className="text-3xl font-bold underline">{emptyMessage}</h3>
+            </div>
+        );
     }
     return (
         <div className="w-full p-4">

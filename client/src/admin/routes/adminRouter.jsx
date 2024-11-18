@@ -1,5 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
-import { AddCategory, AdminNotFound, AdminProfile, CategoryList, Dashboard, EditCategory, Login } from "../pages";
+import {
+    AddCategory,
+    AddSubCategory,
+    AdminNotFound,
+    AdminProfile,
+    CategoryList,
+    Dashboard,
+    EditCategory,
+    EditSubCategory,
+    Login,
+    SubCategoryList,
+} from "../pages";
 import AuthLayout from "../layouts/AuthLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 
@@ -39,7 +50,7 @@ const adminRouters = createBrowserRouter([
                 children: [
                     {
                         index: true,
-                        element: <AddCategory />,
+                        element: <CategoryList />,
                     },
                     {
                         path: "add-category/",
@@ -52,6 +63,27 @@ const adminRouters = createBrowserRouter([
                     {
                         path: "edit-category/:categoryId",
                         element: <EditCategory />,
+                    },
+                ],
+            },
+            {
+                path: "sub-category",
+                children: [
+                    {
+                        index: true,
+                        element: <SubCategoryList />,
+                    },
+                    {
+                        path: "add-subcategory/",
+                        element: <AddSubCategory />,
+                    },
+                    {
+                        path: "subcategory-list/",
+                        element: <SubCategoryList />,
+                    },
+                    {
+                        path: "edit-category/:subCategoryId",
+                        element: <EditSubCategory />,
                     },
                 ],
             },

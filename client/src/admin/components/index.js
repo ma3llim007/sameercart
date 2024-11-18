@@ -7,5 +7,6 @@ import Footer from "./Footer";
 import Table from "./Table";
 import Loading from "./Loading";
 import ButtonWithAlert from "./ButtonWithAlert";
+import Select from "./Form/Select";
 
-export { LogoutBtn, Input, PageHeader, AdminSideBar, Header, Footer, Table, Loading, ButtonWithAlert };
+export { LogoutBtn, Input, PageHeader, AdminSideBar, Header, Footer, Table, Loading, ButtonWithAlert, Select };

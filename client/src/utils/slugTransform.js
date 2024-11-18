@@ -3,8 +3,10 @@ const slugTransform = value => {
         return value
             .trim()
             .toLowerCase()
-            .replace(/[^a-zA-Z\d\s]+/g, "")
-            .replace(/\s/g, "-");
+            .replace(/[^\w\s-]/g, "") // Removes special characters except dashes
+            .replace(/\s+/g, "-") // Replaces spaces with dashes
+            .replace(/--+/g, "-") // Replaces multiple dashes with a single dash
+            .replace(/^-+|-+$/g, ""); // Trims any leading or trailing dashes
     }
     return "";
 };
