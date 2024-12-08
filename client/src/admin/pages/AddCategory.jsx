@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { FaPlus } from "react-icons/fa";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addCategoryScheme } from "@/validation";
-import { PreventAction, slugTransform } from "@/utils";
+import { slugTransform } from "@/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import { useNavigate } from "react-router-dom";
@@ -88,8 +88,8 @@ const AddCategory = () => {
                                     placeholder="View The Category Slug"
                                     {...register("categorySlug")}
                                     disabled={isPending}
-                                    onPaste={PreventAction}
-                                    onCopy={PreventAction}
+                                    onPaste={e => e.preventDefault()}
+                                    onCopy={e => e.preventDefault()}
                                     readOnly
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                                     error={errors.categorySlug?.message}

@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { editCategorySchema } from "@/validation/admin/categorySchema";
-import { PreventAction, slugTransform } from "@/utils";
+import { slugTransform } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { FaEdit } from "react-icons/fa";
 import crudService from "@/api/crudService";
@@ -120,8 +120,8 @@ const EditCategory = () => {
                                     placeholder="View The Category Slug"
                                     {...register("categorySlug")}
                                     disabled={isPending}
-                                    onPaste={PreventAction}
-                                    onCopy={PreventAction}
+                                    onPaste={e => e.preventDefault()}
+                                    onCopy={e => e.preventDefault()}
                                     readOnly
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                                     error={errors.categorySlug?.message}

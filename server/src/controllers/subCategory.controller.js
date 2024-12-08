@@ -4,6 +4,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { SubCategory } from "../models/subCategory.model.js";
 import { extractPublicId, removeImage, uploadCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { ConvertImageWebp } from "../utils/ConvertImageWebp.js";
 
 // Add sub category
 const addSubCategory = asyncHandler(async (req, res) => {
@@ -31,9 +32,14 @@ const addSubCategory = asyncHandler(async (req, res) => {
         return res.status(409).json(new ApiError(409, "Sub Category Name Or Slug Already Exists"));
     }
 
+    // Convert Image To WebP
+    let convertedImagePath = subCategoryImage;
+    if (req.file.mimetype !== "image/webp") {
+        convertedImagePath = await ConvertImageWebp(subCategoryImage);
+    }
     let imageUrl = null;
     if (subCategoryImage) {
-        const imageUpload = await uploadCloudinary(subCategoryImage, "sameerCart/subcategory");
+        const imageUpload = await uploadCloudinary(convertedImagePath, "sameerCart/subcategory");
         imageUrl = imageUpload.secure_url;
     }
     const subCategory = await SubCategory.create({
@@ -214,9 +220,15 @@ const updateSubCategory = asyncHandler(async (req, res) => {
             }
         }
 
+        // Convert Image To WebP
+        let convertedImagePath = subCategoryImage;
+        if (req.file.mimetype !== "image/webp") {
+            convertedImagePath = await ConvertImageWebp(subCategoryImage);
+        }
+
         // Upload the new image
         try {
-            const subCategoryUpload = await uploadCloudinary(subCategoryImage, "sameerCart/subcategory");
+            const subCategoryUpload = await uploadCloudinary(convertedImagePath, "sameerCart/subcategory");
             subCategoryCur.subCategoryImage = subCategoryUpload?.secure_url;
         } catch (error) {
             return res.status(500).json(new ApiError(500, "Failed To Upload Sub-Category Image."));

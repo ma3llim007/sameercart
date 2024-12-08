@@ -42,4 +42,4 @@ const extractPublicId = (imageUrl) => {
     return lastPart.split(".")[0];
 };
 
-export { uploadCloudinary, removeImage,extractPublicId };
+export { uploadCloudinary, removeImage, extractPublicId };

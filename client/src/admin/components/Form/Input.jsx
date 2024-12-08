@@ -1,7 +1,8 @@
 import React, { useId } from "react";
 
-const Input = React.forwardRef(function Input({ label, type = "text", error, className = "", ...props }, ref) {
+const Input = React.forwardRef(function Input({ label, type = "text", placeholder, error, className = "", ...props }, ref) {
     const id = useId();
+    
     return (
         <>
             <div className="w-full">
@@ -15,6 +16,7 @@ const Input = React.forwardRef(function Input({ label, type = "text", error, cla
                     ref={ref}
                     {...props}
                     id={id}
+                    placeholder={placeholder}
                     autoComplete="off"
                     className={`px-3 py-2 rounded-lg bg-white text-black dark:bg-slate-800 dark:text-white outline-none text-lg focus:bg-gray-50 duration-200 border border-gray-200 w-full ${className}`}
                 />

@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { Input, Loading, PageHeader, Select } from "../components";
-import { PreventAction, slugTransform } from "@/utils";
+import { slugTransform } from "@/utils";
 import { FaEdit } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import toastService from "@/services/toastService";
@@ -145,8 +145,8 @@ const EditSubCategory = () => {
                                     placeholder="View The Sub-Category Slug"
                                     {...register("subCategorySlug")}
                                     disabled={isPending}
-                                    onPaste={PreventAction}
-                                    onCopy={PreventAction}
+                                    onPaste={e => e.preventDefault()}
+                                    onCopy={e => e.preventDefault()}
                                     readOnly
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                                     error={errors.subCategorySlug?.message}

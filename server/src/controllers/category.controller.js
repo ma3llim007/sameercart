@@ -4,6 +4,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { extractPublicId, removeImage, uploadCloudinary } from "../utils/cloudinary.js";
+import { ConvertImageWebp } from "../utils/ConvertImageWebp.js";
 
 // Add Category
 const addCategory = asyncHandler(async (req, res) => {
@@ -23,13 +24,25 @@ const addCategory = asyncHandler(async (req, res) => {
     }
 
     const categoryExisted = await Category.findOne({ categorySlug });
+
     if (categoryExisted) {
         return res.status(409).json(new ApiError(409, "Category Is Already Exists"));
     }
 
+    // Convert Image To WebP
+    let convertedImagePath = categoryImage;
+    if (req.file?.mimetype !== "image/webp") {
+        try {
+            convertedImagePath = await ConvertImageWebp(categoryImage);
+        } catch (error) {
+            return res.status(500).json(new ApiError(500, "Failed to Convert Image to WebP"));            
+        }
+    }
+
+    // Upload to Cloudinary
     let categoryUpload = null;
     try {
-        categoryUpload = await uploadCloudinary(categoryImage, "sameerCart/category");
+        categoryUpload = await uploadCloudinary(convertedImagePath, "sameerCart/category");
     } catch (error) {
         return res.status(500).json(new ApiError(500, "Failed To Upload Category Image."));
     }
@@ -129,9 +142,16 @@ const updateCategory = asyncHandler(async (req, res) => {
                 return res.status(500).json(new ApiError(500, "Failed To Remove Previous Category Image"));
             }
         }
-        // Upload the new image
+
+        // Convert Image To WebP
+        let convertedImagePath = categoryImage;
+        if (req.file.mimetype !== "image/webp") {
+            convertedImagePath = await ConvertImageWebp(categoryImage);
+        }
+
+        // Upload to Cloudinary
         try {
-            const categoryUpload = await uploadCloudinary(categoryImage, "sameerCart/category");
+            const categoryUpload = await uploadCloudinary(convertedImagePath, "sameerCart/category");
             category.categoryImage = categoryUpload.secure_url;
         } catch (error) {
             return res.status(500).json(new ApiError(500, "Failed To Upload Category Image."));

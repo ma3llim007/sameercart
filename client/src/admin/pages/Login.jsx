@@ -18,14 +18,23 @@ const Login = () => {
         handleSubmit,
         setError,
         formState: { errors },
-    } = useForm({ resolver: yupResolver(adminLoginSchema) });
+        resetField,
+    } = useForm({
+        resolver: yupResolver(adminLoginSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+    });
 
     // Mutation Login
     const { mutate } = useMutation({
         mutationFn: data => crudService.post("auth/login", true, data),
         onError: error => {
-            const message = error.response?.data?.message;
+            const message = error.response?.data?.message || "An unexpected error occurred.";
             setError("root", { message });
+            resetField("email");
+            resetField("password");
         },
         onSuccess: data => {
             const { admin, accessToken } = data?.data;
@@ -51,16 +60,16 @@ const Login = () => {
                     )}
                     <form onSubmit={handleSubmit(formSubmithandler)} className="space-y-4">
                         <Input
-                            placeholder="Email"
+                            placeholder="Enter The Email"
                             {...register("email")}
-                            className="text-xl p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className="text-xl p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-800"
                             error={errors.email?.message}
                         />
                         <Input
-                            placeholder="Password"
+                            placeholder="Enter The Password"
                             type="password"
                             {...register("password")}
-                            className="text-xl p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className="text-xl p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-800"
                             error={errors.password?.message}
                         />
                         <div className="flex flex-col md:flex-row gap-2 justify-between items-center">

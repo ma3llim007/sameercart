@@ -188,10 +188,4 @@ const checkSession = asyncHandler(async (req, res) => {
     }
 });
 
-export {
-    registerAdmin,
-    loginAdmin,
-    logOutAdmin,
-    refreshAccessTokenAdmin,
-    checkSession,
-};
+export { registerAdmin, loginAdmin, logOutAdmin, refreshAccessTokenAdmin, checkSession };

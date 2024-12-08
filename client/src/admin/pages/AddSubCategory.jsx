@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Input, Loading, PageHeader, Select } from "../components";
 import { Controller, useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { PreventAction, slugTransform } from "@/utils";
+import { slugTransform } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { FaPlus } from "react-icons/fa";
 import crudService from "@/api/crudService";
@@ -129,8 +129,8 @@ const AddSubCategory = () => {
                                     placeholder="View The Sub-Category Slug"
                                     {...register("subCategorySlug")}
                                     disabled={isPending}
-                                    onPaste={PreventAction}
-                                    onCopy={PreventAction}
+                                    onPaste={e => e.preventDefault()}
+                                    onCopy={e => e.preventDefault()}
                                     readOnly
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                                     error={errors.subCategorySlug?.message}
