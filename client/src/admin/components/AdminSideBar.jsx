@@ -10,11 +10,12 @@ import {
     SidebarMenuItem,
     SidebarMenuSub,
 } from "@/components/ui/sidebar";
-import { FaHome, FaList, FaUsers, FaCube, FaCubes } from "react-icons/fa";
+import { FaHome, FaList, FaUsers, FaCube, FaCubes, FaProductHunt } from "react-icons/fa";
 import avatar from "../assets/avatar5.png";
 import { AiFillDashboard } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
+import { TbBrandSpacehey } from "react-icons/tb";
 
 const navBar = [
     { name: "Main Site", Icon: FaHome, urlLink: "/" },
@@ -63,6 +64,36 @@ const navBar = [
             },
         ],
         segment: "sub-category",
+    },
+    {
+        name: "Manage Products",
+        Icon: FaProductHunt,
+        innerLists: [
+            {
+                name: "Add Products",
+                urlLink: "/admin/products/add-products",
+            },
+            {
+                name: "Products List",
+                urlLink: "/admin/products/products-list",
+            },
+        ],
+        segment: "products",
+    },
+    {
+        name: "Manage Brands",
+        Icon: TbBrandSpacehey,
+        innerLists: [
+            {
+                name: "Add Brands",
+                urlLink: "/admin/brands/add-brands",
+            },
+            {
+                name: "Brands List",
+                urlLink: "/admin/brands/brands-list",
+            },
+        ],
+        segment: "brands",
     },
 ];
 export function AdminSideBar({ username, ...props }) {

@@ -1,19 +1,19 @@
 import React, { lazy } from "react";
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
-import ClientLayout from "../layouts/ClientLayout";
-const Home = lazy(() => import("../pages/Home"));
-const AboutUs = lazy(() => import("../pages/AboutUs"));
-const ContactUs = lazy(() => import("../pages/ContactUs"));
-const TermsAndCondition = lazy(() => import("../pages/TermsAndCondition"));
-const MyAccount = lazy(() => import("../pages/MyAccount"));
-const CheckOut = lazy(() => import("../pages/CheckOut"));
-const Login = lazy(() => import("../pages/Login"));
-const ClientNotFound = lazy(() => import("../pages/ClientNotFound"));
-const Delivery = lazy(() => import("../pages/Delivery"));
-const SecurePayment = lazy(() => import("../pages/SecurePayment"));
-const LegalNotice = lazy(() => import("../pages/LegalNotice"));
-const ReturnPolicy = lazy(() => import("../pages/ReturnPolicy"));
-const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy"));
+import ClientLayout from "../client/layouts/ClientLayout";
+const Home = lazy(() => import("../client/pages/Home"));
+const AboutUs = lazy(() => import("../client/pages/AboutUs"));
+const ContactUs = lazy(() => import("../client/pages/ContactUs"));
+const TermsAndCondition = lazy(() => import("../client/pages/TermsAndCondition"));
+const MyAccount = lazy(() => import("../client/pages/MyAccount"));
+const CheckOut = lazy(() => import("../client/pages/CheckOut"));
+const Login = lazy(() => import("../client/pages/Login"));
+const ClientNotFound = lazy(() => import("../client/pages/ClientNotFound"));
+const Delivery = lazy(() => import("../client/pages/Delivery"));
+const SecurePayment = lazy(() => import("../client/pages/SecurePayment"));
+const LegalNotice = lazy(() => import("../client/pages/LegalNotice"));
+const ReturnPolicy = lazy(() => import("../client/pages/ReturnPolicy"));
+const PrivacyPolicy = lazy(() => import("../client/pages/PrivacyPolicy"));
 // Client Router
 const clientRouters = createBrowserRouter(
     createRoutesFromElements(

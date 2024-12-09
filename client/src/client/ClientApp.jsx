@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { RouterProvider } from "react-router-dom";
-import clientRouters from "./routes/clientRouter";
 import Loader from "./components/Loader/Loader";
+import clientRouters from "@/routes/clientRouter";
 
 const ClientApp = () => {
     return (
