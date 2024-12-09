@@ -35,7 +35,7 @@ const addCategory = asyncHandler(async (req, res) => {
         try {
             convertedImagePath = await ConvertImageWebp(categoryImage);
         } catch (error) {
-            return res.status(500).json(new ApiError(500, "Failed to Convert Image to WebP"));            
+            return res.status(500).json(new ApiError(500, "Failed to Convert Image to WebP"));
         }
     }
 
@@ -146,7 +146,11 @@ const updateCategory = asyncHandler(async (req, res) => {
         // Convert Image To WebP
         let convertedImagePath = categoryImage;
         if (req.file.mimetype !== "image/webp") {
-            convertedImagePath = await ConvertImageWebp(categoryImage);
+            try {
+                convertedImagePath = await ConvertImageWebp(categoryImage);
+            } catch (error) {
+                return res.status(500).json(new ApiError(500, "Failed to Convert Image to WebP"));
+            }
         }
 
         // Upload to Cloudinary

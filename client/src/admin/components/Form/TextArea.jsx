@@ -1,6 +1,9 @@
 import React, { forwardRef, useId } from "react";
 
-const Input = forwardRef(function Input({ label, type = "text", placeholder, error, className = "", ...props }, ref) {
+const TextArea = forwardRef(function TextArea(
+    { label, placeholder, error, className = "", value, required = false, readOnly = false, rows = "3", ...props },
+    ref
+) {
     const id = useId();
 
     return (
@@ -11,18 +14,21 @@ const Input = forwardRef(function Input({ label, type = "text", placeholder, err
                         {label} <span className="text-red-500 font-black">*</span>
                     </label>
                 )}
-                <input
-                    type={type}
+                <textarea
                     ref={ref}
                     {...props}
                     id={id}
                     placeholder={placeholder}
                     autoComplete="off"
-                    className={`px-3 py-2 rounded-lg bg-white text-black dark:bg-slate-800 dark:text-white outline-none text-lg focus:bg-gray-50 duration-200 border border-gray-200 w-full ${className}`}
-                />
+                    rows={rows}
+                    className={`px-3 py-2 rounded-lg bg-white text-black dark:bg-slate-800 dark:text-white outline-none text-lg focus:bg-gray-50 duration-200 border border-gray-200 w-full resize-none ${className}`}
+                    value={value}
+                    aria-invalid={!error}
+                ></textarea>
                 {error && <p className="text-red-700 font-bold my-2 text-base px-2">{error}</p>}
             </div>
         </>
     );
 });
-export default Input;
+
+export default TextArea;

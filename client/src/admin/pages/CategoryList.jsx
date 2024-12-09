@@ -17,7 +17,7 @@ const CategoryList = () => {
         queryKey: ["categoryList"],
         queryFn: () => crudService.get("category/categories", true),
         onError: err => {
-            toastService.error("Error fetching categories data:", err.message);
+            toastService.error(err?.message || "Failed to fetch Data.");
         },
     });
 

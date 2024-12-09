@@ -20,6 +20,10 @@ const AdminNotFound = lazy(() => import("@/admin/pages/AdminNotFound"));
 const AddProducts = lazy(() => import("@/admin/pages/AddProducts"));
 const EditProducts = lazy(() => import("@/admin/pages/EditProducts"));
 const ProductsList = lazy(() => import("@/admin/pages/ProductsList"));
+const AddBrands = lazy(() => import("@/admin/pages/AddBrand"));
+const BrandList = lazy(() => import("@/admin/pages/BrandList"));
+const EditBrand = lazy(() => import("@/admin/pages/EditBrand"));
+const ViewBrand = lazy(() => import("@/admin/pages/ViewBrand"));
 
 const adminRouters = createBrowserRouter([
     {
@@ -186,6 +190,51 @@ const adminRouters = createBrowserRouter([
                         element: (
                             <Suspense fallback={<Loader />}>
                                 <EditProducts />
+                            </Suspense>
+                        ),
+                    },
+                ],
+            },
+            {
+                path: "brands",
+                children: [
+                    {
+                        index: true,
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <AddBrands />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "add-brands/",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <AddBrands />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "brands-list/",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <BrandList />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "edit-brand/:brandId",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <EditBrand />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "view-brand/:brandId",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <ViewBrand />
                             </Suspense>
                         ),
                     },

@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import adminAuthRouter from "./routes/adminAuth.routes.js";
 import categoryRouter from "./routes/category.routes.js";
 import subCategoryRouter from "./routes/subCategory.routes.js";
+import brandRouter from "./routes/brand.routes.js";
 
 const app = express();
 app.use(
@@ -21,5 +22,6 @@ app.use(cookieParser());
 app.use("/api/v1/admin/auth", adminAuthRouter);
 app.use("/api/v1/admin/category", categoryRouter);
 app.use("/api/v1/admin/sub-category", subCategoryRouter);
+app.use("/api/v1/admin/brand", brandRouter);
 
 export { app };

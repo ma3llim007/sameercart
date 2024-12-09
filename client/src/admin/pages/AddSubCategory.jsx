@@ -32,7 +32,7 @@ const AddSubCategory = () => {
         queryKey: ["categoryOptions"],
         queryFn: () => crudService.get("category/options-category", true),
         onError: err => {
-            toastService.error("Error fetching categories data:", err.message);
+            toastService.error(err?.message || "Failed to fetch Data.");
         },
     });
 

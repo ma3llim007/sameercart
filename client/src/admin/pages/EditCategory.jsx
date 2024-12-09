@@ -38,7 +38,7 @@ const EditCategory = () => {
         queryFn: () => crudService.get(`category/get-category/${categoryId}`, true),
         enabled: !!categoryId,
         onError: err => {
-            toastService.error("Error fetching categories data:", err.message);
+            toastService.error(err?.message || "Failed to fetch Data.");
         },
     });
     useEffect(() => {
@@ -51,7 +51,6 @@ const EditCategory = () => {
 
     // update the data
     const { mutate, isPending } = useMutation({
-        // mutationFn: data => crudService.patch("category/update-category", true, data, "multipart/form-data"),
         mutationFn: data => {
             const formData = new FormData();
             formData.append("categoryName", data?.categoryName);

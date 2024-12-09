@@ -14,7 +14,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, storePeristor } from "./store";
 import queryClient from "./api/queryClientConfig";
-import DivideViewer from "./components/DivideViewer";
+import ResponsiveViewer from "./components/ResponsiveViewer";
 
 const pathName = window.location.pathname;
 const isAdmin = pathName.startsWith("/admin");
@@ -27,7 +27,7 @@ createRoot(document.getElementById("root")).render(
                     <QueryClientProvider client={queryClient}>
                         {isAdmin ? <AdminApp /> : <ClientApp />}
                         <ReactQueryDevtools initialIsOpen={false} />
-                        <DivideViewer />
+                        <ResponsiveViewer />
                     </QueryClientProvider>
                 </PersistGate>
             </Provider>

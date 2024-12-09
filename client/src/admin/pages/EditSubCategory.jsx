@@ -39,7 +39,7 @@ const EditSubCategory = () => {
         queryKey: ["categoryOptions"],
         queryFn: () => crudService.get("category/options-category", true),
         onError: err => {
-            toastService.error("Error fetching categories data:", err.message);
+            toastService.error(err?.message || "Failed to fetch Data.");
         },
     });
 
@@ -49,7 +49,7 @@ const EditSubCategory = () => {
         queryFn: () => crudService.get(`sub-category/get-subcategory/${subCategoryId}`, true),
         enabled: !!subCategoryId,
         onError: err => {
-            toastService.error("Error fetching categories data:", err.message);
+            toastService.error(err?.message || "Failed to fetch Data.");
         },
     });
     // setting the value to forms
