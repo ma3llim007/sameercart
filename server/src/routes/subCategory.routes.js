@@ -5,6 +5,7 @@ import {
     deleteSubCategory,
     getSubCategory,
     getSubCategoryById,
+    subCategoryByIdOptions,
     toggleSubCategory,
     updateSubCategory,
 } from "../controllers/subCategory.controller.js";
@@ -19,5 +20,6 @@ router.route("/delete-subcategory/:subCategoryId").delete(deleteSubCategory);
 router.route("/get-subcategory/:subCategoryId").get(getSubCategoryById);
 router.route("/update-subcategory").patch(upload.single("subCategoryImage"), updateSubCategory);
 router.route("/toggle-subcategory/:subCategoryId").patch(toggleSubCategory);
+router.route("/get-subcategory-option/:categoryId").get(subCategoryByIdOptions);
 
 export default router;

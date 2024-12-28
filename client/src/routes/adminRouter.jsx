@@ -24,6 +24,9 @@ const AddBrands = lazy(() => import("@/admin/pages/AddBrand"));
 const BrandList = lazy(() => import("@/admin/pages/BrandList"));
 const EditBrand = lazy(() => import("@/admin/pages/EditBrand"));
 const ViewBrand = lazy(() => import("@/admin/pages/ViewBrand"));
+const ViewProduct = lazy(() => import("@/admin/pages/ViewProduct"));
+const AddVariants = lazy(() => import("@/admin/pages/AddVariants"));
+const EditVariant = lazy(() => import("@/admin/pages/EditVariant"));
 
 const adminRouters = createBrowserRouter([
     {
@@ -186,12 +189,41 @@ const adminRouters = createBrowserRouter([
                         ),
                     },
                     {
-                        path: "edit-products/:productId",
+                        path: "edit-product/:productId",
                         element: (
                             <Suspense fallback={<Loader />}>
                                 <EditProducts />
                             </Suspense>
                         ),
+                    },
+                    {
+                        path: "view-product/:productId",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <ViewProduct />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "variants/:productId",
+                        children: [
+                            {
+                                index: true,
+                                element: (
+                                    <Suspense fallback={<Loader />}>
+                                        <AddVariants />
+                                    </Suspense>
+                                ),
+                            },
+                            {
+                                path: "edit-variant/:variantId",
+                                element: (
+                                    <Suspense fallback={<Loader />}>
+                                        <EditVariant />
+                                    </Suspense>
+                                ),
+                            },
+                        ],
                     },
                 ],
             },

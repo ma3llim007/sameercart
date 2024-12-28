@@ -92,6 +92,7 @@ const getSubCategory = asyncHandler(async (req, res) => {
 // Delete SubCategory
 const deleteSubCategory = asyncHandler(async (req, res) => {
     const { subCategoryId } = req.params;
+    
     if (!subCategoryId || !subCategoryId.trim() === "") {
         return res.status(422).json(new ApiError(422, "Sub-Category ID Is Required"));
     }
@@ -112,7 +113,7 @@ const deleteSubCategory = asyncHandler(async (req, res) => {
     if (deleteSubCat && subCategoryImage) {
         const publicId = extractPublicId(subCategoryImage);
         try {
-            removeImage("sameerCart/subcategory/", publicId);
+            await removeImage("sameerCart/subcategory/", publicId);
         } catch (error) {
             return res.status(500).json(new ApiError(500, "Failed To Remove Previous Sub Category Image"));
         }
@@ -131,6 +132,7 @@ const getSubCategoryById = asyncHandler(async (req, res) => {
     if (!isValidObjectId(subCategoryId)) {
         return res.status(400).json(new ApiError(400, "Invalid Sub-Category ID"));
     }
+
     try {
         const subCategory = await SubCategory.aggregate([
             { $match: { _id: new mongoose.Types.ObjectId(subCategoryId) } },
@@ -161,7 +163,6 @@ const getSubCategoryById = asyncHandler(async (req, res) => {
         ]);
         return res.status(200).json(new ApiResponse(200, subCategory, "Sub-Category Fetch Successfully"));
     } catch (error) {
-        console.log(error);
         return res.status(500).json(new ApiError(500, error.message));
     }
 });
@@ -214,7 +215,7 @@ const updateSubCategory = asyncHandler(async (req, res) => {
         if (subCategoryImage && previousSubCategoryImage) {
             const publicId = extractPublicId(previousSubCategoryImage);
             try {
-                removeImage("sameerCart/subcategory/", publicId);
+                await removeImage("sameerCart/subcategory/", publicId);
             } catch (error) {
                 return res.status(500).json(new ApiError(500, "Failed To Remove Previous Sub-Category Image"));
             }
@@ -263,4 +264,43 @@ const toggleSubCategory = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, {}, "Sub-Category Status Updated Successfully"));
 });
 
-export { addSubCategory, getSubCategory, deleteSubCategory, getSubCategoryById, updateSubCategory, toggleSubCategory };
+// Get Sub Category By Id Options
+const subCategoryByIdOptions = asyncHandler(async (req, res) => {
+    const { categoryId } = req.params;
+
+    if (!categoryId || !categoryId.trim() === "") {
+        return res.status(422).json(new ApiError(422, "Category ID Is Required"));
+    }
+
+    if (!isValidObjectId(categoryId)) {
+        return res.status(400).json(new ApiError(400, "Invalid Category ID"));
+    }
+
+    try {
+        const subCategoryOptions = await SubCategory.aggregate([
+            { $match: { parentCategory: new mongoose.Types.ObjectId(categoryId) } },
+            {
+                $project: {
+                    subCategoryName: 1,
+                    _id: 1,
+                },
+            },
+        ]);
+
+        return res
+            .status(200)
+            .json(new ApiResponse(200, subCategoryOptions, "Sub Category Options Fetch Successfully"));
+    } catch (error) {
+        return res.status(500).json(new ApiError(500, error.message));
+    }
+});
+
+export {
+    addSubCategory,
+    getSubCategory,
+    deleteSubCategory,
+    getSubCategoryById,
+    updateSubCategory,
+    toggleSubCategory,
+    subCategoryByIdOptions,
+};

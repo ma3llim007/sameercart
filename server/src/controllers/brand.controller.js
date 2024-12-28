@@ -125,7 +125,7 @@ const updateBrand = asyncHandler(async (req, res) => {
         if (brandLogo && previousBrandImage) {
             const publicId = extractPublicId(previousBrandImage);
             try {
-                removeImage("sameerCart/brands/", publicId);
+                await removeImage("sameerCart/brands/", publicId);
             } catch (error) {
                 return res.status(500).json(new ApiError(500, "Failed To Remove Previous Brand Image"));
             }
@@ -217,11 +217,12 @@ const getBrandsOptions = asyncHandler(async (req, res) => {
         { $match: { isActive: true } },
         {
             $project: {
-                brandLogo: 1,
+                brandName: 1,
                 _id: 1,
             },
         },
     ]);
+
     return res.status(200).json(new ApiResponse(200, brands, "Brand Options Fetch Successfully"));
 });
 

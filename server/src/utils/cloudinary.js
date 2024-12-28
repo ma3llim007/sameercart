@@ -36,10 +36,22 @@ const removeImage = async (folderPath, fileUrl) => {
     }
 };
 
+// Removing Image By Public ID From Cloudinary
+const removeImageById = async (publicId) => {
+    try {
+        if (!publicId) return null;
+        const response = await cloudinary.uploader.destroy(publicId);
+        return response;
+    } catch (e) {
+        console.error("Error While Removing Image From Cloudinary", e);
+        return null;
+    }
+};
+
 const extractPublicId = (imageUrl) => {
     const parts = imageUrl.split("/");
     const lastPart = parts.pop();
     return lastPart.split(".")[0];
 };
 
-export { uploadCloudinary, removeImage, extractPublicId };
+export { uploadCloudinary, removeImage, extractPublicId, removeImageById };

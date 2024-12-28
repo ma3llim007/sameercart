@@ -1,5 +1,5 @@
 import React from "react";
-import { ButtonWithAlert, Loading, PageHeader, Table } from "../components";
+import { ButtonWithAlert, PageHeader, Table } from "../components";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import crudService from "@/api/crudService";
@@ -7,6 +7,7 @@ import Badge from "@/components/Badge";
 import { Button } from "@/components/ui/button";
 import toastService from "@/services/toastService";
 import { formatDateTime } from "@/utils";
+import Loader from "@/client/components/Loader/Loader";
 
 const CategoryList = () => {
     const queryClient = useQueryClient();
@@ -22,21 +23,28 @@ const CategoryList = () => {
     });
 
     // delete Category
-    const deleteCategory = useMutation({
-        mutationFn: id => crudService.delete(`category/delete-category/${id}`, true),
+    const { mutate: deleteCategory, isPending } = useMutation({
+        mutationFn: id =>
+            crudService.delete(`category/delete-category/${id}`, true),
         onSuccess: data => {
             queryClient.invalidateQueries("categoryList");
             toastService.success(data?.message);
         },
         onError: error => {
-            const errorMessage = error?.response?.data?.message || error?.message || "An error occurred";
+            const errorMessage =
+                error?.response?.data?.message ||
+                error?.message ||
+                "An error occurred";
             toastService.error(errorMessage);
         },
     });
 
     // toggle category status
     const toggleCategoryStatus = useMutation({
-        mutationFn: ({ id, isActive }) => crudService.patch(`category/toggle-category/${id}`, true, { isActive }),
+        mutationFn: ({ id, isActive }) =>
+            crudService.patch(`category/toggle-category/${id}`, true, {
+                isActive,
+            }),
         onSuccess: data => {
             queryClient.invalidateQueries("categoryList");
             toastService.success(data?.message);
@@ -77,13 +85,24 @@ const CategoryList = () => {
         {
             accessorKey: "updatedAt",
             header: "Date Time",
-            cell: ({ row }) => <p className="text-wrap">{formatDateTime(row.original?.updatedAt)}</p>,
+            cell: ({ row }) => (
+                <p className="text-wrap">
+                    {formatDateTime(row.original?.updatedAt)}
+                </p>
+            ),
         },
         {
             header: "Actions",
             cell: ({ row }) => (
                 <div className="flex gap-1 items-center flex-wrap">
-                    <Button className="Primary" onClick={() => navigate(`/admin/category/edit-category/${row.original._id}`)}>
+                    <Button
+                        className="Primary"
+                        onClick={() =>
+                            navigate(
+                                `/admin/category/edit-category/${row.original._id}`
+                            )
+                        }
+                    >
                         Edit
                     </Button>
                     |
@@ -92,7 +111,7 @@ const CategoryList = () => {
                         dialogTitle="Are You Sure You Want to Delete This Category?"
                         dialogDesc="This action will permanently delete the category. Proceed?"
                         dialogActionTitle="Delete Category"
-                        dialogActionfn={() => deleteCategory.mutate(row.original?._id)}
+                        dialogActionfn={() => deleteCategory(row.original?._id)}
                     />
                     |
                     {row.original.isActive ? (
@@ -103,7 +122,12 @@ const CategoryList = () => {
                             dialogDesc="Are You Sure You Want To Change The Category Status To Inactive?"
                             dialogActionTitle="In-Active Category"
                             dialogActionBtnColor="Danger"
-                            dialogActionfn={() => toggleCategoryStatus.mutate({ id: row.original._id, isActive: !row.original.isActive })}
+                            dialogActionfn={() =>
+                                toggleCategoryStatus.mutate({
+                                    id: row.original._id,
+                                    isActive: !row.original.isActive,
+                                })
+                            }
                         />
                     ) : (
                         <ButtonWithAlert
@@ -112,20 +136,37 @@ const CategoryList = () => {
                             dialogTitle="Confirm Category Visibility Change"
                             dialogDesc="Are You Sure You Want To Change The Category Status To Active?"
                             dialogActionTitle="Active Category"
-                            dialogActionfn={() => toggleCategoryStatus.mutate({ id: row.original._id, isActive: !row.original.isActive })}
+                            dialogActionfn={() =>
+                                toggleCategoryStatus.mutate({
+                                    id: row.original._id,
+                                    isActive: !row.original.isActive,
+                                })
+                            }
                         />
                     )}
                 </div>
             ),
         },
     ];
-    const categoryData = data?.data?.map((data, index) => ({ no: index + 1, ...data })) || [];
+    const categoryData =
+        data?.data?.map((data, index) => ({ no: index + 1, ...data })) || [];
 
-    if (isLoading) return <Loading />;
+    if (isLoading || isPending) return <Loader />;
     return (
         <>
-            <PageHeader title={"Manage Category"} controller={"Category"} controllerUrl={"/admin/category/category-list/"} page={"Category's List"} />
-            <Table columns={categoryColums} data={categoryData} paginationOptions={{ pageSize: 10 }} sortable loading={isLoading} />
+            <PageHeader
+                title={"Manage Category"}
+                controller={"Category"}
+                controllerUrl={"/admin/category/category-list/"}
+                page={"Category's List"}
+            />
+            <Table
+                columns={categoryColums}
+                data={categoryData}
+                paginationOptions={{ pageSize: 10 }}
+                sortable
+                loading={isLoading}
+            />
         </>
     );
 };

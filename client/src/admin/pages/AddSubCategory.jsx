@@ -73,7 +73,7 @@ const AddSubCategory = () => {
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800">
                     <form className="space-y-5" onSubmit={handleSubmit(data => mutate(data))} encType="multipart/form-data">
-                        <h1 className="text-xl font-bold my-4 px-2">Add Sub-Category</h1>
+                        <h1 className="text-xl font-bold my-4 px-2 underline">Add Sub-Category</h1>
                         {errors.root && (
                             <div className="w-full my-4 bg-red-500 text-center rounded-md border border-red-600 py-3 px-4">
                                 <h4 className="text-white font-bold text-sm">{errors.root.message}</h4>

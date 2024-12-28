@@ -10,4 +10,16 @@ import ButtonWithAlert from "./ButtonWithAlert";
 import Select from "./Form/Select";
 import TextArea from "./Form/TextArea";
 
-export { LogoutBtn, Input, PageHeader, AdminSideBar, Header, Footer, Table, Loading, ButtonWithAlert, Select, TextArea };
+export {
+    LogoutBtn,
+    Input,
+    PageHeader,
+    AdminSideBar,
+    Header,
+    Footer,
+    Table,
+    Loading,
+    ButtonWithAlert,
+    Select,
+    TextArea,
+};

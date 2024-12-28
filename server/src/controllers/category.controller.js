@@ -5,6 +5,8 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { extractPublicId, removeImage, uploadCloudinary } from "../utils/cloudinary.js";
 import { ConvertImageWebp } from "../utils/ConvertImageWebp.js";
+import { SubCategory } from "../models/subCategory.model.js";
+import { deleteSubCategory } from "./subCategory.controller.js";
 
 // Add Category
 const addCategory = asyncHandler(async (req, res) => {
@@ -98,7 +100,7 @@ const updateCategory = asyncHandler(async (req, res) => {
 
     const category = await Category.findById(categoryId);
     if (!category) {
-        return res.status(404).json(new ApiError(401, "Category Not Found"));
+        return res.status(404).json(new ApiError(404, "Category Not Found"));
     }
 
     // Check if at least one field is provided for update
@@ -137,7 +139,7 @@ const updateCategory = asyncHandler(async (req, res) => {
         if (categoryImage && previousCatImage) {
             const publicId = extractPublicId(previousCatImage);
             try {
-                removeImage("sameerCart/category/", publicId);
+                await removeImage("sameerCart/category/", publicId);
             } catch (error) {
                 return res.status(500).json(new ApiError(500, "Failed To Remove Previous Category Image"));
             }
@@ -173,6 +175,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
     if (!categoryId || categoryId.trim() === "") {
         return res.status(422).json(new ApiError(422, "Category ID Is Required"));
     }
+
     if (!isValidObjectId(categoryId)) {
         return res.status(400).json(new ApiError(400, "Invalid Category ID"));
     }
@@ -182,6 +185,25 @@ const deleteCategory = asyncHandler(async (req, res) => {
         return res.status(404).json(new ApiError(401, "Category Not Found"));
     }
     const categoryImage = category?.categoryImage;
+
+    // Find and delete all subcategories associated with the category
+    const subcategories = await SubCategory.find({ parentCategory: categoryId });
+
+    for (let subCategory of subcategories) {
+        const subCategoryId = subCategory?._id.toString();
+        const subCategoryImage = subCategory?.subCategoryImage;
+        const deleteSubCat = await SubCategory.deleteOne({ _id: subCategoryId });
+    
+        if (deleteSubCat && subCategoryImage) {
+            const publicId = extractPublicId(subCategoryImage);
+            try {
+                await removeImage("sameerCart/subcategory/", publicId);
+            } catch (error) {
+                return res.status(500).json(new ApiError(500, "Failed To Remove Previous Sub Category Image"));
+            }
+        } 
+    }
+
     const deleteCate = await Category.deleteOne({ _id: categoryId });
     if (deleteCate.deletedCount === 0) {
         return res.status(500).json(new ApiError(500, "Something Went Wrong While Deleting The Category"));
@@ -189,7 +211,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
     if (deleteCate && categoryImage) {
         const publicId = extractPublicId(categoryImage);
         try {
-            removeImage("sameerCart/category/", publicId);
+            await removeImage("sameerCart/category/", publicId);
         } catch (error) {
             return res.status(500).json(new ApiError(500, "Failed To Remove Previous Category Image"));
         }

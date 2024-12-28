@@ -5,6 +5,7 @@ import {
     deleteBrand,
     getBrands,
     getBrandsById,
+    getBrandsOptions,
     toggleBrand,
     updateBrand,
 } from "../controllers/brand.controller.js";
@@ -19,5 +20,6 @@ router.route("/get-brand/:brandId").get(getBrandsById);
 router.route("/update-brand").patch(upload.single("brandLogo"), updateBrand);
 router.route("/toggle-brand/:brandId").patch(toggleBrand);
 router.route("/delete-brand/:brandId").delete(deleteBrand);
+router.route("/get-brands-options").get(getBrandsOptions);
 
 export default router;
