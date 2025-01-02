@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import Badge from "@/components/Badge";
 import { useNavigate } from "react-router-dom";
 import toastService from "@/services/toastService";
+import { LoadingOverlay } from "@/components";
 
 const ProductsList = () => {
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ const ProductsList = () => {
     });
 
     // Delete Product
-    const { mutate: deleteProduct } = useMutation({
+    const { mutate: deleteProduct, isPending: deleteIsPending } = useMutation({
         mutationFn: productId =>
             crudService.delete(`/product/delete-product/${productId}`, true),
         onSuccess: data => {
@@ -147,7 +148,7 @@ const ProductsList = () => {
         data?.data?.map((data, index) => ({ no: index + 1, ...data })) || [];
 
     if (isLoading) return <Loader />;
-
+    if (deleteIsPending) return <LoadingOverlay />;
     return (
         <>
             <PageHeader

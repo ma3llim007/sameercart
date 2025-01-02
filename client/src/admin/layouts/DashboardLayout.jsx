@@ -3,7 +3,6 @@ import { Outlet } from "react-router-dom";
 import { AdminSideBar, Footer, Header, Loading } from "../components";
 import useAuth from "../hooks/useAuth";
 import toastService from "@/services/toastService";
-import { LoadingOverlay } from "@/components";
 
 export default function DashboardLayout() {
     const { admin, isError, isAuthenticated, isLoading } = useAuth();

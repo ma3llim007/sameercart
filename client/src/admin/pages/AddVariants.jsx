@@ -28,6 +28,7 @@ import toastService from "@/services/toastService";
 import { formatDateTime, generateSKU } from "@/utils";
 import Badge from "@/components/Badge";
 import Model from "@/components/Model";
+import { LoadingOverlay } from "@/components";
 
 const AddVariants = () => {
     const { productId } = useParams();
@@ -153,44 +154,49 @@ const AddVariants = () => {
     });
 
     // Delete Variant
-    const { mutate: deleteVariant } = useMutation({
-        mutationFn: variantId =>
-            crudService.delete(`/variant/delete-variant/${variantId}`, true),
-        onSuccess: data => {
-            queryClient.invalidateQueries(["variantList", productId]);
-            toastService.success(data?.message);
-        },
-        onError: error => {
-            const errorMessage =
-                error?.response?.data?.message ||
-                error?.message ||
-                "An error occurred";
-            toastService.error(errorMessage);
-        },
-    });
+    const { mutate: deleteVariant, isPending: isPendingDeleteVariant } =
+        useMutation({
+            mutationFn: variantId =>
+                crudService.delete(
+                    `/variant/delete-variant/${variantId}`,
+                    true
+                ),
+            onSuccess: data => {
+                queryClient.invalidateQueries(["variantList", productId]);
+                toastService.success(data?.message);
+            },
+            onError: error => {
+                const errorMessage =
+                    error?.response?.data?.message ||
+                    error?.message ||
+                    "An error occurred";
+                toastService.error(errorMessage);
+            },
+        });
 
     // delete images
-    const { mutate: deleteImageMutate } = useMutation({
-        mutationFn: ({ variantId, publicId }) => {
-            const encodedPublicId = encodeURIComponent(publicId);
+    const { mutate: deleteImageMutate, isPending: isPendingDeleteImageMutate } =
+        useMutation({
+            mutationFn: ({ variantId, publicId }) => {
+                const encodedPublicId = encodeURIComponent(publicId);
 
-            return crudService.delete(
-                `variant/delete-variant-image/${variantId}/${encodedPublicId}`,
-                true
-            );
-        },
-        onSuccess: data => {
-            queryClient.invalidateQueries(["variantList", productId]);
-            toastService.success(data?.message);
-        },
-        onError: error => {
-            const errorMessage =
-                error?.response?.data?.message ||
-                error?.message ||
-                "An error occurred";
-            toastService.error(errorMessage);
-        },
-    });
+                return crudService.delete(
+                    `variant/delete-variant-image/${variantId}/${encodedPublicId}`,
+                    true
+                );
+            },
+            onSuccess: data => {
+                queryClient.invalidateQueries(["variantList", productId]);
+                toastService.success(data?.message);
+            },
+            onError: error => {
+                const errorMessage =
+                    error?.response?.data?.message ||
+                    error?.message ||
+                    "An error occurred";
+                toastService.error(errorMessage);
+            },
+        });
 
     // modelHandler
     const modelHandler = ({ image, variantId }) => {
@@ -353,6 +359,8 @@ const AddVariants = () => {
         })) || [];
 
     if (isLoading || variantLoading) return <Loading />;
+    if (isPending || isPendingDeleteVariant || isPendingDeleteImageMutate)
+        return <LoadingOverlay />;
     return (
         <>
             <PageHeader

@@ -1,17 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const LoadingOverlay = ({
     title = "Processing Your Request...",
     description = "Hang Tight! We're Preparing Everything For You",
     gradientColors = "from-blue-700 to-blue-950",
 }) => {
+    useEffect(() => {
+        // Prevent mouse events
+        const previousMouseEvents = e => {
+            e.preventDefault();
+            e.stopPropagation();
+        };
+
+        // Disable scroll
+        document.body.style.overflow = "hidden";
+        window.addEventListener("mousedown", previousMouseEvents, true);
+        window.addEventListener("mouseup", previousMouseEvents, true);
+        window.addEventListener("mousemove", previousMouseEvents, true);
+        window.addEventListener("click", previousMouseEvents, true);
+
+        return () => {
+            document.body.style.overflow = "";
+            window.removeEventListener("mousedown", previousMouseEvents, true);
+            window.removeEventListener("mouseup", previousMouseEvents, true);
+            window.removeEventListener("mousemove", previousMouseEvents, true);
+            window.removeEventListener("click", previousMouseEvents, true);
+        };
+    }, []);
     return (
         <>
             <div
-                className="bg-slate-800/70 absolute inset-0 overflow-hidden select-none pointer-events-none"
-                style={{ zIndex: 9999 }}
+                className="bg-black/50 absolute inset-0 overflow-hidden select-none pointer-events-none z-50 transition-all duration-100 ease-in-out"
+                style={{ top: 0, left: 0 }}
             >
-                <div className="w-full h-screen flex justify-center items-center border">
+                <div className="w-full h-screen flex justify-center items-center">
                     <div className="bg-white shadow-lg rounded-lg px-8 py-6 text-center max-w-md">
                         <h2 className="text-gray-800 text-lg font-bold mb-4">
                             {title}

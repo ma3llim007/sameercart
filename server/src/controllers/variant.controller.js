@@ -1,10 +1,11 @@
-import { isValidObjectId, ObjectId } from "mongoose";
+import mongoose, { isValidObjectId, ObjectId } from "mongoose";
 import { Variant } from "../models/variant.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { extractPublicId, removeImage, removeImageById, uploadCloudinary } from "../utils/cloudinary.js";
 import { ConvertImageWebp } from "../utils/ConvertImageWebp.js";
+import { Product } from "../models/product.model.js";
 
 // Add Variant
 const addVariant = asyncHandler(async (req, res) => {
@@ -73,6 +74,18 @@ const addVariant = asyncHandler(async (req, res) => {
         addedBy: req.admin._id,
     });
 
+    // Update the product with the new variant
+    try {
+        await Product.findByIdAndUpdate(
+            productId,
+            {
+                $push: { productVariants: varainat._id },
+            },
+            { new: true }
+        );
+    } catch (error) {
+        return res.status(500).json(new ApiError(500, "Failed To Update Product With New Variant"));
+    }
     return res.status(201).json(new ApiResponse(201, varainat, "Varaint Created Successfully"));
 });
 
@@ -138,6 +151,7 @@ const deleteVariant = asyncHandler(async (req, res) => {
     const variatnImage = variant?.images;
 
     const variantDelete = await Variant.deleteOne({ _id: variantId });
+
     if (variantDelete.deletedCount === 0) {
         return res.status(500).json(new ApiError(500, "Something Went Wrong While Deleting The Variant"));
     }
@@ -155,6 +169,17 @@ const deleteVariant = asyncHandler(async (req, res) => {
         }
     }
 
+    // Updating the product Variant
+    const varinatRelatedProduct = await Product.findOne({
+        productVariants: new mongoose.Types.ObjectId(variantId),
+    });
+
+    if (varinatRelatedProduct) {
+        varinatRelatedProduct.productVariants = varinatRelatedProduct.productVariants.filter(
+            (variant) => variant._id.toString() !== variantId.toString()
+        );
+        await varinatRelatedProduct.save();
+    }
     return res.status(200).json(new ApiResponse(200, {}, "Variant Delete Successfully"));
 });
 

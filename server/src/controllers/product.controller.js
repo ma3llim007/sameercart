@@ -3,8 +3,9 @@ import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Product } from "../models/product.model.js";
 import { ConvertImageWebp } from "../utils/ConvertImageWebp.js";
-import { extractPublicId, removeImage, uploadCloudinary } from "../utils/cloudinary.js";
+import { extractPublicId, removeImage, removeImageById, uploadCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { Variant } from "../models/variant.model.js";
 
 // Add Product
 const addProduct = asyncHandler(async (req, res) => {
@@ -293,6 +294,29 @@ const deleteProduct = asyncHandler(async (req, res) => {
     }
 
     const productImage = product?.productFeatureImage;
+
+    // Find and delete all variants associated with the product
+    const productVariants = product.productVariants;
+
+    const varinatRelatedProduct = await Variant.find({ productId: productId });
+    for (let varinat of varinatRelatedProduct) {
+        const variantId = varinat._id.toString();
+        const varinatImages = varinat.images;
+        const deleteVariant = await Variant.deleteOne({ _id: variantId });
+
+        if (deleteVariant && varinatImages && varinatImages.length > 0) {
+            try {
+                await Promise.all(
+                    varinatImages.map(async (image) => {
+                        await removeImageById(image?.publicId);
+                    })
+                );
+            } catch (error) {
+                return res.status(500).json(new ApiError(500, "Failed To Remove Previous Variant Images"));
+            }
+        }
+    }
+
     const deleteProduct = await Product.deleteOne({ _id: productId });
 
     if (deleteProduct && productImage) {
@@ -319,7 +343,7 @@ const updateProduct = asyncHandler(async (req, res) => {
         productBrand,
         productSpecification,
         hasVariants,
-        productPrice
+        productPrice,
     } = req.body;
     const productFeatureImage = req.file?.path;
 
