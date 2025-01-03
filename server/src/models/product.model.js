@@ -60,6 +60,9 @@ const productSchema = new Schema(
             type: String,
             required: [true, "Product Specfication Is Required"],
         },
+        productStock: {
+            type: Number,
+        },
         addedBy: {
             type: Schema.Types.ObjectId,
             ref: "Admin",

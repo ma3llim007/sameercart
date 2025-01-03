@@ -13,6 +13,7 @@ import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import DOMPurify from "dompurify";
 import { addProductScheme } from "@/validation";
+import { LoadingOverlay } from "@/components";
 
 const AddProducts = () => {
     const queryClient = useQueryClient();
@@ -48,6 +49,7 @@ const AddProducts = () => {
 
         return () => subscription.unsubscribe();
     }, [watch, setValue]);
+    const hasVariants = watch("hasVariants");
 
     // Fetching The Brand Data For Options
     const { data: brandOption, isLoading } = useQuery({
@@ -101,7 +103,6 @@ const AddProducts = () => {
                 productDescription: sanitizeProductDescription,
                 productSpecification: sanitizeProductSpecification,
             };
-
             return crudService.post(
                 "product/add-product",
                 true,
@@ -121,6 +122,7 @@ const AddProducts = () => {
     });
 
     if (isLoading) return <Loading />;
+    if (isPending) return <LoadingOverlay />;
     return (
         <>
             <PageHeader
@@ -176,7 +178,7 @@ const AddProducts = () => {
                         <div className="flex flex-wrap my-2">
                             <div className="w-full md:w-1/2 px-2">
                                 <Input
-                                    label="Price"
+                                    label="Product Price"
                                     placeholder="Enter The Product Price"
                                     {...register("productPrice")}
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
@@ -284,6 +286,20 @@ const AddProducts = () => {
                                 />
                             </div>
                         </div>
+                        {hasVariants === "false" && (
+                            <div className="flex flex-wrap my-2">
+                                <div className="w-full md:w-1/2 px-2">
+                                    <Input
+                                        label="Product Stock"
+                                        placeholder="Enter The Product Stock"
+                                        {...register("productStock")}
+                                        disabled={isPending}
+                                        className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                        error={errors.productStock?.message}
+                                    />
+                                </div>
+                            </div>
+                        )}
                         <div className="w-full px-2">
                             <Suspense fallback={<Loader />}>
                                 <RichTextEditor

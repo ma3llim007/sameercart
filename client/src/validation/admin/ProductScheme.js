@@ -11,12 +11,38 @@ export const addProductScheme = Yup.object().shape({
         .required("Product Price Is Required")
         .test(
             "is-positive",
-            ({ value }) => `Product Price Must Be A Positive Number.`,
+            "Product Stock Must Be A Positive Number.",
             value => value > 0
         ),
     productBrand: Yup.string()
         .required("Product Brand Is Required")
         .notOneOf(["", "default"], "You Must Select A Valid Brand"),
+    productStock: Yup.string()
+        .test(
+            "is-valid-stock",
+            "Product Stock Is Required And Must Be A Positive Number",
+            function (value) {
+                const { hasVariants } = this.parent;
+                // Only validate productStock if hasVariants is "false"
+                if (hasVariants === "false") {
+                    if (!value) {
+                        return this.createError({
+                            message: "Product Stock Is Required",
+                        });
+                    }
+
+                    // Check if the value is a valid number and greater than 0
+                    const numericValue = Number(value);
+                    if (isNaN(numericValue) || numericValue <= 0) {
+                        return this.createError({
+                            message: "Product Stock Must Be A Positive Number.",
+                        });
+                    }
+                }
+                return true;
+            }
+        )
+        .notRequired(),
     productCategoryId: Yup.string()
         .required("Category is required")
         .notOneOf(["", "default"], "You Must Select A Valid Category"),
@@ -49,7 +75,7 @@ export const editProductScheme = Yup.object().shape({
         .required("Product Price Is Required")
         .test(
             "is-positive",
-            ({ value }) => `Product Price Must Be A Positive Number.`,
+            "Product Stock Must Be A Positive Number.",
             value => value > 0
         ),
     productBrand: Yup.string()
