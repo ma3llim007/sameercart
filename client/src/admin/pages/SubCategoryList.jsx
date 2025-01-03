@@ -7,6 +7,7 @@ import { ButtonWithAlert, Loading, PageHeader, Table } from "../components";
 import { capitalizeWords, formatDateTime } from "@/utils";
 import Badge from "@/components/Badge";
 import { Button } from "@/components/ui/button";
+import { LoadingOverlay } from "@/components";
 
 const SubCategoryList = () => {
     const queryClient = useQueryClient();
@@ -22,27 +23,41 @@ const SubCategoryList = () => {
     });
 
     // delete sub-category
-    const deleteSubCategory = useMutation({
-        mutationFn: id => crudService.delete(`sub-category/delete-subcategory/${id}`, true),
-        onSuccess: data => {
-            queryClient.invalidateQueries("subCategoryList");
-            toastService.success(data?.message);
-        },
-        onError: error => {
-            const errorMessage = error?.response?.data?.message || error?.message || "An error occurred";
-            toastService.error(errorMessage);
-        },
-    });
+    const { mutate: deleteSubCategory, isPending: isPendingDeleteSubCategory } =
+        useMutation({
+            mutationFn: id =>
+                crudService.delete(
+                    `sub-category/delete-subcategory/${id}`,
+                    true
+                ),
+            onSuccess: data => {
+                queryClient.invalidateQueries("subCategoryList");
+                toastService.success(data?.message);
+            },
+            onError: error => {
+                const errorMessage =
+                    error?.response?.data?.message ||
+                    error?.message ||
+                    "An error occurred";
+                toastService.error(errorMessage);
+            },
+        });
 
     // toggle sub-category
     const toggleSubCategory = useMutation({
-        mutationFn: ({ id, isActive }) => crudService.patch(`sub-category/toggle-subcategory/${id}`, true, { isActive }),
+        mutationFn: ({ id, isActive }) =>
+            crudService.patch(`sub-category/toggle-subcategory/${id}`, true, {
+                isActive,
+            }),
         onSuccess: data => {
             queryClient.invalidateQueries("subCategoryList");
             toastService.success(data?.message);
         },
         onError: error => {
-            const errorMessage = error?.response?.data?.message || error?.message || "An error occurred";
+            const errorMessage =
+                error?.response?.data?.message ||
+                error?.message ||
+                "An error occurred";
             toastService.error(errorMessage);
         },
     });
@@ -53,7 +68,11 @@ const SubCategoryList = () => {
         {
             accessorKey: "categoryName",
             header: "Category Name",
-            cell: ({ row }) => <p className="font-bold">{capitalizeWords(row.original.categoryName)}</p>,
+            cell: ({ row }) => (
+                <p className="font-bold">
+                    {capitalizeWords(row.original.categoryName)}
+                </p>
+            ),
         },
         { accessorKey: "subCategoryName", header: "Sub Category Name" },
         { accessorKey: "subCategorySlug", header: "Sub Category Slug" },
@@ -83,13 +102,24 @@ const SubCategoryList = () => {
         {
             accessorKey: "updatedAt",
             header: "Date Time",
-            cell: ({ row }) => <p className="text-wrap">{formatDateTime(row.original?.updatedAt)}</p>,
+            cell: ({ row }) => (
+                <p className="text-wrap">
+                    {formatDateTime(row.original?.updatedAt)}
+                </p>
+            ),
         },
         {
             header: "Actions",
             cell: ({ row }) => (
                 <div className="flex gap-1 items-center flex-wrap">
-                    <Button className="Primary" onClick={() => navigate(`/admin/sub-category/edit-category/${row.original._id}`)}>
+                    <Button
+                        className="Primary"
+                        onClick={() =>
+                            navigate(
+                                `/admin/sub-category/edit-category/${row.original._id}`
+                            )
+                        }
+                    >
                         Edit
                     </Button>
                     |
@@ -98,7 +128,9 @@ const SubCategoryList = () => {
                         dialogTitle="Are You Sure You Want to Delete This Sub-Category?"
                         dialogDesc="This Action Will Permanently Delete The Sub-Category. Proceed?"
                         dialogActionTitle="Delete Sub-Category"
-                        dialogActionfn={() => deleteSubCategory.mutate(row.original?._id)}
+                        dialogActionfn={() =>
+                            deleteSubCategory(row.original?._id)
+                        }
                     />
                     |
                     {row.original.isActive ? (
@@ -109,7 +141,12 @@ const SubCategoryList = () => {
                             dialogDesc="Are You Sure You Want To Change The Sub-Category Status To Inactive?"
                             dialogActionTitle="In-Active Category"
                             dialogActionBtnColor="Danger"
-                            dialogActionfn={() => toggleSubCategory.mutate({ id: row.original._id, isActive: !row.original.isActive })}
+                            dialogActionfn={() =>
+                                toggleSubCategory.mutate({
+                                    id: row.original._id,
+                                    isActive: !row.original.isActive,
+                                })
+                            }
                         />
                     ) : (
                         <ButtonWithAlert
@@ -118,7 +155,12 @@ const SubCategoryList = () => {
                             dialogTitle="Confirm Sub-Category Visibility Change"
                             dialogDesc="Are You Sure You Want To Change The Sub-Category Status To Active?"
                             dialogActionTitle="Active Category"
-                            dialogActionfn={() => toggleSubCategory.mutate({ id: row.original._id, isActive: !row.original.isActive })}
+                            dialogActionfn={() =>
+                                toggleSubCategory.mutate({
+                                    id: row.original._id,
+                                    isActive: !row.original.isActive,
+                                })
+                            }
                         />
                     )}
                 </div>
@@ -126,10 +168,11 @@ const SubCategoryList = () => {
         },
     ];
 
-    const subCategoryData = data?.data?.map((data, index) => ({ no: index + 1, ...data })) || [];
+    const subCategoryData =
+        data?.data?.map((data, index) => ({ no: index + 1, ...data })) || [];
 
     if (isLoading) return <Loading />;
-
+    if (isPendingDeleteSubCategory) return <LoadingOverlay />;
     return (
         <>
             <PageHeader
@@ -138,7 +181,13 @@ const SubCategoryList = () => {
                 controllerUrl="/admin/sub-category/"
                 page="Sub Category's List"
             />
-            <Table columns={subCategoryColumns} data={subCategoryData} paginationOptions={{ pageSize: 10 }} sortable loading={isLoading} />
+            <Table
+                columns={subCategoryColumns}
+                data={subCategoryData}
+                paginationOptions={{ pageSize: 10 }}
+                sortable
+                loading={isLoading}
+            />
         </>
     );
 };

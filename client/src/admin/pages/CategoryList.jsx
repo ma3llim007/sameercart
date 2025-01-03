@@ -7,7 +7,7 @@ import Badge from "@/components/Badge";
 import { Button } from "@/components/ui/button";
 import toastService from "@/services/toastService";
 import { formatDateTime } from "@/utils";
-import Loader from "@/client/components/Loader/Loader";
+import { LoadingOverlay } from "@/components";
 
 const CategoryList = () => {
     const queryClient = useQueryClient();
@@ -151,7 +151,7 @@ const CategoryList = () => {
     const categoryData =
         data?.data?.map((data, index) => ({ no: index + 1, ...data })) || [];
 
-    if (isLoading || isPending) return <Loader />;
+    if (isLoading || isPending) return <LoadingOverlay />;
     return (
         <>
             <PageHeader
