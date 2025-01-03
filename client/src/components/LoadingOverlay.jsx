@@ -38,7 +38,7 @@ const LoadingOverlay = ({
                         <h2 className="text-gray-800 text-lg font-bold mb-4">
                             {title}
                         </h2>
-                        <p className="text-gray-600 mb-6">{description}</p>
+                        <p className="text-gray-700 mb-6">{description}</p>
                         <div className="relative w-full h-4 bg-gray-200 rounded-full overflow-hidden">
                             <div
                                 className={`absolute inset-0 bg-gradient-to-r ${gradientColors} rounded-full animate-progress`}

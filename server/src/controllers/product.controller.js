@@ -19,7 +19,7 @@ const addProduct = asyncHandler(async (req, res) => {
         productSpecification,
         hasVariants,
         productPrice,
-        productStock
+        productStock,
     } = req.body;
     const productFeatureImage = req.file?.path;
 
@@ -32,8 +32,7 @@ const addProduct = asyncHandler(async (req, res) => {
         !productBrand?.trim() ||
         !productSpecification?.trim() ||
         !hasVariants?.trim() ||
-        !productPrice?.trim() ||
-        !productStock?.trim()
+        !productPrice?.trim()
     ) {
         return res.status(422).json(new ApiError(422, "All Field Are Required"));
     }
@@ -164,6 +163,7 @@ const productListing = asyncHandler(async (req, res) => {
                     },
                     hasVariants: 1,
                     productSpecification: 1,
+                    productStock: 1,
                     isActive: 1,
                     createdAt: 1,
                     updatedAt: 1,
