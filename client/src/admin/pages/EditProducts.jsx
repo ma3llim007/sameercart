@@ -344,23 +344,6 @@ const EditProducts = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2">
-                                <Select
-                                    label="Select The Variants"
-                                    placeholder="Select The Variants Options"
-                                    title="Specify If This Product Has Variants"
-                                    options={hasVariantsOptions}
-                                    isRequired="true"
-                                    disabled={isPending}
-                                    {...register("hasVariants")}
-                                    defaultValue={productData?.data.hasVariants}
-                                    name="hasVariants"
-                                    error={errors.hasVariants?.message}
-                                    className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                />
-                            </div>
-                        </div>
                         <div className="w-full px-2">
                             <Suspense fallback={<Loader />}>
                                 <RichTextEditor

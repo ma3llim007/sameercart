@@ -392,7 +392,6 @@ const updateProduct = asyncHandler(async (req, res) => {
     if (productSubCategoryId) currentProduct.productSubCategoryId = productSubCategoryId;
     if (productBrand) currentProduct.productBrand = productBrand;
     if (productSpecification) currentProduct.productSpecification = productSpecification;
-    if (hasVariants) currentProduct.hasVariants = hasVariants;
 
     // handle product image uplaod and remove the previous image
     if (productFeatureImage) {
