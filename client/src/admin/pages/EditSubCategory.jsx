@@ -161,6 +161,7 @@ const EditSubCategory = () => {
                                     render={({ field }) => (
                                         <Input
                                             label="Select The Sub-Category Image"
+                                            additionalTitle="Note:- [For Best View Of Sub Category Image Width:350px, Height:250px]"
                                             title="Select The Sub-Category Image"
                                             type="file"
                                             disabled={isPending}
@@ -177,7 +178,7 @@ const EditSubCategory = () => {
                                     <label className="inline-block mb-2 pl-1 text-base font-bold">Previous Image</label>
                                     <img
                                         src={subCategoryData?.data[0]?.subCategoryImage}
-                                        className="w-40 h-40 object-cover rounded"
+                                        className="max-w-60 max-h-40 object-cover rounded"
                                         alt="Previous Category"
                                     />
                                 </div>

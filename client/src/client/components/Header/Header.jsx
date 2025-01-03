@@ -6,7 +6,12 @@ import { IoIosArrowDown } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
 import { FaBagShopping } from "react-icons/fa6";
 import { BiSolidUserVoice } from "react-icons/bi";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import useSticky from "../../hooks/useSticky";
 import Logo from "../Logo";
 import SideBar from "./SideBar";
@@ -30,11 +35,17 @@ const Header = () => {
                 <div className="w-full">
                     <div className="px-4 sm:px-10 lg:px-12 xl:px-4 2xl:px-4">
                         <div className="w-full flex mt-2 flex-col sm:flex-row sm:gap-5 sm:justify-between sm:items-center">
-                            <div className="text-center text-light-textGray dark:text-dark-textLightGray">Welcome you to SameerCart Store!</div>
+                            <div className="text-center text-light-textGray dark:text-dark-textLightGray">
+                                Welcome you to SameerCart Store!
+                            </div>
                             <div className="flex justify-center text-center items-center gap-2">
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <div className="flex gap-1 cursor-pointer items-center outline-none" role="button" tabIndex="0">
+                                        <div
+                                            className="flex gap-1 cursor-pointer items-center outline-none"
+                                            role="button"
+                                            tabIndex="0"
+                                        >
                                             Setting <IoIosArrowDown />
                                         </div>
                                     </DropdownMenuTrigger>
@@ -43,13 +54,26 @@ const Header = () => {
                                         className="border-none bg-light-bgLightGray text-light-textDarkGray dark:bg-dark-deep dark:text-dark-textWhite z-40"
                                         sideOffset={10}
                                     >
-                                        <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
-                                            <Link to={"/my-account"}>My Account</Link>
+                                        <DropdownMenuItem
+                                            asChild
+                                            className="py-2 px-4 cursor-pointer"
+                                        >
+                                            <Link to={"/my-account"}>
+                                                My Account
+                                            </Link>
                                         </DropdownMenuItem>
-                                        <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
-                                            <Link to={"/checkout"}>Checkout</Link>
+                                        <DropdownMenuItem
+                                            asChild
+                                            className="py-2 px-4 cursor-pointer"
+                                        >
+                                            <Link to={"/checkout"}>
+                                                Checkout
+                                            </Link>
                                         </DropdownMenuItem>
-                                        <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
+                                        <DropdownMenuItem
+                                            asChild
+                                            className="py-2 px-4 cursor-pointer"
+                                        >
                                             <Link to={"/login"}>Login</Link>
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
@@ -82,7 +106,9 @@ const Header = () => {
                                                     className="absolute top-0 end-0 p-2.5 font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                                 >
                                                     <CiSearch className="font-bold text-xl" />
-                                                    <span className="sr-only">Search</span>
+                                                    <span className="sr-only">
+                                                        Search
+                                                    </span>
                                                 </button>
                                             </div>
                                         </div>
@@ -95,8 +121,12 @@ const Header = () => {
                                                 <BiSolidUserVoice />
                                             </div>
                                             <div className="pr-2 xl:pr-6 2xl:pr-5">
-                                                <p className="text-xs font-normal">Call Us:</p>
-                                                <p className="text-base font-bold">+91 12345 67890</p>
+                                                <p className="text-xs font-normal">
+                                                    Call Us:
+                                                </p>
+                                                <p className="text-base font-bold">
+                                                    +91 12345 67890
+                                                </p>
                                             </div>
                                         </div>
                                         <div className="items-center gap-2 hidden sm:flex md:flex">
@@ -119,7 +149,9 @@ const Header = () => {
                                                 </Link>
                                             </div>
                                         </div>
-                                        <p className="text-base xl:text-base font-semibold">${price}</p>
+                                        <p className="text-base xl:text-base font-semibold">
+                                            ${price}
+                                        </p>
                                         <FaBars
                                             onClick={handleMobileModel}
                                             className="text-2xl ml-1 cursor-pointer font-extrabold lg:hidden xl:hidden 2xl:hidden"
@@ -158,7 +190,10 @@ const Header = () => {
                                     Home
                                     <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
                                 </NavLink>
-                                <NavLink className="relative group" to={"/about-us"}>
+                                <NavLink
+                                    className="relative group"
+                                    to={"/about-us"}
+                                >
                                     About Us
                                     <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
                                 </NavLink>
@@ -177,8 +212,7 @@ const Header = () => {
                                                     {category?.name}
                                                 </Link>
                                                 <DropdownMenuTrigger asChild>
-                                                    <button
-                                                    >
+                                                    <button>
                                                         <IoIosArrowDown />
                                                     </button>
                                                 </DropdownMenuTrigger>
@@ -189,18 +223,34 @@ const Header = () => {
                                                 className="min-w-[8rem] overflow-hidden p-1 shadow-md border-none divide-light-border dark:divide-dark-border bg-light-blue text-light-textWhite dark:text-dark-textWhite z-40"
                                                 sideOffset={22}
                                             >
-                                                {category?.subcategories.map(subcategory => (
-                                                    <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer" key={subcategory?.id}>
-                                                        <Link to={`${category.slug}/${subcategory?.slug}`} className="px-4 py-2 text-base border-b rounded-none border-opacity-50 border-light-gray">
-                                                            {subcategory?.name}
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                ))}
+                                                {category?.subcategories.map(
+                                                    subcategory => (
+                                                        <DropdownMenuItem
+                                                            asChild
+                                                            className="py-2 px-4 cursor-pointer"
+                                                            key={
+                                                                subcategory?.id
+                                                            }
+                                                        >
+                                                            <Link
+                                                                to={`${category.slug}/${subcategory?.slug}`}
+                                                                className="px-4 py-2 text-base border-b rounded-none border-opacity-50 border-light-gray"
+                                                            >
+                                                                {
+                                                                    subcategory?.name
+                                                                }
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                    )
+                                                )}
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     ))}
                                 </div>
-                                <NavLink className="relative group" to={"/contact-us"}>
+                                <NavLink
+                                    className="relative group"
+                                    to={"/contact-us"}
+                                >
                                     Contact Us
                                     <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
                                 </NavLink>

@@ -90,8 +90,8 @@ const AddCategory = () => {
                                 </h4>
                             </div>
                         )}
-                        <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2 flex-grow">
+                        <div className="flex gap-4 flex-wrap my-2">
+                            <div className="w-full px-2">
                                 <Input
                                     label="Category Name"
                                     placeholder="Enter The Category Name"
@@ -124,6 +124,7 @@ const AddCategory = () => {
                                         <Input
                                             label="Select The Category Image"
                                             title="Select The Category Image"
+                                            additionalTitle="Note:- [For Best View Of Category Image Width:350px, Height:250px]"
                                             type="file"
                                             disabled={isPending}
                                             accept=".jpg, .jpeg, .png, .gif, .svg, .webp"

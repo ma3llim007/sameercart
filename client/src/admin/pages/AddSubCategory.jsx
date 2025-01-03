@@ -101,6 +101,7 @@ const AddSubCategory = () => {
                                         <Input
                                             label="Select The Sub-Category Image"
                                             title="Select The Sub-Category Image"
+                                            additionalTitle="Note:- [For Best View Of Sub Category Image Width:350px, Height:250px]"
                                             type="file"
                                             disabled={isPending}
                                             accept=".jpg, .jpeg, .png, .gif, .svg, .webp"

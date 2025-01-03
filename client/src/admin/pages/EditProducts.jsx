@@ -282,6 +282,7 @@ const EditProducts = () => {
                                         <Input
                                             label="Select The Product Image"
                                             title="Select The Product Image"
+                                            additionalTitle="Note:- [For Best View Of Product Image Width:350px, Height:250px]"
                                             type="file"
                                             disabled={isPending}
                                             accept=".jpg, .jpeg, .png, .gif, .svg, .webp"
