@@ -85,13 +85,13 @@ const ProductsSection = ({title="Featured Products"}) => {
                                     }}
                                     className="hidden group-hover:flex flex-wrap justify-center items-center absolute bottom-0 left-0 bg-light-bgLighterGray dark:bg-dark-bgDark p-2 rounded-md gap-4 max-w-max"
                                 >
-                                    <Button className="text-base" variant="primary2">
+                                    <Button className="text-base Primary">
                                         <FaCartPlus />
                                     </Button>
-                                    <Button className="text-base" variant="primary2">
+                                    <Button className="text-base Primary">
                                         <FaHeart />
                                     </Button>
-                                    <Button className="text-base" variant="primary2">
+                                    <Button className="text-base Primary">
                                         <MdCompareArrows />
                                     </Button>
                                 </motion.div>

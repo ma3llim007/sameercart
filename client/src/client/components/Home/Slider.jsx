@@ -33,7 +33,6 @@ const Slider = ({ sliderData }) => {
                         >
                             <div className="relative w-full h-full flex items-center justify-center">
                                 <img
-                                    loading="lazy"
                                     src={slider.imageUrl}
                                     alt={`Slider ${index + 1}`}
                                     className="w-full h-full object-cover"
@@ -71,9 +70,7 @@ const Slider = ({ sliderData }) => {
                                     >
                                         <Link to={slider.achor_link}>
                                             <Button
-                                                className="mt-4"
-                                                variant="primary"
-                                                size="lg"
+                                                className="Primary mt-4 btnLg"
                                             >
                                                 {slider.achor_title}
                                             </Button>

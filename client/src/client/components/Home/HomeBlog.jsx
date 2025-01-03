@@ -46,8 +46,7 @@ const HomeBlog = () => {
                                 </p>
                                 <Link to={"/"} className="self-start mt-auto">
                                     <Button
-                                        className="text-base"
-                                        variant="primary2"
+                                        className="text-base Primary"
                                     >
                                         Read More
                                     </Button>

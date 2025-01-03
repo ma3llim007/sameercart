@@ -62,11 +62,9 @@ const Categories = ({ categories }) => {
                                             )
                                         )}
                                     </ul>
-                                    <div>
-                                        <Button variant="primary2" className="uppercase">
-                                            View All
-                                        </Button>
-                                    </div>
+                                    <Button className="Primary uppercase">
+                                        View All
+                                    </Button>
                                 </div>
                             </div>
                         </SwiperSlide>
