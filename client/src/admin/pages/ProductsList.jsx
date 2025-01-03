@@ -62,10 +62,6 @@ const ProductsList = () => {
             ),
         },
         {
-            accessorKey: "productBrand.brandName",
-            header: "Product Brand",
-        },
-        {
             accessorKey: "productCategory.categoryName",
             header: "Product Category",
         },

@@ -49,7 +49,6 @@ const EditProducts = () => {
                 productSlug,
                 productDescription,
                 productSpecification,
-                productBrand,
                 productCategory,
                 productSubCategory,
                 hasVariants,
@@ -60,7 +59,6 @@ const EditProducts = () => {
             setValue("productSlug", productSlug);
             setValue("productDescription", productDescription);
             setValue("productSpecification", productSpecification);
-            setValue("productBrand", productBrand?.brandId);
             setValue("productCategoryId", productCategory?.categoryId);
             setValue("productSubCategoryId", productSubCategory?.subCategoryId);
             setValue("hasVariants", hasVariants);
@@ -69,17 +67,6 @@ const EditProducts = () => {
             setSelectedCategory(productCategory?.categoryId);
         }
     }, [isSuccess, productData, setValue]);
-
-    // Fetching The Brand Data For Options
-    const { data: brandOption, isLoading } = useQuery({
-        queryKey: ["brandOptions"],
-        queryFn: () => crudService.get("brand/get-brands-options", true),
-        onError: err => {
-            toastService.error(
-                err?.message || "Failed to fetch Brand Options."
-            );
-        },
-    });
 
     // Fetching The Category Data For Options
     const { data: categoryOptions } = useQuery({
@@ -144,7 +131,6 @@ const EditProducts = () => {
             const formData = new FormData();
             formData.append("productName", data?.productName);
             formData.append("productSlug", data?.productSlug);
-            formData.append("productBrand", data?.productBrand);
             formData.append("productCategoryId", data?.productCategoryId);
             formData.append("productSubCategoryId", data?.productSubCategoryId);
             if (data?.productFeatureImage)
@@ -169,7 +155,6 @@ const EditProducts = () => {
             queryClient.invalidateQueries("productsList");
             queryClient.removeQueries(["product", productId]);
             queryClient.removeQueries("categoryOptions");
-            queryClient.removeQueries("brandOptions");
             toastService.success(data?.message);
         },
         onError: error => {
@@ -178,7 +163,6 @@ const EditProducts = () => {
         },
     });
 
-    if (isLoading) return <Loading />;
     return (
         <>
             <PageHeader
@@ -239,19 +223,6 @@ const EditProducts = () => {
                                     {...register("productPrice")}
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                     error={errors.productPrice?.message}
-                                />
-                            </div>
-                            <div className="w-full md:w-1/2 px-2">
-                                <Select
-                                    label="Select The Brand"
-                                    placeholder="Select The Brand"
-                                    title="Select The Brand"
-                                    options={brandOption?.data}
-                                    isRequired="true"
-                                    disabled={isPending}
-                                    {...register("productBrand")}
-                                    error={errors.productBrand?.message}
-                                    className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                 />
                             </div>
                         </div>

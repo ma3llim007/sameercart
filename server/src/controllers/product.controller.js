@@ -15,7 +15,6 @@ const addProduct = asyncHandler(async (req, res) => {
         productCategoryId,
         productSubCategoryId,
         productDescription,
-        productBrand,
         productSpecification,
         hasVariants,
         productPrice,
@@ -29,7 +28,6 @@ const addProduct = asyncHandler(async (req, res) => {
         !productCategoryId?.trim() ||
         !productSubCategoryId?.trim() ||
         !productDescription?.trim() ||
-        !productBrand?.trim() ||
         !productSpecification?.trim() ||
         !hasVariants?.trim() ||
         !productPrice?.trim()
@@ -45,9 +43,6 @@ const addProduct = asyncHandler(async (req, res) => {
         return res.status(400).json(new ApiError(400, "Invalid Sub-Category ID"));
     }
 
-    if (!isValidObjectId(productBrand)) {
-        return res.status(400).json(new ApiError(400, "Invalid Brand ID"));
-    }
 
     if (!productFeatureImage) {
         return res.status(422).json(new ApiError(422, "Product Image Is Required"));
@@ -84,7 +79,6 @@ const addProduct = asyncHandler(async (req, res) => {
         productPrice: Number(productPrice),
         productSubCategoryId,
         productDescription,
-        productBrand,
         hasVariants,
         productSpecification,
         productStock,
@@ -128,20 +122,6 @@ const productListing = asyncHandler(async (req, res) => {
                 },
             },
             {
-                $lookup: {
-                    from: "brands",
-                    localField: "productBrand",
-                    foreignField: "_id",
-                    as: "brand",
-                },
-            },
-            {
-                $unwind: {
-                    path: "$brand",
-                    preserveNullAndEmptyArrays: false,
-                },
-            },
-            {
                 $project: {
                     _id: 1,
                     productName: 1,
@@ -157,10 +137,7 @@ const productListing = asyncHandler(async (req, res) => {
                         subCategoryName: "$subcategories.subCategoryName",
                     },
                     productDescription: 1,
-                    productBrand: {
-                        brandId: "$brand._id",
-                        brandName: "$brand.brandName",
-                    },
+                    
                     hasVariants: 1,
                     productSpecification: 1,
                     productStock: 1,
@@ -226,20 +203,6 @@ const ProductGetById = asyncHandler(async (req, res) => {
                     },
                 },
                 {
-                    $lookup: {
-                        from: "brands",
-                        localField: "productBrand",
-                        foreignField: "_id",
-                        as: "brand",
-                    },
-                },
-                {
-                    $unwind: {
-                        path: "$brand",
-                        preserveNullAndEmptyArrays: false,
-                    },
-                },
-                {
                     $project: {
                         _id: 1,
                         productName: 1,
@@ -255,10 +218,6 @@ const ProductGetById = asyncHandler(async (req, res) => {
                             subCategoryName: "$subcategories.subCategoryName",
                         },
                         productDescription: 1,
-                        productBrand: {
-                            brandId: "$brand._id",
-                            brandName: "$brand.brandName",
-                        },
                         hasVariants: 1,
                         productSpecification: 1,
                         isActive: 1,
@@ -342,7 +301,6 @@ const updateProduct = asyncHandler(async (req, res) => {
         productCategoryId,
         productSubCategoryId,
         productDescription,
-        productBrand,
         productSpecification,
         productPrice,
     } = req.body;
@@ -356,9 +314,6 @@ const updateProduct = asyncHandler(async (req, res) => {
         return res.status(400).json(new ApiError(400, "Invalid Sub-Category ID"));
     }
 
-    if (productBrand && !isValidObjectId(productBrand)) {
-        return res.status(400).json(new ApiError(400, "Invalid Brand ID"));
-    }
 
     const currentProduct = await Product.findById(productId);
     if (!currentProduct) {
@@ -391,7 +346,6 @@ const updateProduct = asyncHandler(async (req, res) => {
     if (productDescription) currentProduct.productDescription = productDescription;
     if (productCategoryId) currentProduct.productCategoryId = productCategoryId;
     if (productSubCategoryId) currentProduct.productSubCategoryId = productSubCategoryId;
-    if (productBrand) currentProduct.productBrand = productBrand;
     if (productSpecification) currentProduct.productSpecification = productSpecification;
 
     // handle product image uplaod and remove the previous image

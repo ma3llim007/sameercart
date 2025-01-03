@@ -46,7 +46,6 @@ const ViewProduct = () => {
                 productSlug,
                 productDescription,
                 productSpecification,
-                productBrand,
                 productCategory,
                 productSubCategory,
                 hasVariants,
@@ -56,7 +55,6 @@ const ViewProduct = () => {
             setValue("productName", productName);
             setValue("productSlug", productSlug);
             setValue("productPrice", productPrice);
-            setValue("productBrand", productBrand?.brandId);
             setValue("productCategoryId", productCategory?.categoryId);
             setValue("productSubCategoryId", productSubCategory?.subCategoryId);
             setValue("hasVariants", hasVariants);
@@ -65,13 +63,6 @@ const ViewProduct = () => {
             setValue("productSpecification", productSpecification);
         }
     }, [isSuccess, productData, setValue]);
-
-    const brandOption = [
-        {
-            _id: productData?.data?.productBrand?.brandId,
-            brandName: productData?.data?.productBrand?.brandName,
-        },
-    ];
 
     const categoryOptions = [
         {
@@ -138,20 +129,6 @@ const ViewProduct = () => {
                                     readOnly
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                     error={errors.productPrice?.message}
-                                />
-                            </div>
-                            <div className="w-full md:w-1/2 px-2">
-                                <Select
-                                    label="Select The Brand"
-                                    placeholder="Select The Brand"
-                                    title="Select The Brand"
-                                    options={brandOption}
-                                    isRequired="true"
-                                    readOnly
-                                    disabled
-                                    {...register("productBrand")}
-                                    error={errors.productBrand?.message}
-                                    className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                 />
                             </div>
                         </div>

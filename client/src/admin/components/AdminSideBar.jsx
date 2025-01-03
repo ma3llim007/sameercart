@@ -26,7 +26,6 @@ import avatar from "../assets/avatar5.png";
 import { AiFillDashboard } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
-import { TbBrandSpacehey } from "react-icons/tb";
 
 const navBar = [
     { name: "Main Site", Icon: FaHome, urlLink: "/" },
@@ -80,21 +79,6 @@ const navBar = [
             },
         ],
         segment: "sub-category",
-    },
-    {
-        name: "Manage Brands",
-        Icon: TbBrandSpacehey,
-        innerLists: [
-            {
-                name: "Add Brands",
-                urlLink: "/admin/brands/add-brands",
-            },
-            {
-                name: "Brands List",
-                urlLink: "/admin/brands/brands-list",
-            },
-        ],
-        segment: "brands",
     },
     {
         name: "Manage Products",

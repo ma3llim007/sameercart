@@ -14,9 +14,6 @@ export const addProductScheme = Yup.object().shape({
             "Product Stock Must Be A Positive Number.",
             value => value > 0
         ),
-    productBrand: Yup.string()
-        .required("Product Brand Is Required")
-        .notOneOf(["", "default"], "You Must Select A Valid Brand"),
     productStock: Yup.string()
         .test(
             "is-valid-stock",
@@ -78,9 +75,6 @@ export const editProductScheme = Yup.object().shape({
             "Product Stock Must Be A Positive Number.",
             value => value > 0
         ),
-    productBrand: Yup.string()
-        .required("Product Brand Is Required")
-        .notOneOf(["", "default"], "You Must Select A Valid Brand"),
     productCategoryId: Yup.string()
         .required("Category is required")
         .notOneOf(["", "default"], "You Must Select A Valid Category"),

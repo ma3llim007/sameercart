@@ -19,7 +19,6 @@ function Select(
     const getOptinLabel = option => {
         return (
             option?.categoryName ||
-            option.brandName ||
             option.subCategoryName ||
             option.label ||
             ""

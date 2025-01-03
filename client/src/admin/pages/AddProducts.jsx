@@ -51,15 +51,6 @@ const AddProducts = () => {
     }, [watch, setValue]);
     const hasVariants = watch("hasVariants");
 
-    // Fetching The Brand Data For Options
-    const { data: brandOption, isLoading } = useQuery({
-        queryKey: ["brandOptions"],
-        queryFn: () => crudService.get("brand/get-brands-options", true),
-        onError: err => {
-            toastService.error(err?.message || "Failed to fetch Data.");
-        },
-    });
-
     // Fetching The Category Data For Options
     const { data: categoryOptions } = useQuery({
         queryKey: ["categoryOptions"],
@@ -103,6 +94,7 @@ const AddProducts = () => {
                 productDescription: sanitizeProductDescription,
                 productSpecification: sanitizeProductSpecification,
             };
+
             return crudService.post(
                 "product/add-product",
                 true,
@@ -121,7 +113,6 @@ const AddProducts = () => {
         },
     });
 
-    if (isLoading) return <Loading />;
     if (isPending) return <LoadingOverlay />;
     return (
         <>
@@ -186,21 +177,6 @@ const AddProducts = () => {
                                 />
                             </div>
                             <div className="w-full md:w-1/2 px-2">
-                                <Select
-                                    label="Select The Brand"
-                                    placeholder="Select The Brand"
-                                    title="Select The Brand"
-                                    options={brandOption?.data}
-                                    isRequired="true"
-                                    disabled={isPending}
-                                    {...register("productBrand")}
-                                    error={errors.productBrand?.message}
-                                    className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                />
-                            </div>
-                        </div>
-                        <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2">
                                 <Controller
                                     name="productCategoryId"
                                     control={control}
@@ -229,6 +205,8 @@ const AddProducts = () => {
                                     )}
                                 />
                             </div>
+                        </div>
+                        <div className="flex flex-wrap my-2">
                             <div className="w-full md:w-1/2 px-2">
                                 <Select
                                     label="Select The Sub-Category"
@@ -243,8 +221,6 @@ const AddProducts = () => {
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                 />
                             </div>
-                        </div>
-                        <div className="flex flex-wrap my-2">
                             <div className="w-full md:w-1/2 px-2">
                                 <Controller
                                     control={control}
@@ -270,6 +246,8 @@ const AddProducts = () => {
                                     )}
                                 />
                             </div>
+                        </div>
+                        <div className="flex flex-wrap my-2">
                             <div className="w-full md:w-1/2 px-2">
                                 <Select
                                     label="Select The Variants"
@@ -285,9 +263,7 @@ const AddProducts = () => {
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                 />
                             </div>
-                        </div>
-                        {hasVariants === "false" && (
-                            <div className="flex flex-wrap my-2">
+                            {hasVariants === "false" && (
                                 <div className="w-full md:w-1/2 px-2">
                                     <Input
                                         label="Product Stock"
@@ -298,8 +274,9 @@ const AddProducts = () => {
                                         error={errors.productStock?.message}
                                     />
                                 </div>
-                            </div>
-                        )}
+                            )}
+                        </div>
+
                         <div className="w-full px-2">
                             <Suspense fallback={<Loader />}>
                                 <RichTextEditor

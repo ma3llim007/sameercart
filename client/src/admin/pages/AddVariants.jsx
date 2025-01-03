@@ -82,7 +82,6 @@ const AddVariants = () => {
         productSlug,
         productFeatureImage,
         productPrice,
-        productBrand,
         hasVariants,
         productCategory,
         productSubCategory,
@@ -94,13 +93,11 @@ const AddVariants = () => {
             productName,
             productCategory?.categoryName,
             productSubCategory?.subCategoryName,
-            productBrand?.brandName
         );
     }, [
         productName,
         productCategory?.categoryName,
         productSubCategory?.subCategoryName,
-        productBrand?.brandName,
         skuTrigger,
     ]);
 
@@ -409,14 +406,6 @@ const AddVariants = () => {
                                         </th>
                                         <td className="p-2 border-b text-left">
                                             {productPrice}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th className="text-left p-2 border-b font-bold">
-                                            Brand:
-                                        </th>
-                                        <td className="p-2 border-b text-left">
-                                            {productBrand.brandName}
                                         </td>
                                     </tr>
                                     <tr>

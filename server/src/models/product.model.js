@@ -42,11 +42,6 @@ const productSchema = new Schema(
             type: String,
             required: [true, "Product Description Is Required"],
         },
-        productBrand: {
-            type: Schema.Types.ObjectId,
-            ref: "Brand",
-            required: [true, "Product Brand Is Required"],
-        },
         hasVariants: {
             type: Boolean,
             default: false,
