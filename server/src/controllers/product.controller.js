@@ -262,6 +262,7 @@ const ProductGetById = asyncHandler(async (req, res) => {
                         hasVariants: 1,
                         productSpecification: 1,
                         isActive: 1,
+                        productStock: 1,
                         createdAt: 1,
                         updatedAt: 1,
                         addedBy: 1,
@@ -299,8 +300,6 @@ const deleteProduct = asyncHandler(async (req, res) => {
     const productImage = product?.productFeatureImage;
 
     // Find and delete all variants associated with the product
-    const productVariants = product.productVariants;
-
     const varinatRelatedProduct = await Variant.find({ productId: productId });
     for (let varinat of varinatRelatedProduct) {
         const variantId = varinat._id.toString();
@@ -345,7 +344,6 @@ const updateProduct = asyncHandler(async (req, res) => {
         productDescription,
         productBrand,
         productSpecification,
-        hasVariants,
         productPrice,
     } = req.body;
     const productFeatureImage = req.file?.path;
