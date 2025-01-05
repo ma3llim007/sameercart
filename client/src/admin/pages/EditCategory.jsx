@@ -9,6 +9,7 @@ import { slugTransform } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { FaEdit } from "react-icons/fa";
 import crudService from "@/api/crudService";
+import { LoadingOverlay } from "@/components";
 
 const EditCategory = () => {
     const queryClient = useQueryClient();
@@ -96,6 +97,7 @@ const EditCategory = () => {
         return () => subscription.unsubscribe();
     }, [watch, setValue]);
 
+    if (isPending) return <LoadingOverlay />;
     return (
         <>
             <PageHeader
