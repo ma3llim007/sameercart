@@ -4,7 +4,7 @@ import * as Yup from "yup";
 export const addCategoryScheme = Yup.object().shape({
     categoryName: Yup.string()
         .required("Category Name Is Required")
-        .min(5, "Category Atleast Have More Than 5 Characters")
+        .min(3, "Category Atleast Have More Than 3 Characters")
         .matches(/^[A-Za-z\s]+$/, "Category Name Must Only Contain Letters"),
     categorySlug: Yup.string().required("Category Slug Is Required"),
     categoryImage: Yup.mixed()
@@ -15,7 +15,7 @@ export const addCategoryScheme = Yup.object().shape({
 export const editCategorySchema = Yup.object().shape({
     categoryName: Yup.string()
         .required("Category Name Is Required")
-        .min(5, "Category Atleast Have More Than 5 Characters")
+        .min(3, "Category Atleast Have More Than 3 Characters")
         .matches(/^[A-Za-z\s]+$/, "Category Name Must Only Contain Letters"),
     categorySlug: Yup.string().required("Category Slug Is Required"),
     categoryImage: Yup.mixed().test("fileType", "Unsupported file format", value => {
