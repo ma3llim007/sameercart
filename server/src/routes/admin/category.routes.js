@@ -7,9 +7,9 @@ import {
     getOptionsCategory,
     toggleCategory,
     updateCategory,
-} from "../controllers/category.controller.js";
-import { verifyAdmin } from "../middlewares/auth.middleware.js";
-import { upload } from "../middlewares/multer.middleware.js";
+} from "../../controllers/admin/category.controller.js";
+import { verifyAdmin } from "../../middlewares/auth.middleware.js";
+import { upload } from "../../middlewares/multer.middleware.js";
 
 const router = Router();
 router.use(verifyAdmin);

@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { verifyAdmin } from "../middlewares/auth.middleware.js";
-import { upload } from "../middlewares/multer.middleware.js";
+import { verifyAdmin } from "../../middlewares/auth.middleware.js";
+import { upload } from "../../middlewares/multer.middleware.js";
 import {
     addVariant,
     deleteVariant,
@@ -9,7 +9,7 @@ import {
     getVariantByProductId,
     getVariantByVariantId,
     updateVariant,
-} from "../controllers/variant.controller.js";
+} from "../../controllers/admin/variant.controller.js";
 
 const router = Router();
 router.use(verifyAdmin);

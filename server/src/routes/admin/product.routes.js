@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { verifyAdmin } from "../middlewares/auth.middleware.js";
+import { verifyAdmin } from "../../middlewares/auth.middleware.js";
 import {
     addProduct,
     deleteProduct,
     ProductGetById,
     productListing,
     updateProduct,
-} from "../controllers/product.controller.js";
-import { upload } from "../middlewares/multer.middleware.js";
+} from "../../controllers/admin/product.controller.js";
+import { upload } from "../../middlewares/multer.middleware.js";
 
 const router = Router();
 router.use(verifyAdmin);

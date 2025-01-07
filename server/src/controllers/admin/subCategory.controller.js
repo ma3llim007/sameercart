@@ -1,10 +1,10 @@
 import mongoose, { isValidObjectId } from "mongoose";
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { ApiError } from "../utils/ApiError.js";
-import { SubCategory } from "../models/subCategory.model.js";
-import { extractPublicId, removeImage, uploadCloudinary } from "../utils/cloudinary.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
-import { ConvertImageWebp } from "../utils/ConvertImageWebp.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
+import { ApiError } from "../../utils/ApiError.js";
+import { SubCategory } from "../../models/subCategory.model.js";
+import { extractPublicId, removeImage, uploadCloudinary } from "../../utils/cloudinary.js";
+import { ApiResponse } from "../../utils/ApiResponse.js";
+import { ConvertImageWebp } from "../../utils/ConvertImageWebp.js";
 
 // Add sub category
 const addSubCategory = asyncHandler(async (req, res) => {

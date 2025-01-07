@@ -1,11 +1,11 @@
 import mongoose, { isValidObjectId, ObjectId } from "mongoose";
-import { Variant } from "../models/variant.model.js";
-import { ApiError } from "../utils/ApiError.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { removeImageById, uploadCloudinary } from "../utils/cloudinary.js";
-import { ConvertImageWebp } from "../utils/ConvertImageWebp.js";
-import { Product } from "../models/product.model.js";
+import { Variant } from "../../models/variant.model.js";
+import { ApiError } from "../../utils/ApiError.js";
+import { ApiResponse } from "../../utils/ApiResponse.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
+import { removeImageById, uploadCloudinary } from "../../utils/cloudinary.js";
+import { ConvertImageWebp } from "../../utils/ConvertImageWebp.js";
+import { Product } from "../../models/product.model.js";
 
 // Add Variant
 const addVariant = asyncHandler(async (req, res) => {

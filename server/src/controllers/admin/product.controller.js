@@ -1,11 +1,11 @@
 import mongoose, { isValidObjectId } from "mongoose";
-import { ApiError } from "../utils/ApiError.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { Product } from "../models/product.model.js";
-import { ConvertImageWebp } from "../utils/ConvertImageWebp.js";
-import { extractPublicId, removeImage, removeImageById, uploadCloudinary } from "../utils/cloudinary.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
-import { Variant } from "../models/variant.model.js";
+import { ApiError } from "../../utils/ApiError.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
+import { Product } from "../../models/product.model.js";
+import { ConvertImageWebp } from "../../utils/ConvertImageWebp.js";
+import { extractPublicId, removeImage, removeImageById, uploadCloudinary } from "../../utils/cloudinary.js";
+import { ApiResponse } from "../../utils/ApiResponse.js";
+import { Variant } from "../../models/variant.model.js";
 
 // Add Product
 const addProduct = asyncHandler(async (req, res) => {

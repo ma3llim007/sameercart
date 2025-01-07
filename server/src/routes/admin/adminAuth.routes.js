@@ -5,8 +5,8 @@ import {
     logOutAdmin,
     refreshAccessTokenAdmin,
     registerAdmin,
-} from "../controllers/adminAuth.controller.js";
-import { verifyAdmin } from "../middlewares/auth.middleware.js";
+} from "../../controllers/admin/adminAuth.controller.js";
+import { verifyAdmin } from "../../middlewares/auth.middleware.js";
 
 const router = Router();
 

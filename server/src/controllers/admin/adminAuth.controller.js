@@ -1,7 +1,7 @@
-import { asyncHandler } from "../utils/asyncHandler.js";
-import { ApiError } from "../utils/ApiError.js";
-import { Admin } from "../models/admin.model.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
+import { ApiError } from "../../utils/ApiError.js";
+import { Admin } from "../../models/admin.model.js";
+import { ApiResponse } from "../../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 
 // Generating Access And Refresh Token
@@ -20,17 +20,6 @@ const generateAccessAndRefeshTokens = async (adminId) => {
     }
 };
 
-// Verify Token
-// const verifyToken = (token, secret) => {
-//     return new Promise((resolve, reject) => {
-//         jwt.verify(token, secret, (err, decoded) => {
-//             if (err) {
-//                 return reject(err);
-//             }
-//             return resolve(decoded);
-//         });
-//     });
-// };
 const verifyToken = (token, secret) => {
     new Promise((resolve, reject) =>
         jwt.verify(token, secret, (err, decoded) => (err ? reject(err) : resolve(decoded)))

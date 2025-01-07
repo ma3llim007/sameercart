@@ -1,11 +1,12 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import adminAuthRouter from "./routes/adminAuth.routes.js";
-import categoryRouter from "./routes/category.routes.js";
-import subCategoryRouter from "./routes/subCategory.routes.js";
-import productRouter from "./routes/product.routes.js";
-import variantRouter from "./routes/variant.routes.js";
+import adminAuthRouter from "./routes/admin/adminAuth.routes.js";
+import categoryRouter from "./routes/admin/category.routes.js";
+import subCategoryRouter from "./routes/admin/subCategory.routes.js";
+import productRouter from "./routes/admin/product.routes.js";
+import variantRouter from "./routes/admin/variant.routes.js";
+import publicCategoryRouter from "./routes/public/category.routes.js";
 
 const app = express();
 app.use(
@@ -25,6 +26,7 @@ app.use("/api/v1/admin/category", categoryRouter);
 app.use("/api/v1/admin/sub-category", subCategoryRouter);
 app.use("/api/v1/admin/product", productRouter);
 app.use("/api/v1/admin/variant", variantRouter);
-console.log("Login");
 
+// Public Routes
+app.use("/api/v1/category", publicCategoryRouter);
 export { app };

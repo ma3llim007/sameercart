@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { upload } from "../middlewares/multer.middleware.js";
+import { upload } from "../../middlewares/multer.middleware.js";
 import {
     addSubCategory,
     deleteSubCategory,
@@ -8,8 +8,8 @@ import {
     subCategoryByIdOptions,
     toggleSubCategory,
     updateSubCategory,
-} from "../controllers/subCategory.controller.js";
-import { verifyAdmin } from "../middlewares/auth.middleware.js";
+} from "../../controllers/admin/subCategory.controller.js";
+import { verifyAdmin } from "../../middlewares/auth.middleware.js";
 
 const router = Router();
 router.use(verifyAdmin);
