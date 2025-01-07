@@ -43,7 +43,6 @@ const addProduct = asyncHandler(async (req, res) => {
         return res.status(400).json(new ApiError(400, "Invalid Sub-Category ID"));
     }
 
-
     if (!productFeatureImage) {
         return res.status(422).json(new ApiError(422, "Product Image Is Required"));
     }
@@ -137,7 +136,7 @@ const productListing = asyncHandler(async (req, res) => {
                         subCategoryName: "$subcategories.subCategoryName",
                     },
                     productDescription: 1,
-                    
+
                     hasVariants: 1,
                     productSpecification: 1,
                     productStock: 1,
@@ -260,7 +259,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
     // Find and delete all variants associated with the product
     const varinatRelatedProduct = await Variant.find({ productId: productId });
-    for (let varinat of varinatRelatedProduct) {
+    for (const varinat of varinatRelatedProduct) {
         const variantId = varinat._id.toString();
         const varinatImages = varinat.images;
         const deleteVariant = await Variant.deleteOne({ _id: variantId });
@@ -314,7 +313,6 @@ const updateProduct = asyncHandler(async (req, res) => {
         return res.status(400).json(new ApiError(400, "Invalid Sub-Category ID"));
     }
 
-
     const currentProduct = await Product.findById(productId);
     if (!currentProduct) {
         return res.status(404).json(new ApiError(404, "Product Not Found"));
@@ -340,13 +338,13 @@ const updateProduct = asyncHandler(async (req, res) => {
     }
 
     // update fields if there are no conflicts
-    if (productName) currentProduct.productName = productName;
-    if (productSlug) currentProduct.productSlug = productSlug;
-    if (productPrice) currentProduct.productPrice = productPrice;
-    if (productDescription) currentProduct.productDescription = productDescription;
-    if (productCategoryId) currentProduct.productCategoryId = productCategoryId;
-    if (productSubCategoryId) currentProduct.productSubCategoryId = productSubCategoryId;
-    if (productSpecification) currentProduct.productSpecification = productSpecification;
+    if (productName) {currentProduct.productName = productName;}
+    if (productSlug) {currentProduct.productSlug = productSlug;}
+    if (productPrice) {currentProduct.productPrice = productPrice;}
+    if (productDescription) {currentProduct.productDescription = productDescription;}
+    if (productCategoryId) {currentProduct.productCategoryId = productCategoryId;}
+    if (productSubCategoryId) {currentProduct.productSubCategoryId = productSubCategoryId;}
+    if (productSpecification) {currentProduct.productSpecification = productSpecification;}
 
     // handle product image uplaod and remove the previous image
     if (productFeatureImage) {

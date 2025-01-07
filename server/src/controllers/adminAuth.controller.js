@@ -3,7 +3,6 @@ import { ApiError } from "../utils/ApiError.js";
 import { Admin } from "../models/admin.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
-import { isValidObjectId } from "mongoose";
 
 // Generating Access And Refresh Token
 const generateAccessAndRefeshTokens = async (adminId) => {
@@ -17,7 +16,7 @@ const generateAccessAndRefeshTokens = async (adminId) => {
 
         return { accessToken, refreshToken };
     } catch (error) {
-        throw new ApiError(500, "Something Went Wrong While Generating Refresh And Access Token");
+        throw new ApiError(500, "Something Went Wrong While Generating Refresh And Access Token", error.message);
     }
 };
 
@@ -25,7 +24,9 @@ const generateAccessAndRefeshTokens = async (adminId) => {
 const verifyToken = (token, secret) => {
     return new Promise((resolve, reject) => {
         jwt.verify(token, secret, (err, decoded) => {
-            if (err) return reject(err);
+            if (err) {
+                return reject(err);
+            }
             resolve(decoded);
         });
     });
@@ -183,7 +184,7 @@ const checkSession = asyncHandler(async (req, res) => {
         return res
             .status(200)
             .json(new ApiResponse(200, { isAuthenticated: true, admin }, "Admin AccessToken Verified Successfully"));
-    } catch (error) {
+    } catch (error){
         return res.status(403).json(new ApiError(403, "Access Token Is Not Valid"));
     }
 });

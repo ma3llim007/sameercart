@@ -92,7 +92,7 @@ const getSubCategory = asyncHandler(async (req, res) => {
 // Delete SubCategory
 const deleteSubCategory = asyncHandler(async (req, res) => {
     const { subCategoryId } = req.params;
-    
+
     if (!subCategoryId || !subCategoryId.trim() === "") {
         return res.status(422).json(new ApiError(422, "Sub-Category ID Is Required"));
     }
@@ -205,9 +205,9 @@ const updateSubCategory = asyncHandler(async (req, res) => {
     }
 
     // Update fields if there are no conflicts
-    if (subCategoryName) subCategoryCur.subCategoryName = subCategoryName;
-    if (subCategorySlug) subCategoryCur.subCategorySlug = subCategorySlug;
-    if (parentCategory) subCategoryCur.parentCategory = parentCategory;
+    if (subCategoryName) {subCategoryCur.subCategoryName = subCategoryName;}
+    if (subCategorySlug) {subCategoryCur.subCategorySlug = subCategorySlug;}
+    if (parentCategory) {subCategoryCur.parentCategory = parentCategory;}
 
     // Handle sub category image upload and Remove the previous image
     if (subCategoryImage) {

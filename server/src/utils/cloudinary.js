@@ -9,7 +9,7 @@ cloudinary.config({
 
 // Uploading Image on Cloudinary
 const uploadCloudinary = async (filePath, folderPath = "ecommerce") => {
-    if (!filePath) return null;
+    if (!filePath) {return null;}
     try {
         const response = await cloudinary.uploader.upload(filePath, {
             resource_type: "auto",
@@ -26,7 +26,7 @@ const uploadCloudinary = async (filePath, folderPath = "ecommerce") => {
 // Removing Image From Cloudinary
 const removeImage = async (folderPath, fileUrl) => {
     try {
-        if (!folderPath || !fileUrl) return null;
+        if (!folderPath || !fileUrl) {return null;}
         const publicId = `${folderPath}${fileUrl}`;
         const response = await cloudinary.uploader.destroy(publicId);
         return response;
@@ -39,7 +39,7 @@ const removeImage = async (folderPath, fileUrl) => {
 // Removing Image By Public ID From Cloudinary
 const removeImageById = async (publicId) => {
     try {
-        if (!publicId) return null;
+        if (!publicId) {return null;}
         const response = await cloudinary.uploader.destroy(publicId);
         return response;
     } catch (e) {

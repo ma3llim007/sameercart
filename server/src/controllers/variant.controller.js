@@ -214,8 +214,8 @@ const updateVariant = asyncHandler(async (req, res) => {
     }
 
     // Update fields if there are no conflicts
-    if (priceAdjustment) currVariant.priceAdjustment = priceAdjustment;
-    if (stockQty) currVariant.stockQty = stockQty;
+    if (priceAdjustment) {currVariant.priceAdjustment = priceAdjustment;}
+    if (stockQty) {currVariant.stockQty = stockQty;}
 
     // Parse `attributes` from JSON string and convert to a Map
     let attributesMap;

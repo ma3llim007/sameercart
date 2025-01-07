@@ -129,8 +129,8 @@ const updateCategory = asyncHandler(async (req, res) => {
     }
 
     // Update fields if there are no conflicts
-    if (categoryName) category.categoryName = categoryName;
-    if (categorySlug) category.categorySlug = categorySlug;
+    if (categoryName) {category.categoryName = categoryName;}
+    if (categorySlug) {category.categorySlug = categorySlug;}
 
     // Handle category image upload and Remove the previous image
     if (categoryImage) {
@@ -189,11 +189,11 @@ const deleteCategory = asyncHandler(async (req, res) => {
     // Find and delete all subcategories associated with the category
     const subcategories = await SubCategory.find({ parentCategory: categoryId });
 
-    for (let subCategory of subcategories) {
+    for (const subCategory of subcategories) {
         const subCategoryId = subCategory?._id.toString();
         const subCategoryImage = subCategory?.subCategoryImage;
         const deleteSubCat = await SubCategory.deleteOne({ _id: subCategoryId });
-    
+
         if (deleteSubCat && subCategoryImage) {
             const publicId = extractPublicId(subCategoryImage);
             try {
@@ -201,7 +201,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
             } catch (error) {
                 return res.status(500).json(new ApiError(500, "Failed To Remove Previous Sub Category Image"));
             }
-        } 
+        }
     }
 
     const deleteCate = await Category.deleteOne({ _id: categoryId });
