@@ -9,6 +9,7 @@ const connectDB = async () => {
         );
     } catch (error) {
         console.error("💀  MONGODB CONNECTION ERROR ", error.message);
+        // eslint-disable-next-line no-process-exit
         process.exit(1);
     }
 };

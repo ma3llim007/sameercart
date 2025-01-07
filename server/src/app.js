@@ -25,6 +25,6 @@ app.use("/api/v1/admin/category", categoryRouter);
 app.use("/api/v1/admin/sub-category", subCategoryRouter);
 app.use("/api/v1/admin/product", productRouter);
 app.use("/api/v1/admin/variant", variantRouter);
-console.log("Login")
+console.log("Login");
 
 export { app };

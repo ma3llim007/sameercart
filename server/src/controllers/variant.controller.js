@@ -3,7 +3,7 @@ import { Variant } from "../models/variant.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import {  removeImageById, uploadCloudinary } from "../utils/cloudinary.js";
+import { removeImageById, uploadCloudinary } from "../utils/cloudinary.js";
 import { ConvertImageWebp } from "../utils/ConvertImageWebp.js";
 import { Product } from "../models/product.model.js";
 
@@ -35,7 +35,7 @@ const addVariant = asyncHandler(async (req, res) => {
     try {
         const attributesObject = JSON.parse(attributes);
         attributesMap = new Map(Object.entries(attributesObject));
-    } catch (error) {
+    } catch (_error) {
         return res.status(400).json(new ApiError(400, "Invalid Attributes Format."));
     }
     const imageUpload = [];
@@ -44,7 +44,7 @@ const addVariant = asyncHandler(async (req, res) => {
         if (image.mimetype !== "image/webp") {
             try {
                 convertedImagePath = await ConvertImageWebp(image?.path);
-            } catch (error) {
+            } catch (_error) {
                 return res.status(500).json(new ApiError(500, "Failed to Convert Image to WebP"));
             }
         }
@@ -53,7 +53,7 @@ const addVariant = asyncHandler(async (req, res) => {
         let varinatUpload = null;
         try {
             varinatUpload = await uploadCloudinary(convertedImagePath, "sameerCart/varaints");
-        } catch (error) {
+        } catch (_error) {
             return res.status(500).json(new ApiError(500, "Failed To Upload Varaint Image."));
         }
 
@@ -83,7 +83,7 @@ const addVariant = asyncHandler(async (req, res) => {
             },
             { new: true }
         );
-    } catch (error) {
+    } catch (_error) {
         return res.status(500).json(new ApiError(500, "Failed To Update Product With New Variant"));
     }
     return res.status(201).json(new ApiResponse(201, varainat, "Varaint Created Successfully"));
@@ -164,7 +164,7 @@ const deleteVariant = asyncHandler(async (req, res) => {
                     await removeImageById(image?.publicId);
                 })
             );
-        } catch (error) {
+        } catch (_error) {
             return res.status(500).json(new ApiError(500, "Failed To Remove Previous Variant Images"));
         }
     }
@@ -227,7 +227,7 @@ const updateVariant = asyncHandler(async (req, res) => {
         const attributesObject = JSON.parse(attributes);
         attributesMap = new Map(Object.entries(attributesObject));
         currVariant.attributes = attributesMap;
-    } catch (error) {
+    } catch (_error) {
         return res.status(400).json(new ApiError(400, "Invalid Attributes Format."));
     }
     await currVariant.save();
@@ -261,7 +261,7 @@ const deleteVariantImageByIds = asyncHandler(async (req, res) => {
     if (varainat && varainatImage && varainatImage.length > 0) {
         try {
             await removeImageById(publicId);
-        } catch (error) {
+        } catch (_error) {
             return res.status(500).json(new ApiError(500, "Failed To Remove Previous Variant Images"));
         }
     }
@@ -310,7 +310,7 @@ const editVariantImageById = asyncHandler(async (req, res) => {
     if (tempImage) {
         try {
             await removeImageById(tempImage?.publicId);
-        } catch (error) {
+        } catch (_error) {
             return res.status(500).json(new ApiError(500, "Failed To Remove Previous Varaint Image"));
         }
     }
@@ -320,7 +320,7 @@ const editVariantImageById = asyncHandler(async (req, res) => {
     if (variantImage.mimetype !== "image/webp") {
         try {
             convertedImagePath = await ConvertImageWebp(variantImage?.path);
-        } catch (error) {
+        } catch (_error) {
             return res.status(500).json(new ApiError(500, "Failed to Convert Image to WebP"));
         }
     }
@@ -329,7 +329,7 @@ const editVariantImageById = asyncHandler(async (req, res) => {
     let varinatUpload = null;
     try {
         varinatUpload = await uploadCloudinary(convertedImagePath, "sameerCart/varaints");
-    } catch (error) {
+    } catch (_error) {
         return res.status(500).json(new ApiError(500, "Failed To Upload Varaint Image."));
     }
 

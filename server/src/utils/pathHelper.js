@@ -13,7 +13,7 @@ export const resolvePath = () => {
     return join(currentDir, "../../", basePath);
 };
 
-export const imageUnLink = async (filePath) => {
+export const imageUnLink = (filePath) => {
     if (!filePath) {
         console.warn("No file path provided for deletion.");
         return false;

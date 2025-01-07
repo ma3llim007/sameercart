@@ -19,7 +19,7 @@ const uploadCloudinary = async (filePath, folderPath = "ecommerce") => {
         });
         fs.unlinkSync(filePath);
         return response;
-    } catch (error) {
+    } catch (_error) {
         fs.unlinkSync(filePath);
         return null;
     }

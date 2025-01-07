@@ -114,7 +114,7 @@ const deleteSubCategory = asyncHandler(async (req, res) => {
         const publicId = extractPublicId(subCategoryImage);
         try {
             await removeImage("sameerCart/subcategory/", publicId);
-        } catch (error) {
+        } catch (_error) {
             return res.status(500).json(new ApiError(500, "Failed To Remove Previous Sub Category Image"));
         }
     }
@@ -222,7 +222,7 @@ const updateSubCategory = asyncHandler(async (req, res) => {
             const publicId = extractPublicId(previousSubCategoryImage);
             try {
                 await removeImage("sameerCart/subcategory/", publicId);
-            } catch (error) {
+            } catch (_error) {
                 return res.status(500).json(new ApiError(500, "Failed To Remove Previous Sub-Category Image"));
             }
         }
@@ -237,7 +237,7 @@ const updateSubCategory = asyncHandler(async (req, res) => {
         try {
             const subCategoryUpload = await uploadCloudinary(convertedImagePath, "sameerCart/subcategory");
             subCategoryCur.subCategoryImage = subCategoryUpload?.secure_url;
-        } catch (error) {
+        } catch (_error) {
             return res.status(500).json(new ApiError(500, "Failed To Upload Sub-Category Image."));
         }
     }

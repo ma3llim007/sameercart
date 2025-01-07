@@ -35,7 +35,7 @@ const addCategory = asyncHandler(async (req, res) => {
     if (req.file?.mimetype !== "image/webp") {
         try {
             convertedImagePath = await ConvertImageWebp(categoryImage);
-        } catch (error) {
+        } catch (_error) {
             return res.status(500).json(new ApiError(500, "Failed to Convert Image to WebP"));
         }
     }
@@ -44,7 +44,7 @@ const addCategory = asyncHandler(async (req, res) => {
     let categoryUpload = null;
     try {
         categoryUpload = await uploadCloudinary(convertedImagePath, "sameerCart/category");
-    } catch (error) {
+    } catch (_error) {
         return res.status(500).json(new ApiError(500, "Failed To Upload Category Image."));
     }
 
@@ -143,7 +143,7 @@ const updateCategory = asyncHandler(async (req, res) => {
             const publicId = extractPublicId(previousCatImage);
             try {
                 await removeImage("sameerCart/category/", publicId);
-            } catch (error) {
+            } catch (_error) {
                 return res.status(500).json(new ApiError(500, "Failed To Remove Previous Category Image"));
             }
         }
@@ -153,7 +153,7 @@ const updateCategory = asyncHandler(async (req, res) => {
         if (req.file.mimetype !== "image/webp") {
             try {
                 convertedImagePath = await ConvertImageWebp(categoryImage);
-            } catch (error) {
+            } catch (_error) {
                 return res.status(500).json(new ApiError(500, "Failed to Convert Image to WebP"));
             }
         }
@@ -162,7 +162,7 @@ const updateCategory = asyncHandler(async (req, res) => {
         try {
             const categoryUpload = await uploadCloudinary(convertedImagePath, "sameerCart/category");
             category.categoryImage = categoryUpload.secure_url;
-        } catch (error) {
+        } catch (_error) {
             return res.status(500).json(new ApiError(500, "Failed To Upload Category Image."));
         }
     }
@@ -201,7 +201,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
             const publicId = extractPublicId(subCategoryImage);
             try {
                 await removeImage("sameerCart/subcategory/", publicId);
-            } catch (error) {
+            } catch (_error) {
                 return res.status(500).json(new ApiError(500, "Failed To Remove Previous Sub Category Image"));
             }
         }
@@ -215,7 +215,7 @@ const deleteCategory = asyncHandler(async (req, res) => {
         const publicId = extractPublicId(categoryImage);
         try {
             await removeImage("sameerCart/category/", publicId);
-        } catch (error) {
+        } catch (_error) {
             return res.status(500).json(new ApiError(500, "Failed To Remove Previous Category Image"));
         }
     }

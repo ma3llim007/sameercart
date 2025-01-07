@@ -57,7 +57,7 @@ const addProduct = asyncHandler(async (req, res) => {
     if (req.file?.minetype !== "image/webp") {
         try {
             convertedImagePath = await ConvertImageWebp(productFeatureImage);
-        } catch (error) {
+        } catch (_error) {
             return res.status(500).json(new ApiError(500, "Failed to Convert Image to WebP"));
         }
     }
@@ -66,7 +66,7 @@ const addProduct = asyncHandler(async (req, res) => {
     let productFeatureImageUpload = null;
     try {
         productFeatureImageUpload = await uploadCloudinary(convertedImagePath, "sameerCart/products");
-    } catch (error) {
+    } catch (_error) {
         return res.status(500).json(new ApiError(500, "Failed To Upload Product Feature Image."));
     }
 
@@ -271,7 +271,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
                         await removeImageById(image?.publicId);
                     })
                 );
-            } catch (error) {
+            } catch (_error) {
                 return res.status(500).json(new ApiError(500, "Failed To Remove Previous Variant Images"));
             }
         }
@@ -283,7 +283,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
         const publicId = extractPublicId(productImage);
         try {
             await removeImage("sameerCart/products/", publicId);
-        } catch (error) {
+        } catch (_error) {
             return res.status(500).json(new ApiError(500, "Failed To Remove Previous Product Image"));
         }
     }
@@ -367,7 +367,7 @@ const updateProduct = asyncHandler(async (req, res) => {
             const publicId = extractPublicId(previousProductImage);
             try {
                 await removeImage("sameerCart/products/", publicId);
-            } catch (error) {
+            } catch (_error) {
                 return res.status(500).json(new ApiError(500, "Failed To Remove Previous Product Image"));
             }
         }
@@ -377,7 +377,7 @@ const updateProduct = asyncHandler(async (req, res) => {
         if (req.file?.minetype !== "image/webp") {
             try {
                 convertedImagePath = await ConvertImageWebp(productFeatureImage);
-            } catch (error) {
+            } catch (_error) {
                 return res.status(500).json(new ApiError(500, "Failed to Convert Image to WebP"));
             }
         }
@@ -386,7 +386,7 @@ const updateProduct = asyncHandler(async (req, res) => {
         try {
             const productFeatureImageUpload = await uploadCloudinary(convertedImagePath, "sameerCart/products");
             currentProduct.productFeatureImage = productFeatureImageUpload?.secure_url;
-        } catch (error) {
+        } catch (_error) {
             return res.status(500).json(new ApiError(500, "Failed To Upload Product Image."));
         }
     }

@@ -15,21 +15,26 @@ const generateAccessAndRefeshTokens = async (adminId) => {
         await admin.save({ validateBeforeSave: false });
 
         return { accessToken, refreshToken };
-    } catch (error) {
-        throw new ApiError(500, "Something Went Wrong While Generating Refresh And Access Token", error.message);
+    } catch (_error) {
+        throw new ApiError(500, "Something Went Wrong While Generating Refresh And Access Token");
     }
 };
 
 // Verify Token
+// const verifyToken = (token, secret) => {
+//     return new Promise((resolve, reject) => {
+//         jwt.verify(token, secret, (err, decoded) => {
+//             if (err) {
+//                 return reject(err);
+//             }
+//             return resolve(decoded);
+//         });
+//     });
+// };
 const verifyToken = (token, secret) => {
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, secret, (err, decoded) => {
-            if (err) {
-                return reject(err);
-            }
-            resolve(decoded);
-        });
-    });
+    new Promise((resolve, reject) =>
+        jwt.verify(token, secret, (err, decoded) => (err ? reject(err) : resolve(decoded)))
+    );
 };
 
 // HTTP OPTIONS
@@ -175,7 +180,6 @@ const refreshAccessTokenAdmin = asyncHandler(async (req, res) => {
 // Check session
 const checkSession = asyncHandler(async (req, res) => {
     const accessToken = req.cookies.accessToken;
-    const _test = "Test";
     if (!accessToken) {
         return res.status(401).json(new ApiError(401, "Access Token Is Required"));
     }
