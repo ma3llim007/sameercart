@@ -4,7 +4,7 @@ import path from "path";
 
 export const ConvertImageWebp = async (filePath, quality = 70) => {
     if (!filePath) {
-        throw new Error(`Image Parameter Are Required`);
+        throw new Error("Image Parameter Are Required");
     }
 
     // Ensure the file exists

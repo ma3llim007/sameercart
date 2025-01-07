@@ -3,7 +3,7 @@ import { Variant } from "../models/variant.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { extractPublicId, removeImage, removeImageById, uploadCloudinary } from "../utils/cloudinary.js";
+import {  removeImageById, uploadCloudinary } from "../utils/cloudinary.js";
 import { ConvertImageWebp } from "../utils/ConvertImageWebp.js";
 import { Product } from "../models/product.model.js";
 
@@ -214,8 +214,12 @@ const updateVariant = asyncHandler(async (req, res) => {
     }
 
     // Update fields if there are no conflicts
-    if (priceAdjustment) {currVariant.priceAdjustment = priceAdjustment;}
-    if (stockQty) {currVariant.stockQty = stockQty;}
+    if (priceAdjustment) {
+        currVariant.priceAdjustment = priceAdjustment;
+    }
+    if (stockQty) {
+        currVariant.stockQty = stockQty;
+    }
 
     // Parse `attributes` from JSON string and convert to a Map
     let attributesMap;

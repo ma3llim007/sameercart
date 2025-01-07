@@ -338,13 +338,27 @@ const updateProduct = asyncHandler(async (req, res) => {
     }
 
     // update fields if there are no conflicts
-    if (productName) {currentProduct.productName = productName;}
-    if (productSlug) {currentProduct.productSlug = productSlug;}
-    if (productPrice) {currentProduct.productPrice = productPrice;}
-    if (productDescription) {currentProduct.productDescription = productDescription;}
-    if (productCategoryId) {currentProduct.productCategoryId = productCategoryId;}
-    if (productSubCategoryId) {currentProduct.productSubCategoryId = productSubCategoryId;}
-    if (productSpecification) {currentProduct.productSpecification = productSpecification;}
+    if (productName) {
+        currentProduct.productName = productName;
+    }
+    if (productSlug) {
+        currentProduct.productSlug = productSlug;
+    }
+    if (productPrice) {
+        currentProduct.productPrice = productPrice;
+    }
+    if (productDescription) {
+        currentProduct.productDescription = productDescription;
+    }
+    if (productCategoryId) {
+        currentProduct.productCategoryId = productCategoryId;
+    }
+    if (productSubCategoryId) {
+        currentProduct.productSubCategoryId = productSubCategoryId;
+    }
+    if (productSpecification) {
+        currentProduct.productSpecification = productSpecification;
+    }
 
     // handle product image uplaod and remove the previous image
     if (productFeatureImage) {

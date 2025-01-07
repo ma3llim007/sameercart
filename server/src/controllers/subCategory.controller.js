@@ -205,9 +205,15 @@ const updateSubCategory = asyncHandler(async (req, res) => {
     }
 
     // Update fields if there are no conflicts
-    if (subCategoryName) {subCategoryCur.subCategoryName = subCategoryName;}
-    if (subCategorySlug) {subCategoryCur.subCategorySlug = subCategorySlug;}
-    if (parentCategory) {subCategoryCur.parentCategory = parentCategory;}
+    if (subCategoryName) {
+        subCategoryCur.subCategoryName = subCategoryName;
+    }
+    if (subCategorySlug) {
+        subCategoryCur.subCategorySlug = subCategorySlug;
+    }
+    if (parentCategory) {
+        subCategoryCur.parentCategory = parentCategory;
+    }
 
     // Handle sub category image upload and Remove the previous image
     if (subCategoryImage) {

@@ -6,7 +6,6 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { extractPublicId, removeImage, uploadCloudinary } from "../utils/cloudinary.js";
 import { ConvertImageWebp } from "../utils/ConvertImageWebp.js";
 import { SubCategory } from "../models/subCategory.model.js";
-import { deleteSubCategory } from "./subCategory.controller.js";
 
 // Add Category
 const addCategory = asyncHandler(async (req, res) => {
@@ -129,8 +128,12 @@ const updateCategory = asyncHandler(async (req, res) => {
     }
 
     // Update fields if there are no conflicts
-    if (categoryName) {category.categoryName = categoryName;}
-    if (categorySlug) {category.categorySlug = categorySlug;}
+    if (categoryName) {
+        category.categoryName = categoryName;
+    }
+    if (categorySlug) {
+        category.categorySlug = categorySlug;
+    }
 
     // Handle category image upload and Remove the previous image
     if (categoryImage) {

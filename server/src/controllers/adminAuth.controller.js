@@ -175,7 +175,7 @@ const refreshAccessTokenAdmin = asyncHandler(async (req, res) => {
 // Check session
 const checkSession = asyncHandler(async (req, res) => {
     const accessToken = req.cookies.accessToken;
-
+    const _test = "Test";
     if (!accessToken) {
         return res.status(401).json(new ApiError(401, "Access Token Is Required"));
     }
@@ -184,7 +184,7 @@ const checkSession = asyncHandler(async (req, res) => {
         return res
             .status(200)
             .json(new ApiResponse(200, { isAuthenticated: true, admin }, "Admin AccessToken Verified Successfully"));
-    } catch (error){
+    } catch (_error) {
         return res.status(403).json(new ApiError(403, "Access Token Is Not Valid"));
     }
 });
