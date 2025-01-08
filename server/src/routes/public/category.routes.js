@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { categories } from "../../controllers/public/category.controller.js";
+import { categoryWithSubCategory, popularCategories } from "../../controllers/public/category.controller.js";
 
 const router = Router();
 
 // Route
-router.route("/category", categories);
+router.route("/category-with-sub-category").get(categoryWithSubCategory);
+router.route("/popular-categories").get(popularCategories);
 
 export default router;

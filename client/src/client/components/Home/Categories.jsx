@@ -1,24 +1,25 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Link } from "react-router-dom";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import SectionHeader from "./SectionHeader";
+import { capitalizeWords } from "@/utils";
 
 const Categories = ({ categories }) => {
     const swiperRef = useRef(null);
     return (
         <>
             <section className="w-full flex flex-col my-10 relative group">
-                <SectionHeader title="Popular Categories" />
+                <SectionHeader title="Popular Categories With Sub - Categories" />
                 <Swiper
                     modules={[Navigation, Pagination, Autoplay]}
                     slidesPerView={2}
                     navigation={true}
                     loop={true}
                     pagination={{ clickable: true }}
-                    autoplay={{ delay: 10000, disableOnInteraction: false }}
+                    autoplay={{ delay: 7000, disableOnInteraction: false }}
                     breakpoints={{
                         640: {
                             slidesPerView: 2,
@@ -38,26 +39,36 @@ const Categories = ({ categories }) => {
                     }}
                     className="w-full"
                 >
-                    {categories.map(category => (
-                        <SwiperSlide key={category?.id} className="p-2">
-                            <div className="bg-light-bgLighterGray dark:bg-dark-bgGray rounded shadow-lg px-4 py-2">
+                    {categories?.data.map(category => (
+                        <SwiperSlide key={category?._id} className="w-full p-1">
+                            <div className="bg-light-bgLighterGray dark:bg-dark-bgGray rounded-lg shadow-lg px-4 pt-2 pb-4">
                                 <Link to={"/"}>
                                     <img
                                         loading="lazy"
-                                        src={category?.imageUrl}
-                                        alt={category?.title}
+                                        src={category?.categoryImage}
+                                        alt={category?.categoryName}
                                         className="w-full h-auto object-cover rounded-lg mb-4 overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105"
                                     />
                                 </Link>
                                 <div className="flex flex-col gap-2">
-                                    <h4 className="text-xl font-semibold mb-2">
-                                        {category?.title}
-                                    </h4>
+                                    <Link to={`/${category.categorySlug}`}>
+                                        <h4 className="text-xl text-center font-bold mb-3 cursor-pointer no-underline hover:underline transition-all duration-300 delay-300 ease-in-out decoration-2">
+                                            {capitalizeWords(
+                                                category?.categoryName
+                                            )}
+                                        </h4>
+                                    </Link>
                                     <ul className="text-base grid gap-2 text-light-textGray dark:text-dark-textLightGray">
-                                        {category?.category.map(
-                                            (products, index) => (
-                                                <Link key={index}>
-                                                    {products.name}
+                                        {category?.subcategories.map(
+                                            subcategories => (
+                                                <Link
+                                                    to={`/${category.categorySlug}/${subcategories.subCategorySlug}`}
+                                                    className="text-base my-1 font-semibold text-center no-underline hover:underline transition-all duration-300 delay-300 ease-in-out decoration-2"
+                                                    key={subcategories._id}
+                                                >
+                                                    {capitalizeWords(
+                                                        subcategories.subCategoryName
+                                                    )}
                                                 </Link>
                                             )
                                         )}

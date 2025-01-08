@@ -1,5 +1,4 @@
 import { motion, easeInOut } from "framer-motion";
-import React from "react";
 import {
     FaFacebook,
     FaGoogle,
@@ -66,22 +65,22 @@ const SideBar = ({
                             {catgoryAndSubCategory.map(category => (
                                 <nav
                                     className="group rounded-md"
-                                    key={category.id}
+                                    key={category._id}
                                 >
                                     <input
                                         type="checkbox"
-                                        id={`toggle-${category?.id}`}
+                                        id={`toggle-${category?._id}`}
                                         className="hidden peer"
                                     />
                                     <label
-                                        htmlFor={`toggle-${category?.id}`}
+                                        htmlFor={`toggle-${category?._id}`}
                                         className="flex justify-between items-center py-2 cursor-pointer rounded-md"
                                     >
                                         <Link
                                             onClick={handleModel}
-                                            to={`/${category?.slug}`}
+                                            to={`/${category?.categorySlug}`}
                                         >
-                                            {category?.name}
+                                            {category?.categoryName}
                                         </Link>
                                         <div className="px-2 py-1 text-base">
                                             <FaPlus className="transform peer-checked:rotate-45 transition-transform duration-300" />
@@ -90,17 +89,17 @@ const SideBar = ({
 
                                     <ul className="ml-4 mt-2 space-y-1 hidden peer-checked:block transition-all duration-700 ease-in-out transform">
                                         {category?.subcategories.map(
-                                            (subcategory, index) => (
+                                            subcategory => (
                                                 <li
-                                                    key={index}
+                                                    key={subcategory?._id}
                                                     className="py-1"
                                                 >
                                                     <Link
                                                         onClick={handleModel}
-                                                        to={`/${category.slug}/${subcategory.slug}`}
+                                                        to={`/${category.categorySlug}/${subcategory.subCategorySlug}`}
                                                         className="block px-3 py-1 underline underline-offset-4"
                                                     >
-                                                        {subcategory?.name}
+                                                        {subcategory?.subCategoryName}
                                                     </Link>
                                                 </li>
                                             )

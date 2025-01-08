@@ -1,5 +1,3 @@
-import React from "react";
-
 const SectionHeader = ({ title }) => {
     return (
         <div className="w-full mb-2">

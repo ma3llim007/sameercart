@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaBars, FaRegHeart } from "react-icons/fa";
 import { ModeToggle } from "../ModeToggle";
 import { Link, NavLink } from "react-router-dom";
@@ -15,9 +15,9 @@ import {
 import useSticky from "../../hooks/useSticky";
 import Logo from "../Logo";
 import SideBar from "./SideBar";
-import { catgoryAndSubCategory } from "@/client/data/cateagoryAndSubCategory";
+import { capitalizeWords } from "@/utils";
 
-const Header = () => {
+const Header = ({ data }) => {
     const isSticky = useSticky(100);
     const [MobileNavOpen, setMobileNavOpen] = useState(false);
 
@@ -198,18 +198,20 @@ const Header = () => {
                                     <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
                                 </NavLink>
                                 <div className="inline-flex gap-5">
-                                    {catgoryAndSubCategory.map(category => (
-                                        <DropdownMenu key={category?.id}>
+                                    {data?.data.map(category => (
+                                        <DropdownMenu key={category._id}>
                                             <div className="flex items-center gap-1">
                                                 <Link
-                                                    to={`/${category?.slug}`}
+                                                    to={`/${category?.categorySlug}`}
                                                     className="flex gap-1 cursor-pointer items-center outline-none"
                                                     role="button"
                                                     tabIndex={0}
                                                     aria-haspopup="true"
                                                     aria-expanded="false"
                                                 >
-                                                    {category?.name}
+                                                    {capitalizeWords(
+                                                        category?.categoryName
+                                                    )}
                                                 </Link>
                                                 <DropdownMenuTrigger asChild>
                                                     <button>
@@ -229,16 +231,16 @@ const Header = () => {
                                                             asChild
                                                             className="py-2 px-4 cursor-pointer"
                                                             key={
-                                                                subcategory?.id
+                                                                subcategory?._id
                                                             }
                                                         >
                                                             <Link
-                                                                to={`${category.slug}/${subcategory?.slug}`}
+                                                                to={`${category.categorySlug}/${subcategory?.subCategorySlug}`}
                                                                 className="px-4 py-2 text-base border-b rounded-none border-opacity-50 border-light-gray"
                                                             >
-                                                                {
-                                                                    subcategory?.name
-                                                                }
+                                                                {capitalizeWords(
+                                                                    subcategory?.subCategoryName
+                                                                )}
                                                             </Link>
                                                         </DropdownMenuItem>
                                                     )
@@ -256,9 +258,6 @@ const Header = () => {
                                 </NavLink>
                             </ul>
                         </nav>
-                        <div className="text-sm w-[15%] lg:hidden xl:block 2xl:block">
-                            <p>Free Shipping on Orders $50+</p>
-                        </div>
                     </div>
                 </div>
             </header>
@@ -267,7 +266,7 @@ const Header = () => {
                 wishListQty={wishListQty}
                 handleModel={handleMobileModel}
                 isOpenModel={MobileNavOpen}
-                catgoryAndSubCategory={catgoryAndSubCategory}
+                catgoryAndSubCategory={data.data}
             />
         </>
     );

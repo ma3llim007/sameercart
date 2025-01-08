@@ -18,7 +18,7 @@ export default [
             "no-console": [
                 "warn",
                 {
-                    allow: ["warn", "error", "log"],
+                    allow: ["warn", "error"],
                 },
             ],
             quotes: ["error", "double"],

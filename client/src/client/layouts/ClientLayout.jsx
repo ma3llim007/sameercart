@@ -1,10 +1,25 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 import { Footer, Header } from "../components";
+import crudService from "@/api/crudService";
+import { useQuery } from "@tanstack/react-query";
+import toastService from "@/services/toastService";
+import Loader from "../components/Loader/Loader";
+
 const ClientLayout = () => {
+    const { data, isLoading } = useQuery({
+        queryKey: ["headerContent"],
+        queryFn: () => crudService.get("category/category-with-sub-category"),
+        onError: error => {
+            const message = error?.response?.data?.message || error?.message;
+            toastService.error(message || "Failed to fetch Data.");
+        },
+    });
+
+    if (isLoading) return <Loader />;
+
     return (
         <div className="h-screen w-screen flex flex-col">
-            <Header />
+            <Header data={data} />
             <main className="flex-grow">
                 <Outlet />
             </main>

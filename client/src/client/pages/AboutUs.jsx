@@ -1,4 +1,3 @@
-import React from "react";
 import { Banner, CompanyOverview, Container, OurStory, OurValues, Team, Testimonails } from "../components";
 import aboutBanner from "../assets/banner/about_us.webp";
 
