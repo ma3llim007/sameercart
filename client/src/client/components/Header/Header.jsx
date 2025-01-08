@@ -202,7 +202,7 @@ const Header = ({ data }) => {
                                         <DropdownMenu key={category._id}>
                                             <div className="flex items-center gap-1">
                                                 <Link
-                                                    to={`/${category?.categorySlug}`}
+                                                    to={`/category/${category?.categorySlug}`}
                                                     className="flex gap-1 cursor-pointer items-center outline-none"
                                                     role="button"
                                                     tabIndex={0}

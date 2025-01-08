@@ -1,10 +1,16 @@
-import React, { lazy } from "react";
-import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
+import { lazy } from "react";
+import {
+    createBrowserRouter,
+    createRoutesFromElements,
+    Route,
+} from "react-router-dom";
 import ClientLayout from "../client/layouts/ClientLayout";
 const Home = lazy(() => import("../client/pages/Home"));
 const AboutUs = lazy(() => import("../client/pages/AboutUs"));
 const ContactUs = lazy(() => import("../client/pages/ContactUs"));
-const TermsAndCondition = lazy(() => import("../client/pages/TermsAndCondition"));
+const TermsAndCondition = lazy(
+    () => import("../client/pages/TermsAndCondition")
+);
 const MyAccount = lazy(() => import("../client/pages/MyAccount"));
 const CheckOut = lazy(() => import("../client/pages/CheckOut"));
 const Login = lazy(() => import("../client/pages/Login"));
@@ -14,6 +20,8 @@ const SecurePayment = lazy(() => import("../client/pages/SecurePayment"));
 const LegalNotice = lazy(() => import("../client/pages/LegalNotice"));
 const ReturnPolicy = lazy(() => import("../client/pages/ReturnPolicy"));
 const PrivacyPolicy = lazy(() => import("../client/pages/PrivacyPolicy"));
+const Category = lazy(() => import("../client/pages/Category"));
+
 // Client Router
 const clientRouters = createBrowserRouter(
     createRoutesFromElements(
@@ -25,11 +33,15 @@ const clientRouters = createBrowserRouter(
             <Route path="/legal-notice" element={<LegalNotice />} />
             <Route path="/return-policy" element={<ReturnPolicy />} />
             <Route path="/contact-us" element={<ContactUs />} />
-            <Route path="/terms-and-conditions" element={<TermsAndCondition />} />
+            <Route
+                path="/terms-and-conditions"
+                element={<TermsAndCondition />}
+            />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/my-account" element={<MyAccount />} />
             <Route path="/checkout" element={<CheckOut />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/category/:categorySlug" element={<Category />} />
             <Route path="*" element={<ClientNotFound />} />
         </Route>
     )

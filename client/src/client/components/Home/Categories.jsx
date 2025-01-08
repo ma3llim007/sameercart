@@ -19,7 +19,7 @@ const Categories = ({ categories }) => {
                     navigation={true}
                     loop={true}
                     pagination={{ clickable: true }}
-                    autoplay={{ delay: 7000, disableOnInteraction: false }}
+                    autoplay={{ delay: 8000, disableOnInteraction: false }}
                     breakpoints={{
                         640: {
                             slidesPerView: 2,
@@ -51,7 +51,7 @@ const Categories = ({ categories }) => {
                                     />
                                 </Link>
                                 <div className="flex flex-col gap-2">
-                                    <Link to={`/${category.categorySlug}`}>
+                                    <Link to={`/category/${category.categorySlug}`}>
                                         <h4 className="text-xl text-center font-bold mb-3 cursor-pointer no-underline hover:underline transition-all duration-300 delay-300 ease-in-out decoration-2">
                                             {capitalizeWords(
                                                 category?.categoryName
