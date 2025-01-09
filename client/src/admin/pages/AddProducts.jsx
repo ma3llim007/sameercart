@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Input, Loading, PageHeader, Select } from "../components";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -229,7 +229,7 @@ const AddProducts = () => {
                                         <Input
                                             label="Select The Product Image"
                                             title="Select The Product Image"
-                                            additionalTitle="Note:- [For Best View Of Product Image Width:350px, Height:250px]"
+                                            additionalTitle="Note:- [For Best View Of Product Image Width:500px, Height:500px]"
                                             type="file"
                                             disabled={isPending}
                                             accept=".jpg, .jpeg, .png, .gif, .svg, .webp"
