@@ -9,6 +9,7 @@ const ClientLayout = () => {
     const { data, isLoading } = useQuery({
         queryKey: ["headerContent"],
         queryFn: () => crudService.get("category/category-with-sub-category"),
+        cacheTime: 1000 * 60 * 60 * 48,
         onError: error => {
             const message = error?.response?.data?.message || error?.message;
             toastService.error(message || "Failed to fetch Data.");
