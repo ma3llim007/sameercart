@@ -182,9 +182,9 @@ const Header = ({ data }) => {
                         </div>
                     </div>
                     <div
-                        className={`hidden justify-between h-12 px-5 py-8 lg:flex xl:flex 2xl:flex bg-light-blue text-light-bgLighterGray items-center gap-5 w-full z-20 transform transition-all duration-300 ease-in-out ${isSticky ? "fixed bg-light-blue top-0 left-0 shadow-lg opacity-100 translate-y-0 mt-0 z-50" : "relative mt-2"} `}
+                        className={`hidden justify-between h-12 px-5 py-8 lg:flex bg-light-blue text-light-bgLighterGray items-center gap-5 w-full z-20 transform transition-all duration-300 ease-in-out ${isSticky ? "fixed bg-light-blue top-0 left-0 shadow-lg opacity-100 translate-y-0 mt-0 z-50" : "relative mt-2"} `}
                     >
-                        <nav className="w-[85%] mr-5 lg:w-full">
+                        <nav className="w-full mr-5 lg:text-base text-xl">
                             <ul className="flex gap-5 py-2 font-semibold items-center lg:justify-center xl:justify-start 2xl:justify-start">
                                 <NavLink to={"/"} className="relative group">
                                     Home
@@ -222,7 +222,7 @@ const Header = ({ data }) => {
 
                                             <DropdownMenuContent
                                                 align="center"
-                                                className="min-w-[8rem] overflow-hidden p-1 shadow-md border-none divide-light-border dark:divide-dark-border bg-light-blue text-light-textWhite dark:text-dark-textWhite z-40"
+                                                className="min-w-[9rem] overflow-hidden p-1 shadow-md border-none divide-light-border dark:divide-dark-border bg-light-blue text-light-textWhite dark:text-dark-textWhite z-40"
                                                 sideOffset={22}
                                             >
                                                 {category?.subcategories.map(

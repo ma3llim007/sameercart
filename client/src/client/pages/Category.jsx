@@ -18,9 +18,11 @@ import { Button } from "@/components/ui/button";
 
 const Category = () => {
     const { categorySlug } = useParams();
+    console.log(categorySlug);
+    
     const title = categorySlug ? slugToText(categorySlug) : "Unknown Category";
     const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(5);
+    const limit = 9;
 
     // Fetching Category
     const { data, isLoading } = useQuery({
@@ -45,6 +47,10 @@ const Category = () => {
                     <BreadcrumbList className="text-lg">
                         <BreadcrumbItem>
                             <Link to="/">Home</Link>
+                        </BreadcrumbItem>
+                        <BreadcrumbSeparator />
+                        <BreadcrumbItem>
+                            <Link to="/all-category">Category</Link>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>

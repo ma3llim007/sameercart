@@ -99,7 +99,9 @@ const SideBar = ({
                                                         to={`/${category.categorySlug}/${subcategory.subCategorySlug}`}
                                                         className="block px-3 py-1 underline underline-offset-4"
                                                     >
-                                                        {subcategory?.subCategoryName}
+                                                        {
+                                                            subcategory?.subCategoryName
+                                                        }
                                                     </Link>
                                                 </li>
                                             )
@@ -108,6 +110,12 @@ const SideBar = ({
                                 </nav>
                             ))}
                         </div>
+                        <NavLink onClick={handleModel} to={"/all-category"}>
+                            Category
+                        </NavLink>
+                        <NavLink onClick={handleModel} to={"/all-sub-category"}>
+                            Sub Category
+                        </NavLink>
                         <NavLink onClick={handleModel} to={"/contact-us"}>
                             Contact Us
                         </NavLink>
