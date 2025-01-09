@@ -66,7 +66,7 @@ const categoryWithSubCategory = asyncHandler(async (req, res) => {
             },
             // Limit
             {
-                $limit: 6,
+                $limit: 4,
             },
         ]);
         return res.status(200).json(new ApiResponse(200, categoryWithSubCategoryData, "Data Fetch Successfully"));
@@ -155,4 +155,46 @@ const popularCategories = asyncHandler(async (req, res) => {
     }
 });
 
-export { categoryWithSubCategory, popularCategories };
+// Category With Pagination
+const categories = asyncHandler(async (req, res) => {
+    try {
+        let page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 9;
+
+        // Calculate the number of documents to skip
+        const skip = (page - 1) * limit;
+
+        // Get the total number of categories
+        const totalCategories = await Category.countDocuments();
+
+        // Calculate total pages
+        const totalPages = Math.ceil(totalCategories / limit);
+
+        // Adjust page if it exceeds total pages
+        if (page > totalPages && totalPages > 0) {
+            page = totalPages;
+        }
+
+        // Fetch paginated categories
+        const categories = await Category.find()
+            .skip(skip)
+            .limit(limit)
+            .sort({ createdAt: -1 })
+            .select("categoryName categorySlug categoryImage");
+
+        // If no categories are found, handle the empty state
+        if (!categories.length) {
+            return res
+                .status(200)
+                .json(new ApiResponse(200, { categories: [], page, totalPages }, "No categories Found"));
+        }
+
+        // Return the paginated categories with metadata
+        return res
+            .status(200)
+            .json(new ApiResponse(200, { categories, page, totalPages }, "Categories Fetch Successfully"));
+    } catch (error) {
+        return res.status(500).json(new ApiError(500, error.message));
+    }
+});
+export { categoryWithSubCategory, popularCategories, categories };

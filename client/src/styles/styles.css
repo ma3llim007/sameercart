@@ -64,3 +64,11 @@
 .btn3xl {
     @apply h-14 px-8 text-2xl;
 }
+
+.btnFull {
+    @apply block w-full h-14 px-8 text-2xl;
+}
+
+.font-responsive {
+    @apply text-base sm:text-lg md:text-xl lg:text-2xl;
+}

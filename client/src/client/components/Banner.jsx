@@ -1,23 +1,7 @@
 import { motion } from "framer-motion";
 import bannerImage from "../assets/banner/delivery.webp";
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Link } from "react-router-dom";
-const Banner = ({
-    image = bannerImage,
-    title,
-    controller,
-    controllerUrl,
-    subController,
-    subControllerUrl,
-    page,
-}) => {
+
+const Banner = ({ image = bannerImage, title, children }) => {
     return (
         <section className="w-full h-96 relative select-none">
             <img
@@ -45,61 +29,17 @@ const Banner = ({
                     >
                         {title}
                     </motion.h1>
-                    {controller || page && (
-                        <motion.div
-                            className="justify-center items-center hidden md:flex my-4 text-lg"
-                            initial={{ y: 60, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{
-                                duration: 0.8,
-                                delay: 0.7,
-                            }}
-                        >
-                            <Breadcrumb className="text-lg">
-                                <BreadcrumbList className="text-lg">
-                                    <BreadcrumbItem>
-                                        <Link
-                                            className="flex gap-2 items-center"
-                                            to={"/"}
-                                        >
-                                            Home
-                                        </Link>
-                                    </BreadcrumbItem>
-                                    <BreadcrumbSeparator />
-                                    {controller && controllerUrl && (
-                                        <BreadcrumbItem>
-                                            <BreadcrumbLink
-                                                href={controllerUrl}
-                                            >
-                                                {controller}
-                                            </BreadcrumbLink>
-                                        </BreadcrumbItem>
-                                    )}
-
-                                    {subController && subControllerUrl && (
-                                        <>
-                                            <BreadcrumbSeparator />
-                                            <BreadcrumbItem>
-                                                <BreadcrumbLink
-                                                    href={controllerUrl}
-                                                >
-                                                    {controller}
-                                                </BreadcrumbLink>
-                                            </BreadcrumbItem>
-                                            <BreadcrumbSeparator />
-                                        </>
-                                    )}
-                                    {page && (
-                                        <BreadcrumbItem>
-                                            <BreadcrumbPage>
-                                                {page}
-                                            </BreadcrumbPage>
-                                        </BreadcrumbItem>
-                                    )}
-                                </BreadcrumbList>
-                            </Breadcrumb>
-                        </motion.div>
-                    )}
+                    <motion.div
+                        className="justify-center items-center hidden md:flex my-2 text-lg"
+                        initial={{ y: 60, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{
+                            duration: 0.8,
+                            delay: 0.6,
+                        }}
+                    >
+                        {children}
+                    </motion.div>
                 </motion.div>
             </div>
         </section>
