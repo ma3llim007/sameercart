@@ -110,11 +110,8 @@ const SideBar = ({
                                 </nav>
                             ))}
                         </div>
-                        <NavLink onClick={handleModel} to={"/all-category"}>
+                        <NavLink onClick={handleModel} to={"/category"}>
                             Category
-                        </NavLink>
-                        <NavLink onClick={handleModel} to={"/all-sub-category"}>
-                            Sub Category
                         </NavLink>
                         <NavLink onClick={handleModel} to={"/contact-us"}>
                             Contact Us

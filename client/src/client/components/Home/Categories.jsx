@@ -51,7 +51,7 @@ const Categories = ({ categories }) => {
                                     />
                                 </Link>
                                 <div className="flex flex-col gap-2">
-                                    <Link to={`/category/${category.categorySlug}`}>
+                                    <Link to={`/sub-category/${category.categorySlug}`}>
                                         <h4 className="text-xl text-center font-bold mb-3 cursor-pointer no-underline hover:underline transition-all duration-300 delay-300 ease-in-out decoration-2">
                                             {capitalizeWords(
                                                 category?.categoryName

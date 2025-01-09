@@ -43,7 +43,7 @@ const clientRouters = createBrowserRouter(
             <Route path="/my-account" element={<MyAccount />} />
             <Route path="/checkout" element={<CheckOut />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/all-category" element={<AllCategory />} />
+            <Route path="/category" element={<AllCategory />} />
             <Route path="/category/:categorySlug" element={<SubCategory />} />
             <Route path="/all-sub-category" element={<AllSubCategory />} />
             <Route path="*" element={<ClientNotFound />} />

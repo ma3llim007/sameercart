@@ -251,7 +251,7 @@ const Header = ({ data }) => {
                                 </div>
                                 <NavLink
                                     className="relative group"
-                                    to={"/all-category"}
+                                    to={"/category"}
                                 >
                                     Category
                                     <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>

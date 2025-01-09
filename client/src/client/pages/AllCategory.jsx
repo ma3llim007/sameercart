@@ -74,7 +74,7 @@ const AllCategory = () => {
                                     alt={category.categoryName}
                                     className="w-4/5 object-cover rounded group-hover:scale-105 transition-all duration-300 ease-in-out transform"
                                 />
-                                <Link to={`/category/${category.categorySlug}`}>
+                                <Link to={`/sub-category/${category.categorySlug}`}>
                                     <Button className="Primary btnXl mt-4">
                                         {capitalizeWords(category.categoryName)}
                                     </Button>

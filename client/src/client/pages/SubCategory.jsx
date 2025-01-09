@@ -48,7 +48,7 @@ const SubCategory = () => {
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <Link to="/all-category">Category</Link>
+                            <Link to="/category">Category</Link>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
