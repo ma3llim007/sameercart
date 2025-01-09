@@ -184,7 +184,7 @@ const Header = ({ data }) => {
                     <div
                         className={`hidden justify-between h-12 px-5 py-8 lg:flex bg-light-blue text-light-bgLighterGray items-center gap-5 w-full z-20 transform transition-all duration-300 ease-in-out ${isSticky ? "fixed bg-light-blue top-0 left-0 shadow-lg opacity-100 translate-y-0 mt-0 z-50" : "relative mt-2"} `}
                     >
-                        <nav className="w-full mr-5 lg:text-base text-xl">
+                        <nav className="w-4/5 mr-5 lg:w-full">
                             <ul className="flex gap-5 py-2 font-semibold items-center lg:justify-center xl:justify-start 2xl:justify-start">
                                 <NavLink to={"/"} className="relative group">
                                     Home
@@ -258,13 +258,6 @@ const Header = ({ data }) => {
                                 </NavLink>
                                 <NavLink
                                     className="relative group"
-                                    to={"/all-sub-category"}
-                                >
-                                    Sub Category
-                                    <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
-                                </NavLink>
-                                <NavLink
-                                    className="relative group"
                                     to={"/contact-us"}
                                 >
                                     Contact Us
@@ -272,6 +265,11 @@ const Header = ({ data }) => {
                                 </NavLink>
                             </ul>
                         </nav>
+                        <div className="text-sm w-[15%] lg:hidden xl:block 2xl:block">
+                            <p className="text-center">
+                                Free Shipping on Orders $50+
+                            </p>
+                        </div>
                     </div>
                 </div>
             </header>

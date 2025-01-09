@@ -1,4 +1,3 @@
-import React from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
 import { FaBagShopping } from "react-icons/fa6";

@@ -36,7 +36,7 @@ const Home = () => {
     ];
 
     const { data: popularCategories, isLoading } = useQuery({
-        queryKey: ["popularcategories"],
+        queryKey: ["popularCategories"],
         queryFn: () => crudService.get("category/popular-categories"),
         onError: error => {
             const message = error?.response?.data?.message || error?.message;

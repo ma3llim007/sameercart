@@ -5,7 +5,7 @@ import "./styles/styles.css";
 import "swiper/css";
 import AdminApp from "./admin/AdminApp";
 import ClientApp from "./client/ClientApp";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { ThemeProvider } from "./client/context/themeProvider";

@@ -27,7 +27,7 @@ const AllCategory = () => {
 
     // Fetching Category
     const { data, isLoading, isFetching } = useQuery({
-        queryKey: ["category", page, limit],
+        queryKey: ["allCategory", page, limit],
         queryFn: () =>
             crudService.get(`/category/categories?page=${page}&limit=${limit}`),
         onError: error => {
