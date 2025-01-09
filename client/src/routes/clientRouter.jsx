@@ -21,7 +21,6 @@ const LegalNotice = lazy(() => import("../client/pages/LegalNotice"));
 const ReturnPolicy = lazy(() => import("../client/pages/ReturnPolicy"));
 const PrivacyPolicy = lazy(() => import("../client/pages/PrivacyPolicy"));
 const AllCategory = lazy(() => import("../client/pages/AllCategory"));
-const AllSubCategory = lazy(() => import("../client/pages/AllSubCategory"));
 const SubCategory = lazy(() => import("../client/pages/SubCategory"));
 
 // Client Router
@@ -44,8 +43,7 @@ const clientRouters = createBrowserRouter(
             <Route path="/checkout" element={<CheckOut />} />
             <Route path="/login" element={<Login />} />
             <Route path="/category" element={<AllCategory />} />
-            <Route path="/category/:categorySlug" element={<SubCategory />} />
-            <Route path="/all-sub-category" element={<AllSubCategory />} />
+            <Route path="/sub-category/:categorySlug" element={<SubCategory />} />
             <Route path="*" element={<ClientNotFound />} />
         </Route>
     )

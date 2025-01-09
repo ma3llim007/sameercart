@@ -24,7 +24,7 @@ const SubCategory = () => {
 
     // Fetching Category
     const { data, isLoading } = useQuery({
-        queryKey: ["subcategorys", page, limit],
+        queryKey: ["subcategorys", categorySlug, page, limit],
         queryFn: () =>
             crudService.get(
                 `/sub-category/subcategories-by-category/${categorySlug}?page=${page}&limit=${limit}`
