@@ -77,14 +77,14 @@ const subCategoryByCategory = asyncHandler(async (req, res) => {
         }
 
         // Fetching Pagination Sub Category
-        const subCategory = await SubCategory.find({ parentCategory: category._id })
+        const subCategorys = await SubCategory.find({ parentCategory: category._id })
             .skip(skip)
             .limit(limit)
             .sort({ createdAt: -1 })
             .select("subCategoryName subCategorySlug subCategoryImage");
 
         // If no subcategories aare found, handle the empty state
-        if (!subCategory.length) {
+        if (!subCategorys.length) {
             return res
                 .status(200)
                 .json(new ApiResponse(200, { subCategory: [], page, totalPages }, "No Sub Category Found"));
@@ -93,7 +93,7 @@ const subCategoryByCategory = asyncHandler(async (req, res) => {
         // Return The Pagination Sub Category With Metadata
         return res
             .status(200)
-            .json(new ApiResponse(200, { subCategory, page, totalPages }, "Sub Category Fetch Successfully"));
+            .json(new ApiResponse(200, { subCategorys, page, totalPages }, "Sub Category Fetch Successfully"));
     } catch (error) {
         return res.status(500).json(new ApiError(500, error.message));
     }
