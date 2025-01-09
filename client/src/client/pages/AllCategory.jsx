@@ -2,7 +2,7 @@ import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { capitalizeWords } from "@/utils";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import bannerImage from "../assets/banner/basket_banner.webp";
 import Loader from "../components/Loader/Loader";
@@ -20,8 +20,13 @@ const AllCategory = () => {
     const [page, setPage] = useState(1);
     const limit = 9;
 
+    // Scroll to top on page change
+    useEffect(() => {
+        window.scrollTo({ top: 100, behavior: "smooth" });
+    }, [page]);
+
     // Fetching Category
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, isFetching } = useQuery({
         queryKey: ["category", page, limit],
         queryFn: () =>
             crudService.get(`/category/categories?page=${page}&limit=${limit}`),
@@ -34,8 +39,7 @@ const AllCategory = () => {
 
     const { categories, page: responsePage, totalPages } = data?.data || {};
 
-    if (isLoading) return <Loader />;
-
+    if (isLoading || isFetching) return <Loader />;
     return (
         <>
             <Banner title={"Category"} image={bannerImage}>
@@ -70,13 +74,11 @@ const AllCategory = () => {
                                     alt={category.categoryName}
                                     className="w-4/5 object-cover rounded group-hover:scale-105 transition-all duration-300 ease-in-out transform"
                                 />
-                                <Button className="Primary btnXl mt-4">
-                                    <Link
-                                        to={`/category/${category.categorySlug}`}
-                                    >
+                                <Link to={`/category/${category.categorySlug}`}>
+                                    <Button className="Primary btnXl mt-4">
                                         {capitalizeWords(category.categoryName)}
-                                    </Link>
-                                </Button>
+                                    </Button>
+                                </Link>
                             </div>
                         ))}
                     </div>

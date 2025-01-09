@@ -8,7 +8,7 @@ import {
 import bannerImage from "../assets/banner/basket_banner.webp";
 import { Banner, Container } from "../components";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import toastService from "@/services/toastService";
 import crudService from "@/api/crudService";
@@ -20,6 +20,11 @@ const AllSubCategory = () => {
     const [page, setPage] = useState(1);
     const limit = 9;
 
+    // Scroll to top on page change
+    useEffect(() => {
+        window.scrollTo({ top: 100, behavior: "smooth" });
+    }, [page]);
+    
     // Fetching Sub Category
     const { data, isLoading } = useQuery({
         queryKey: ["subcategory", page, limit],
@@ -74,7 +79,9 @@ const AllSubCategory = () => {
                                     <Link
                                         to={`/category/${subcategory.subCategorySlug}`}
                                     >
-                                        {capitalizeWords(subcategory.subCategoryName)}
+                                        {capitalizeWords(
+                                            subcategory.subCategoryName
+                                        )}
                                     </Link>
                                 </Button>
                             </div>
