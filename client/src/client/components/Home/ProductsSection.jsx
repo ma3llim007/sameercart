@@ -1,25 +1,25 @@
 import { productsData } from "@/client/data/products";
 import { Button } from "@/components/ui/button";
-import React, { useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
 import {
     FaArrowAltCircleLeft,
     FaArrowAltCircleRight,
     FaHeart,
-    FaCartPlus
+    FaCartPlus,
 } from "react-icons/fa";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Rating from "../Rating";
 import { MdCompareArrows } from "react-icons/md";
 import { motion } from "framer-motion";
 import SectionHeader from "./SectionHeader";
 
-const ProductsSection = ({title="Featured Products"}) => {
+const ProductsSection = ({ title = "Featured Products" }) => {
     const products = useMemo(() => productsData.slice(0, 10), []);
     const swiperRef = useRef(null);
     return (
         <section className="w-full flex flex-col my-10 relative">
-            <SectionHeader title={title}/>
+            <SectionHeader title={title} />
             <Swiper
                 modules={[Navigation, Pagination]}
                 slidesPerView={2}
@@ -53,7 +53,7 @@ const ProductsSection = ({title="Featured Products"}) => {
                                     loading="lazy"
                                     src={product?.product_image}
                                     alt={product?.product_title}
-                                    className="w-full h-auto object-cover rounded-lg mb-4 overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105"
+                                    className="w-full h-80 object-cover rounded-lg mb-4 overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105"
                                 />
                                 <span className="absolute text-white top-1 left-1 bg-light-blue px-1 leading-5 capitalize font-bold rounded-md text-[12px]">
                                     New

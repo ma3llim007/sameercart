@@ -57,6 +57,7 @@ const productSchema = new Schema(
         },
         productStock: {
             type: Number,
+            min: [0, "Product Stock Cannot Be Negative"],
         },
         addedBy: {
             type: Schema.Types.ObjectId,
