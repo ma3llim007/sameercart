@@ -168,15 +168,6 @@ const AddProducts = () => {
                         </div>
                         <div className="flex flex-wrap my-2">
                             <div className="w-full md:w-1/2 px-2">
-                                <Input
-                                    label="Product Price"
-                                    placeholder="Enter The Product Price"
-                                    {...register("productPrice")}
-                                    className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                    error={errors.productPrice?.message}
-                                />
-                            </div>
-                            <div className="w-full md:w-1/2 px-2">
                                 <Controller
                                     name="productCategoryId"
                                     control={control}
@@ -205,8 +196,6 @@ const AddProducts = () => {
                                     )}
                                 />
                             </div>
-                        </div>
-                        <div className="flex flex-wrap my-2">
                             <div className="w-full md:w-1/2 px-2">
                                 <Select
                                     label="Select The Sub-Category"
@@ -221,6 +210,8 @@ const AddProducts = () => {
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                 />
                             </div>
+                        </div>
+                        <div className="flex flex-wrap my-2">
                             <div className="w-full md:w-1/2 px-2">
                                 <Controller
                                     control={control}
@@ -247,8 +238,6 @@ const AddProducts = () => {
                                     )}
                                 />
                             </div>
-                        </div>
-                        <div className="flex flex-wrap my-2">
                             <div className="w-full md:w-1/2 px-2">
                                 <Select
                                     label="Select The Variants"
@@ -264,17 +253,30 @@ const AddProducts = () => {
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                 />
                             </div>
+                        </div>
+                        <div className="flex flex-wrap my-2">
                             {hasVariants === "false" && (
-                                <div className="w-full md:w-1/2 px-2">
-                                    <Input
-                                        label="Product Stock"
-                                        placeholder="Enter The Product Stock"
-                                        {...register("productStock")}
-                                        disabled={isPending}
-                                        className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                        error={errors.productStock?.message}
-                                    />
-                                </div>
+                                <>
+                                    <div className="w-full md:w-1/2 px-2">
+                                        <Input
+                                            label="Product Price"
+                                            placeholder="Enter The Product Price"
+                                            {...register("productPrice")}
+                                            className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                            error={errors.productPrice?.message}
+                                        />
+                                    </div>
+                                    <div className="w-full md:w-1/2 px-2">
+                                        <Input
+                                            label="Product Stock"
+                                            placeholder="Enter The Product Stock"
+                                            {...register("productStock")}
+                                            disabled={isPending}
+                                            className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                            error={errors.productStock?.message}
+                                        />
+                                    </div>
+                                </>
                             )}
                         </div>
 

@@ -29,8 +29,7 @@ const addProduct = asyncHandler(async (req, res) => {
         !productSubCategoryId?.trim() ||
         !productDescription?.trim() ||
         !productSpecification?.trim() ||
-        !hasVariants?.trim() ||
-        !productPrice?.trim()
+        !hasVariants?.trim()
     ) {
         return res.status(422).json(new ApiError(422, "All Field Are Required"));
     }

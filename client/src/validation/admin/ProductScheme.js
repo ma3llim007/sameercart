@@ -8,12 +8,31 @@ export const addProductScheme = Yup.object().shape({
         .matches(/^[A-Za-z\s]+$/, "Product Name Must Only Contain Letters"),
     productSlug: Yup.string().required("Product Slug Is Required"),
     productPrice: Yup.string()
-        .required("Product Price Is Required")
         .test(
-            "is-positive",
-            "Product Stock Must Be A Positive Number.",
-            value => value > 0
-        ),
+            "is-valid-price",
+            "Product Price Is Required And Must Be A Positive Number",
+            function (value) {
+                const { hasVariants } = this.parent;
+                // Only validate productStock if hasVariants is "false"
+                if (hasVariants === "false") {
+                    if (!value) {
+                        return this.createError({
+                            message: "Product Price Is Required",
+                        });
+                    }
+
+                    // Check if the value is a valid number and greater than 0
+                    const numericValue = Number(value);
+                    if (isNaN(numericValue) || numericValue <= 0) {
+                        return this.createError({
+                            message: "Product Price Must Be A Positive Number.",
+                        });
+                    }
+                }
+                return true;
+            }
+        )
+        .notRequired(),
     productStock: Yup.string()
         .test(
             "is-valid-stock",

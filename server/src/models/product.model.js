@@ -26,7 +26,7 @@ const productSchema = new Schema(
         },
         productPrice: {
             type: Number,
-            required: [true, "Product Price Is Required"],
+            min: [0, "Product Stock Cannot Be Negative"],
         },
         productCategoryId: {
             type: Schema.Types.ObjectId,
