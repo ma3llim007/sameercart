@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { isValidExtensions, isValidFileType } from "@/utils";
 import * as Yup from "yup";
 
@@ -33,6 +34,33 @@ export const addProductScheme = Yup.object().shape({
             }
         )
         .notRequired(),
+    productDiscountPrice: Yup.string()
+        .test(
+            "is-valid-discount-price",
+            "Product Discount Price Is Required And Must Be A Positive Number",
+            function (value) {
+                const { hasVariants } = this.parent;
+                // Only validate productStock if hasVariants is "false"
+                if (hasVariants === "false") {
+                    if (!value) {
+                        return this.createError({
+                            message: "Product Discount Price Is Required",
+                        });
+                    }
+
+                    // Check if the value is a valid number and greater than 0
+                    const numericValue = Number(value);
+                    if (isNaN(numericValue) || numericValue <= 0) {
+                        return this.createError({
+                            message:
+                                "Product Discount Price Must Be A Positive Number.",
+                        });
+                    }
+                }
+                return true;
+            }
+        )
+        .notRequired(),
     productStock: Yup.string()
         .test(
             "is-valid-stock",
@@ -60,16 +88,22 @@ export const addProductScheme = Yup.object().shape({
         )
         .notRequired(),
     productCategoryId: Yup.string()
-        .required("Category is required")
+        .required("Product Category Is Required")
         .notOneOf(["", "default"], "You Must Select A Valid Category"),
     productSubCategoryId: Yup.string()
-        .required("Sub-Category is required")
+        .required("Product Sub Category Is Required")
         .notOneOf(["", "default"], "You Must Select A Valid Sub-Category"),
     productFeatureImage: Yup.mixed()
-        .required("Product Image Is Required")
-        .test("fileType", "Unsupported file format", value =>
+        .required("Product Feature Image Is Required")
+        .test("fileType", "Unsupported File Format", value =>
             isValidFileType(value)
         ),
+    productBrand: Yup.string()
+        .required("Product Brand Is Required")
+        .matches(/^[A-Za-z\s]+$/, "Product Brand Must Only Contain Letters"),
+    productShortDescription: Yup.string()
+        .required("Product Short Description Is Required")
+        .max(100, "Maximum Length Is 100 Characters"),
     hasVariants: Yup.string()
         .required("Variant Is Required")
         .notOneOf(["", "default"], "You Must Select A Valid Variant"),
@@ -87,13 +121,59 @@ export const editProductScheme = Yup.object().shape({
         .min(2, "Product Name Atleast Have More Than 2 Characters")
         .matches(/^[A-Za-z\s]+$/, "Product Name Must Only Contain Letters"),
     productSlug: Yup.string().required("Product Slug Is Required"),
-    productPrice: Yup.number()
-        .required("Product Price Is Required")
+    productPrice: Yup.string()
         .test(
-            "is-positive",
-            "Product Stock Must Be A Positive Number.",
-            value => value > 0
-        ),
+            "is-valid-price",
+            "Product Price Is Required And Must Be A Positive Number",
+            function (value) {
+                const { hasVariants } = this.parent;
+                // Only validate productStock if hasVariants is "false"
+                if (hasVariants === "false") {
+                    if (!value) {
+                        return this.createError({
+                            message: "Product Price Is Required",
+                        });
+                    }
+
+                    // Check if the value is a valid number and greater than 0
+                    const numericValue = Number(value);
+                    if (isNaN(numericValue) || numericValue <= 0) {
+                        return this.createError({
+                            message: "Product Price Must Be A Positive Number.",
+                        });
+                    }
+                }
+                return true;
+            }
+        )
+        .notRequired(),
+    productDiscountPrice: Yup.string()
+        .test(
+            "is-valid-discount-price",
+            "Product Discount Price Is Required And Must Be A Positive Number",
+            function (value) {
+                const { hasVariants } = this.parent;
+                // Only validate productStock if hasVariants is "false"
+                if (hasVariants === "false") {
+                    if (!value) {
+                        return this.createError({
+                            message: "Product Discount Price Is Required",
+                        });
+                    }
+
+                    // Check if the value is a valid number and greater than 0
+                    const numericValue = Number(value);
+                    if (isNaN(numericValue) || numericValue <= 0) {
+                        return this.createError({
+                            message:
+                                "Product Discount Price Must Be A Positive Number.",
+                        });
+                    }
+                }
+                return true;
+            }
+        )
+        .notRequired(),
     productCategoryId: Yup.string()
         .required("Category is required")
         .notOneOf(["", "default"], "You Must Select A Valid Category"),
@@ -107,9 +187,12 @@ export const editProductScheme = Yup.object().shape({
             return !value || isValidExtensions(value);
         }
     ),
-    hasVariants: Yup.string()
-        .required("Variant Is Required")
-        .notOneOf(["", "default"], "You Must Select A Valid Variant"),
+    productBrand: Yup.string()
+        .required("Product Brand Is Required")
+        .matches(/^[A-Za-z\s]+$/, "Product Brand Must Only Contain Letters"),
+    productShortDescription: Yup.string()
+        .required("Product Short Description Is Required")
+        .max(100, "Maximum Length Is 100 Characters"),
     productDescription: Yup.string()
         .required("Product Description Is Required")
         .min(5, "Product Description Atleast Have More Than 5 Characters"),

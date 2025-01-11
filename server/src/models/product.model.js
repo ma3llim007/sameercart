@@ -24,10 +24,6 @@ const productSchema = new Schema(
             type: String,
             required: [true, "Product Feature Image Is Required"],
         },
-        productPrice: {
-            type: Number,
-            min: [0, "Product Stock Cannot Be Negative"],
-        },
         productCategoryId: {
             type: Schema.Types.ObjectId,
             ref: "Category",
@@ -38,9 +34,29 @@ const productSchema = new Schema(
             ref: "SubCategory",
             required: [true, "SubCategory Id Is Required"],
         },
+        productShortDescription: {
+            type: String,
+            required: [true, "Product Short Description Is Required"],
+        },
         productDescription: {
             type: String,
             required: [true, "Product Description Is Required"],
+        },
+        productSpecification: {
+            type: String,
+            required: [true, "Product Specfication Is Required"],
+        },
+        productBrand: {
+            type: String,
+            required: [true, "Product Brand Is Required"],
+        },
+        productPrice: {
+            type: Number,
+            min: [0, "Product Price Cannot Be Negative"],
+        },
+        productDiscountPrice: {
+            type: Number,
+            min: [0, "Product Discount Price Cannot Be Negative"],
         },
         hasVariants: {
             type: Boolean,
@@ -51,10 +67,6 @@ const productSchema = new Schema(
             ref: "Variant",
             default: [],
         },
-        productSpecification: {
-            type: String,
-            required: [true, "Product Specfication Is Required"],
-        },
         productStock: {
             type: Number,
             min: [0, "Product Stock Cannot Be Negative"],
@@ -64,9 +76,15 @@ const productSchema = new Schema(
             ref: "Admin",
             required: [true, "addedBy Is Required"],
         },
-        isActive: {
-            type: Boolean,
-            default: true,
+        ratings: {
+            averageRating: {
+                type: Number,
+                default: 0,
+            },
+            numberOfReviews: {
+                type: Number,
+                default: 0,
+            },
         },
     },
     { timestamps: true }

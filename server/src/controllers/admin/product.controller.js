@@ -19,6 +19,9 @@ const addProduct = asyncHandler(async (req, res) => {
         hasVariants,
         productPrice,
         productStock,
+        productBrand,
+        productShortDescription,
+        productDiscountPrice,
     } = req.body;
     const productFeatureImage = req.file?.path;
 
@@ -29,7 +32,9 @@ const addProduct = asyncHandler(async (req, res) => {
         !productSubCategoryId?.trim() ||
         !productDescription?.trim() ||
         !productSpecification?.trim() ||
-        !hasVariants?.trim()
+        !hasVariants?.trim() ||
+        !productBrand?.trim() ||
+        !productShortDescription?.trim()
     ) {
         return res.status(422).json(new ApiError(422, "All Field Are Required"));
     }
@@ -74,12 +79,16 @@ const addProduct = asyncHandler(async (req, res) => {
         productSlug,
         productFeatureImage: productFeatureImageUpload?.secure_url,
         productCategoryId,
-        productPrice: Number(productPrice),
+        productPrice: productPrice?.trim() && !isNaN(Number(productPrice)) ? Number(productPrice) : null,
+        productDiscountPrice:
+            productDiscountPrice?.trim() && !isNaN(Number(productDiscountPrice)) ? Number(productDiscountPrice) : null,
         productSubCategoryId,
         productDescription,
         hasVariants,
+        productShortDescription,
         productSpecification,
         productStock,
+        productBrand,
         addedBy: req.admin._id,
     });
 
@@ -123,7 +132,6 @@ const productListing = asyncHandler(async (req, res) => {
                 $project: {
                     _id: 1,
                     productName: 1,
-                    productSlug: 1,
                     productPrice: 1,
                     productFeatureImage: 1,
                     productCategory: {
@@ -215,6 +223,9 @@ const ProductGetById = asyncHandler(async (req, res) => {
                             subCategoryId: "$subcategories._id",
                             subCategoryName: "$subcategories.subCategoryName",
                         },
+                        productBrand: 1,
+                        productShortDescription: 1,
+                        productDiscountPrice: 1,
                         productDescription: 1,
                         hasVariants: 1,
                         productSpecification: 1,
@@ -301,6 +312,9 @@ const updateProduct = asyncHandler(async (req, res) => {
         productDescription,
         productSpecification,
         productPrice,
+        productShortDescription,
+        productBrand,
+        productDiscountPrice,
     } = req.body;
     const productFeatureImage = req.file?.path;
 
@@ -357,6 +371,15 @@ const updateProduct = asyncHandler(async (req, res) => {
     }
     if (productSpecification) {
         currentProduct.productSpecification = productSpecification;
+    }
+    if (productDiscountPrice) {
+        currentProduct.productDiscountPrice = productDiscountPrice;
+    }
+    if (productBrand) {
+        currentProduct.productBrand = productBrand;
+    }
+    if (productShortDescription) {
+        currentProduct.productShortDescription = productShortDescription;
     }
 
     // handle product image uplaod and remove the previous image

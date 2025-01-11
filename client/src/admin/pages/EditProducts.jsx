@@ -1,5 +1,12 @@
-import React, { Suspense, useEffect, useState } from "react";
-import { Input, Loading, PageHeader, Select } from "../components";
+import { Suspense, useEffect, useState } from "react";
+import {
+    ErrorMessage,
+    Input,
+    Loading,
+    PageHeader,
+    Select,
+    TextArea,
+} from "../components";
 import { Controller, useForm } from "react-hook-form";
 import RichTextEditor from "../components/Form/RichTextEditor";
 import Loader from "@/client/components/Loader/Loader";
@@ -12,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { FaEdit } from "react-icons/fa";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { editProductScheme } from "@/validation/admin/ProductScheme";
+import { LoadingOverlay } from "@/components";
 
 const EditProducts = () => {
     const { productId } = useParams();
@@ -26,13 +34,18 @@ const EditProducts = () => {
         formState: { errors },
         setValue,
         watch,
+        setError,
     } = useForm({
         mode: "onChange",
         resolver: yupResolver(editProductScheme),
     });
 
     // fetching the product Data based on ProductId
-    const { data: productData, isSuccess } = useQuery({
+    const {
+        data: productData,
+        isSuccess: productSuccess,
+        isError: productError,
+    } = useQuery({
         queryKey: ["product", productId],
         queryFn: () =>
             crudService.get(`product/get-product/${productId}`, true),
@@ -41,35 +54,8 @@ const EditProducts = () => {
         },
     });
 
-    // Updating the defaultValue of From
-    useEffect(() => {
-        if (isSuccess && productData?.data) {
-            const {
-                productName,
-                productSlug,
-                productDescription,
-                productSpecification,
-                productCategory,
-                productSubCategory,
-                hasVariants,
-                productPrice,
-            } = productData?.data;
-
-            setValue("productName", productName);
-            setValue("productSlug", productSlug);
-            setValue("productDescription", productDescription);
-            setValue("productSpecification", productSpecification);
-            setValue("productCategoryId", productCategory?.categoryId);
-            setValue("productSubCategoryId", productSubCategory?.subCategoryId);
-            setValue("hasVariants", hasVariants);
-            setValue("productPrice", productPrice);
-
-            setSelectedCategory(productCategory?.categoryId);
-        }
-    }, [isSuccess, productData, setValue]);
-
     // Fetching The Category Data For Options
-    const { data: categoryOptions } = useQuery({
+    const { data: categoryOptions, isError: categoryError } = useQuery({
         queryKey: ["categoryOptions"],
         queryFn: () => crudService.get("category/options-category", true),
         onError: err => {
@@ -80,7 +66,7 @@ const EditProducts = () => {
     });
 
     // Fetching The Sub-Category Data For Options Based On Category
-    const { data: SubCategoryOptions } = useQuery({
+    const { data: SubCategoryOptions, isError: subcategoryError } = useQuery({
         queryKey: ["subCategoryOptions", selectedCategory],
         queryFn: () => {
             if (selectedCategory) {
@@ -91,7 +77,7 @@ const EditProducts = () => {
             }
             return Promise.resolve([]);
         },
-        enabled: !!selectedCategory && isSuccess,
+        enabled: !!selectedCategory && productSuccess,
         onError: err => {
             toastService.error(err?.message || "Failed to fetch Data.");
         },
@@ -115,15 +101,51 @@ const EditProducts = () => {
         return () => subscription.unsubscribe();
     }, [watch, setValue]);
 
+    // Update form values when product data is fetched
+    useEffect(() => {
+        if (productSuccess && productData?.data) {
+            const {
+                productName,
+                productSlug,
+                productDescription,
+                productSpecification,
+                productCategory,
+                productSubCategory,
+                productPrice,
+                productDiscountPrice,
+                productShortDescription,
+                productBrand,
+                productStock,
+            } = productData?.data || {};
+
+            setValue("productName", productName);
+            setValue("productSlug", productSlug);
+            setValue("productDescription", productDescription);
+            setValue("productSpecification", productSpecification);
+            setValue("productCategoryId", productCategory?.categoryId);
+            setValue("productSubCategoryId", productSubCategory?.subCategoryId);
+            setValue("productPrice", productPrice);
+            setValue("productDiscountPrice", productDiscountPrice);
+            setValue("productBrand", productBrand);
+            setValue("productStock", productStock);
+            setValue("productShortDescription", productShortDescription);
+            setSelectedCategory(productCategory?.categoryId);
+        }
+    }, [productSuccess, productData, setValue]);
+
     // Handle category change and update sub-category
     useEffect(() => {
+        const subCategoryId =
+            productData?.data?.productSubCategory?.subCategoryId || "";
         if (selectedCategory) {
-            setValue(
-                "productSubCategoryId",
-                productData?.data?.productSubCategory?.subCategoryId
-            );
+            setValue("productSubCategoryId", subCategoryId);
         }
-    }, [selectedCategory, setValue]);
+    }, [
+        selectedCategory,
+        setValue,
+        productData?.data?.productSubCategory?.subCategoryId,
+    ]);
+    const hasVariants = productData?.data?.hasVariants;
 
     // Update the Data
     const { mutate, isPending } = useMutation({
@@ -138,10 +160,15 @@ const EditProducts = () => {
                     "productFeatureImage",
                     data?.productFeatureImage
                 );
-            formData.append("hasVariants", data?.hasVariants);
+            formData.append("productDiscountPrice", data?.productDiscountPrice);
             formData.append("productDescription", data?.productDescription);
             formData.append("productSpecification", data?.productSpecification);
             formData.append("productPrice", data?.productPrice);
+            formData.append("productBrand", data?.productBrand);
+            formData.append(
+                "productShortDescription",
+                data?.productShortDescription
+            );
             formData.append("productId", productId);
             return crudService.patch(
                 "/product/edit-product",
@@ -163,6 +190,17 @@ const EditProducts = () => {
         },
     });
 
+    if (productError || categoryError || subcategoryError) {
+        return (
+            <ErrorMessage
+                message={"Error Loading Data. Please Try Again Later."}
+            />
+        );
+    }
+
+    if (isPending) {
+        return <LoadingOverlay />;
+    }
     return (
         <>
             <PageHeader
@@ -212,17 +250,6 @@ const EditProducts = () => {
                                     readOnly
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                     error={errors.productSlug?.message}
-                                />
-                            </div>
-                        </div>
-                        <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2">
-                                <Input
-                                    label="Price"
-                                    placeholder="Enter The Product Price"
-                                    {...register("productPrice")}
-                                    className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                    error={errors.productPrice?.message}
                                 />
                             </div>
                         </div>
@@ -315,6 +342,86 @@ const EditProducts = () => {
                                     />
                                 </div>
                             </div>
+                        </div>
+                        <div className="flex flex-wrap my-2">
+                            <div className="w-full md:w-1/2 px-2">
+                                <Select
+                                    label="Select The Variants"
+                                    placeholder="Select The Variants Options"
+                                    title="Specify If This Product Has Variants"
+                                    options={hasVariantsOptions}
+                                    isRequired="true"
+                                    readOnly={true}
+                                    disabled={true}
+                                    {...register("hasVariants")}
+                                    defaultValue={
+                                        productData?.data?.hasVariants
+                                    }
+                                    name="hasVariants"
+                                    error={errors.hasVariants?.message}
+                                    className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                />
+                            </div>
+                        </div>
+                        {hasVariants === false && (
+                            <div className="flex flex-wrap my-2">
+                                <div className="w-full md:w-1/2 px-2">
+                                    <Input
+                                        label="Product Price"
+                                        placeholder="Enter The Product Price"
+                                        {...register("productPrice")}
+                                        className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                        error={errors.productPrice?.message}
+                                    />
+                                </div>
+                                <div className="w-full md:w-1/2 px-2">
+                                    <Input
+                                        label="Product Discount Price"
+                                        placeholder="Enter The Product Discount Price"
+                                        {...register("productDiscountPrice")}
+                                        className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                        error={
+                                            errors.productDiscountPrice?.message
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        )}
+                        <div className="flex flex-wrap my-2">
+                            {hasVariants === false && (
+                                <div className="w-full md:w-1/2 px-2">
+                                    <Input
+                                        label="Product Stock"
+                                        placeholder="Enter The Product Stock"
+                                        {...register("productStock")}
+                                        disabled={true}
+                                        className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                        error={errors.productStock?.message}
+                                    />
+                                </div>
+                            )}
+                            <div className="w-full md:w-1/2 px-2">
+                                <Input
+                                    label="Product Brand"
+                                    placeholder="Enter The Product Brand"
+                                    {...register("productBrand")}
+                                    disabled={isPending}
+                                    className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                    error={errors.productBrand?.message}
+                                />
+                            </div>
+                        </div>
+                        <div className="w-full px-2">
+                            <TextArea
+                                name="productShortDescription"
+                                label="Product Short Description"
+                                placeholder="Enter The Product Short Description"
+                                error={errors.productShortDescription?.message}
+                                className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                rows={2}
+                                {...register("productShortDescription")}
+                                disabled={isPending}
+                            />
                         </div>
                         <div className="w-full px-2">
                             <Suspense fallback={<Loader />}>

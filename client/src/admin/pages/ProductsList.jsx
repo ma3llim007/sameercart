@@ -1,7 +1,6 @@
 import crudService from "@/api/crudService";
 import Loader from "@/client/components/Loader/Loader";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React from "react";
 import { ButtonWithAlert, PageHeader, Table } from "../components";
 import { formatDateTime } from "@/utils";
 import { Button } from "@/components/ui/button";
@@ -43,10 +42,6 @@ const ProductsList = () => {
         {
             accessorKey: "productName",
             header: "Product Name",
-        },
-        {
-            accessorKey: "productSlug",
-            header: "Product Slug",
         },
         {
             accessorKey: "productFeatureImage",

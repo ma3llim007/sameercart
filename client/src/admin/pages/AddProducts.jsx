@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useState } from "react";
-import { Input, Loading, PageHeader, Select } from "../components";
+import { Input, Loading, PageHeader, Select, TextArea } from "../components";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -155,7 +155,7 @@ const AddProducts = () => {
                             <div className="w-full md:w-1/2 px-2 flex-grow">
                                 <Input
                                     label="Slug"
-                                    placeholder="View The Category Slug"
+                                    placeholder="View The Product Slug"
                                     {...register("productSlug")}
                                     disabled={isPending}
                                     onPaste={e => e.preventDefault()}
@@ -254,32 +254,64 @@ const AddProducts = () => {
                                 />
                             </div>
                         </div>
+                        {hasVariants === "false" && (
+                            <div className="flex flex-wrap my-2">
+                                <div className="w-full md:w-1/2 px-2">
+                                    <Input
+                                        label="Product Price"
+                                        placeholder="Enter The Product Price"
+                                        {...register("productPrice")}
+                                        className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                        error={errors.productPrice?.message}
+                                    />
+                                </div>
+                                <div className="w-full md:w-1/2 px-2">
+                                    <Input
+                                        label="Product Discount Price"
+                                        placeholder="Enter The Product Discount Price"
+                                        {...register("productDiscountPrice")}
+                                        className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                        error={errors.productDiscountPrice?.message}
+                                    />
+                                </div>
+                            </div>
+                        )}
                         <div className="flex flex-wrap my-2">
                             {hasVariants === "false" && (
-                                <>
-                                    <div className="w-full md:w-1/2 px-2">
-                                        <Input
-                                            label="Product Price"
-                                            placeholder="Enter The Product Price"
-                                            {...register("productPrice")}
-                                            className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                            error={errors.productPrice?.message}
-                                        />
-                                    </div>
-                                    <div className="w-full md:w-1/2 px-2">
-                                        <Input
-                                            label="Product Stock"
-                                            placeholder="Enter The Product Stock"
-                                            {...register("productStock")}
-                                            disabled={isPending}
-                                            className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                            error={errors.productStock?.message}
-                                        />
-                                    </div>
-                                </>
+                                <div className="w-full md:w-1/2 px-2">
+                                    <Input
+                                        label="Product Stock"
+                                        placeholder="Enter The Product Stock"
+                                        {...register("productStock")}
+                                        disabled={isPending}
+                                        className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                        error={errors.productStock?.message}
+                                    />
+                                </div>
                             )}
+                            <div className="w-full md:w-1/2 px-2">
+                                <Input
+                                    label="Product Brand"
+                                    placeholder="Enter The Product Brand"
+                                    {...register("productBrand")}
+                                    disabled={isPending}
+                                    className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                    error={errors.productBrand?.message}
+                                />
+                            </div>
                         </div>
-
+                        <div className="w-full px-2">
+                            <TextArea
+                                name="productShortDescription"
+                                label="Product Short Description"
+                                placeholder="Enter The Product Short Description"
+                                error={errors.productShortDescription?.message}
+                                className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                rows={2}
+                                {...register("productShortDescription")}
+                                disabled={isPending}
+                            />
+                        </div>
                         <div className="w-full px-2">
                             <Suspense fallback={<Loader />}>
                                 <RichTextEditor

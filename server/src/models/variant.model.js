@@ -15,11 +15,11 @@ const variantSchema = new Schema(
             trim: true,
             maxlength: [50, "SKU Cannot Exceed 50 Characters"],
         },
-        priceAdjustment: {
+        variantPrice: {
             type: Number,
-            required: [true, "Price Adjustment Is Required"],
+            required: [true, "Variant Price Is Required"],
             default: 0,
-            min: [0, "Price Adjustment Cannot Be Less Than 0"],
+            min: [0, "Variant Price Cannot Be Less Than 0"],
         },
         stockQty: {
             type: Number,
@@ -38,20 +38,16 @@ const variantSchema = new Schema(
                 },
             },
         ],
-        attributes: {
-            type: Map,
-            of: String,
-            default: {},
-            required: [true, "Attributes are required"],
-        },
+        attributes: [
+            {
+                name: { type: String, required: [true, "Attribute Name Is Required"] },
+                value: { type: String, required: [true, "Attributes Value Is Required"] },
+            },
+        ],
         addedBy: {
             type: Schema.Types.ObjectId,
             ref: "Admin",
             required: [true, "addedBy Is Required"],
-        },
-        deletedAt: {
-            type: Date, // Soft Delete Field
-            default: null,
         },
     },
     { timestamps: true }
