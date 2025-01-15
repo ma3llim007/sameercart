@@ -23,15 +23,17 @@ function Select(
 
     // Memoize options for performance
     const optionsElments = useMemo(() => {
-        return (options || []).map(option => (
-            <option
-                key={option?._id}
-                value={option?._id}
-                className="bg-white text-gray-700 dark:bg-slate-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700"
-            >
-                {upperFirst(getOptinLabel(option))}
-            </option>
-        ));
+        return Array.isArray(options)
+            ? options.map(option => (
+                  <option
+                      key={option?._id}
+                      value={option?._id}
+                      className="bg-white text-gray-700 dark:bg-slate-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700"
+                  >
+                      {upperFirst(getOptinLabel(option))}
+                  </option>
+              ))
+            : [];
     }, [options]);
 
     return (

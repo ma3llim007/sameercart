@@ -7,26 +7,26 @@ import {
     Select,
     TextArea,
 } from "../components";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import RichTextEditor from "../components/Form/RichTextEditor";
 import Loader from "@/client/components/Loader/Loader";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { hasVariantsOptions, slugTransform } from "@/utils";
+import { slugTransform, productTypeOptions } from "@/utils";
 import { Button } from "@/components/ui/button";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { editProductScheme } from "@/validation/admin/ProductScheme";
 import { LoadingOverlay } from "@/components";
+import DOMPurify from "dompurify";
 
 const EditProducts = () => {
     const { productId } = useParams();
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const [selectedCategory, setSelectedCategory] = useState(null);
-
     const {
         handleSubmit,
         control,
@@ -38,6 +38,10 @@ const EditProducts = () => {
     } = useForm({
         mode: "onChange",
         resolver: yupResolver(editProductScheme),
+    });
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "attributes",
     });
 
     // fetching the product Data based on ProductId
@@ -111,41 +115,55 @@ const EditProducts = () => {
                 productSpecification,
                 productCategory,
                 productSubCategory,
-                productPrice,
+                productType,
+                basePrice,
                 productDiscountPrice,
-                productShortDescription,
-                productBrand,
                 productStock,
+                productBrand,
+                productShortDescription,
+                attributes,
             } = productData?.data || {};
-
             setValue("productName", productName);
             setValue("productSlug", productSlug);
-            setValue("productDescription", productDescription);
-            setValue("productSpecification", productSpecification);
+            setValue("basePrice", basePrice);
             setValue("productCategoryId", productCategory?.categoryId);
             setValue("productSubCategoryId", productSubCategory?.subCategoryId);
-            setValue("productPrice", productPrice);
+            setValue("productType", productType);
             setValue("productDiscountPrice", productDiscountPrice);
-            setValue("productBrand", productBrand);
+            setValue("productDescription", productDescription);
+            setValue("productSpecification", productSpecification);
             setValue("productStock", productStock);
+            setValue("productBrand", productBrand);
             setValue("productShortDescription", productShortDescription);
+            const convertAttribute = attributes.map(attribute => ({
+                ...attribute,
+                options: attribute.options.join(","),
+            }));
+            setValue("attributes", convertAttribute);
             setSelectedCategory(productCategory?.categoryId);
         }
     }, [productSuccess, productData, setValue]);
 
-    // Handle category change and update sub-category
+    // Sync sub-category with category change
     useEffect(() => {
-        const subCategoryId =
-            productData?.data?.productSubCategory?.subCategoryId || "";
         if (selectedCategory) {
-            setValue("productSubCategoryId", subCategoryId);
+            if (productData?.data?.productSubCategory?.subCategoryId) {
+                setValue(
+                    "productSubCategoryId",
+                    productData.data.productSubCategory.subCategoryId
+                );
+            } else {
+                setValue("productSubCategoryId", "");
+            }
+        } else {
+            setValue("productSubCategoryId", "");
         }
     }, [
         selectedCategory,
-        setValue,
         productData?.data?.productSubCategory?.subCategoryId,
+        setValue,
     ]);
-    const hasVariants = productData?.data?.hasVariants;
+    const productType = productData?.data?.productType;
 
     // Update the Data
     const { mutate, isPending } = useMutation({
@@ -160,16 +178,38 @@ const EditProducts = () => {
                     "productFeatureImage",
                     data?.productFeatureImage
                 );
-            formData.append("productDiscountPrice", data?.productDiscountPrice);
-            formData.append("productDescription", data?.productDescription);
-            formData.append("productSpecification", data?.productSpecification);
-            formData.append("productPrice", data?.productPrice);
+            if (data?.basePrice) {
+                formData.append("basePrice", data?.basePrice);
+            }
+            if (data?.productDiscountPrice) {
+                formData.append(
+                    "productDiscountPrice",
+                    data?.productDiscountPrice
+                );
+            }
+            formData.append("productStock", data?.productStock);
             formData.append("productBrand", data?.productBrand);
             formData.append(
                 "productShortDescription",
                 data?.productShortDescription
             );
+            formData.append(
+                "productDescription",
+                DOMPurify.sanitize(data?.productDescription)
+            );
+            formData.append(
+                "productSpecification",
+                DOMPurify.sanitize(data?.productSpecification)
+            );
+            const convertedAttributes = data?.attributes.map(attribute => ({
+                ...attribute,
+                options: attribute.options
+                    .split(",")
+                    .map(option => option.trim()),
+            }));
+            formData.append("attributes", JSON.stringify(convertedAttributes));
             formData.append("productId", productId);
+
             return crudService.patch(
                 "/product/edit-product",
                 true,
@@ -227,7 +267,7 @@ const EditProducts = () => {
                             </div>
                         )}
                         <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2 flex-grow">
+                            <div className="w-full lg:w-1/2 px-2 flex-grow">
                                 <Input
                                     label="Product Name"
                                     placeholder="Enter The Product Name"
@@ -239,28 +279,27 @@ const EditProducts = () => {
                             </div>
                         </div>
                         <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2 flex-grow">
+                            <div className="w-full lg:w-1/2 px-2 flex-grow">
                                 <Input
-                                    label="Slug"
+                                    label="Product Slug"
                                     placeholder="View The Category Slug"
                                     {...register("productSlug")}
                                     disabled={isPending}
                                     onPaste={e => e.preventDefault()}
                                     onCopy={e => e.preventDefault()}
-                                    readOnly
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                     error={errors.productSlug?.message}
                                 />
                             </div>
                         </div>
-                        <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2">
+                        <div className="flex flex-wrap my-2 gap-4 lg:gap-0">
+                            <div className="w-full lg:w-1/2 px-2">
                                 <Controller
                                     name="productCategoryId"
                                     control={control}
                                     render={({ field }) => (
                                         <Select
-                                            label="Select The Category"
+                                            label="Product Category"
                                             placeholder="Select The Category"
                                             title="Select The Category"
                                             options={categoryOptions?.data}
@@ -282,32 +321,32 @@ const EditProducts = () => {
                                     )}
                                 />
                             </div>
-                            <div className="w-full md:w-1/2 px-2">
+                            <div className="w-full lg:w-1/2 px-2">
                                 <Select
-                                    label="Select The Sub-Category"
+                                    label="Product Sub-Category"
                                     placeholder="Select The Sub-Category"
                                     title="Select The Sub-Category"
-                                    options={SubCategoryOptions?.data}
+                                    options={SubCategoryOptions?.data || []}
                                     isRequired="true"
                                     disabled={isPending}
                                     {...register("productSubCategoryId")}
                                     error={errors.productSubCategoryId?.message}
                                     defaultValue={
                                         productData?.data.productSubCategory
-                                            .subCategoryId
+                                            .subCategoryId || ""
                                     }
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                 />
                             </div>
                         </div>
-                        <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2">
+                        <div className="flex flex-wrap my-2 gap-4 lg:gap-0">
+                            <div className="w-full lg:w-1/2 px-2">
                                 <Controller
                                     control={control}
                                     name="productFeatureImage"
                                     render={({ field }) => (
                                         <Input
-                                            label="Select The Product Image"
+                                            label="Product Image"
                                             title="Select The Product Image"
                                             additionalTitle="Note:- [For Best View Of Product Image Width:350px, Height:250px]"
                                             type="file"
@@ -327,57 +366,58 @@ const EditProducts = () => {
                                     )}
                                 />
                             </div>
-                            <div className="w-full md:w-1/2 px-2">
+                            <div className="w-full lg:w-1/2 px-2">
                                 <div className="w-full">
                                     <label className="inline-block mb-2 pl-1 text-base font-bold">
-                                        Previous Image
+                                        Product Previous Image
                                     </label>
                                     <img
                                         src={
                                             productData?.data
                                                 .productFeatureImage
                                         }
-                                        className="max-w-60 max-h-60 object-cover rounded"
+                                        className="max-w-96 max-h-80 object-cover rounded"
                                         alt="Previous Category"
                                     />
                                 </div>
                             </div>
                         </div>
                         <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2">
+                            <div className="w-full lg:w-1/2 px-2">
                                 <Select
-                                    label="Select The Variants"
-                                    placeholder="Select The Variants Options"
-                                    title="Specify If This Product Has Variants"
-                                    options={hasVariantsOptions}
+                                    label="Product Type"
+                                    placeholder="Select The Product Type"
+                                    options={productTypeOptions}
                                     isRequired="true"
-                                    readOnly={true}
-                                    disabled={true}
-                                    {...register("hasVariants")}
+                                    readOnly
+                                    disabled
+                                    {...register("productType")}
                                     defaultValue={
-                                        productData?.data?.hasVariants
+                                        productData?.data?.productType
                                     }
-                                    name="hasVariants"
-                                    error={errors.hasVariants?.message}
+                                    name="productType"
+                                    error={errors.productType?.message}
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                 />
                             </div>
                         </div>
-                        {hasVariants === false && (
-                            <div className="flex flex-wrap my-2">
-                                <div className="w-full md:w-1/2 px-2">
+                        {productType === "simple" && (
+                            <div className="flex flex-wrap my-2 gap-4 lg:gap-0">
+                                <div className="w-full lg:w-1/2 px-2">
                                     <Input
-                                        label="Product Price"
-                                        placeholder="Enter The Product Price"
-                                        {...register("productPrice")}
+                                        label="Base Product Price"
+                                        placeholder="Enter The Base Product Price"
+                                        disabled={isPending}
+                                        {...register("basePrice")}
                                         className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                        error={errors.productPrice?.message}
+                                        error={errors.basePrice?.message}
                                     />
                                 </div>
-                                <div className="w-full md:w-1/2 px-2">
+                                <div className="w-full lg:w-1/2 px-2">
                                     <Input
                                         label="Product Discount Price"
                                         placeholder="Enter The Product Discount Price"
+                                        disabled={isPending}
                                         {...register("productDiscountPrice")}
                                         className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                         error={
@@ -387,20 +427,20 @@ const EditProducts = () => {
                                 </div>
                             </div>
                         )}
-                        <div className="flex flex-wrap my-2">
-                            {hasVariants === false && (
-                                <div className="w-full md:w-1/2 px-2">
+                        <div className="flex flex-wrap my-2 gap-4 lg:gap-0">
+                            {productType === "simple" && (
+                                <div className="w-full lg:w-1/2 px-2">
                                     <Input
                                         label="Product Stock"
                                         placeholder="Enter The Product Stock"
+                                        disabled={isPending}
                                         {...register("productStock")}
-                                        disabled={true}
                                         className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                         error={errors.productStock?.message}
                                     />
                                 </div>
                             )}
-                            <div className="w-full md:w-1/2 px-2">
+                            <div className="w-full lg:w-1/2 px-2">
                                 <Input
                                     label="Product Brand"
                                     placeholder="Enter The Product Brand"
@@ -451,6 +491,84 @@ const EditProducts = () => {
                                 />
                             </Suspense>
                         </div>
+                        {productType === "variable" && (
+                            <>
+                                <hr />
+                                <div className="w-full border rounded-lg py-4 px-3 bg-stone-800">
+                                    <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
+                                        <h2 className="text-2xl font-bold px-2 underline">
+                                            Attribues
+                                        </h2>
+                                        <Button
+                                            disabled={isPending}
+                                            className="Success btnLg flex items-center gap-2"
+                                            onClick={() =>
+                                                append({
+                                                    name: "",
+                                                    options: "",
+                                                })
+                                            }
+                                        >
+                                            <FaPlus /> Add Variant
+                                        </Button>
+                                    </div>
+                                    <div className="space-y-4">
+                                        {fields.map((field, index) => (
+                                            <div
+                                                key={field.id}
+                                                className="w-full flex flex-col lg:flex-row items-center gap-4 p-4 shadow-sm rounded-lg border bg-white text-black dark:bg-slate-800 dark:text-white min-h-[120px]"
+                                            >
+                                                <div className="w-20">
+                                                    <Button
+                                                        className="Danger inline-flex items-center gap-2 p-5 mt-6 rounded-md"
+                                                        onClick={() =>
+                                                            remove(index)
+                                                        }
+                                                    >
+                                                        <FaTrash />
+                                                    </Button>
+                                                </div>
+                                                <div className="flex-grow flex-col lg:flex-row flex">
+                                                    <div className="w-full lg:w-1/2 px-2">
+                                                        <Input
+                                                            placeholder="Enter The Name"
+                                                            label="Name"
+                                                            {...register(
+                                                                `attributes.${index}.name`
+                                                            )}
+                                                            className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                                            error={
+                                                                errors
+                                                                    .attributes?.[
+                                                                    index
+                                                                ]?.name?.message
+                                                            }
+                                                        />
+                                                    </div>
+                                                    <div className="w-full lg:w-1/2 px-2">
+                                                        <Input
+                                                            placeholder="Enter The Value"
+                                                            label="value"
+                                                            {...register(
+                                                                `attributes.${index}.options`
+                                                            )}
+                                                            className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                                            error={
+                                                                errors
+                                                                    .attributes?.[
+                                                                    index
+                                                                ]?.options
+                                                                    ?.message
+                                                            }
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </>
+                        )}
                         <div className="w-full border-t !mt-6">
                             <Button
                                 disabled={isPending}

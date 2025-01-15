@@ -65,7 +65,7 @@ const addProduct = asyncHandler(async (req, res) => {
 
         // Convert Image To WebP
         let convertedImagePath = productFeatureImage;
-        if (req.file?.minetype !== "image/webp") {
+        if (req.file?.mimetype !== "image/webp") {
             try {
                 convertedImagePath = await ConvertImageWebp(productFeatureImage);
             } catch (_error) {
@@ -327,119 +327,141 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
 // Update Product
 const updateProduct = asyncHandler(async (req, res) => {
-    const {
-        productId,
-        productName,
-        productSlug,
-        productCategoryId,
-        productSubCategoryId,
-        productDescription,
-        productSpecification,
-        productPrice,
-        productShortDescription,
-        productBrand,
-        productDiscountPrice,
-    } = req.body;
-    const productFeatureImage = req.file?.path;
+    try {
+        const {
+            productId,
+            productName,
+            productSlug,
+            productCategoryId,
+            productSubCategoryId,
+            productDescription,
+            productSpecification,
+            basePrice,
+            productShortDescription,
+            productBrand,
+            productDiscountPrice,
+            productStock,
+            attributes,
+        } = req.body;
+        const productFeatureImage = req.file?.path;
 
-    if (productCategoryId && !isValidObjectId(productCategoryId)) {
-        return res.status(400).json(new ApiError(400, "Invalid Category ID"));
-    }
-
-    if (productSubCategoryId && !isValidObjectId(productSubCategoryId)) {
-        return res.status(400).json(new ApiError(400, "Invalid Sub-Category ID"));
-    }
-
-    const currentProduct = await Product.findById(productId);
-    if (!currentProduct) {
-        return res.status(404).json(new ApiError(404, "Product Not Found"));
-    }
-
-    // check if there's a conflict with either name or slug
-    const duplicateProduct = await Product.findOne({
-        _id: { $ne: productId },
-        $or: [
-            { productName: productName ? productName : currentProduct.productName },
-            { productSlug: productSlug ? productSlug : currentProduct.productSlug },
-        ],
-    });
-
-    // check if there's a conflict with either name or slug
-    if (duplicateProduct) {
-        if (duplicateProduct.productName === productName) {
-            return res.status(409).json(new ApiError(409, "Product Name Already Exists"));
+        if (productCategoryId && !isValidObjectId(productCategoryId)) {
+            return res.status(400).json(new ApiError(400, "Invalid Category ID"));
         }
-        if (duplicateProduct.productSlug === productSlug) {
-            return res.status(409).json(new ApiError(409, "Product Slug Already Exists"));
+
+        if (productSubCategoryId && !isValidObjectId(productSubCategoryId)) {
+            return res.status(400).json(new ApiError(400, "Invalid Sub-Category ID"));
         }
-    }
 
-    // update fields if there are no conflicts
-    if (productName) {
-        currentProduct.productName = productName;
-    }
-    if (productSlug) {
-        currentProduct.productSlug = productSlug;
-    }
-    if (productPrice) {
-        currentProduct.productPrice = productPrice;
-    }
-    if (productDescription) {
-        currentProduct.productDescription = productDescription;
-    }
-    if (productCategoryId) {
-        currentProduct.productCategoryId = productCategoryId;
-    }
-    if (productSubCategoryId) {
-        currentProduct.productSubCategoryId = productSubCategoryId;
-    }
-    if (productSpecification) {
-        currentProduct.productSpecification = productSpecification;
-    }
-    if (productDiscountPrice) {
-        currentProduct.productDiscountPrice = productDiscountPrice;
-    }
-    if (productBrand) {
-        currentProduct.productBrand = productBrand;
-    }
-    if (productShortDescription) {
-        currentProduct.productShortDescription = productShortDescription;
-    }
+        const currentProduct = await Product.findById(productId);
+        if (!currentProduct) {
+            return res.status(404).json(new ApiError(404, "Product Not Found"));
+        }
 
-    // handle product image uplaod and remove the previous image
-    if (productFeatureImage) {
-        const previousProductImage = currentProduct.productFeatureImage;
-        if (productFeatureImage && previousProductImage) {
-            const publicId = extractPublicId(previousProductImage);
-            try {
-                await removeImage("sameerCart/products/", publicId);
-            } catch (_error) {
-                return res.status(500).json(new ApiError(500, "Failed To Remove Previous Product Image"));
+        // check if there's a conflict with either name or slug
+        const duplicateProduct = await Product.findOne({
+            _id: { $ne: productId },
+            $or: [
+                ...(productName ? [{ productName }] : []),
+                ...(productSlug ? [{ productSlug }] : []),
+                // { productName: productName ? productName : currentProduct.productName },
+                // { productSlug: productSlug ? productSlug : currentProduct.productSlug },
+            ],
+        });
+
+        // check if there's a conflict with either name or slug
+        if (duplicateProduct) {
+            if (duplicateProduct.productName === productName) {
+                return res.status(409).json(new ApiError(409, "Product Name Already Exists"));
+            }
+            if (duplicateProduct.productSlug === productSlug) {
+                return res.status(409).json(new ApiError(409, "Product Slug Already Exists"));
             }
         }
 
-        // Convert Image To WebP
-        let convertedImagePath = productFeatureImage;
-        if (req.file?.minetype !== "image/webp") {
+        // update fields if there are no conflicts
+        if (productName) {
+            currentProduct.productName = productName;
+        }
+        if (productSlug) {
+            currentProduct.productSlug = productSlug;
+        }
+        if (basePrice) {
+            currentProduct.basePrice = basePrice;
+        }
+        if (productDescription) {
+            currentProduct.productDescription = productDescription;
+        }
+        if (productCategoryId) {
+            currentProduct.productCategoryId = productCategoryId;
+        }
+        if (productSubCategoryId) {
+            currentProduct.productSubCategoryId = productSubCategoryId;
+        }
+        if (productSpecification) {
+            currentProduct.productSpecification = productSpecification;
+        }
+        if (productDiscountPrice) {
+            currentProduct.productDiscountPrice = productDiscountPrice;
+        }
+        if (productBrand) {
+            currentProduct.productBrand = productBrand;
+        }
+        if (productShortDescription) {
+            currentProduct.productShortDescription = productShortDescription;
+        }
+        if (productStock) {
+            currentProduct.productStock = productStock;
+        }
+        // if (attributes) {
+        //     currentProduct.attributes = attributes;
+        // }
+        if (attributes) {
             try {
-                convertedImagePath = await ConvertImageWebp(productFeatureImage);
+                currentProduct.attributes = Array.isArray(attributes) ? attributes : JSON.parse(attributes); // Parse if it's a string
             } catch (_error) {
-                return res.status(500).json(new ApiError(500, "Failed to Convert Image to WebP"));
+                return res.status(400).json(new ApiError(400, "Invalid Attributes Format"));
             }
         }
 
-        // Upload The new Image
-        try {
-            const productFeatureImageUpload = await uploadCloudinary(convertedImagePath, "sameerCart/products");
-            currentProduct.productFeatureImage = productFeatureImageUpload?.secure_url;
-        } catch (_error) {
-            return res.status(500).json(new ApiError(500, "Failed To Upload Product Image."));
+        // handle product image uplaod and remove the previous image
+        if (productFeatureImage) {
+            const previousProductImage = currentProduct.productFeatureImage;
+            if (productFeatureImage && previousProductImage) {
+                const publicId = extractPublicId(previousProductImage);
+                try {
+                    await removeImage("sameerCart/products/", publicId);
+                } catch (_error) {
+                    return res.status(500).json(new ApiError(500, "Failed To Remove Previous Product Image"));
+                }
+            }
+
+            // Convert Image To WebP
+            let convertedImagePath = productFeatureImage;
+            if (req.file?.mimetype !== "image/webp") {
+                try {
+                    convertedImagePath = await ConvertImageWebp(productFeatureImage);
+                } catch (_error) {
+                    return res.status(500).json(new ApiError(500, "Failed to Convert Image to WebP"));
+                }
+            }
+
+            // Upload The new Image
+            try {
+                const productFeatureImageUpload = await uploadCloudinary(convertedImagePath, "sameerCart/products");
+                currentProduct.productFeatureImage = productFeatureImageUpload?.secure_url;
+            } catch (_error) {
+                return res.status(500).json(new ApiError(500, "Failed To Upload Product Image."));
+            }
         }
+
+        await currentProduct.save();
+
+        return res.status(200).json(new ApiResponse(200, currentProduct, "Product Update Successfully"));
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(new ApiError(500, error.message));
     }
-
-    await currentProduct.save();
-
-    return res.status(200).json(new ApiResponse(200, currentProduct, "Product Update Successfully"));
 });
 
 export { addProduct, productListing, ProductGetById, deleteProduct, updateProduct };
