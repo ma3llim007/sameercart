@@ -5,7 +5,7 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Input, Loading } from "./index";
 import {
     Table as CnTable,
@@ -203,7 +203,7 @@ const Table = ({
                     Showing {startRow} to {endRow} of {rowCount} entries
                 </div>
                 {/* Page Navigation */}
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-2">
                     <Button
                         variant="outline"
                         onClick={() => table.previousPage()}

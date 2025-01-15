@@ -2,7 +2,7 @@ import currentYear, { formatDateTime } from "./currentYear";
 import { isValidExtensions, isValidFileType } from "./files";
 import slugTransform from "./slugTransform";
 import { slugToText } from "./texts";
-import { colorOptions, productTypeOptions, sizeOptions } from "./options";
+import { productTypeOptions } from "./options";
 
 export {
     currentYear,
@@ -10,8 +10,6 @@ export {
     slugTransform,
     isValidExtensions,
     formatDateTime,
-    sizeOptions,
-    colorOptions,
     productTypeOptions,
     slugToText,
 };

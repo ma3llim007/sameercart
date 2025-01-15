@@ -7,7 +7,6 @@ function Select(
         placeholder = "Select an option",
         label,
         className,
-        isRequired = "false",
         error,
         ...props
     },
@@ -48,9 +47,8 @@ function Select(
             <select
                 id={id}
                 ref={ref}
-                required={isRequired}
                 {...props}
-                className={`px-3 py-2 rounded-lg bg-white text-black dark:bg-slate-800 dark:text-white outline-none text-lg focus:bg-gray-50 dark:focus:bg-slate-700 duration-200 border border-gray-200 w-full ${className}`}
+                className={`px-3 py-2 rounded bg-white text-black dark:bg-slate-800 dark:text-white outline-none text-lg focus:bg-gray-50 dark:focus:bg-slate-700 duration-200 border border-gray-200 w-full ${className}`}
             >
                 <option
                     value=""

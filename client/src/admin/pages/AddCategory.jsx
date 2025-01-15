@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Input, Loading, PageHeader } from "../components";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -90,7 +90,7 @@ const AddCategory = () => {
                                 </h4>
                             </div>
                         )}
-                        <div className="flex gap-4 flex-wrap my-2">
+                        <div className="flex flex-wrap my-2 gap-4 md:gap-0">
                             <div className="w-full px-2">
                                 <Input
                                     label="Category Name"
@@ -102,7 +102,7 @@ const AddCategory = () => {
                                 />
                             </div>
                         </div>
-                        <div className="flex flex-wrap my-2">
+                        <div className="flex flex-wrap my-2 gap-4 md:gap-0">
                             <div className="w-full md:w-1/2 px-2">
                                 <Input
                                     label="Category Slug"
@@ -116,7 +116,7 @@ const AddCategory = () => {
                                     error={errors.categorySlug?.message}
                                 />
                             </div>
-                            <div className="w-full md:w-1/2 px-2">
+                            <div className="w-full md:w-1/2 px-2 gap-4 md:gap-0">
                                 <Controller
                                     control={control}
                                     name="categoryImage"

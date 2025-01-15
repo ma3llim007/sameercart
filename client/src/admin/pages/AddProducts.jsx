@@ -155,7 +155,7 @@ const AddProducts = () => {
                             </div>
                         )}
                         <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2 flex-grow">
+                            <div className="w-full lg:w-1/2 px-2 flex-grow">
                                 <Input
                                     label="Product Name"
                                     placeholder="Enter The Product Name"
@@ -167,7 +167,7 @@ const AddProducts = () => {
                             </div>
                         </div>
                         <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2 flex-grow">
+                            <div className="w-full lg:w-1/2 px-2 flex-grow">
                                 <Input
                                     label="Product Slug"
                                     placeholder="View The Product Slug"
@@ -182,7 +182,7 @@ const AddProducts = () => {
                             </div>
                         </div>
                         <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2">
+                            <div className="w-full lg:w-1/2 px-2 my-2">
                                 <Controller
                                     name="productCategoryId"
                                     control={control}
@@ -211,7 +211,7 @@ const AddProducts = () => {
                                     )}
                                 />
                             </div>
-                            <div className="w-full md:w-1/2 px-2">
+                            <div className="w-full lg:w-1/2 px-2 my-2">
                                 <Select
                                     label="Product Sub-Category"
                                     placeholder="Select The Sub-Category"
@@ -226,8 +226,8 @@ const AddProducts = () => {
                                 />
                             </div>
                         </div>
-                        <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2">
+                        <div className="flex flex-wrap my-2 gap-4 lg:gap-0">
+                            <div className="w-full lg:w-1/2 px-2">
                                 <Controller
                                     control={control}
                                     name="productFeatureImage"
@@ -253,7 +253,7 @@ const AddProducts = () => {
                                     )}
                                 />
                             </div>
-                            <div className="w-full md:w-1/2 px-2">
+                            <div className="w-full lg:w-1/2 px-2">
                                 <Select
                                     label="Product Type"
                                     placeholder="Select The Product Type"
@@ -269,9 +269,10 @@ const AddProducts = () => {
                                 />
                             </div>
                         </div>
+
                         {productType === "simple" && (
-                            <div className="flex flex-wrap my-2">
-                                <div className="w-full md:w-1/2 px-2">
+                            <div className="flex flex-wrap my-2 gap-4 lg:gap-0">
+                                <div className="w-full lg:w-1/2 px-2">
                                     <Input
                                         label="Base Product Price"
                                         placeholder="Enter The Base Product Price"
@@ -280,7 +281,7 @@ const AddProducts = () => {
                                         error={errors.basePrice?.message}
                                     />
                                 </div>
-                                <div className="w-full md:w-1/2 px-2">
+                                <div className="w-full lg:w-1/2 px-2">
                                     <Input
                                         label="Product Discount Price"
                                         placeholder="Enter The Product Discount Price"
@@ -293,9 +294,9 @@ const AddProducts = () => {
                                 </div>
                             </div>
                         )}
-                        <div className="flex flex-wrap my-2">
+                        <div className="flex flex-wrap my-2 gap-4 lg:gap-0">
                             {productType === "simple" && (
-                                <div className="w-full md:w-1/2 px-2">
+                                <div className="w-full lg:w-1/2 px-2">
                                     <Input
                                         label="Product Stock"
                                         placeholder="Enter The Product Stock"
@@ -306,7 +307,7 @@ const AddProducts = () => {
                                     />
                                 </div>
                             )}
-                            <div className="w-full md:w-1/2 px-2">
+                            <div className="w-full lg:w-1/2 px-2">
                                 <Input
                                     label="Product Brand"
                                     placeholder="Enter The Product Brand"
@@ -381,11 +382,11 @@ const AddProducts = () => {
                                         {fields.map((field, index) => (
                                             <div
                                                 key={field.id}
-                                                className="flex flex-wrap items-center justify-center gap-4 p-4 shadow-md rounded-lg border bg-white text-black dark:bg-slate-800 dark:text-white"
+                                                className="w-full flex flex-col lg:flex-row items-center gap-4 p-4 shadow-sm rounded-lg border bg-white text-black dark:bg-slate-800 dark:text-white min-h-[120px]"
                                             >
-                                                <div className="flex justify-center items-center min-h-[90px]">
+                                                <div className="w-20">
                                                     <Button
-                                                        className="Danger flex items-center gap-2 p-5 mt-6 rounded-md"
+                                                        className="Danger inline-flex items-center gap-2 p-5 mt-6 rounded-md"
                                                         onClick={() =>
                                                             remove(index)
                                                         }
@@ -393,37 +394,42 @@ const AddProducts = () => {
                                                         <FaTrash />
                                                     </Button>
                                                 </div>
-                                                <div className="flex-1 ">
-                                                    <Input
-                                                        placeholder="Enter The Name"
-                                                        disabled={isPending}
-                                                        label="Name"
-                                                        {...register(
-                                                            `attributes.${index}.name`
-                                                        )}
-                                                        className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                                        error={
-                                                            errors.attributes?.[
-                                                                index
-                                                            ]?.name?.message
-                                                        }
-                                                    />
-                                                </div>
-                                                <div className="flex-1">
-                                                    <Input
-                                                        placeholder="Enter The Value"
-                                                        disabled={isPending}
-                                                        label="value"
-                                                        {...register(
-                                                            `attributes.${index}.options`
-                                                        )}
-                                                        className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                                        error={
-                                                            errors.attributes?.[
-                                                                index
-                                                            ]?.options?.message
-                                                        }
-                                                    />
+                                                <div className="flex-grow flex-col lg:flex-row flex">
+                                                    <div className="w-full lg:w-1/2 px-2">
+                                                        <Input
+                                                            placeholder="Enter The Name"
+                                                            disabled={isPending}
+                                                            label="Name"
+                                                            {...register(
+                                                                `attributes.${index}.name`
+                                                            )}
+                                                            className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                                            error={
+                                                                errors
+                                                                    .attributes?.[
+                                                                    index
+                                                                ]?.name?.message
+                                                            }
+                                                        />
+                                                    </div>
+                                                    <div className="w-full lg:w-1/2 px-2">
+                                                        <Input
+                                                            placeholder="Enter The Value"
+                                                            disabled={isPending}
+                                                            label="value"
+                                                            {...register(
+                                                                `attributes.${index}.options`
+                                                            )}
+                                                            className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                                            error={
+                                                                errors
+                                                                    .attributes?.[
+                                                                    index
+                                                                ]?.options
+                                                                    ?.message
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
                                         ))}

@@ -1,17 +1,17 @@
-import React, { Suspense, useEffect } from "react";
-import { Input, Loading, PageHeader, Select } from "../components";
+import { Suspense, useEffect } from "react";
+import { Input, Loading, PageHeader, Select, TextArea } from "../components";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addProductScheme } from "@/validation";
-import { hasVariantsOptions } from "@/utils";
+import { productTypeOptions } from "@/utils";
 import Loader from "@/client/components/Loader/Loader";
 import RichTextEditor from "../components/Form/RichTextEditor";
 import { Button } from "@/components/ui/button";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { TiArrowBack } from "react-icons/ti";
 
 const ViewProduct = () => {
@@ -23,6 +23,10 @@ const ViewProduct = () => {
         formState: { errors },
     } = useForm({
         resolver: yupResolver(addProductScheme),
+    });
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "attributes",
     });
 
     // fetching the product Data based on ProductId
@@ -48,21 +52,31 @@ const ViewProduct = () => {
                 productSpecification,
                 productCategory,
                 productSubCategory,
-                hasVariants,
-                productPrice,
-            } = productData?.data;
+                productType,
+                basePrice,
+                productDiscountPrice,
+                productStock,
+                productBrand,
+                productShortDescription,
+                attributes,
+            } = productData?.data || {};
 
             setValue("productName", productName);
             setValue("productSlug", productSlug);
-            setValue("productPrice", productPrice);
+            setValue("basePrice", basePrice);
             setValue("productCategoryId", productCategory?.categoryId);
             setValue("productSubCategoryId", productSubCategory?.subCategoryId);
-            setValue("hasVariants", hasVariants);
-            setValue("productPrice", productPrice);
+            setValue("productType", productType);
+            setValue("productDiscountPrice", productDiscountPrice);
             setValue("productDescription", productDescription);
             setValue("productSpecification", productSpecification);
+            setValue("productStock", productStock);
+            setValue("productBrand", productBrand);
+            setValue("productShortDescription", productShortDescription);
+            setValue("attributes", attributes);
         }
     }, [isSuccess, productData, setValue]);
+    const productType = productData?.data?.productType;
 
     const categoryOptions = [
         {
@@ -95,63 +109,49 @@ const ViewProduct = () => {
                             View Products
                         </h1>
                         <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2 flex-grow">
+                            <div className="w-full lg:w-1/2 px-2 flex-grow">
                                 <Input
                                     label="Product Name"
                                     placeholder="Enter The Product Name"
                                     {...register("productName")}
                                     readOnly
+                                    disabled
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                     error={errors.productName?.message}
                                 />
                             </div>
                         </div>
                         <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2 flex-grow">
+                            <div className="w-full lg:w-1/2 px-2 flex-grow">
                                 <Input
-                                    label="Slug"
-                                    placeholder="View The Category Slug"
+                                    label="Product Slug"
+                                    placeholder="View The Product Slug"
                                     {...register("productSlug")}
-                                    readOnly
                                     onPaste={e => e.preventDefault()}
                                     onCopy={e => e.preventDefault()}
+                                    readOnly
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                     error={errors.productSlug?.message}
                                 />
                             </div>
                         </div>
                         <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2">
-                                <Input
-                                    label="Price"
-                                    placeholder="Enter The Product Price"
-                                    {...register("productPrice")}
-                                    readOnly
-                                    className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                    error={errors.productPrice?.message}
-                                />
-                            </div>
-                        </div>
-                        <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2">
+                            <div className="w-full lg:w-1/2 px-2">
                                 <Controller
                                     name="productCategoryId"
                                     control={control}
                                     render={({ field }) => (
                                         <Select
-                                            label="Select The Category"
+                                            label="Product Category"
                                             placeholder="Select The Category"
-                                            title="Select The Category"
-                                            disabled
+                                            title="View The Category"
                                             options={categoryOptions}
                                             isRequired="true"
                                             readOnly
+                                            disabled
                                             {...register("productCategoryId")}
                                             onChange={e => {
                                                 field.onChange(e.target.value);
-                                                setSelectedCategory(
-                                                    e.target.value
-                                                );
                                             }}
                                             error={
                                                 errors.productCategoryId
@@ -162,17 +162,17 @@ const ViewProduct = () => {
                                     )}
                                 />
                             </div>
-                            <div className="w-full md:w-1/2 px-2">
+                            <div className="w-full lg:w-1/2 px-2">
                                 <Select
-                                    label="Select The Sub-Category"
+                                    label="Product Sub-Category"
                                     placeholder="Select The Sub-Category"
-                                    title="Select The Sub-Category"
+                                    title="View The Sub-Category"
                                     options={subCategoryOptions}
                                     isRequired="true"
                                     readOnly
+                                    disabled
                                     {...register("productSubCategoryId")}
                                     error={errors.productSubCategoryId?.message}
-                                    disabled
                                     defaultValue={
                                         productData?.data.productSubCategory
                                             .subCategoryId
@@ -182,37 +182,102 @@ const ViewProduct = () => {
                             </div>
                         </div>
                         <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2">
-                                <Select
-                                    label="Select The Variants"
-                                    placeholder="Select The Variants Options"
-                                    title="Specify If This Product Has Variants"
-                                    options={hasVariantsOptions}
-                                    isRequired="true"
-                                    readOnly
-                                    disabled
-                                    {...register("hasVariants")}
-                                    defaultValue={productData?.data.hasVariants}
-                                    name="hasVariants"
-                                    error={errors.hasVariants?.message}
-                                    className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                />
-                            </div>
-                            <div className="w-full md:w-1/2 px-2">
+                            <div className="w-full lg:w-1/2 px-2">
                                 <div className="w-full">
                                     <label className="inline-block mb-2 pl-1 text-base font-bold">
-                                        Previous Image
+                                        Product Previous Image
                                     </label>
                                     <img
                                         src={
                                             productData?.data
                                                 .productFeatureImage
                                         }
-                                        className="max-w-96 max-h-96 object-cover rounded"
+                                        className="max-w-96 max-h-80 object-cover rounded"
                                         alt="Previous Category"
                                     />
                                 </div>
                             </div>
+                            <div className="w-full lg:w-1/2 px-2">
+                                <Select
+                                    label="Product Type"
+                                    placeholder="Select The Product Type"
+                                    options={productTypeOptions}
+                                    readOnly
+                                    disabled
+                                    {...register("productType")}
+                                    defaultValue={productData?.data.productType}
+                                    name="productType"
+                                    error={errors.productType?.message}
+                                    className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                />
+                            </div>
+                        </div>
+                        {productType === "simple" && (
+                            <div className="flex flex-wrap my-2 gap-4 lg:gap-0">
+                                <div className="w-full lg:w-1/2 px-2">
+                                    <Input
+                                        label="Base Product Price"
+                                        placeholder="Enter The Base Product Price"
+                                        {...register("basePrice")}
+                                        readOnly
+                                        disabled
+                                        className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                        error={errors.basePrice?.message}
+                                    />
+                                </div>
+                                <div className="w-full lg:w-1/2 px-2">
+                                    <Input
+                                        label="Product Discount Price"
+                                        placeholder="Enter The Product Discount Price"
+                                        {...register("productDiscountPrice")}
+                                        className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                        readOnly
+                                        disabled
+                                        error={
+                                            errors.productDiscountPrice?.message
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        )}
+                        <div className="flex flex-wrap my-2 gap-4 lg:gap-0">
+                            {productType === "simple" && (
+                                <div className="w-full lg:w-1/2 px-2">
+                                    <Input
+                                        label="Product Stock"
+                                        readOnly
+                                        disabled
+                                        placeholder="Enter The Product Stock"
+                                        {...register("productStock")}
+                                        className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                        error={errors.productStock?.message}
+                                    />
+                                </div>
+                            )}
+                            <div className="w-full lg:w-1/2 px-2">
+                                <Input
+                                    label="Product Brand"
+                                    placeholder="Enter The Product Brand"
+                                    readOnly
+                                    disabled
+                                    {...register("productBrand")}
+                                    className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                    error={errors.productBrand?.message}
+                                />
+                            </div>
+                        </div>
+                        <div className="w-full px-2">
+                            <TextArea
+                                name="productShortDescription"
+                                label="Product Short Description"
+                                placeholder="Enter The Product Short Description"
+                                error={errors.productShortDescription?.message}
+                                className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                rows={2}
+                                {...register("productShortDescription")}
+                                disabled
+                                readOnly
+                            />
                         </div>
                         <div className="w-full px-2">
                             <Suspense fallback={<Loader />}>
@@ -244,14 +309,81 @@ const ViewProduct = () => {
                                 />
                             </Suspense>
                         </div>
+                        {productType === "variable" && (
+                            <>
+                                <hr />
+                                <div className="w-full border rounded-lg py-4 px-3 bg-stone-800">
+                                    <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
+                                        <h2 className="text-2xl font-bold px-2 underline">
+                                            Attribues
+                                        </h2>
+                                    </div>
+                                    <div className="space-y-4">
+                                        {fields.map((field, index) => (
+                                            <div
+                                                key={field.id}
+                                                className="w-full flex flex-col lg:flex-row items-center gap-4 p-4 shadow-sm rounded-lg border bg-white text-black dark:bg-slate-800 dark:text-white min-h-[120px]"
+                                            >
+                                                <div className="w-20">
+                                                    <Button
+                                                        className="Danger inline-flex items-center gap-2 p-5 mt-6 rounded-md"
+                                                        onClick={() =>
+                                                            remove(index)
+                                                        }
+                                                    >
+                                                        <FaTrash />
+                                                    </Button>
+                                                </div>
+                                                <div className="flex-grow flex-col lg:flex-row flex">
+                                                    <div className="w-full lg:w-1/2 px-2">
+                                                        <Input
+                                                            placeholder="Enter The Name"
+                                                            label="Name"
+                                                            {...register(
+                                                                `attributes.${index}.name`
+                                                            )}
+                                                            className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                                            readOnly
+                                                            disabled
+                                                            error={
+                                                                errors
+                                                                    .attributes?.[
+                                                                    index
+                                                                ]?.name?.message
+                                                            }
+                                                        />
+                                                    </div>
+                                                    <div className="w-full lg:w-1/2 px-2">
+                                                        <Input
+                                                            placeholder="Enter The Value"
+                                                            label="value"
+                                                            {...register(
+                                                                `attributes.${index}.options`
+                                                            )}
+                                                            className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                                            readOnly
+                                                            disabled
+                                                            error={
+                                                                errors
+                                                                    .attributes?.[
+                                                                    index
+                                                                ]?.options
+                                                                    ?.message
+                                                            }
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </>
+                        )}
                         <div className="w-full border-t !mt-8 flex items-center gap-1">
                             <Link
                                 to={`/admin/products/edit-product/${productId}`}
                             >
-                                <Button
-                                    readOnly
-                                    className="Primary my-2 btnXl"
-                                >
+                                <Button readOnly className="Primary my-2 btnXl">
                                     <FaEdit /> Go To Edit Page
                                 </Button>
                             </Link>

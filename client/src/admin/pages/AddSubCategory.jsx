@@ -102,21 +102,20 @@ const AddSubCategory = () => {
                                 </h4>
                             </div>
                         )}
-                        <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2">
+                        <div className="flex flex-wrap my-2 gap-4 lg:gap-0">
+                            <div className="w-full lg:w-1/2 px-2">
                                 <Select
                                     label="Category"
                                     placeholder="Select The Category"
                                     title="Select The Category"
                                     options={categoryOptions?.data}
                                     error={errors.parentCategory?.message}
-                                    isRequired="true"
                                     disabled={isPending}
                                     {...register("parentCategory")}
                                     defaultValue="default"
                                 />
                             </div>
-                            <div className="w-full md:w-1/2 px-2">
+                            <div className="w-full lg:w-1/2 px-2">
                                 <Controller
                                     control={control}
                                     name="subCategoryImage"
@@ -142,8 +141,8 @@ const AddSubCategory = () => {
                                 />
                             </div>
                         </div>
-                        <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-1/2 px-2">
+                        <div className="flex flex-wrap my-2 gap-4 lg:gap-0">
+                            <div className="w-full lg:w-1/2 px-2">
                                 <Input
                                     label="Sub-Category Name"
                                     placeholder="Enter The Sub-Category Name"
@@ -153,7 +152,7 @@ const AddSubCategory = () => {
                                     error={errors.subCategoryName?.message}
                                 />
                             </div>
-                            <div className="w-full md:w-1/2 px-2">
+                            <div className="w-full lg:w-1/2 px-2">
                                 <Input
                                     label="Sub-Category Slug"
                                     placeholder="View The Sub-Category Slug"
