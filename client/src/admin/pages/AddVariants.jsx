@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import React, { useMemo, useState } from "react";
+import { useState } from "react";
 import {
     ButtonWithAlert,
     Input,
@@ -11,6 +11,7 @@ import {
     FaEdit,
     FaPlus,
     FaRegTrashAlt,
+    FaRupeeSign,
     FaTimes,
     FaTrash,
 } from "react-icons/fa";
@@ -25,7 +26,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
-import { formatDateTime, generateSKU } from "@/utils";
+import { formatDateTime } from "@/utils";
 import Badge from "@/components/Badge";
 import Model from "@/components/Model";
 import { LoadingOverlay } from "@/components";
@@ -34,7 +35,6 @@ const AddVariants = () => {
     const { productId } = useParams();
     const [isModelOpen, setIsModelOpen] = useState(false);
     const [imageData, setImageData] = useState(null);
-    const [skuTrigger, setSkuTrigger] = useState(0);
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
@@ -49,7 +49,7 @@ const AddVariants = () => {
         mode: "onChange",
         resolver: yupResolver(addVariantScheme),
         defaultValues: {
-            attributes: [{ key: "", value: "" }],
+            attributes: [{ name: "", value: "" }],
         },
     });
 
@@ -77,6 +77,7 @@ const AddVariants = () => {
             toastService.error(err?.message || "Failed to fetch Data.");
         },
     });
+
     const {
         productName,
         productSlug,
@@ -84,41 +85,26 @@ const AddVariants = () => {
         productPrice,
         hasVariants,
         productCategory,
+        productBrand,
         productSubCategory,
         updatedAt,
     } = productData?.data || {};
-
-    const skuNumber = useMemo(() => {
-        return generateSKU(
-            productName,
-            productCategory?.categoryName,
-            productSubCategory?.subCategoryName,
-        );
-    }, [
-        productName,
-        productCategory?.categoryName,
-        productSubCategory?.subCategoryName,
-        skuTrigger,
-    ]);
 
     // add variant
     const { mutate, isPending } = useMutation({
         mutationFn: data => {
             const payload = new FormData();
             payload.append("productId", productId);
-            payload.append("sku", data?.sku);
-            payload.append("priceAdjustment", data?.priceAdjustment);
-            payload.append("stockQty", data?.stockQty);
-            data.images.forEach((image, index) => {
+            payload.append("basePrice", data?.basePrice);
+            payload.append("discountPrice", data?.discountPrice);
+            payload.append("stockQuantity", data?.stockQuantity);
+            data.images.forEach(image => {
                 payload.append(`images`, image);
             });
-            // Convert attributes into an object
-            const attributesObject = data?.attributes.reduce((acc, attr) => {
-                acc[attr.key.trim()] = attr.value;
-                return acc;
-            }, {});
+
             // Convert object into JSON string for sending via FormData
-            payload.append("attributes", JSON.stringify(attributesObject));
+            payload.append("attributes", JSON.stringify(data?.attributes));
+
             return crudService.post(
                 "variant/add-variant",
                 true,
@@ -131,7 +117,6 @@ const AddVariants = () => {
             navigate(`/admin/products/variants/${productId}`);
             queryClient.invalidateQueries(["variantList", productId]);
             toastService.success(data?.message);
-            setSkuTrigger(prev => prev + 1);
         },
         onError: error => {
             const message = error?.response?.data?.message || error?.message;
@@ -201,6 +186,7 @@ const AddVariants = () => {
         setImageData(updateImage);
         setIsModelOpen(true);
     };
+
     // Edit the image
     const { mutate: editImageMutate, isPending: editIsPending } = useMutation({
         mutationFn: data => {
@@ -239,33 +225,40 @@ const AddVariants = () => {
             header: "SKU",
         },
         {
-            accessorKey: "priceAdjustment",
-            header: "Price Adjustment",
+            header: "Base Price",
+            cell: ({ row }) => (
+                <div className="w-full flex items-end gap-2">
+                    <p className="text-lg font-bold inline-flex items-center">
+                        <FaRupeeSign /> {row.original?.basePrice.toFixed(2)}
+                    </p>
+                    <del className="inline-flex items-center">
+                        <FaRupeeSign /> {row.original?.discountPrice.toFixed(2)}
+                    </del>
+                </div>
+            ),
         },
         {
-            accessorKey: "stockQty",
+            accessorKey: "stockQuantity",
             header: "Stock Quantity",
         },
         {
+            accessorKey: "attributes",
             header: "Attribues",
             cell: ({ row }) => (
                 <div className="flex flex-wrap gap-2">
-                    {Object.entries(row.original?.attributes).map(
-                        ([key, value]) => (
-                            <Badge
-                                className="Primary text-sm"
-                                key={key}
-                                title={`${key}: ${value}`}
-                            />
-                        )
-                    )}
+                    {row.original?.attributes.map(attr => (
+                        <Badge
+                            key={attr._id}
+                            title={`${attr.name}: ${attr.value}`}
+                        />
+                    ))}
                 </div>
             ),
         },
         {
             header: "Images",
             cell: ({ row }) => (
-                <div className="flex flex-wrap justify-center items-center gap-4">
+                <div className="w-full flex flex-wrap justify-center items-center gap-4">
                     {row?.original?.images.map((image, index) => (
                         <div
                             key={image?.publicId || index}
@@ -405,7 +398,7 @@ const AddVariants = () => {
                                             Price:
                                         </th>
                                         <td className="p-2 border-b text-left">
-                                            {productPrice}
+                                            {productPrice || "-"}
                                         </td>
                                     </tr>
                                     <tr>
@@ -428,17 +421,10 @@ const AddVariants = () => {
                                     </tr>
                                     <tr>
                                         <th className="text-left p-2 border-b font-bold">
-                                            Variants:
+                                            Brand:
                                         </th>
-                                        <td className="p-2  text-left border-b">
-                                            {hasVariants ? (
-                                                <Badge title="Has Variants" />
-                                            ) : (
-                                                <Badge
-                                                    title="No Variants"
-                                                    className="Secondary"
-                                                />
-                                            )}
+                                        <td className="p-2 border-b text-left">
+                                            {productBrand}
                                         </td>
                                     </tr>
                                     <tr>
@@ -473,24 +459,20 @@ const AddVariants = () => {
                         <div className="flex flex-wrap my-2">
                             <div className="w-full md:w-1/2 px-2 my-2">
                                 <Input
-                                    label="SKU"
-                                    placeholder="SKU"
-                                    {...register("sku")}
-                                    value={skuNumber}
-                                    onPaste={e => e.preventDefault()}
-                                    onCopy={e => e.preventDefault()}
+                                    label="Variant Base Price"
+                                    {...register("basePrice")}
+                                    placeholder="Enter The Variant Base Price"
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                    error={errors?.sku?.message}
+                                    error={errors?.basePrice?.message}
                                 />
                             </div>
                             <div className="w-full md:w-1/2 px-2 my-2">
                                 <Input
-                                    label="Price Adjustement"
-                                    {...register("priceAdjustment")}
-                                    placeholder="Enter The Price Adjustement"
-                                    defaultValue="0"
+                                    label="Variant Discount Price"
+                                    {...register("discountPrice")}
+                                    placeholder="Enter The Variant Discount Price"
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                    error={errors?.priceAdjustment?.message}
+                                    error={errors?.discountPrice?.message}
                                 />
                             </div>
                         </div>
@@ -499,10 +481,9 @@ const AddVariants = () => {
                                 <Input
                                     label="Stock Quantity"
                                     placeholder="Enter The Stock Quantity"
-                                    defaultValue="0"
-                                    {...register("stockQty")}
+                                    {...register("stockQuantity")}
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                    error={errors.stockQty?.message}
+                                    error={errors.stockQuantity?.message}
                                 />
                             </div>
                             <div className="w-full md:w-1/2 px-2 my-2">
@@ -511,7 +492,7 @@ const AddVariants = () => {
                                     name="images"
                                     render={({ field }) => (
                                         <Input
-                                            label="Select The Variant Image"
+                                            label="Variant Images"
                                             title="Select The Variant Image"
                                             type="file"
                                             disabled={isPending}
@@ -540,7 +521,7 @@ const AddVariants = () => {
                                     disabled={isPending}
                                     className="Success btnLg flex items-center gap-2"
                                     onClick={() =>
-                                        append({ key: "", value: "" })
+                                        append({ name: "", value: "" })
                                     }
                                 >
                                     <FaPlus /> Add Variant
@@ -562,16 +543,16 @@ const AddVariants = () => {
                                         </div>
                                         <div className="flex-1">
                                             <Input
-                                                placeholder="Key"
+                                                placeholder="Name"
                                                 disabled={isPending}
-                                                label="Key"
+                                                label="Enter The Key Name"
                                                 {...register(
-                                                    `attributes.${index}.key`
+                                                    `attributes.${index}.name`
                                                 )}
                                                 className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                                 error={
                                                     errors.attributes?.[index]
-                                                        ?.key?.message
+                                                        ?.name?.message
                                                 }
                                             />
                                         </div>

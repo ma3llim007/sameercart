@@ -18,7 +18,7 @@ export const sizeOptions = [
     { _id: "xs", label: "XS" },
 ];
 
-export const hasVariantsOptions = [
-    { _id: "false", label: "No" },
-    { _id: "true", label: "Yes!, Product Have Variant" },
+export const productTypeOptions = [
+    { _id: "simple", label: "Simple" },
+    { _id: "variable", label: "Variable" },
 ];

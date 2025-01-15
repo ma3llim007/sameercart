@@ -1,6 +1,5 @@
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
-import { capitalizeWords } from "@/utils";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -15,6 +14,7 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { upperFirst } from "lodash";
 
 const AllCategory = () => {
     const [page, setPage] = useState(1);
@@ -76,7 +76,7 @@ const AllCategory = () => {
                                 />
                                 <Link to={`/sub-category/${category.categorySlug}`}>
                                     <Button className="Primary btnXl mt-4">
-                                        {capitalizeWords(category.categoryName)}
+                                        {upperFirst(category.categoryName)}
                                     </Button>
                                 </Link>
                             </div>

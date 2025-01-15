@@ -13,15 +13,24 @@ const variantSchema = new Schema(
             required: [true, "SKU Is Required"],
             lowercase: true,
             trim: true,
-            maxlength: [50, "SKU Cannot Exceed 50 Characters"],
         },
-        variantPrice: {
+        basePrice: {
             type: Number,
-            required: [true, "Variant Price Is Required"],
+            required: [true, "Base Price Is Required"],
             default: 0,
-            min: [0, "Variant Price Cannot Be Less Than 0"],
+            min: [0, "Base Price Cannot Be Less Than 0"],
         },
-        stockQty: {
+        discountPrice: {
+            type: Number,
+            min: [0, "Discount Price Cannot Be Negative"],
+            validate: {
+                validator: function (value) {
+                    return value < this.basePrice;
+                },
+                message: "Discount Price Must Be Less Than Discount Price",
+            },
+        },
+        stockQuantity: {
             type: Number,
             required: [true, "Stock Qty Is Required"],
             min: [0, "Stock Quantity Cannot Be Negative"],
@@ -44,13 +53,15 @@ const variantSchema = new Schema(
                 value: { type: String, required: [true, "Attributes Value Is Required"] },
             },
         ],
-        addedBy: {
-            type: Schema.Types.ObjectId,
-            ref: "Admin",
-            required: [true, "addedBy Is Required"],
-        },
     },
     { timestamps: true }
 );
 
+// Pre-save hook to ensure variant price validation
+variantSchema.pre("save", function (next) {
+    if (this.discountPrice && this.discountPrice >= this.basePrice) {
+        return next(new Error("Discount Price Must Be Less Than Base Price"));
+    }
+    next();
+});
 export const Variant = mongoose.model("Variant", variantSchema);

@@ -50,31 +50,34 @@ const productSchema = new Schema(
             type: String,
             required: [true, "Product Brand Is Required"],
         },
-        productPrice: {
+        basePrice: {
             type: Number,
             min: [0, "Product Price Cannot Be Negative"],
+            default: 0,
         },
         productDiscountPrice: {
             type: Number,
             min: [0, "Product Discount Price Cannot Be Negative"],
         },
-        hasVariants: {
-            type: Boolean,
-            default: false,
+        productType: {
+            type: String,
+            enum: ["simple", "variable"],
+            default: "simple",
         },
-        productVariants: {
-            type: [Schema.Types.ObjectId],
-            ref: "Variant",
-            default: [],
-        },
+        attributes: [
+            {
+                name: {
+                    type: String,
+                    required: [true, "Attribute Is Required"],
+                },
+                options: [String],
+            },
+        ],
+        productVariants: [{ type: Schema.Types.ObjectId, ref: "Variant" }],
         productStock: {
             type: Number,
             min: [0, "Product Stock Cannot Be Negative"],
-        },
-        addedBy: {
-            type: Schema.Types.ObjectId,
-            ref: "Admin",
-            required: [true, "addedBy Is Required"],
+            default: 0,
         },
         ratings: {
             averageRating: {
@@ -98,6 +101,14 @@ productSchema.pre("save", function (next) {
 
     if (this.productSpecification) {
         this.productSpecification = purify.sanitize(this.productSpecification);
+    }
+    next();
+});
+
+// Middleware To Validate Product Price Against Discount Price
+productSchema.pre("validate", function (next) {
+    if (this.productDiscountPrice && this.productDiscountPrice >= this.basePrice) {
+        return next(new Error("Discount Price Must Be Less than Base Price"));
     }
     next();
 });

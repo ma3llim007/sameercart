@@ -45,7 +45,6 @@ export default [
             "no-extend-native": "warn",
             "block-spacing": ["error", "always"],
             "no-extra-semi": "error",
-            "consistent-return": "warn",
             "no-useless-escape": "warn",
             "no-extra-bind": "warn",
             "no-shadow-restricted-names": "error",

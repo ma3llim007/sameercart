@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import ReactDOM from "react-dom";
-import { FaEdit, FaTimes } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 
 const Model = ({ isOpen, onClose, title, children }) => {
     useEffect(() => {

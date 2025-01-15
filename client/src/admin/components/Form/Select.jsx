@@ -1,5 +1,5 @@
-import { capitalizeWords } from "@/utils";
-import React, { forwardRef, useId, useMemo } from "react";
+import { upperFirst } from "lodash";
+import { forwardRef, useId, useMemo } from "react";
 
 function Select(
     {
@@ -14,14 +14,11 @@ function Select(
     ref
 ) {
     const id = useId();
-    
+
     // option Label
     const getOptinLabel = option => {
         return (
-            option?.categoryName ||
-            option.subCategoryName ||
-            option.label ||
-            ""
+            option?.categoryName || option.subCategoryName || option.label || ""
         );
     };
 
@@ -33,7 +30,7 @@ function Select(
                 value={option?._id}
                 className="bg-white text-gray-700 dark:bg-slate-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700"
             >
-                {capitalizeWords(getOptinLabel(option))}
+                {upperFirst(getOptinLabel(option))}
             </option>
         ));
     }, [options]);
@@ -51,6 +48,7 @@ function Select(
             <select
                 id={id}
                 ref={ref}
+                required={isRequired}
                 {...props}
                 className={`px-3 py-2 rounded-lg bg-white text-black dark:bg-slate-800 dark:text-white outline-none text-lg focus:bg-gray-50 dark:focus:bg-slate-700 duration-200 border border-gray-200 w-full ${className}`}
             >

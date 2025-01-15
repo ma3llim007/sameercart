@@ -8,6 +8,7 @@ import Badge from "@/components/Badge";
 import { useNavigate } from "react-router-dom";
 import toastService from "@/services/toastService";
 import { LoadingOverlay } from "@/components";
+import { upperFirst } from "lodash";
 
 const ProductsList = () => {
     const navigate = useNavigate();
@@ -42,6 +43,16 @@ const ProductsList = () => {
         {
             accessorKey: "productName",
             header: "Product Name",
+            cell: ({ row }) => (
+                <div className="w-full flex flex-col gap-3">
+                    <p>{upperFirst(row.original?.productName)}</p>
+                    <div className="w-2/5">
+                        <Badge
+                            title={upperFirst(row.original?.productType)}
+                        ></Badge>
+                    </div>
+                </div>
+            ),
         },
         {
             accessorKey: "productFeatureImage",
@@ -59,20 +70,12 @@ const ProductsList = () => {
         {
             accessorKey: "productCategory.categoryName",
             header: "Product Category",
+            cell: ({ getValue }) => upperFirst(getValue()),
         },
         {
             accessorKey: "productSubCategory.subCategoryName",
             header: "Product Sub-Category",
-        },
-        {
-            accessorKey: "hasVariants",
-            header: "Variants",
-            cell: ({ row }) =>
-                row.original?.hasVariants ? (
-                    <Badge title="Has Variants" />
-                ) : (
-                    <Badge title="No Variants" className="Secondary" />
-                ),
+            cell: ({ getValue }) => upperFirst(getValue()),
         },
         {
             accessorKey: "updatedAt",
@@ -116,7 +119,7 @@ const ProductsList = () => {
                     >
                         View
                     </Button>
-                    {row.original.hasVariants && (
+                    {row.original.productType === "variable" && (
                         <>
                             |
                             <Button

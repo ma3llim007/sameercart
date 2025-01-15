@@ -52,7 +52,6 @@ const addCategory = asyncHandler(async (req, res) => {
         categoryName,
         categorySlug,
         categoryImage: categoryUpload?.secure_url,
-        addedBy: req.admin._id,
     });
 
     return res.status(201).json(new ApiResponse(201, category, "Category Created Successfully"));

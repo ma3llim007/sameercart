@@ -80,7 +80,7 @@ const AddCategory = () => {
                         onSubmit={handleSubmit(data => mutate(data))}
                         encType="multipart/form-data"
                     >
-                        <h1 className="text-xl font-bold my-4 px-2 underline">
+                        <h1 className="text-xl font-bold my-4 px-2">
                             Add Category
                         </h1>
                         {errors.root && (
@@ -105,7 +105,7 @@ const AddCategory = () => {
                         <div className="flex flex-wrap my-2">
                             <div className="w-full md:w-1/2 px-2">
                                 <Input
-                                    label="Slug"
+                                    label="Category Slug"
                                     placeholder="View The Category Slug"
                                     {...register("categorySlug")}
                                     disabled={isPending}
@@ -122,7 +122,7 @@ const AddCategory = () => {
                                     name="categoryImage"
                                     render={({ field }) => (
                                         <Input
-                                            label="Select The Category Image"
+                                            label="Category Image"
                                             title="Select The Category Image"
                                             additionalTitle="Note:- [For Best View Of Category Image Width:350px, Height:250px]"
                                             type="file"

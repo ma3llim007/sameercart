@@ -1,9 +1,8 @@
 import currentYear, { formatDateTime } from "./currentYear";
 import { isValidExtensions, isValidFileType } from "./files";
 import slugTransform from "./slugTransform";
-import { capitalizeWords, slugToText } from "./texts";
-import { colorOptions, hasVariantsOptions, sizeOptions } from "./options";
-import { generateSKU } from "./generateSku";
+import { slugToText } from "./texts";
+import { colorOptions, productTypeOptions, sizeOptions } from "./options";
 
 export {
     currentYear,
@@ -11,10 +10,8 @@ export {
     slugTransform,
     isValidExtensions,
     formatDateTime,
-    capitalizeWords,
     sizeOptions,
     colorOptions,
-    hasVariantsOptions,
-    generateSKU,
+    productTypeOptions,
     slugToText,
 };

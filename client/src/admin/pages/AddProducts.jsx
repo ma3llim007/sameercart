@@ -3,12 +3,12 @@ import { Input, Loading, PageHeader, Select, TextArea } from "../components";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaTrash } from "react-icons/fa";
 import Loader from "@/client/components/Loader/Loader";
 import RichTextEditor from "../components/Form/RichTextEditor";
-import { hasVariantsOptions, slugTransform } from "@/utils";
+import { productTypeOptions, slugTransform } from "@/utils";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import DOMPurify from "dompurify";
@@ -19,7 +19,6 @@ const AddProducts = () => {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
     const [selectedCategory, setSelectedCategory] = useState(null);
-
     const {
         handleSubmit,
         register,
@@ -31,6 +30,13 @@ const AddProducts = () => {
     } = useForm({
         resolver: yupResolver(addProductScheme),
         mode: "onChange",
+        defaultValues: {
+            attributes: [{ name: "", options: "" }],
+        },
+    });
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "attributes",
     });
 
     // Updating the slug value on title change
@@ -49,7 +55,7 @@ const AddProducts = () => {
 
         return () => subscription.unsubscribe();
     }, [watch, setValue]);
-    const hasVariants = watch("hasVariants");
+    const productType = watch("productType");
 
     // Fetching The Category Data For Options
     const { data: categoryOptions } = useQuery({
@@ -80,7 +86,8 @@ const AddProducts = () => {
     // add new product
     const { mutate, isPending } = useMutation({
         mutationFn: data => {
-            const { productDescription, productSpecification } = data;
+            const { productDescription, productSpecification, attributes } =
+                data;
 
             // Sanitize the productDescription and productSpecification
             const sanitizeProductDescription =
@@ -88,9 +95,17 @@ const AddProducts = () => {
             const sanitizeProductSpecification =
                 DOMPurify.sanitize(productSpecification);
 
+            const ConvertedAttributes = attributes.map(attribute => ({
+                ...attribute,
+                options: attribute.options
+                    .split(",")
+                    .map(option => option.trim()),
+            }));
+
             // Create a new data object with sanitized content
             const sanitizedData = {
                 ...data,
+                attributes: ConvertedAttributes,
                 productDescription: sanitizeProductDescription,
                 productSpecification: sanitizeProductSpecification,
             };
@@ -154,7 +169,7 @@ const AddProducts = () => {
                         <div className="flex flex-wrap my-2">
                             <div className="w-full md:w-1/2 px-2 flex-grow">
                                 <Input
-                                    label="Slug"
+                                    label="Product Slug"
                                     placeholder="View The Product Slug"
                                     {...register("productSlug")}
                                     disabled={isPending}
@@ -173,7 +188,7 @@ const AddProducts = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <Select
-                                            label="Select The Category"
+                                            label="Product Category"
                                             placeholder="Select The Category"
                                             title="Select The Category"
                                             options={categoryOptions?.data}
@@ -198,7 +213,7 @@ const AddProducts = () => {
                             </div>
                             <div className="w-full md:w-1/2 px-2">
                                 <Select
-                                    label="Select The Sub-Category"
+                                    label="Product Sub-Category"
                                     placeholder="Select The Sub-Category"
                                     title="Select The Sub-Category"
                                     options={SubCategoryOptions?.data}
@@ -218,7 +233,7 @@ const AddProducts = () => {
                                     name="productFeatureImage"
                                     render={({ field }) => (
                                         <Input
-                                            label="Select The Product Image"
+                                            label="Product Image"
                                             title="Select The Product Image"
                                             additionalTitle="Note:- [For Best View Of Product Image Width:500px, Height:500px]"
                                             type="file"
@@ -240,29 +255,29 @@ const AddProducts = () => {
                             </div>
                             <div className="w-full md:w-1/2 px-2">
                                 <Select
-                                    label="Select The Variants"
-                                    placeholder="Select The Variants Options"
-                                    title="Specify If This Product Has Variants"
-                                    options={hasVariantsOptions}
+                                    label="Product Type"
+                                    placeholder="Select The Product Type"
+                                    title="Select The Product Type"
+                                    options={productTypeOptions}
                                     isRequired="true"
                                     disabled={isPending}
-                                    {...register("hasVariants")}
+                                    {...register("productType")}
                                     defaultValue="default"
-                                    name="hasVariants"
-                                    error={errors.hasVariants?.message}
+                                    name="productType"
+                                    error={errors.productType?.message}
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                 />
                             </div>
                         </div>
-                        {hasVariants === "false" && (
+                        {productType === "simple" && (
                             <div className="flex flex-wrap my-2">
                                 <div className="w-full md:w-1/2 px-2">
                                     <Input
-                                        label="Product Price"
-                                        placeholder="Enter The Product Price"
-                                        {...register("productPrice")}
+                                        label="Base Product Price"
+                                        placeholder="Enter The Base Product Price"
+                                        {...register("basePrice")}
                                         className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                        error={errors.productPrice?.message}
+                                        error={errors.basePrice?.message}
                                     />
                                 </div>
                                 <div className="w-full md:w-1/2 px-2">
@@ -271,13 +286,15 @@ const AddProducts = () => {
                                         placeholder="Enter The Product Discount Price"
                                         {...register("productDiscountPrice")}
                                         className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                        error={errors.productDiscountPrice?.message}
+                                        error={
+                                            errors.productDiscountPrice?.message
+                                        }
                                     />
                                 </div>
                             </div>
                         )}
                         <div className="flex flex-wrap my-2">
-                            {hasVariants === "false" && (
+                            {productType === "simple" && (
                                 <div className="w-full md:w-1/2 px-2">
                                     <Input
                                         label="Product Stock"
@@ -300,6 +317,7 @@ const AddProducts = () => {
                                 />
                             </div>
                         </div>
+
                         <div className="w-full px-2">
                             <TextArea
                                 name="productShortDescription"
@@ -338,6 +356,81 @@ const AddProducts = () => {
                                 />
                             </Suspense>
                         </div>
+                        {productType === "variable" && (
+                            <>
+                                <hr />
+                                <div className="w-full border rounded-lg py-4 px-3 bg-stone-800">
+                                    <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
+                                        <h2 className="text-2xl font-bold px-2 underline">
+                                            Attribues
+                                        </h2>
+                                        <Button
+                                            disabled={isPending}
+                                            className="Success btnLg flex items-center gap-2"
+                                            onClick={() =>
+                                                append({
+                                                    name: "",
+                                                    options: "",
+                                                })
+                                            }
+                                        >
+                                            <FaPlus /> Add Variant
+                                        </Button>
+                                    </div>
+                                    <div className="space-y-4">
+                                        {fields.map((field, index) => (
+                                            <div
+                                                key={field.id}
+                                                className="flex flex-wrap items-center justify-center gap-4 p-4 shadow-md rounded-lg border bg-white text-black dark:bg-slate-800 dark:text-white"
+                                            >
+                                                <div className="flex justify-center items-center min-h-[90px]">
+                                                    <Button
+                                                        className="Danger flex items-center gap-2 p-5 mt-6 rounded-md"
+                                                        onClick={() =>
+                                                            remove(index)
+                                                        }
+                                                    >
+                                                        <FaTrash />
+                                                    </Button>
+                                                </div>
+                                                <div className="flex-1 ">
+                                                    <Input
+                                                        placeholder="Enter The Name"
+                                                        disabled={isPending}
+                                                        label="Name"
+                                                        {...register(
+                                                            `attributes.${index}.name`
+                                                        )}
+                                                        className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                                        error={
+                                                            errors.attributes?.[
+                                                                index
+                                                            ]?.name?.message
+                                                        }
+                                                    />
+                                                </div>
+                                                <div className="flex-1">
+                                                    <Input
+                                                        placeholder="Enter The Value"
+                                                        disabled={isPending}
+                                                        label="value"
+                                                        {...register(
+                                                            `attributes.${index}.options`
+                                                        )}
+                                                        className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                                        error={
+                                                            errors.attributes?.[
+                                                                index
+                                                            ]?.options?.message
+                                                        }
+                                                    />
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </>
+                        )}
                         <div className="w-full border-t !mt-6">
                             <Button
                                 disabled={isPending}

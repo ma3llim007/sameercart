@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import SectionHeader from "./SectionHeader";
-import { capitalizeWords } from "@/utils";
+import { upperFirst } from "lodash";
 
 const Categories = ({ categories }) => {
     const swiperRef = useRef(null);
@@ -53,7 +53,7 @@ const Categories = ({ categories }) => {
                                 <div className="flex flex-col gap-2">
                                     <Link to={`/sub-category/${category.categorySlug}`}>
                                         <h4 className="text-xl text-center font-bold mb-3 cursor-pointer no-underline hover:underline transition-all duration-300 delay-300 ease-in-out decoration-2">
-                                            {capitalizeWords(
+                                            {upperFirst(
                                                 category?.categoryName
                                             )}
                                         </h4>
@@ -66,7 +66,7 @@ const Categories = ({ categories }) => {
                                                     className="text-base my-1 font-semibold text-center no-underline hover:underline transition-all duration-300 delay-300 ease-in-out decoration-2"
                                                     key={subcategories._id}
                                                 >
-                                                    {capitalizeWords(
+                                                    {upperFirst(
                                                         subcategories.subCategoryName
                                                     )}
                                                 </Link>

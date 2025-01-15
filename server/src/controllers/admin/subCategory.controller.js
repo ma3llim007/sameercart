@@ -47,7 +47,6 @@ const addSubCategory = asyncHandler(async (req, res) => {
         subCategorySlug,
         subCategoryImage: imageUrl,
         parentCategory,
-        addedBy: req.admin._id,
     });
 
     return res.status(201).json(new ApiResponse(201, subCategory, "Sub Category Created Successfully"));

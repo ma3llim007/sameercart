@@ -24,11 +24,6 @@ const categorySchema = new Schema(
             type: Boolean,
             default: true,
         },
-        addedBy: {
-            type: Schema.Types.ObjectId,
-            ref: "Admin",
-            required: [true, "AddedBy Is Required"],
-        },
     },
     { timestamps: true }
 );

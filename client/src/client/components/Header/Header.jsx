@@ -15,7 +15,7 @@ import {
 import useSticky from "../../hooks/useSticky";
 import Logo from "../Logo";
 import SideBar from "./SideBar";
-import { capitalizeWords } from "@/utils";
+import { upperCase, upperFirst } from "lodash";
 
 const Header = ({ data }) => {
     const isSticky = useSticky(100);
@@ -209,7 +209,7 @@ const Header = ({ data }) => {
                                                     aria-haspopup="true"
                                                     aria-expanded="false"
                                                 >
-                                                    {capitalizeWords(
+                                                    {upperFirst(
                                                         category?.categoryName
                                                     )}
                                                 </Link>
@@ -238,7 +238,7 @@ const Header = ({ data }) => {
                                                                 to={`${category.categorySlug}/${subcategory?.subCategorySlug}`}
                                                                 className="px-4 py-2 text-base border-b rounded-none border-opacity-50 border-light-gray"
                                                             >
-                                                                {capitalizeWords(
+                                                                {upperCase(
                                                                     subcategory?.subCategoryName
                                                                 )}
                                                             </Link>

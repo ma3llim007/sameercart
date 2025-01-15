@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import toastService from "@/services/toastService";
 import { formatDateTime } from "@/utils";
 import { LoadingOverlay } from "@/components";
+import { upperFirst } from "lodash";
 
 const CategoryList = () => {
     const queryClient = useQueryClient();
@@ -57,7 +58,11 @@ const CategoryList = () => {
     // category columns
     const categoryColums = [
         { accessorKey: "no", header: "No." },
-        { accessorKey: "categoryName", header: "Category Name" },
+        {
+            accessorKey: "categoryName",
+            header: "Category Name",
+            cell: ({ getValue }) => upperFirst(getValue()),
+        },
         { accessorKey: "categorySlug", header: "Category Slug" },
         {
             accessorKey: "categoryImage",

@@ -12,11 +12,6 @@ const couponSchema = new Schema(
             required: [true, "Coupon Amount Is Required"],
             default: 0,
         },
-        addedBy: {
-            type: Schema.Types.ObjectId,
-            ref: "Admin",
-            required: [true, "AddedBy Is Required"],
-        },
     },
     { timestamps: true }
 );

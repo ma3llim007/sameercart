@@ -21,7 +21,7 @@ const orderItemSchema = new Schema(
         productId: {
             type: Schema.Types.ObjectId,
             ref: "Admin",
-            required: [true, "addedBy Is Required"],
+            required: [true, "Product Is Required"],
         },
     },
     { timeseries: true }

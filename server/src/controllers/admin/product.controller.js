@@ -1,98 +1,131 @@
 import mongoose, { isValidObjectId } from "mongoose";
-import { ApiError } from "../../utils/ApiError.js";
-import { asyncHandler } from "../../utils/asyncHandler.js";
 import { Product } from "../../models/product.model.js";
-import { ConvertImageWebp } from "../../utils/ConvertImageWebp.js";
-import { extractPublicId, removeImage, removeImageById, uploadCloudinary } from "../../utils/cloudinary.js";
-import { ApiResponse } from "../../utils/ApiResponse.js";
 import { Variant } from "../../models/variant.model.js";
+import {
+    asyncHandler,
+    ApiError,
+    ApiResponse,
+    ConvertImageWebp,
+    uploadCloudinary,
+    extractPublicId,
+    removeImage,
+    removeImageById,
+} from "../../utils/index.js";
 
 // Add Product
 const addProduct = asyncHandler(async (req, res) => {
-    const {
-        productName,
-        productSlug,
-        productCategoryId,
-        productSubCategoryId,
-        productDescription,
-        productSpecification,
-        hasVariants,
-        productPrice,
-        productStock,
-        productBrand,
-        productShortDescription,
-        productDiscountPrice,
-    } = req.body;
-    const productFeatureImage = req.file?.path;
-
-    if (
-        !productName?.trim() ||
-        !productSlug?.trim() ||
-        !productCategoryId?.trim() ||
-        !productSubCategoryId?.trim() ||
-        !productDescription?.trim() ||
-        !productSpecification?.trim() ||
-        !hasVariants?.trim() ||
-        !productBrand?.trim() ||
-        !productShortDescription?.trim()
-    ) {
-        return res.status(422).json(new ApiError(422, "All Field Are Required"));
-    }
-
-    if (!isValidObjectId(productCategoryId)) {
-        return res.status(400).json(new ApiError(400, "Invalid Category ID"));
-    }
-
-    if (!isValidObjectId(productSubCategoryId)) {
-        return res.status(400).json(new ApiError(400, "Invalid Sub-Category ID"));
-    }
-
-    if (!productFeatureImage) {
-        return res.status(422).json(new ApiError(422, "Product Image Is Required"));
-    }
-
-    const productExisted = await Product.findOne({ productSlug });
-    if (productExisted) {
-        return res.status(409).json(new ApiError(409, "Product Is Already Exists"));
-    }
-
-    // Convert Image To WebP
-    let convertedImagePath = productFeatureImage;
-    if (req.file?.minetype !== "image/webp") {
-        try {
-            convertedImagePath = await ConvertImageWebp(productFeatureImage);
-        } catch (_error) {
-            return res.status(500).json(new ApiError(500, "Failed to Convert Image to WebP"));
-        }
-    }
-
-    // Upload To Cloudinary
-    let productFeatureImageUpload = null;
     try {
-        productFeatureImageUpload = await uploadCloudinary(convertedImagePath, "sameerCart/products");
+        const {
+            productName,
+            productSlug,
+            productCategoryId,
+            productSubCategoryId,
+            productShortDescription,
+            productDescription,
+            productSpecification,
+            productBrand,
+            basePrice,
+            productDiscountPrice,
+            productType,
+            attributes,
+            productStock,
+        } = req.body;
+        const productFeatureImage = req.file?.path;
+
+        if (
+            !productName?.trim() ||
+            !productSlug?.trim() ||
+            !productCategoryId?.trim() ||
+            !productSubCategoryId?.trim() ||
+            !productShortDescription?.trim() ||
+            !productDescription?.trim() ||
+            !productSpecification?.trim() ||
+            !productBrand?.trim() ||
+            !productType?.trim()
+        ) {
+            return res.status(422).json(new ApiError(422, "All Required Fields Must Be Provided."));
+        }
+
+        if (!isValidObjectId(productCategoryId)) {
+            return res.status(400).json(new ApiError(400, "Invalid Category ID"));
+        }
+
+        if (!isValidObjectId(productSubCategoryId)) {
+            return res.status(400).json(new ApiError(400, "Invalid Sub-Category ID"));
+        }
+
+        if (!productFeatureImage) {
+            return res.status(422).json(new ApiError(422, "Product Image Is Required"));
+        }
+
+        const productExisted = await Product.findOne({ productSlug });
+        if (productExisted) {
+            return res.status(409).json(new ApiError(409, "Product Is Already Exists"));
+        }
+
+        // Convert Image To WebP
+        let convertedImagePath = productFeatureImage;
+        if (req.file?.minetype !== "image/webp") {
+            try {
+                convertedImagePath = await ConvertImageWebp(productFeatureImage);
+            } catch (_error) {
+                return res.status(500).json(new ApiError(500, "Failed to Convert Image to WebP"));
+            }
+        }
+
+        // Upload To Cloudinary
+        let productFeatureImageUpload = null;
+        try {
+            productFeatureImageUpload = await uploadCloudinary(convertedImagePath, "sameerCart/products");
+        } catch (_error) {
+            return res.status(500).json(new ApiError(500, "Failed To Upload Product Feature Image."));
+        }
+
+        const productData = {
+            productName,
+            productSlug,
+            productFeatureImage: productFeatureImageUpload.secure_url,
+            productCategoryId,
+            productSubCategoryId,
+            productShortDescription,
+            productDescription,
+            productSpecification,
+            productBrand,
+            productType,
+        };
+
+        if (productType === "simple") {
+            if (
+                !basePrice ||
+                isNaN(Number(basePrice)) ||
+                !productStock ||
+                isNaN(Number(productStock) || !productDiscountPrice || isNaN(productDiscountPrice))
+            ) {
+                return res
+                    .status(422)
+                    .json(new ApiError(422, "Base Price, Discount Price And Stock Are Required For Simple Product."));
+            }
+
+            productData.basePrice = Number(basePrice);
+            productData.productStock = Number(productStock);
+            productData.productDiscountPrice = productDiscountPrice ? Number(productDiscountPrice) : null;
+        } else if (productType === "variable") {
+            if (!Array.isArray(attributes) || attributes.length === 0) {
+                return res.status(422).json(new ApiError(422, "Attributes Are Required For Variable Products."));
+            }
+            productData.attributes = attributes;
+        } else {
+            return res.status(400).json(new ApiError(400, "Invalid Product Type."));
+        }
+
+        // Create the product
+        const product = await Product.create(productData);
+
+        return res.status(201).json(new ApiResponse(201, product, "Product Created Successfully"));
     } catch (_error) {
-        return res.status(500).json(new ApiError(500, "Failed To Upload Product Feature Image."));
+        console.error(_error);
+        return res.status(400).json(new ApiError(400, "Something Went Wrong."));
     }
-
-    const product = await Product.create({
-        productName,
-        productSlug,
-        productFeatureImage: productFeatureImageUpload?.secure_url,
-        productCategoryId,
-        productPrice: productPrice?.trim() && !isNaN(Number(productPrice)) ? Number(productPrice) : null,
-        productDiscountPrice:
-            productDiscountPrice?.trim() && !isNaN(Number(productDiscountPrice)) ? Number(productDiscountPrice) : null,
-        productSubCategoryId,
-        productDescription,
-        hasVariants,
-        productShortDescription,
-        productSpecification,
-        productStock,
-        productBrand,
-        addedBy: req.admin._id,
-    });
-
-    return res.status(201).json(new ApiResponse(201, product, "Product Created Successfully"));
 });
 
 // Product Listing
@@ -142,15 +175,8 @@ const productListing = asyncHandler(async (req, res) => {
                         subCategoryId: "$subcategories._id",
                         subCategoryName: "$subcategories.subCategoryName",
                     },
-                    productDescription: 1,
-
-                    hasVariants: 1,
-                    productSpecification: 1,
-                    productStock: 1,
-                    isActive: 1,
-                    createdAt: 1,
+                    productType: 1,
                     updatedAt: 1,
-                    addedBy: 1,
                 },
             },
         ]);
@@ -233,7 +259,6 @@ const ProductGetById = asyncHandler(async (req, res) => {
                         productStock: 1,
                         createdAt: 1,
                         updatedAt: 1,
-                        addedBy: 1,
                     },
                 },
             ],

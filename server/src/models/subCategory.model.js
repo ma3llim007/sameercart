@@ -28,11 +28,6 @@ const subCategorySchema = new Schema(
             ref: "Category",
             required: [true, "Parent Category Is Required"],
         },
-        addedBy: {
-            type: Schema.Types.ObjectId,
-            ref: "Admin",
-            required: [true, "AddedBy Is Required"],
-        },
     },
     { timestamps: true }
 );

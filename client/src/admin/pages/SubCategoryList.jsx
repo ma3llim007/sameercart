@@ -1,13 +1,13 @@
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { ButtonWithAlert, Loading, PageHeader, Table } from "../components";
-import { capitalizeWords, formatDateTime } from "@/utils";
+import { formatDateTime } from "@/utils";
 import Badge from "@/components/Badge";
 import { Button } from "@/components/ui/button";
 import { LoadingOverlay } from "@/components";
+import { upperFirst } from "lodash";
 
 const SubCategoryList = () => {
     const queryClient = useQueryClient();
@@ -70,7 +70,7 @@ const SubCategoryList = () => {
             header: "Category Name",
             cell: ({ row }) => (
                 <p className="font-bold">
-                    {capitalizeWords(row.original.categoryName)}
+                    {upperFirst(row.original.categoryName)}
                 </p>
             ),
         },

@@ -1,21 +1,42 @@
 import mongoose, { isValidObjectId, ObjectId } from "mongoose";
 import { Variant } from "../../models/variant.model.js";
-import { ApiError } from "../../utils/ApiError.js";
-import { ApiResponse } from "../../utils/ApiResponse.js";
-import { asyncHandler } from "../../utils/asyncHandler.js";
-import { removeImageById, uploadCloudinary } from "../../utils/cloudinary.js";
-import { ConvertImageWebp } from "../../utils/ConvertImageWebp.js";
 import { Product } from "../../models/product.model.js";
+import {
+    asyncHandler,
+    ApiError,
+    ApiResponse,
+    removeImageById,
+    ConvertImageWebp,
+    uploadCloudinary,
+    generateSKU,
+} from "../../utils/index.js";
 
 // Add Variant
 const addVariant = asyncHandler(async (req, res) => {
-    const { productId, sku, priceAdjustment, stockQty, attributes } = req.body;
+    const { productId, basePrice, discountPrice, stockQuantity, attributes } = req.body;
     const varinatImages = req.files;
-
-    if (!productId?.trim() || !sku?.trim() || !priceAdjustment?.trim() || !stockQty?.trim() || !attributes) {
+    
+    if (!productId?.trim() || !basePrice?.trim() || !discountPrice?.trim() || !stockQuantity?.trim() || !attributes) {
         return res.status(422).json(new ApiError(422, "All Field Are Required"));
     }
 
+    // Validate numeric fields
+    const basePriceNum = Number(basePrice);
+    const discountPriceNum = Number(discountPrice);
+    const stockQuantityNum = Number(stockQuantity);
+
+    // Check if variantPrice and stockQty are valid numbers
+    if (isNaN(basePriceNum) || isNaN(discountPriceNum) || isNaN(stockQuantityNum)) {
+        return res
+            .status(422)
+            .json(new ApiError(422, "Base Price, Discount Price and Stock Quantity Should Be Valid Numbers"));
+    }
+
+    // Validate productId
+    if (!isValidObjectId(productId)) {
+        return res.status(400).json(new ApiError(400, "Invalid Product ID"));
+    }
+    // Validate images
     if (!req.files || req.files.length === 0) {
         return res.status(400).json(new ApiError(400, "Please Upload At Least One Image"));
     }
@@ -24,23 +45,25 @@ const addVariant = asyncHandler(async (req, res) => {
         return res.status(400).json(new ApiError(400, "You Can Upload A Maximum Of 5 Image"));
     }
 
-    // Check if variant with the same SKU already exists
-    const existedVaraint = await Variant.findOne({ sku });
-    if (existedVaraint) {
-        return res.status(409).json(new ApiError(409, "Product Varaint Is Already Exists With SKU"));
+    // find the product id and checking that it have varainat object or not
+    const product = await Product.findById(productId).lean();
+
+    if (product.productType === "simple") {
+        return res
+            .status(404)
+            .json(
+                new ApiError(
+                    404,
+                    `Permission Denied: The Product ${product.productName.toUpperCase()} Cannot Have Variants Added.`
+                )
+            );
     }
 
-    // Parse `attributes` from JSON string and convert to a Map
-    let attributesMap;
-    try {
-        const attributesObject = JSON.parse(attributes);
-        attributesMap = new Map(Object.entries(attributesObject));
-    } catch (_error) {
-        return res.status(400).json(new ApiError(400, "Invalid Attributes Format."));
-    }
     const imageUpload = [];
     for (const image of req.files) {
         let convertedImagePath = image?.path;
+
+        // If the image isn't already WebP, convert it
         if (image.mimetype !== "image/webp") {
             try {
                 convertedImagePath = await ConvertImageWebp(image?.path);
@@ -57,21 +80,28 @@ const addVariant = asyncHandler(async (req, res) => {
             return res.status(500).json(new ApiError(500, "Failed To Upload Varaint Image."));
         }
 
-        // Update The Image Upload Object
-        imageUpload.push({
-            imageUrl: varinatUpload?.secure_url,
-            publicId: varinatUpload?.public_id,
-        });
+        // Ensure the Cloudinary upload returned the expected data
+        if (varinatUpload?.secure_url && varinatUpload?.public_id) {
+            // Update The Image Upload Object
+            imageUpload.push({
+                imageUrl: varinatUpload?.secure_url,
+                publicId: varinatUpload?.public_id,
+            });
+        } else {
+            return res.status(500).json(new ApiError(500, "Cloudinary Upload Failed, No Secure URL or Public ID."));
+        }
     }
+    const attributeParsed = JSON.parse(attributes);
+    const sku = generateSKU(product.productName, product.productBrand, attributeParsed);
 
     const varainat = await Variant.create({
         productId,
         sku,
-        priceAdjustment,
-        stockQty,
+        basePrice: basePriceNum,
+        discountPrice: discountPriceNum,
+        stockQuantity: stockQuantityNum,
         images: imageUpload,
-        attributes: attributesMap,
-        addedBy: req.admin._id,
+        attributes: attributeParsed,
     });
 
     // Update the product with the new variant
