@@ -91,7 +91,7 @@ const Table = ({
                             SetPageSize(Number(e.target.value));
                             table.setPageSize(Number(e.target.value));
                         }}
-                        className={`mx-2 p-1 border rounded-md focus:outline-none bg-white text-gray-900 border-gray-300 
+                        className={`mx-2 p-1 border rounded-md focus:outline-none bg-white text-gray-900 border-gray-500 
                             dark:bg-gray-800 dark:text-white dark:border-gray-700
                             transition duration-200 ease-in-out`}
                     >
@@ -113,7 +113,7 @@ const Table = ({
                         type="text"
                         value={globalFilter}
                         onChange={e => SetGlobalFilter(e.target.value)}
-                        className="ml-2 p-1 border rounded"
+                        className="ml-2 p-1 border border-gray-500"
                         placeholder="Search..."
                     />
                 </div>

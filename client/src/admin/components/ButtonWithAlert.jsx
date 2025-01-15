@@ -20,20 +20,31 @@ const ButtonWithAlert = ({
     dialogActionTitle = "Continue",
     dialogActionBtnColor = "Primary",
     dialogActionfn,
+    className,
+    ...props
 }) => {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button className={buttonColor}>{buttonTitle}</Button>
+                <Button className={`${buttonColor} ${className}`} {...props}>
+                    {buttonTitle}
+                </Button>
             </AlertDialogTrigger>
             <AlertDialogContent className="bg-white dark:bg-slate-950">
                 <AlertDialogHeader>
                     <AlertDialogTitle>{dialogTitle}</AlertDialogTitle>
-                    {dialogDesc && <AlertDialogDescription>{dialogDesc}</AlertDialogDescription>}
+                    {dialogDesc && (
+                        <AlertDialogDescription>
+                            {dialogDesc}
+                        </AlertDialogDescription>
+                    )}
                 </AlertDialogHeader>
                 <AlertDialogFooter className="mt-2">
                     <AlertDialogCancel>{dialogCancelTitle}</AlertDialogCancel>
-                    <AlertDialogAction onClick={dialogActionfn} className={dialogActionBtnColor}>
+                    <AlertDialogAction
+                        onClick={dialogActionfn}
+                        className={dialogActionBtnColor}
+                    >
                         {dialogActionTitle}
                     </AlertDialogAction>
                 </AlertDialogFooter>

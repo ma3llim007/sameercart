@@ -10,6 +10,7 @@ import ButtonWithAlert from "./ButtonWithAlert";
 import Select from "./Form/Select";
 import TextArea from "./Form/TextArea";
 import ErrorMessage from "./ErrorMessage";
+import ProductDetailsVariant from "./ProductDetailsVariant";
 
 export {
     LogoutBtn,
@@ -24,4 +25,5 @@ export {
     Select,
     TextArea,
     ErrorMessage,
+    ProductDetailsVariant,
 };

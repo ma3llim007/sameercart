@@ -306,18 +306,21 @@ export const addVariantScheme = Yup.object().shape({
 });
 
 export const editVariantScheme = Yup.object().shape({
-    sku: Yup.string()
-        .required("SKU Is Required")
-        .trim()
-        .max(50, "SKU cannot exceed 50 characters"),
-    variantPrice: Yup.string()
+    basePrice: Yup.string()
         .required("Product Adjustment Is Required")
         .test(
             "is-positive",
             ({ value }) => `Product Adjustment Must Be A Positive Number.`,
             value => value > 0
         ),
-    stockQty: Yup.string()
+    discountPrice: Yup.string()
+        .required("Discount Price Is Required")
+        .test(
+            "is-positive",
+            ({ value }) => `Discount Price Must Be A Positive Number.`,
+            value => value > 0
+        ),
+    stockQuantity: Yup.string()
         .required("Stock Quantity Is Required")
         .test(
             "is-positive",
@@ -326,7 +329,7 @@ export const editVariantScheme = Yup.object().shape({
         ),
     attributes: Yup.array().of(
         Yup.object().shape({
-            key: Yup.string().required("Key Is Required"),
+            name: Yup.string().required("Key Name Is Required"),
             value: Yup.string().required("Value Is Required"),
         })
     ),

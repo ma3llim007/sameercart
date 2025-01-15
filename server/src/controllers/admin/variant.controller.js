@@ -15,7 +15,7 @@ import {
 const addVariant = asyncHandler(async (req, res) => {
     const { productId, basePrice, discountPrice, stockQuantity, attributes } = req.body;
     const varinatImages = req.files;
-    
+
     if (!productId?.trim() || !basePrice?.trim() || !discountPrice?.trim() || !stockQuantity?.trim() || !attributes) {
         return res.status(422).json(new ApiError(422, "All Field Are Required"));
     }
@@ -215,54 +215,65 @@ const deleteVariant = asyncHandler(async (req, res) => {
 
 // Update Variant
 const updateVariant = asyncHandler(async (req, res) => {
-    const { variantId, priceAdjustment, stockQty, attributes } = req.body;
-
-    if (!variantId || !variantId.trim() === "") {
-        return res.status(422).json(new ApiError(422, "Variant ID Is Required"));
-    }
-
-    if (!isValidObjectId(variantId)) {
-        return res.status(400).json(new ApiError(400, "Invalid Variant ID"));
-    }
-
-    const currVariant = await Variant.findById(variantId);
-
-    if (!currVariant) {
-        return res.status(404).json(new ApiResponse(404, "Variant Not Found"));
-    }
-
-    // Check if at least one field is provided for update
-    if (!priceAdjustment && !stockQty && !attributes) {
-        return res
-            .status(400)
-            .json(
-                new ApiError(
-                    400,
-                    "At Least One Field (Price Adjustment, Stock Qty, Or Attributes) Is Required For Update"
-                )
-            );
-    }
-
-    // Update fields if there are no conflicts
-    if (priceAdjustment) {
-        currVariant.priceAdjustment = priceAdjustment;
-    }
-    if (stockQty) {
-        currVariant.stockQty = stockQty;
-    }
-
-    // Parse `attributes` from JSON string and convert to a Map
-    let attributesMap;
     try {
-        const attributesObject = JSON.parse(attributes);
-        attributesMap = new Map(Object.entries(attributesObject));
-        currVariant.attributes = attributesMap;
-    } catch (_error) {
-        return res.status(400).json(new ApiError(400, "Invalid Attributes Format."));
-    }
-    await currVariant.save();
+        const { variantId, basePrice, discountPrice, stockQuantity, attributes } = req.body;
 
-    return res.status(200).json(new ApiResponse(200, currVariant, "Variant Updated Successfully"));
+        if (!variantId || !variantId.trim() === "") {
+            return res.status(422).json(new ApiError(422, "Variant ID Is Required"));
+        }
+
+        // Validate numeric fields
+        const basePriceNum = Number(basePrice);
+        const discountPriceNum = Number(discountPrice);
+        const stockQuantityNum = Number(stockQuantity);
+
+        // Check if variantPrice and stockQty are valid numbers
+        if (isNaN(basePriceNum) || isNaN(discountPriceNum) || isNaN(stockQuantityNum)) {
+            return res
+                .status(422)
+                .json(new ApiError(422, "Base Price, Discount Price and Stock Quantity Should Be Valid Numbers"));
+        }
+
+        // Validate productId
+        if (!isValidObjectId(variantId)) {
+            return res.status(400).json(new ApiError(400, "Invalid Variant ID"));
+        }
+
+        const currVariant = await Variant.findById(variantId);
+        if (!currVariant) {
+            return res.status(404).json(new ApiResponse(404, "Variant Not Found"));
+        }
+
+        // Check if at least one field is provided for update
+        if (!basePrice && !discountPrice && !stockQuantity) {
+            return res
+                .status(400)
+                .json(
+                    new ApiError(
+                        400,
+                        "At Least One Field (Base Price, Stock Quantity, Or Attributes) Is Required For Update"
+                    )
+                );
+        }
+
+        // Update fields if there are no conflicts
+        if (basePrice) {
+            currVariant.basePrice = basePriceNum;
+        }
+        if (discountPrice) {
+            currVariant.discountPrice = discountPriceNum;
+        }
+        if (stockQuantity) {
+            currVariant.stockQuantity = stockQuantityNum;
+        }
+        if (attributes) {
+            currVariant.attributes = JSON.parse(attributes);
+        }
+        await currVariant.save();
+        return res.status(200).json(new ApiResponse(200, currVariant, "Variant Updated Successfully"));
+    } catch (_error) {
+        return res.status(500).json(new ApiError(500, "Something Went Wrong"));
+    }
 });
 
 // Delete Image From Images Object By VaraintId, publicId

@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Input, Loading, PageHeader } from "../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,7 +14,6 @@ const EditVariant = () => {
     const { productId, variantId } = useParams();
     const navigate = useNavigate();
     const queryClient = useQueryClient();
-
     const {
         register,
         handleSubmit,
@@ -26,7 +25,7 @@ const EditVariant = () => {
         mode: "onChange",
         resolver: yupResolver(editVariantScheme),
         defaultValues: {
-            attributes: [],
+            attributes: [{ name: "", value: "" }],
         },
     });
 
@@ -41,18 +40,18 @@ const EditVariant = () => {
     });
     useEffect(() => {
         if (isSuccess && data?.data) {
-            const { sku, priceAdjustment, stockQty, attributes } = data?.data;
-            setValue("sku", sku);
-            setValue("priceAdjustment", priceAdjustment);
-            setValue("stockQty", stockQty);
-
-            // Map attributes object into array format
-            if (attributes) {
-                const attributesArray = Object.entries(attributes).map(
-                    ([key, value]) => ({ key, value })
-                );
-                setValue("attributes", attributesArray);
-            }
+            const { basePrice, discountPrice, stockQuantity, attributes } =
+                data?.data || {};
+            setValue("basePrice", basePrice);
+            setValue("discountPrice", discountPrice);
+            setValue("stockQuantity", stockQuantity);
+            setValue(
+                "attributes",
+                attributes.map(attr => ({
+                    name: attr.name,
+                    value: attr.value,
+                }))
+            );
         }
     }, [isSuccess, data, setValue]);
 
@@ -66,15 +65,10 @@ const EditVariant = () => {
         mutationFn: data => {
             const formData = new FormData();
             formData.append("variantId", variantId);
-            formData.append("priceAdjustment", data?.priceAdjustment);
-            formData.append("stockQty", data?.stockQty);
-            // Convert attributes into an object
-            const attributesObject = data?.attributes.reduce((acc, attr) => {
-                acc[attr.key.trim()] = attr.value;
-                return acc;
-            }, {});
-            // Convert object into JSON stringify for sending
-            formData.append("attributes", JSON.stringify(attributesObject));
+            formData.append("basePrice", data?.basePrice);
+            formData.append("discountPrice", data?.discountPrice);
+            formData.append("stockQuantity", data?.stockQuantity);
+            formData.append("attributes", JSON.stringify(data?.attributes));
             return crudService.patch(`variant/update-variant`, true, formData);
         },
         onSuccess: data => {
@@ -82,7 +76,6 @@ const EditVariant = () => {
             queryClient.invalidateQueries(["variantList", productId]);
             queryClient.removeQueries(["variant", variantId]);
             toastService.success(data?.message);
-            setSkuTrigger(prev => prev + 1);
         },
         onError: error => {
             const message = error?.response?.data?.message || error?.message;
@@ -119,43 +112,36 @@ const EditVariant = () => {
                             </div>
                         )}
                         <div className="flex flex-wrap my-2">
-                            <div className="w-full md:w-10/12 px-2 my-2">
+                            <div className="w-full md:w-1/2 px-2 my-2">
                                 <Input
-                                    label="SKU"
-                                    placeholder="SKU"
-                                    {...register("sku")}
-                                    onPaste={e => e.preventDefault()}
-                                    onCopy={e => e.preventDefault()}
-                                    readOnly
-                                    disabled
+                                    label="Variant Base Price"
+                                    {...register("basePrice")}
+                                    placeholder="Enter The Variant Base Price"
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                    error={errors?.sku?.message}
+                                    error={errors?.basePrice?.message}
+                                />
+                            </div>
+                            <div className="w-full md:w-1/2 px-2 my-2">
+                                <Input
+                                    label="Variant Discount Price"
+                                    {...register("discountPrice")}
+                                    placeholder="Enter The Variant Discount Price"
+                                    className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                                    error={errors?.discountPrice?.message}
                                 />
                             </div>
                         </div>
                         <div className="flex flex-wrap my-2">
                             <div className="w-full md:w-1/2 px-2 my-2">
                                 <Input
-                                    label="Price Adjustement"
-                                    {...register("priceAdjustment")}
-                                    placeholder="Enter The Price Adjustement"
-                                    defaultValue="0"
-                                    className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                    error={errors?.priceAdjustment?.message}
-                                />
-                            </div>
-                            <div className="w-full md:w-1/2 px-2 my-2">
-                                <Input
                                     label="Stock Quantity"
                                     placeholder="Enter The Stock Quantity"
-                                    defaultValue="0"
-                                    {...register("stockQty")}
+                                    {...register("stockQuantity")}
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                    error={errors.stockQty?.message}
+                                    error={errors.stockQuantity?.message}
                                 />
                             </div>
                         </div>
-                        <div className="flex flex-wrap my-2">{}</div>
                         <div className="w-full px-3">
                             <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
                                 <h2 className="text-2xl font-bold px-2">
@@ -165,7 +151,7 @@ const EditVariant = () => {
                                     disabled={isPending}
                                     className="Success btnLg flex items-center gap-2"
                                     onClick={() =>
-                                        append({ key: "", value: "" })
+                                        append({ name: "", value: "" })
                                     }
                                 >
                                     <FaPlus /> Add Variant
@@ -191,12 +177,12 @@ const EditVariant = () => {
                                                 disabled={isPending}
                                                 label="Key"
                                                 {...register(
-                                                    `attributes.${index}.key`
+                                                    `attributes.${index}.name`
                                                 )}
                                                 className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                                 error={
                                                     errors.attributes?.[index]
-                                                        ?.key?.message
+                                                        ?.name?.message
                                                 }
                                             />
                                         </div>
