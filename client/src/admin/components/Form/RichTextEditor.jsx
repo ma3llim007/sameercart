@@ -1,5 +1,5 @@
 import { Editor } from "@tinymce/tinymce-react";
-import React, { forwardRef, useId } from "react";
+import { forwardRef, useId } from "react";
 import { Controller } from "react-hook-form";
 
 const baseTinyMceConfig = {
@@ -37,7 +37,7 @@ const baseTinyMceConfig = {
     autosave_retention: "2m",
     skin: "oxide-dark",
     content_css: "dark",
-    min_height: 200,
+    min_height: 500,
     quickbars_insert_toolbar: "",
     menubar: "file edit view insert format tools table help",
     toolbar_mode: "wrap",
@@ -52,68 +52,66 @@ const baseTinyMceConfig = {
     tinycomments_author: "Mohd Sameer",
 };
 
-const RichTextEditor = forwardRef(
-    (
-        {
-            name = "Description",
-            control,
-            defaultValue = "",
-            placeholder = "",
-            label = "",
-            className = "",
-            error = null,
-            tinymceConfig = {},
-            ...props
-        },
-        ref
-    ) => {
-        const id = useId();
-        const mergedConfig = { ...baseTinyMceConfig, ...tinymceConfig }; // Merge base config with additional custom config
+const RichTextEditor = forwardRef(function RichTextEditor(
+    {
+        name = "Description",
+        control,
+        defaultValue = "",
+        placeholder = "",
+        label = "",
+        className = "",
+        error = null,
+        tinymceConfig = {},
+        ...props
+    },
+    ref
+) {
+    const id = useId();
+    const mergedConfig = { ...baseTinyMceConfig, ...tinymceConfig }; // Merge base config with additional custom config
 
-        return (
-            <div className={`w-full ${className}`}>
-                {label && (
-                    <label className="inline-block mb-2 pl-1 text-base font-bold">
-                        {label}
-                        <span className="text-red-500 font-black"> *</span>
-                    </label>
-                )}
-                <Controller
-                    name={name}
-                    id={id}
-                    control={control}
-                    defaultValue={defaultValue}
-                    render={({
-                        field: { onChange, value },
-                        fieldState: { error: fieldError },
-                    }) => (
-                        <div className="w-full">
-                            <div className="mb-2">
-                                <Editor
-                                    apiKey={
-                                        import.meta.env.VITE_TINYMCE_API_KEY
-                                    }
-                                    value={value || ""}
-                                    init={mergedConfig}
-                                    onEditorChange={onChange}
-                                    {...props}
-                                    ref={ref}
-                                    style={{
-                                        border: "2px solid white",
-                                    }}
-                                />
-                            </div>
-                            {(error || fieldError) && (
-                                <p className="text-red-700 font-bold my-2 text-base px-2">
-                                    {error || fieldError?.message}
-                                </p>
-                            )}
+    return (
+        <div className={`w-full ${className}`}>
+            {label && (
+                <label className="inline-block mb-2 pl-1 text-base font-bold">
+                    {label}
+                    <span className="text-red-500 font-black"> *</span>
+                </label>
+            )}
+            <Controller
+                name={name}
+                id={id}
+                control={control}
+                defaultValue={defaultValue}
+                placeholder={placeholder}
+                render={({
+                    field: { onChange, value },
+                    fieldState: { error: fieldError },
+                }) => (
+                    <div className="w-full">
+                        <div className="mb-2">
+                            <Editor
+                                apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
+                                value={value || ""}
+                                init={mergedConfig}
+                                onEditorChange={onChange}
+                                placeholder={placeholder}
+                                {...props}
+                                ref={ref}
+                                style={{
+                                    border: "2px solid white",
+                                }}
+                            />
                         </div>
-                    )}
-                />
-            </div>
-        );
-    }
-);
+                        {(error || fieldError) && (
+                            <p className="text-red-700 font-bold my-2 text-base px-2">
+                                {error || fieldError?.message}
+                            </p>
+                        )}
+                    </div>
+                )}
+            />
+        </div>
+    );
+});
 
 export default RichTextEditor;
