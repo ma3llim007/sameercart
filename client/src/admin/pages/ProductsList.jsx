@@ -61,7 +61,7 @@ const ProductsList = () => {
                 <div className="w-full flex justify-center">
                     <img
                         src={row.original?.productFeatureImage}
-                        className="min-w-28 max-w-28 min-h-20 max-h-20 object-center rounded-md"
+                        className="min-w-28 max-w-28 min-h-28 max-h-28 object-cover rounded-md"
                         alt="Category Image"
                     />
                 </div>

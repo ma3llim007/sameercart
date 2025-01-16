@@ -27,7 +27,6 @@ const addProduct = asyncHandler(async (req, res) => {
             basePrice,
             productDiscountPrice,
             productType,
-            attributes,
             productStock,
         } = req.body;
         const productFeatureImage = req.file?.path;
@@ -109,13 +108,6 @@ const addProduct = asyncHandler(async (req, res) => {
             productData.basePrice = Number(basePrice);
             productData.productStock = Number(productStock);
             productData.productDiscountPrice = productDiscountPrice ? Number(productDiscountPrice) : null;
-        } else if (productType === "variable") {
-            if (!Array.isArray(attributes) || attributes.length === 0) {
-                return res.status(422).json(new ApiError(422, "Attributes Are Required For Variable Products."));
-            }
-            productData.attributes = attributes;
-        } else {
-            return res.status(400).json(new ApiError(400, "Invalid Product Type."));
         }
 
         // Create the product
@@ -255,7 +247,6 @@ const ProductGetById = asyncHandler(async (req, res) => {
                         basePrice: 1,
                         productDiscountPrice: 1,
                         productType: 1,
-                        attributes: 1,
                         productStock: 1,
                         updatedAt: 1,
                     },
@@ -341,7 +332,6 @@ const updateProduct = asyncHandler(async (req, res) => {
             productBrand,
             productDiscountPrice,
             productStock,
-            attributes,
         } = req.body;
         const productFeatureImage = req.file?.path;
 
@@ -413,16 +403,6 @@ const updateProduct = asyncHandler(async (req, res) => {
         if (productStock) {
             currentProduct.productStock = productStock;
         }
-        // if (attributes) {
-        //     currentProduct.attributes = attributes;
-        // }
-        if (attributes) {
-            try {
-                currentProduct.attributes = Array.isArray(attributes) ? attributes : JSON.parse(attributes); // Parse if it's a string
-            } catch (_error) {
-                return res.status(400).json(new ApiError(400, "Invalid Attributes Format"));
-            }
-        }
 
         // handle product image uplaod and remove the previous image
         if (productFeatureImage) {
@@ -459,7 +439,6 @@ const updateProduct = asyncHandler(async (req, res) => {
 
         return res.status(200).json(new ApiResponse(200, currentProduct, "Product Update Successfully"));
     } catch (error) {
-        console.log(error);
         return res.status(500).json(new ApiError(500, error.message));
     }
 });

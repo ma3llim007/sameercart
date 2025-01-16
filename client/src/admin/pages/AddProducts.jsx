@@ -3,9 +3,9 @@ import { Input, Loading, PageHeader, Select, TextArea } from "../components";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { FaPlus, FaTrash } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import Loader from "@/client/components/Loader/Loader";
 import RichTextEditor from "../components/Form/RichTextEditor";
 import { productTypeOptions, slugTransform } from "@/utils";
@@ -30,13 +30,6 @@ const AddProducts = () => {
     } = useForm({
         resolver: yupResolver(addProductScheme),
         mode: "onChange",
-        defaultValues: {
-            attributes: [{ name: "", options: "" }],
-        },
-    });
-    const { fields, append, remove } = useFieldArray({
-        control,
-        name: "attributes",
     });
 
     // Updating the slug value on title change
@@ -86,7 +79,7 @@ const AddProducts = () => {
     // add new product
     const { mutate, isPending } = useMutation({
         mutationFn: data => {
-            const { productDescription, productSpecification, attributes } =
+            const { productDescription, productSpecification } =
                 data;
 
             // Sanitize the productDescription and productSpecification
@@ -95,17 +88,9 @@ const AddProducts = () => {
             const sanitizeProductSpecification =
                 DOMPurify.sanitize(productSpecification);
 
-            const ConvertedAttributes = attributes.map(attribute => ({
-                ...attribute,
-                options: attribute.options
-                    .split(",")
-                    .map(option => option.trim()),
-            }));
-
             // Create a new data object with sanitized content
             const sanitizedData = {
                 ...data,
-                attributes: ConvertedAttributes,
                 productDescription: sanitizeProductDescription,
                 productSpecification: sanitizeProductSpecification,
             };
@@ -357,86 +342,6 @@ const AddProducts = () => {
                                 />
                             </Suspense>
                         </div>
-                        {productType === "variable" && (
-                            <>
-                                <hr />
-                                <div className="w-full border rounded-lg py-4 px-3 bg-stone-800">
-                                    <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
-                                        <h2 className="text-2xl font-bold px-2 underline">
-                                            Attribues
-                                        </h2>
-                                        <Button
-                                            disabled={isPending}
-                                            className="Success btnLg flex items-center gap-2"
-                                            onClick={() =>
-                                                append({
-                                                    name: "",
-                                                    options: "",
-                                                })
-                                            }
-                                        >
-                                            <FaPlus /> Add Variant
-                                        </Button>
-                                    </div>
-                                    <div className="space-y-4">
-                                        {fields.map((field, index) => (
-                                            <div
-                                                key={field.id}
-                                                className="w-full flex flex-col lg:flex-row items-center gap-4 p-4 shadow-sm rounded-lg border bg-white text-black dark:bg-slate-800 dark:text-white min-h-[120px]"
-                                            >
-                                                <div className="w-20">
-                                                    <Button
-                                                        className="Danger inline-flex items-center gap-2 p-5 mt-6 rounded-md"
-                                                        onClick={() =>
-                                                            remove(index)
-                                                        }
-                                                    >
-                                                        <FaTrash />
-                                                    </Button>
-                                                </div>
-                                                <div className="flex-grow flex-col lg:flex-row flex">
-                                                    <div className="w-full lg:w-1/2 px-2">
-                                                        <Input
-                                                            placeholder="Enter The Name"
-                                                            disabled={isPending}
-                                                            label="Name"
-                                                            {...register(
-                                                                `attributes.${index}.name`
-                                                            )}
-                                                            className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                                            error={
-                                                                errors
-                                                                    .attributes?.[
-                                                                    index
-                                                                ]?.name?.message
-                                                            }
-                                                        />
-                                                    </div>
-                                                    <div className="w-full lg:w-1/2 px-2">
-                                                        <Input
-                                                            placeholder="Enter The Value"
-                                                            disabled={isPending}
-                                                            label="value"
-                                                            {...register(
-                                                                `attributes.${index}.options`
-                                                            )}
-                                                            className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                                            error={
-                                                                errors
-                                                                    .attributes?.[
-                                                                    index
-                                                                ]?.options
-                                                                    ?.message
-                                                            }
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </>
-                        )}
                         <div className="w-full border-t !mt-6">
                             <Button
                                 disabled={isPending}

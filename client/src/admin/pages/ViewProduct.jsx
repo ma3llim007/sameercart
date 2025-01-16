@@ -4,14 +4,14 @@ import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addProductScheme } from "@/validation";
 import { productTypeOptions } from "@/utils";
 import Loader from "@/client/components/Loader/Loader";
 import RichTextEditor from "../components/Form/RichTextEditor";
 import { Button } from "@/components/ui/button";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import { TiArrowBack } from "react-icons/ti";
 
 const ViewProduct = () => {
@@ -23,10 +23,6 @@ const ViewProduct = () => {
         formState: { errors },
     } = useForm({
         resolver: yupResolver(addProductScheme),
-    });
-    const { fields, append, remove } = useFieldArray({
-        control,
-        name: "attributes",
     });
 
     // fetching the product Data based on ProductId
@@ -58,7 +54,6 @@ const ViewProduct = () => {
                 productStock,
                 productBrand,
                 productShortDescription,
-                attributes,
             } = productData?.data || {};
 
             setValue("productName", productName);
@@ -73,7 +68,6 @@ const ViewProduct = () => {
             setValue("productStock", productStock);
             setValue("productBrand", productBrand);
             setValue("productShortDescription", productShortDescription);
-            setValue("attributes", attributes);
         }
     }, [isSuccess, productData, setValue]);
     const productType = productData?.data?.productType;
@@ -309,76 +303,6 @@ const ViewProduct = () => {
                                 />
                             </Suspense>
                         </div>
-                        {productType === "variable" && (
-                            <>
-                                <hr />
-                                <div className="w-full border rounded-lg py-4 px-3 bg-stone-800">
-                                    <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
-                                        <h2 className="text-2xl font-bold px-2 underline">
-                                            Attribues
-                                        </h2>
-                                    </div>
-                                    <div className="space-y-4">
-                                        {fields.map((field, index) => (
-                                            <div
-                                                key={field.id}
-                                                className="w-full flex flex-col lg:flex-row items-center gap-4 p-4 shadow-sm rounded-lg border bg-white text-black dark:bg-slate-800 dark:text-white min-h-[120px]"
-                                            >
-                                                <div className="w-20">
-                                                    <Button
-                                                        className="Danger inline-flex items-center gap-2 p-5 mt-6 rounded-md"
-                                                        onClick={() =>
-                                                            remove(index)
-                                                        }
-                                                    >
-                                                        <FaTrash />
-                                                    </Button>
-                                                </div>
-                                                <div className="flex-grow flex-col lg:flex-row flex">
-                                                    <div className="w-full lg:w-1/2 px-2">
-                                                        <Input
-                                                            placeholder="Enter The Name"
-                                                            label="Name"
-                                                            {...register(
-                                                                `attributes.${index}.name`
-                                                            )}
-                                                            className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                                            readOnly
-                                                            disabled
-                                                            error={
-                                                                errors
-                                                                    .attributes?.[
-                                                                    index
-                                                                ]?.name?.message
-                                                            }
-                                                        />
-                                                    </div>
-                                                    <div className="w-full lg:w-1/2 px-2">
-                                                        <Input
-                                                            placeholder="Enter The Value"
-                                                            label="value"
-                                                            {...register(
-                                                                `attributes.${index}.options`
-                                                            )}
-                                                            className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                                            readOnly
-                                                            disabled
-                                                            error={
-                                                                errors
-                                                                    .attributes?.[
-                                                                    index
-                                                                ]?.options
-                                                                    ?.message
-                                                            }
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </>
-                        )}
                         <div className="w-full border-t !mt-8 flex items-center gap-1">
                             <Link
                                 to={`/admin/products/edit-product/${productId}`}

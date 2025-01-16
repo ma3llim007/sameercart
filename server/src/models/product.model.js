@@ -64,15 +64,6 @@ const productSchema = new Schema(
             enum: ["simple", "variable"],
             default: "simple",
         },
-        attributes: [
-            {
-                name: {
-                    type: String,
-                    required: [true, "Attribute Is Required"],
-                },
-                options: [String],
-            },
-        ],
         productVariants: [{ type: Schema.Types.ObjectId, ref: "Variant" }],
         productStock: {
             type: Number,

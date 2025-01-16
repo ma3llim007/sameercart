@@ -5,8 +5,7 @@ import * as Yup from "yup";
 export const addProductScheme = Yup.object().shape({
     productName: Yup.string()
         .required("Product Name Is Required")
-        .min(2, "Product Name Atleast Have More Than 2 Characters")
-        .matches(/^[A-Za-z\s]+$/, "Product Name Must Only Contain Letters"),
+        .min(2, "Product Name Atleast Have More Than 2 Characters"),
     productSlug: Yup.string().required("Product Slug Is Required"),
     basePrice: Yup.string()
         .test(
@@ -106,37 +105,12 @@ export const addProductScheme = Yup.object().shape({
     productSpecification: Yup.string()
         .required("Product Specification Is Required")
         .min(5, "Product Specification Atleast Have More Than 5 Characters"),
-    attributes: Yup.array()
-        .of(
-            Yup.object().shape({
-                name: Yup.string().required("Key Name Is Required"),
-                options: Yup.string().required("Value Is Required"),
-            })
-        )
-        .test(
-            "conditional-validation",
-            "Product Attribute Are Required For Variable Type",
-            function (value) {
-                const { productType } = this.parent;
-                if (
-                    productType === "variable" &&
-                    (!value || value.length === 0)
-                ) {
-                    return this.createError({
-                        message:
-                            "Product Attributes Are Required When Product Type Is Variable",
-                    });
-                }
-                return true;
-            }
-        ),
 });
 
 export const editProductScheme = Yup.object().shape({
     productName: Yup.string()
         .required("Product Name Is Required")
-        .min(2, "Product Name Atleast Have More Than 2 Characters")
-        .matches(/^[A-Za-z\s]+$/, "Product Name Must Only Contain Letters"),
+        .min(2, "Product Name Atleast Have More Than 2 Characters"),
     productSlug: Yup.string().required("Product Slug Is Required"),
     basePrice: Yup.string()
         .test(
@@ -238,30 +212,6 @@ export const editProductScheme = Yup.object().shape({
     productSpecification: Yup.string()
         .required("Product Specification Is Required")
         .min(5, "Product Specification Atleast Have More Than 5 Characters"),
-    attributes: Yup.array()
-        .of(
-            Yup.object().shape({
-                name: Yup.string().required("Key Name Is Required"),
-                options: Yup.string().required("Value Is Required"),
-            })
-        )
-        .test(
-            "conditional-validation",
-            "Product Attribute Are Required For Variable Type",
-            function (value) {
-                const { productType } = this.parent;
-                if (
-                    productType === "variable" &&
-                    (!value || value.length === 0)
-                ) {
-                    return this.createError({
-                        message:
-                            "Product Attributes Are Required When Product Type Is Variable",
-                    });
-                }
-                return true;
-            }
-        ),
 });
 
 export const addVariantScheme = Yup.object().shape({

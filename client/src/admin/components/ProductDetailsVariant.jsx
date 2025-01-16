@@ -1,6 +1,5 @@
-import { Badge } from "@/components";
 import { formatDateTime } from "@/utils";
-import { upperCase, upperFirst } from "lodash";
+import {  upperFirst } from "lodash";
 
 const ProductDetailsVariant = ({ data }) => {
     return (
@@ -69,24 +68,6 @@ const ProductDetailsVariant = ({ data }) => {
                                 </th>
                                 <td className="p-2 border-b text-left">
                                     {upperFirst(data.productBrand)}
-                                </td>
-                            </tr>
-                            <tr>
-                                <th className="text-left p-2 border-b font-bold">
-                                    Attribute:
-                                </th>
-                                <td className="p-2 border-b text-left">
-                                    {data.attributes.map(attribute => (
-                                        <>
-                                            <Badge
-                                                key={attribute._id}
-                                                className="Primary my-1"
-                                                title={`${upperCase(attribute.name)}: ${upperFirst(attribute.options.join(", "))}`}
-                                            />
-                                            
-                                            <br />
-                                        </>
-                                    ))}
                                 </td>
                             </tr>
                             <tr>
