@@ -1,7 +1,7 @@
 import currentYear, { formatDateTime } from "./currentYear";
 import { isValidExtensions, isValidFileType } from "./files";
 import slugTransform from "./slugTransform";
-import { slugToText } from "./texts";
+import { slugToText, capitalizeWords } from "./texts";
 import { productTypeOptions } from "./options";
 
 export {
@@ -12,4 +12,5 @@ export {
     formatDateTime,
     productTypeOptions,
     slugToText,
+    capitalizeWords,
 };
