@@ -250,7 +250,7 @@ const AddVariants = () => {
                                 src={image?.imageUrl}
                                 alt={image?.publicId || "Variant image"}
                             />
-                            <div className="absolute bottom-2 right-2 hidden group-hover:flex items-center gap-2 bg-white p-1 rounded-lg shadow-lg text-base">
+                            <div className="absolute bottom-2 right-2 hidden group-hover:flex items-center gap-2 bg-black bg-opacity-70 p-1 rounded-lg shadow-lg text-base">
                                 <Button
                                     title="View Image"
                                     onClick={() =>
