@@ -95,7 +95,7 @@ export const addProductScheme = Yup.object().shape({
         .matches(/^[A-Za-z\s]+$/, "Product Brand Must Only Contain Letters"),
     productShortDescription: Yup.string()
         .required("Product Short Description Is Required")
-        .max(100, "Maximum Length Is 100 Characters"),
+        .max(120, "Maximum Length Is 120 Characters"),
     productType: Yup.string()
         .required("Product Type Is Required")
         .notOneOf(["", "default"], "You Must Select A Valid Product Type"),
@@ -202,7 +202,7 @@ export const editProductScheme = Yup.object().shape({
         .matches(/^[A-Za-z\s]+$/, "Product Brand Must Only Contain Letters"),
     productShortDescription: Yup.string()
         .required("Product Short Description Is Required")
-        .max(100, "Maximum Length Is 100 Characters"),
+        .max(120, "Maximum Length Is 120 Characters"),
     productType: Yup.string()
         .required("Product Type Is Required")
         .notOneOf(["", "default"], "You Must Select A Valid Product Type"),
