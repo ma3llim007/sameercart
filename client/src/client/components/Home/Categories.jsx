@@ -62,7 +62,7 @@ const Categories = ({ categories }) => {
                                         {category?.subcategories.map(
                                             subcategories => (
                                                 <Link
-                                                    to={`/${category.categorySlug}/${subcategories.subCategorySlug}`}
+                                                    to={`/${category.categorySlug}/${subcategories.subCategorySlug}/products`}
                                                     className="text-base my-1 font-semibold text-center no-underline hover:underline transition-all duration-300 delay-300 ease-in-out decoration-2"
                                                     key={subcategories._id}
                                                 >

@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import toastService from "@/services/toastService";
-import { Input } from "../components";
+import { Input } from "@/components";
 import crudService from "@/api/crudService";
 import { login } from "@/features/admin/authSlice";
 import { adminLoginSchema } from "@/validation";
@@ -31,13 +31,15 @@ const Login = () => {
     const { mutate } = useMutation({
         mutationFn: data => crudService.post("auth/login", true, data),
         onError: error => {
-            const message = error.response?.data?.message || "An unexpected error occurred.";
+            const message =
+                error.response?.data?.message ||
+                "An unexpected error occurred.";
             setError("root", { message });
             resetField("email");
             resetField("password");
         },
         onSuccess: data => {
-            const { admin, accessToken } = data?.data;
+            const { admin, accessToken } = data?.data || {};
             dispatch(login({ admin, accessToken }));
             navigate("/admin/dashboard");
             toastService.success("Admin Login Sucessfully!");
@@ -51,14 +53,23 @@ const Login = () => {
         <section className="w-screen h-screen bg-slate-950">
             <div className="container mx-auto flex justify-center items-center h-full">
                 <div className="bg-stone-50 rounded-lg shadow-2xl p-8 w-full max-w-md text-black">
-                    <h1 className="text-3xl font-bold text-center">Admin Panel</h1>
-                    <p className="text-base text-center mb-6 text-gray-600">Sign in to start your session</p>
+                    <h1 className="text-3xl font-bold text-center">
+                        Admin Panel
+                    </h1>
+                    <p className="text-base text-center mb-6 text-gray-600">
+                        Sign in to start your session
+                    </p>
                     {errors.root && (
                         <div className="w-full my-4 bg-red-500 text-center rounded-md border border-red-600 py-3 px-4">
-                            <p className="text-white font-bold text-sm">{errors.root.message}</p>
+                            <p className="text-white font-bold text-sm">
+                                {errors.root.message}
+                            </p>
                         </div>
                     )}
-                    <form onSubmit={handleSubmit(formSubmithandler)} className="space-y-4">
+                    <form
+                        onSubmit={handleSubmit(formSubmithandler)}
+                        className="space-y-4"
+                    >
                         <Input
                             placeholder="Enter The Email"
                             {...register("email")}
@@ -80,7 +91,10 @@ const Login = () => {
                                     id="remember"
                                     className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 scale-125 cursor-pointer"
                                 />
-                                <label htmlFor="remember" className="text-xl cursor-pointer">
+                                <label
+                                    htmlFor="remember"
+                                    className="text-xl cursor-pointer"
+                                >
                                     Remember Me
                                 </label>
                             </div>

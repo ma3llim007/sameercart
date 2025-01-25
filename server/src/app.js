@@ -8,6 +8,7 @@ import productRouter from "./routes/admin/product.routes.js";
 import variantRouter from "./routes/admin/variant.routes.js";
 import publicCategoryRouter from "./routes/public/category.routes.js";
 import publicSubCategoryRouter from "./routes/public/subcategory.routes.js";
+import publicProductRouter from "./routes/public/product.routes.js";
 
 const app = express();
 app.use(
@@ -31,5 +32,6 @@ app.use("/api/v1/admin/variant", variantRouter);
 // Public Routes
 app.use("/api/v1/category", publicCategoryRouter);
 app.use("/api/v1/sub-category", publicSubCategoryRouter);
+app.use("/api/v1/products", publicProductRouter);
 
 export { app };

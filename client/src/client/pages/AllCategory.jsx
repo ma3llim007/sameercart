@@ -1,7 +1,7 @@
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import bannerImage from "../assets/banner/basket_banner.webp";
 import Loader from "../components/Loader/Loader";
@@ -15,16 +15,13 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { upperFirst } from "lodash";
+import useTopScroll from "../hooks/useTopScroll";
 
 const AllCategory = () => {
     const [page, setPage] = useState(1);
     const limit = 9;
-
-    // Scroll to top on page change
-    useEffect(() => {
-        window.scrollTo({ top: 100, behavior: "smooth" });
-    }, [page]);
-
+    useTopScroll({ topPosition: 300, page });
+    
     // Fetching Category
     const { data, isLoading, isFetching } = useQuery({
         queryKey: ["allCategory", page, limit],
@@ -66,7 +63,7 @@ const AllCategory = () => {
                         {categories?.map(category => (
                             <div
                                 key={category?._id}
-                                className="w-full border-2 border-gray-300 rounded-lg bg-light-bgLighterGray dark:bg-dark-bgLightGray hover:border-dark-dark transition-all ease-in duration-300 p-3 flex flex-col items-center justify-center group overflow-hidden"
+                                className="w-full border-2 border-gray-300 rounded-lg bg-light-bgLighterGray dark:bg-dark-bgLightGray hover:border-dark-dark transition-all ease-in duration-300 p-3 flex flex-col items-center justify-center group overflow-hidden select-none"
                             >
                                 <img
                                     src={category?.categoryImage}
@@ -74,9 +71,14 @@ const AllCategory = () => {
                                     alt={category.categoryName}
                                     className="w-4/5 object-cover rounded group-hover:scale-105 transition-all duration-300 ease-in-out transform"
                                 />
-                                <Link to={`/sub-category/${category.categorySlug}`}>
+                                <h2 className="mt-3 text-xl font-bold underline">
+                                    {upperFirst(category.categoryName)}
+                                </h2>
+                                <Link
+                                    to={`/sub-category/${category.categorySlug}`}
+                                >
                                     <Button className="Primary btnXl mt-4">
-                                        {upperFirst(category.categoryName)}
+                                        View All Sub Category
                                     </Button>
                                 </Link>
                             </div>

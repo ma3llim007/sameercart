@@ -192,66 +192,64 @@ const ProductGetById = asyncHandler(async (req, res) => {
 
     try {
         const product = await Product.aggregate([
-            [
-                {
-                    $match: {
-                        _id: new mongoose.Types.ObjectId(productId),
-                    },
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(productId),
                 },
-                {
-                    $lookup: {
-                        from: "categories",
-                        localField: "productCategoryId",
-                        foreignField: "_id",
-                        as: "category",
-                    },
+            },
+            {
+                $lookup: {
+                    from: "categories",
+                    localField: "productCategoryId",
+                    foreignField: "_id",
+                    as: "category",
                 },
-                {
-                    $unwind: {
-                        path: "$category",
-                        preserveNullAndEmptyArrays: false,
-                    },
+            },
+            {
+                $unwind: {
+                    path: "$category",
+                    preserveNullAndEmptyArrays: false,
                 },
-                {
-                    $lookup: {
-                        from: "subcategories",
-                        localField: "productSubCategoryId",
-                        foreignField: "_id",
-                        as: "subcategories",
-                    },
+            },
+            {
+                $lookup: {
+                    from: "subcategories",
+                    localField: "productSubCategoryId",
+                    foreignField: "_id",
+                    as: "subcategories",
                 },
-                {
-                    $unwind: {
-                        path: "$subcategories",
-                        preserveNullAndEmptyArrays: false,
-                    },
+            },
+            {
+                $unwind: {
+                    path: "$subcategories",
+                    preserveNullAndEmptyArrays: false,
                 },
-                {
-                    $project: {
-                        _id: 1,
-                        productName: 1,
-                        productSlug: 1,
-                        productFeatureImage: 1,
-                        productCategory: {
-                            categoryId: "$category._id",
-                            categoryName: "$category.categoryName",
-                        },
-                        productSubCategory: {
-                            subCategoryId: "$subcategories._id",
-                            subCategoryName: "$subcategories.subCategoryName",
-                        },
-                        productShortDescription: 1,
-                        productDescription: 1,
-                        productSpecification: 1,
-                        productBrand: 1,
-                        basePrice: 1,
-                        productDiscountPrice: 1,
-                        productType: 1,
-                        productStock: 1,
-                        updatedAt: 1,
+            },
+            {
+                $project: {
+                    _id: 1,
+                    productName: 1,
+                    productSlug: 1,
+                    productFeatureImage: 1,
+                    productCategory: {
+                        categoryId: "$category._id",
+                        categoryName: "$category.categoryName",
                     },
+                    productSubCategory: {
+                        subCategoryId: "$subcategories._id",
+                        subCategoryName: "$subcategories.subCategoryName",
+                    },
+                    productShortDescription: 1,
+                    productDescription: 1,
+                    productSpecification: 1,
+                    productBrand: 1,
+                    basePrice: 1,
+                    productDiscountPrice: 1,
+                    productType: 1,
+                    productStock: 1,
+                    updatedAt: 1,
                 },
-            ],
+            },
         ]);
 
         if (!product[0]) {

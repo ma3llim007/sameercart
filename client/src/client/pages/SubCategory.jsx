@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { Banner, Container } from "../components";
-import { slugToText } from "@/utils";
+import { capitalizeWords, slugToText } from "@/utils";
 import bannerImage from "../assets/banner/basket_banner.webp";
 import {
     Breadcrumb,
@@ -15,7 +15,6 @@ import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import Loader from "../components/Loader/Loader";
 import { Button } from "@/components/ui/button";
-import { upperFirst } from "lodash";
 
 const SubCategory = () => {
     const { categorySlug } = useParams();
@@ -77,13 +76,16 @@ const SubCategory = () => {
                                     alt={subCategory.subCategoryName}
                                     className="w-4/5 object-cover rounded group-hover:scale-105 transition-all duration-300 ease-in-out transform"
                                 />
+                                <h2 className="mt-3 text-xl font-bold underline">
+                                    {capitalizeWords(
+                                        subCategory.subCategoryName
+                                    )}
+                                </h2>
                                 <Link
-                                    to={`/category/${subCategory.subCategorySlug}`}
+                                    to={`/${categorySlug}/${subCategory?.subCategorySlug}/products`}
                                 >
                                     <Button className="Primary btnXl mt-4">
-                                        {upperFirst(
-                                            subCategory.subCategoryName
-                                        )}
+                                        View All Products
                                     </Button>
                                 </Link>
                             </div>

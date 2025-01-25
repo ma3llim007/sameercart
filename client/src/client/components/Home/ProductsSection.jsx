@@ -6,11 +6,11 @@ import {
     FaArrowAltCircleRight,
     FaHeart,
     FaCartPlus,
+    FaEye,
 } from "react-icons/fa";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Rating from "../Rating";
-import { MdCompareArrows } from "react-icons/md";
 import { motion } from "framer-motion";
 import SectionHeader from "./SectionHeader";
 
@@ -85,14 +85,23 @@ const ProductsSection = ({ title = "Featured Products" }) => {
                                     }}
                                     className="hidden group-hover:flex flex-wrap justify-center items-center absolute bottom-0 left-0 bg-light-bgLighterGray dark:bg-dark-bgDark p-2 rounded-md gap-4 max-w-max"
                                 >
-                                    <Button className="text-base Primary">
+                                    <Button
+                                        className="text-base Primary"
+                                        title="Add To Cart"
+                                    >
                                         <FaCartPlus />
                                     </Button>
-                                    <Button className="text-base Primary">
+                                    <Button
+                                        className="text-base Primary"
+                                        title="Add To Wishlist"
+                                    >
                                         <FaHeart />
                                     </Button>
-                                    <Button className="text-base Primary">
-                                        <MdCompareArrows />
+                                    <Button
+                                        className="text-base Primary"
+                                        title="View Product"
+                                    >
+                                        <FaEye />
                                     </Button>
                                 </motion.div>
                             </div>

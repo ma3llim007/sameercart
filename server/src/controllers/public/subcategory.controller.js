@@ -83,7 +83,7 @@ const subCategoryByCategory = asyncHandler(async (req, res) => {
             .sort({ createdAt: -1 })
             .select("subCategoryName subCategorySlug subCategoryImage");
 
-        // If no subcategories aare found, handle the empty state
+        // If no subcategories are found, handle the empty state
         if (!subCategorys.length) {
             return res
                 .status(200)

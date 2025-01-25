@@ -7,7 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { FaPlus } from "react-icons/fa";
 import Loader from "@/client/components/Loader/Loader";
-import RichTextEditor from "../components/Form/RichTextEditor";
+import RichTextEditor from "../../components/Form/RichTextEditor";
 import { productTypeOptions, slugTransform } from "@/utils";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";

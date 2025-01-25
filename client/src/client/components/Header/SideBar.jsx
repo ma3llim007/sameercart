@@ -96,7 +96,7 @@ const SideBar = ({
                                                 >
                                                     <Link
                                                         onClick={handleModel}
-                                                        to={`/${category.categorySlug}/${subcategory.subCategorySlug}`}
+                                                        to={`/${category.categorySlug}/${subcategory.subCategorySlug}/products`}
                                                         className="block px-3 py-1 underline underline-offset-4"
                                                     >
                                                         {

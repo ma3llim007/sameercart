@@ -8,7 +8,7 @@ import {
     TextArea,
 } from "../components";
 import { Controller, useForm } from "react-hook-form";
-import RichTextEditor from "../components/Form/RichTextEditor";
+import RichTextEditor from "../../components/Form/RichTextEditor";
 import Loader from "@/client/components/Loader/Loader";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";

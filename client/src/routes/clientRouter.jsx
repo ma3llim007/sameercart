@@ -22,6 +22,8 @@ const ReturnPolicy = lazy(() => import("../client/pages/ReturnPolicy"));
 const PrivacyPolicy = lazy(() => import("../client/pages/PrivacyPolicy"));
 const AllCategory = lazy(() => import("../client/pages/AllCategory"));
 const SubCategory = lazy(() => import("../client/pages/SubCategory"));
+const Products = lazy(() => import("../client/pages/Products"));
+const ProductDetails = lazy(() => import("../client/pages/ProductDetails"));
 
 // Client Router
 const clientRouters = createBrowserRouter(
@@ -43,7 +45,15 @@ const clientRouters = createBrowserRouter(
             <Route path="/checkout" element={<CheckOut />} />
             <Route path="/login" element={<Login />} />
             <Route path="/category" element={<AllCategory />} />
-            <Route path="/sub-category/:categorySlug" element={<SubCategory />} />
+            <Route
+                path="/sub-category/:categorySlug"
+                element={<SubCategory />}
+            />
+            <Route
+                path="/:categorySlug/:subCategorySlug/products"
+                element={<Products />}
+            />
+            <Route path="/product-details/:productSlug" element={<ProductDetails />} />
             <Route path="*" element={<ClientNotFound />} />
         </Route>
     )

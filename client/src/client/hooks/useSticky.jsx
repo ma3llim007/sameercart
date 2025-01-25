@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { throttle } from "lodash";
 
 const useSticky = (throttleTime = 100) => {
