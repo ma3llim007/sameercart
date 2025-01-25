@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import React, { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -16,7 +16,7 @@ const Slider = ({ sliderData }) => {
         setCurrentIndex(
             preValue => (preValue - 1 + sliders.length) % sliderData.length
         );
-    }, [sliders.length]);
+    }, [sliders.length, sliderData.length]);
 
     return (
         <div className="w-full h-[450px] md:h-[550px] lg:h-[650px] relative overflow-hidden shadow-md">
@@ -69,9 +69,7 @@ const Slider = ({ sliderData }) => {
                                         }}
                                     >
                                         <Link to={slider.achor_link}>
-                                            <Button
-                                                className="Primary mt-4 btnLg"
-                                            >
+                                            <Button className="Primary mt-4 btnLg">
                                                 {slider.achor_title}
                                             </Button>
                                         </Link>

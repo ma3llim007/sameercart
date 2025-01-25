@@ -12,9 +12,15 @@ const HomeBanner = React.lazy(() => import("./Home/HomeBanner"));
 const HomeBlog = React.lazy(() => import("./Home/HomeBlog"));
 const Banner = React.lazy(() => import("./Banner"));
 const ShippingMethods = React.lazy(() => import("./Delivery/ShippingMethods"));
-const OrderProcessingTime = React.lazy(() => import("./Delivery/OrderProcessingTime"));
-const DeliveryPolicies = React.lazy(() => import("./Delivery/DeliveryPolicies"));
-const ReturnsAndExchanges = React.lazy(() => import("./Delivery/ReturnsAndExchanges"));
+const OrderProcessingTime = React.lazy(
+    () => import("./Delivery/OrderProcessingTime")
+);
+const DeliveryPolicies = React.lazy(
+    () => import("./Delivery/DeliveryPolicies")
+);
+const ReturnsAndExchanges = React.lazy(
+    () => import("./Delivery/ReturnsAndExchanges")
+);
 const FAQsSection = React.lazy(() => import("./Delivery/FaqSection"));
 const CompanyOverview = React.lazy(() => import("./AboutUs/CompanyOverview"));
 const OurStory = React.lazy(() => import("./AboutUs/OurStory"));
@@ -24,6 +30,9 @@ const Testimonails = React.lazy(() => import("./AboutUs/Testimonails"));
 const Faq = React.lazy(() => import("./Faq"));
 const GetInTouch = React.lazy(() => import("./Contact/GetInTouch"));
 const Map = React.lazy(() => import("./Contact/Map"));
+const ProductDetailsTabSection = React.lazy(
+    () => import("./ProductDetailsTabSection")
+);
 
 export {
     Header,
@@ -50,4 +59,5 @@ export {
     Faq,
     GetInTouch,
     Map,
+    ProductDetailsTabSection,
 };

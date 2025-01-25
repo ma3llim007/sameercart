@@ -8,7 +8,5 @@
     "client": "cd client && yarn run dev",
     "server": "cd server && yarn run dev"
   },
-  "dependencies": {
-    "uuid": "^11.0.5"
-  }
+  "dependencies": {}
 }

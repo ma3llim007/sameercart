@@ -1,4 +1,4 @@
-import { Banner, Container } from "../components";
+import { Banner, Container, ProductDetailsTabSection } from "../components";
 import bannerImage from "../assets/banner/basket_banner.webp";
 import {
     Breadcrumb,
@@ -14,14 +14,28 @@ import toastService from "@/services/toastService";
 import Loader from "../components/Loader/Loader";
 import { capitalizeWords, formatNumberWithCommas } from "@/utils";
 import Rating from "../components/Rating";
-import { FaRupeeSign } from "react-icons/fa";
+import {
+    FaCartPlus,
+    FaFacebook,
+    FaHeart,
+    FaInstagram,
+    FaRupeeSign,
+    FaTwitter,
+    FaWhatsapp,
+} from "react-icons/fa";
 import { useEffect, useMemo, useState } from "react";
 import { upperCase } from "lodash";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components";
+import { FaShuffle } from "react-icons/fa6";
 
 const ProductDetails = () => {
     const { productSlug } = useParams();
     const [currentImage, setCurrentImage] = useState(0);
     const [selectedVariant, setSelectedVariant] = useState(null);
+    const [startX, setStartX] = useState(0); // Track the start position of the drag
+    const [isDragging, setIsDragging] = useState(false);
+    const [quantity, setQuantity] = useState(1);
 
     // Fetching Products
     const { data, isLoading, isFetching } = useQuery({
@@ -34,7 +48,6 @@ const ProductDetails = () => {
         },
         cacheTime: 2 * 60 * 1000,
     });
-
     const productData = useMemo(() => data?.data || {}, [data]);
 
     // Initialize selectedVariant after product data is loaded
@@ -45,7 +58,7 @@ const ProductDetails = () => {
     }, [productData]);
 
     // Handle the thumbnail image click
-    const handleImage = index => {
+    const handleImageChange = index => {
         setCurrentImage(index);
     };
 
@@ -87,8 +100,38 @@ const ProductDetails = () => {
         setSelectedVariant(selected);
     };
 
-    if (isLoading || isFetching) return <Loader />;
+    const handleDragStart = e => {
+        setStartX(e.clientX || e.touches[0].clientX);
+    };
 
+    const handleDragEnd = e => {
+        const endX = e.clientX || e.changedTouches[0].clientX;
+        const difference = endX - startX;
+
+        // Swipe right (go to the previous image)
+        if (difference > 50) {
+            setCurrentImage(prev =>
+                prev === 0 ? selectedVariant?.images.length - 1 : prev - 1
+            );
+        }
+
+        // Swipe left (go to the next image)
+        if (difference < -50) {
+            setCurrentImage(prev =>
+                prev === selectedVariant?.images.length - 1 ? 0 : prev + 1
+            );
+        }
+    };
+
+    const handleQuantityChange = type => {
+        if (type === "increment") {
+            setQuantity(prev => prev + 1);
+        } else if (type === "decrement" && quantity > 1) {
+            setQuantity(prev => prev - 1);
+        }
+    };
+
+    if (isLoading || isFetching) return <Loader />;
     return (
         <>
             <Banner title={"Products"} image={bannerImage}>
@@ -111,16 +154,19 @@ const ProductDetails = () => {
                         <div className="w-full flex gap-2">
                             {/* Product Thumbail Image */}
                             {productData?.variantDetails?.length > 0 && (
-                                <div className="flex flex-col gap-4 mt-2 overflow-x-auto">
+                                <div className="hidden lg:flex flex-col gap-4 mt-2 overflow-x-auto">
                                     {(selectedVariant?.images || []).map(
                                         (image, idx) => (
                                             <div key={idx} className="relative">
                                                 <img
                                                     src={image?.imageUrl}
                                                     alt={`Variant image ${idx + 1}`}
-                                                    className="w-20 h-20 rounded-md cursor-pointer border-2 border-gray-300 hover:border-blue-600 transition duration-300"
+                                                    className="w-16 h-16 rounded-md cursor-pointer border-2 border-gray-300 hover:border-blue-600 transition duration-300"
                                                     onMouseEnter={() =>
-                                                        handleImage(idx)
+                                                        handleImageChange(idx)
+                                                    }
+                                                    onClick={() =>
+                                                        handleImageChange(idx)
                                                     }
                                                 />
                                                 {currentImage === idx && (
@@ -132,8 +178,21 @@ const ProductDetails = () => {
                                 </div>
                             )}
                             {/* Main Image */}
-                            <div className="w-full flex-grow">
+                            <div className="w-full flex-grow relative">
                                 <img
+                                    onTouchStart={handleDragStart}
+                                    onTouchEnd={handleDragEnd}
+                                    onMouseDown={e => {
+                                        handleDragStart(e);
+                                        setIsDragging(true);
+                                    }}
+                                    onMouseUp={e => {
+                                        handleDragEnd(e);
+                                        setIsDragging(false);
+                                    }}
+                                    onMouseLeave={() => setIsDragging(false)}
+                                    onDragStart={e => e.preventDefault()}
+                                    draggable="false"
                                     src={
                                         selectedVariant?.images[currentImage]
                                             ?.imageUrl ||
@@ -143,23 +202,41 @@ const ProductDetails = () => {
                                         productData?.productName ||
                                         "Product Name"
                                     }
-                                    className="rounded-lg border border-gray-300 w-full h-auto"
+                                    key={currentImage}
+                                    className={`rounded-lg border border-gray-300 w-full h-auto transition-opacity duration-500 ease-in-out opacity-100 ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
                                 />
+                                <div className="absolute w-full flex justify-center mt-2 py-1 lg:hidden">
+                                    {(selectedVariant?.images || []).map(
+                                        (_, idx) => (
+                                            <span
+                                                key={idx}
+                                                onClick={() =>
+                                                    handleImageChange(idx)
+                                                }
+                                                className={`w-3 h-3 mx-1 rounded-full cursor-pointer border transition-all duration-300 ${idx === currentImage ? "bg-blue-600 border-black scale-125" : "border-black bg-white scale-100"} `}
+                                            />
+                                        )
+                                    )}
+                                </div>
                             </div>
                         </div>
+                        <hr className="decoration-2 my-4 lg:hidden" />
                         {/* Product Details */}
-                        <div className="flex flex-col p-2">
-                            <h1 className="text-3xl font-semibold mb-4">
+                        <div className="flex flex-col p-2 space-y-4">
+                            <h1 className="text-3xl font-semibold mb-4 text-center">
                                 {capitalizeWords(productData?.productName)}
                             </h1>
-                            <div className="mb-4">
-                                <h3 className="text-xl">Description:</h3>
-                                <p className="my-1">
-                                    {productData?.productShortDescription}
-                                </p>
+                            <h3 className="text-xl font-bold">Description:</h3>
+                            <p>{productData?.productShortDescription}</p>
+                            {/* Product Brand */}
+                            <div className="flex gap-4 items-center">
+                                <h3 className="text-xl">
+                                    <strong>Brand:</strong>{" "}
+                                    {capitalizeWords(productData?.productBrand)}
+                                </h3>
                             </div>
                             {/* Price Section */}
-                            <div className="flex gap-2 select-none">
+                            <div className="flex gap-2 justify-start items-center select-none">
                                 <p className="text-2xl font-bold flex items-center gap-1">
                                     <FaRupeeSign size={20} />
                                     {formatNumberWithCommas(
@@ -205,7 +282,7 @@ const ProductDetails = () => {
                                 </div>
                             </div>
                             {/* Rating Section */}
-                            <div className="my-4 flex flex-col md:flex-row justify-start items-start md:items-center gap-4 max-w-lg">
+                            <div className="flex flex-row items-center md:items-center gap-4 max-w-lg">
                                 <h3 className="text-xl font-semibold">
                                     Rating:
                                 </h3>
@@ -234,35 +311,21 @@ const ProductDetails = () => {
                                 Object.keys(formattedVariantGroup).length > 0 &&
                                 Object.keys(formattedVariantGroup).map(
                                     groupName => (
-                                        <div key={groupName} className="mb-6">
-                                            <h4 className="font-bold mb-2">
+                                        <div key={groupName}>
+                                            <h4 className="font-bold mb-2 text-start">
                                                 {capitalizeWords(groupName)}:
                                             </h4>
-                                            <div className="flex gap-4">
+                                            <div className="flex gap-4 justify-start">
                                                 <select
                                                     id={groupName}
-                                                    className={`px-3 py-2 rounded bg-white text-black dark:bg-slate-800 dark:text-white outline-none text-lg focus:bg-gray-50 dark:focus:bg-slate-700 duration-200 border border-gray-200 w-2/4
-                                                        ${
-                                                            selectedVariant?.attributes?.some(
-                                                                attr =>
-                                                                    attr.name ===
-                                                                        groupName &&
-                                                                    formattedVariantGroup[
-                                                                        groupName
-                                                                    ].includes(
-                                                                        attr.value
-                                                                    )
-                                                            )
-                                                                ? "bg-blue-600 text-white border-blue-600"
-                                                                : "bg-gray-100 text-gray-800 border-gray-300 hover:bg-gray-200"
-                                                        }`}
+                                                    className="px-3 py-2 rounded bg-white text-gray-900 dark:bg-slate-800 dark:text-white outline-none text-lg focus:ring-2 focus:ring-blue-500 duration-200 border border-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 w-2/4"
                                                     onChange={e =>
                                                         handleVariantSelection(
                                                             groupName,
                                                             e.target.value
                                                         )
                                                     }
-                                                    defaultValue={
+                                                    value={
                                                         selectedVariant?.attributes?.find(
                                                             attr =>
                                                                 attr.name ===
@@ -298,68 +361,72 @@ const ProductDetails = () => {
                                         </div>
                                     )
                                 )}
-                            {/* {formattedVariantGroup &&
-                                Object.keys(formattedVariantGroup).length > 0 &&
-                                Object.keys(formattedVariantGroup).map(
-                                    groupName => (
-                                        <div key={groupName} className="mb-6">
-                                            <h4 className="font-bold mb-2">
-                                                {capitalizeWords(groupName)}:{" "}
-                                            </h4>
-                                            <div className="flex gap-4">
-                                                <select
-                                                    id={groupName}
-                                                    className={`px-3 py-2 rounded bg-white text-black dark:bg-slate-800 dark:text-white outline-none text-lg focus:bg-gray-50 dark:focus:bg-slate-700 duration-200 border border-gray-200 w-2/4
-                                                        ${
-                                                            selectedVariant?.attributes?.some(
-                                                                attr =>
-                                                                    attr.name ===
-                                                                        groupName &&
-                                                                    attr.value ===
-                                                                        groupName
-                                                            )
-                                                                ? "bg-blue-600 text-white border-blue-600"
-                                                                : "bg-gray-100 text-gray-800 border-gray-300 hover:bg-gray-200"
-                                                        }
-                                                        
-                                                        `}
-                                                    onChange={e =>
-                                                        handleVariantSelection(
-                                                            groupName,
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    defaultValue=""
-                                                >
-                                                    <option value="" disabled>
-                                                        Select{" "}
-                                                        {capitalizeWords(
-                                                            groupName
-                                                        )}
-                                                    </option>
-                                                    {formattedVariantGroup[
-                                                        groupName
-                                                    ].map((value, idx) => (
-                                                        <option
-                                                            key={idx}
-                                                            value={value}
-                                                            selected={
-                                                                selectedVariant
-                                                                    ?.attributes
-                                                                    .value ===
-                                                                value
-                                                            }
-                                                        >
-                                                            {upperCase(value)}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    )
-                                )} */}
+                            {/* Quantity Controls */}
+                            <div className="flex items-center gap-4">
+                                <div className="flex justify-center items-center gap-4">
+                                    <Button
+                                        onClick={() =>
+                                            handleQuantityChange("decrement")
+                                        }
+                                        disabled={quantity === 1}
+                                        className="text-2xl"
+                                        variant="outline"
+                                    >
+                                        -
+                                    </Button>
+                                    <Input
+                                        value={quantity || 1}
+                                        readOnly
+                                        className="text-center"
+                                    />
+                                    <Button
+                                        onClick={() =>
+                                            handleQuantityChange("increment")
+                                        }
+                                        variant="outline"
+                                        disabled={quantity === 10}
+                                    >
+                                        +
+                                    </Button>
+                                </div>
+                                <Button
+                                    className="text-base Primary"
+                                    title="Add To Cart"
+                                >
+                                    <FaCartPlus /> Add To Cart
+                                </Button>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <Button
+                                    className="text-base Primary"
+                                    title="Add To Wishlist"
+                                >
+                                    <FaHeart /> Add To Wishlist
+                                </Button>
+                                <Button
+                                    className="text-base Primary"
+                                    title="Add To Compare"
+                                >
+                                    <FaShuffle /> Add To Wishlist
+                                </Button>
+                            </div>
+                            {/* Sharing Links */}
+                            <div className="flex gap-4 items-center">
+                                <h3 className="text-xl font-bold">Share:</h3>
+                                <div className="flex gap-5 my-4 text-xl">
+                                    <FaFacebook />
+                                    <FaTwitter />
+                                    <FaWhatsapp />
+                                    <FaInstagram />
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    {/* Product Tab Details */}
+                    <ProductDetailsTabSection
+                        productDescription={productData?.productDescription}
+                        productSpecification={productData?.productSpecification}
+                    />
                 </section>
             </Container>
         </>
