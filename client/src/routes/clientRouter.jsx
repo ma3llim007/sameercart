@@ -25,6 +25,7 @@ const SubCategory = lazy(() => import("../client/pages/SubCategory"));
 const Products = lazy(() => import("../client/pages/Products"));
 const ProductDetails = lazy(() => import("../client/pages/ProductDetails"));
 const ProductReview = lazy(() => import("../client/pages/ProductReview"));
+const Cart = lazy(() => import("../client/pages/Cart"));
 
 // Client Router
 const clientRouters = createBrowserRouter(
@@ -61,6 +62,10 @@ const clientRouters = createBrowserRouter(
             <Route
                 path="/create-review/:productId"
                 element={<ProductReview />}
+            />
+            <Route
+                path="/cart"
+                element={<Cart />}
             />
             <Route path="*" element={<ClientNotFound />} />
         </Route>

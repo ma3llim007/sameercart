@@ -28,6 +28,8 @@ import { upperCase } from "lodash";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components";
 import { FaShuffle } from "react-icons/fa6";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/features/home/cartSlice";
 
 const ProductDetails = () => {
     const { productSlug } = useParams();
@@ -37,6 +39,7 @@ const ProductDetails = () => {
     const [isDragging, setIsDragging] = useState(false);
     const [quantity, setQuantity] = useState(1);
     const title = slugToText(productSlug);
+    const dispatch = useDispatch();
 
     // Fetching Products
     const { data, isLoading, isFetching } = useQuery({
@@ -132,6 +135,20 @@ const ProductDetails = () => {
         }
     };
 
+    const handleAddToCart = () => {
+        const cartItem = {
+            id: productData?._id,
+            name: productData?.productName,
+            price: selectedVariant?.basePrice || productData?.basePrice,
+            variantId: selectedVariant?._id || null,
+            attributes: selectedVariant?.attributes || null,
+            quantity: 1,
+            image:
+                selectedVariant?.images[currentImage]?.imageUrl ||
+                productData?.productFeatureImage,
+        };
+        dispatch(addToCart(cartItem));
+    };
     if (isLoading || isFetching) return <Loader />;
     return (
         <>
@@ -405,6 +422,7 @@ const ProductDetails = () => {
                                 <Button
                                     className="text-base Primary"
                                     title="Add To Cart"
+                                    onClick={handleAddToCart}
                                 >
                                     <FaCartPlus /> Add To Cart
                                 </Button>

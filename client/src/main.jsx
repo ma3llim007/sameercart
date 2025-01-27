@@ -12,7 +12,7 @@ import { ThemeProvider } from "./client/context/themeProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { store, storePeristor } from "./store";
+import { store, storePersistor } from "./store";
 import queryClient from "./api/queryClientConfig";
 import ResponsiveViewer from "./components/ResponsiveViewer";
 
@@ -23,7 +23,7 @@ createRoot(document.getElementById("root")).render(
     <StrictMode>
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <Provider store={store}>
-                <PersistGate loading={null} persistor={storePeristor}>
+                <PersistGate loading={null} persistor={storePersistor}>
                     <QueryClientProvider client={queryClient}>
                         {isAdmin ? <AdminApp /> : <ClientApp />}
                         <ReactQueryDevtools initialIsOpen={false} />
@@ -31,7 +31,7 @@ createRoot(document.getElementById("root")).render(
                     </QueryClientProvider>
                 </PersistGate>
             </Provider>
-            <ToastContainer />
+            <ToastContainer limit={3} />
         </ThemeProvider>
     </StrictMode>
 );

@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import crudService from "@/api/crudService";
 import { logout } from "@/features/admin/authSlice";
-import { storePeristor } from "@/store";
+import { storePersistor } from "@/store";
 
 const LogoutBtn = () => {
     const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const LogoutBtn = () => {
         onSuccess: data => {
             dispatch(logout());
             toastService.info(data?.message);
-            storePeristor.purge();
+            storePersistor.purge();
         },
         onError: error => {
             toastService.error("Something Went Wrong While Log-Out");
@@ -47,11 +47,17 @@ const LogoutBtn = () => {
                 <AlertDialogContent className="bg-white dark:bg-slate-950">
                     <AlertDialogHeader>
                         <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
-                        <AlertDialogDescription>Are you sure you want to log out? This will end your current session.</AlertDialogDescription>
+                        <AlertDialogDescription>
+                            Are you sure you want to log out? This will end your
+                            current session.
+                        </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction className="Danger" onClick={logoutHandler}>
+                        <AlertDialogAction
+                            className="Danger"
+                            onClick={logoutHandler}
+                        >
                             Continue
                         </AlertDialogAction>
                     </AlertDialogFooter>

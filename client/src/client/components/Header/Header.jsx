@@ -16,19 +16,21 @@ import useSticky from "../../hooks/useSticky";
 import Logo from "../Logo";
 import SideBar from "./SideBar";
 import { upperCase, upperFirst } from "lodash";
+import { useSelector } from "react-redux";
+import { formatNumberWithCommas } from "@/utils";
 
 const Header = ({ data }) => {
+    const { carts, totalCartPrice } = useSelector(state => state.cart);
     const isSticky = useSticky(100);
     const [MobileNavOpen, setMobileNavOpen] = useState(false);
 
     const handleMobileModel = () => {
         setMobileNavOpen(prev => !prev);
     };
-
-    const cartQty = 1;
+    const cartQty = carts?.length || 0;
     const wishListQty = 1;
-    const price = "20.00";
-
+    const price = formatNumberWithCommas(totalCartPrice || 0);
+    
     return (
         <>
             <header className="w-screen flex flex-col text-xs sm:text-sm lg:text-base xl:text-base 2xl:text-base shadow select-none bg-light-bgWhite dark:bg-dark-bgDark">
@@ -150,7 +152,7 @@ const Header = ({ data }) => {
                                             </div>
                                         </div>
                                         <p className="text-base xl:text-base font-semibold">
-                                            ${price}
+                                            $ {price}
                                         </p>
                                         <FaBars
                                             onClick={handleMobileModel}

@@ -20,6 +20,8 @@ import { FaCartPlus, FaEye, FaHeart, FaRupeeSign } from "react-icons/fa";
 import useTopScroll from "../hooks/useTopScroll";
 import { motion } from "framer-motion";
 import Loader from "../components/Loader/Loader";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/features/home/cartSlice";
 
 const Products = () => {
     const { categorySlug, subCategorySlug } = useParams();
@@ -29,6 +31,8 @@ const Products = () => {
     const [page, setPage] = useState(1);
     const limit = 9;
     useTopScroll({ topPosition: 300, page });
+    const dispatch = useDispatch();
+
 
     // Fetching Products
     const { data, isLoading } = useQuery({
@@ -46,6 +50,9 @@ const Products = () => {
     });
     const { products, pageNumber, totalPages } = data?.data || {};
 
+    const handleAddToCart = data => {
+        dispatch(addToCart(data));
+    };
     if (isLoading) return <Loader />;
     return (
         <>
@@ -179,6 +186,15 @@ const Products = () => {
                                                     ? false
                                                     : true
                                             }
+                                            onClick={() => {
+                                                handleAddToCart({
+                                                    id: product?._id,
+                                                    name: product?.productName,
+                                                    price: product?.basePrice,
+                                                    quantity: 1,
+                                                    image: product?.productFeatureImage,
+                                                });
+                                            }}
                                             className="text-base Primary"
                                             title="Add To Cart"
                                         >
