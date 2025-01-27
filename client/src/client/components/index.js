@@ -31,8 +31,9 @@ const Faq = React.lazy(() => import("./Faq"));
 const GetInTouch = React.lazy(() => import("./Contact/GetInTouch"));
 const Map = React.lazy(() => import("./Contact/Map"));
 const ProductDetailsTabSection = React.lazy(
-    () => import("./ProductDetailsTabSection")
+    () => import("./Products/ProductDetailsTabSection")
 );
+const Rating = React.lazy(() => import("./Rating"));
 
 export {
     Header,
@@ -60,4 +61,5 @@ export {
     GetInTouch,
     Map,
     ProductDetailsTabSection,
+    Rating,
 };

@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import Loader from "../components/Loader/Loader";
-import { capitalizeWords, formatNumberWithCommas } from "@/utils";
+import { capitalizeWords, formatNumberWithCommas, slugToText } from "@/utils";
 import Rating from "../components/Rating";
 import {
     FaCartPlus,
@@ -36,6 +36,7 @@ const ProductDetails = () => {
     const [startX, setStartX] = useState(0); // Track the start position of the drag
     const [isDragging, setIsDragging] = useState(false);
     const [quantity, setQuantity] = useState(1);
+    const title = slugToText(productSlug);
 
     // Fetching Products
     const { data, isLoading, isFetching } = useQuery({
@@ -134,7 +135,7 @@ const ProductDetails = () => {
     if (isLoading || isFetching) return <Loader />;
     return (
         <>
-            <Banner title={"Products"} image={bannerImage}>
+            <Banner title={title} image={bannerImage}>
                 <Breadcrumb>
                     <BreadcrumbList className="text-lg">
                         <BreadcrumbItem>
@@ -142,7 +143,7 @@ const ProductDetails = () => {
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbPage>{"Products"}</BreadcrumbPage>
+                            <BreadcrumbPage>{title}</BreadcrumbPage>
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
@@ -180,19 +181,26 @@ const ProductDetails = () => {
                             {/* Main Image */}
                             <div className="w-full flex-grow relative">
                                 <img
-                                    onTouchStart={handleDragStart}
-                                    onTouchEnd={handleDragEnd}
-                                    onMouseDown={e => {
-                                        handleDragStart(e);
-                                        setIsDragging(true);
-                                    }}
-                                    onMouseUp={e => {
-                                        handleDragEnd(e);
-                                        setIsDragging(false);
-                                    }}
-                                    onMouseLeave={() => setIsDragging(false)}
-                                    onDragStart={e => e.preventDefault()}
-                                    draggable="false"
+                                    {...(productData?.productType ===
+                                        "variable" && {
+                                        onTouchStart: handleDragStart,
+                                        onTouchEnd: handleDragEnd,
+                                        onMouseDown: e => {
+                                            handleDragStart(e);
+                                            setIsDragging(true);
+                                        },
+                                        onMouseUp: e => {
+                                            handleDragEnd(e);
+                                            setIsDragging(false);
+                                        },
+                                        onMouseLeave: () => {
+                                            setIsDragging(false);
+                                        },
+                                        onDragStart: e => {
+                                            e.preventDefault();
+                                        },
+                                        draggable: false,
+                                    })}
                                     src={
                                         selectedVariant?.images[currentImage]
                                             ?.imageUrl ||
@@ -203,7 +211,12 @@ const ProductDetails = () => {
                                         "Product Name"
                                     }
                                     key={currentImage}
-                                    className={`rounded-lg border border-gray-300 w-full h-auto transition-opacity duration-500 ease-in-out opacity-100 ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+                                    className={`rounded-lg border border-gray-300 w-full h-auto transition-opacity duration-500 ease-in-out opacity-100 ${
+                                        productData?.productType ===
+                                            "variable" && isDragging
+                                            ? "cursor-grabbing"
+                                            : "cursor-default"
+                                    }`}
                                 />
                                 <div className="absolute w-full flex justify-center mt-2 py-1 lg:hidden">
                                     {(selectedVariant?.images || []).map(
@@ -222,8 +235,8 @@ const ProductDetails = () => {
                         </div>
                         <hr className="decoration-2 my-4 lg:hidden" />
                         {/* Product Details */}
-                        <div className="flex flex-col p-2 space-y-4">
-                            <h1 className="text-3xl font-semibold mb-4 text-center">
+                        <div className="flex flex-col p-2 space-y-3">
+                            <h1 className="text-3xl font-semibold text-center lg:text-start">
                                 {capitalizeWords(productData?.productName)}
                             </h1>
                             <h3 className="text-xl font-bold">Description:</h3>
@@ -318,7 +331,7 @@ const ProductDetails = () => {
                                             <div className="flex gap-4 justify-start">
                                                 <select
                                                     id={groupName}
-                                                    className="px-3 py-2 rounded bg-white text-gray-900 dark:bg-slate-800 dark:text-white outline-none text-lg focus:ring-2 focus:ring-blue-500 duration-200 border border-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 w-2/4"
+                                                    className="px-3 py-2 rounded bg-white text-gray-900 dark:bg-slate-800 dark:text-white outline-none text-lg focus:ring-2 focus:ring-blue-500 duration-200 border hover:bg-gray-50 dark:hover:bg-slate-700 w-2/4"
                                                     onChange={e =>
                                                         handleVariantSelection(
                                                             groupName,
@@ -363,7 +376,7 @@ const ProductDetails = () => {
                                 )}
                             {/* Quantity Controls */}
                             <div className="flex items-center gap-4">
-                                <div className="flex justify-center items-center gap-4">
+                                <div className="flex justify-center items-center gap-4 py-4">
                                     <Button
                                         onClick={() =>
                                             handleQuantityChange("decrement")
@@ -396,18 +409,18 @@ const ProductDetails = () => {
                                     <FaCartPlus /> Add To Cart
                                 </Button>
                             </div>
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-4 py-4">
                                 <Button
-                                    className="text-base Primary"
+                                    className="text-base Success"
                                     title="Add To Wishlist"
                                 >
                                     <FaHeart /> Add To Wishlist
                                 </Button>
                                 <Button
-                                    className="text-base Primary"
+                                    className="text-base Purple"
                                     title="Add To Compare"
                                 >
-                                    <FaShuffle /> Add To Wishlist
+                                    <FaShuffle /> Add To Compare
                                 </Button>
                             </div>
                             {/* Sharing Links */}
@@ -423,10 +436,15 @@ const ProductDetails = () => {
                         </div>
                     </div>
                     {/* Product Tab Details */}
-                    <ProductDetailsTabSection
-                        productDescription={productData?.productDescription}
-                        productSpecification={productData?.productSpecification}
-                    />
+                    <div className="w-full my-5">
+                        <ProductDetailsTabSection
+                            productDescription={productData?.productDescription}
+                            productSpecification={
+                                productData?.productSpecification
+                            }
+                            productId={productData?._id}
+                        />
+                    </div>
                 </section>
             </Container>
         </>

@@ -33,7 +33,7 @@ const Input = forwardRef(function Input(
                     id={id}
                     placeholder={placeholder}
                     autoComplete="off"
-                    className={`px-3 py-2 rounded-lg bg-white text-black dark:bg-slate-800 dark:text-white outline-none text-lg focus:bg-gray-50 duration-200 border border-gray-200 w-full ${className}`}
+                    className={`px-3 py-2 rounded-lg bg-white text-black dark:bg-slate-800 dark:text-white outline-none text-lg focus:bg-gray-50 duration-200 border border-gray-700 dark:border-gray-400 w-full ${className}`}
                 />
                 {additionalTitle && (
                     <p className="font-bold mt-2 text-black dark:text-white text-sm">
