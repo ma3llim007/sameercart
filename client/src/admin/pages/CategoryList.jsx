@@ -24,17 +24,13 @@ const CategoryList = () => {
 
     // delete Category
     const { mutate: deleteCategory, isPending } = useMutation({
-        mutationFn: id =>
-            crudService.delete(`category/delete-category/${id}`, true),
+        mutationFn: id => crudService.delete(`category/delete-category/${id}`, true),
         onSuccess: data => {
             queryClient.invalidateQueries("categoryList");
             toastService.success(data?.message);
         },
         onError: error => {
-            const errorMessage =
-                error?.response?.data?.message ||
-                error?.message ||
-                "An error occurred";
+            const errorMessage = error?.response?.data?.message || error?.message || "An error occurred";
             toastService.error(errorMessage);
         },
     });
@@ -68,45 +64,25 @@ const CategoryList = () => {
             header: "Category Image",
             cell: ({ row }) => (
                 <div className="w-full flex justify-center">
-                    <img
-                        src={row.original?.categoryImage}
-                        className="min-w-28 max-w-28 min-h-20 max-h-20 object-center rounded-md"
-                        alt="Category Image"
-                    />
+                    <img src={row.original?.categoryImage} className="min-w-28 max-w-28 min-h-20 max-h-20 object-center rounded-md" alt="Category Image" />
                 </div>
             ),
         },
         {
             accessorKey: "isActive",
             header: "Active Status",
-            cell: ({ row }) => (
-                <Badge
-                    className={`${row.original?.isActive ? "Success" : "Secondary"} hover:pointer-events-none`}
-                    title={row.original?.isActive ? "Active" : "InActive"}
-                />
-            ),
+            cell: ({ row }) => <Badge className={`${row.original?.isActive ? "Success" : "Secondary"} hover:pointer-events-none`} title={row.original?.isActive ? "Active" : "InActive"} />,
         },
         {
             accessorKey: "updatedAt",
             header: "Date Time",
-            cell: ({ row }) => (
-                <p className="text-wrap">
-                    {formatDateTime(row.original?.updatedAt)}
-                </p>
-            ),
+            cell: ({ row }) => <p className="text-wrap">{formatDateTime(row.original?.updatedAt)}</p>,
         },
         {
             header: "Actions",
             cell: ({ row }) => (
                 <div className="flex gap-1 items-center flex-wrap">
-                    <Button
-                        className="Primary"
-                        onClick={() =>
-                            navigate(
-                                `/admin/category/edit-category/${row.original._id}`
-                            )
-                        }
-                    >
+                    <Button className="Primary" onClick={() => navigate(`/admin/category/edit-category/${row.original._id}`)}>
                         Edit
                     </Button>
                     |
@@ -152,25 +128,13 @@ const CategoryList = () => {
             ),
         },
     ];
-    const categoryData =
-        data?.data?.map((data, index) => ({ no: index + 1, ...data })) || [];
+    const categoryData = data?.data?.map((data, index) => ({ no: index + 1, ...data })) || [];
 
     if (isLoading || isPending) return <LoadingOverlay />;
     return (
         <>
-            <PageHeader
-                title={"Manage Category"}
-                controller={"Category"}
-                controllerUrl={"/admin/category/category-list/"}
-                page={"Category's List"}
-            />
-            <Table
-                columns={categoryColums}
-                data={categoryData}
-                paginationOptions={{ pageSize: 10 }}
-                sortable
-                loading={isLoading}
-            />
+            <PageHeader title={"Manage Category"} controller={"Category"} controllerUrl={"/admin/category/category-list/"} page={"Category's List"} />
+            <Table columns={categoryColums} data={categoryData} paginationOptions={{ pageSize: 10 }} sortable loading={isLoading} />
         </>
     );
 };

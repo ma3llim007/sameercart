@@ -32,8 +32,7 @@ const ViewProduct = () => {
         isSuccess,
     } = useQuery({
         queryKey: ["product", productId],
-        queryFn: () =>
-            crudService.get(`product/get-product/${productId}`, true),
+        queryFn: () => crudService.get(`product/get-product/${productId}`, true),
         onError: err => {
             toastService.error(err?.message || "Failed to fetch Data.");
         },
@@ -82,26 +81,18 @@ const ViewProduct = () => {
     const subCategoryOptions = [
         {
             _id: productData?.data?.productSubCategory?.subCategoryId,
-            categoryName:
-                productData?.data?.productSubCategory?.subCategoryName,
+            categoryName: productData?.data?.productSubCategory?.subCategoryName,
         },
     ];
 
     if (isLoading) return <Loading />;
     return (
         <>
-            <PageHeader
-                title={"Manage Products"}
-                controller={"Products"}
-                controllerUrl={"/admin/products/products-list"}
-                page={"View Product"}
-            />
+            <PageHeader title={"Manage Products"} controller={"Products"} controllerUrl={"/admin/products/products-list"} page={"View Product"} />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800">
                     <form className="space-y-5" encType="multipart/form-data">
-                        <h1 className="text-xl font-bold my-4 px-2">
-                            View Products
-                        </h1>
+                        <h1 className="text-xl font-bold my-4 px-2">View Products</h1>
                         <div className="flex flex-wrap my-2">
                             <div className="w-full lg:w-1/2 px-2 flex-grow">
                                 <Input
@@ -147,10 +138,7 @@ const ViewProduct = () => {
                                             onChange={e => {
                                                 field.onChange(e.target.value);
                                             }}
-                                            error={
-                                                errors.productCategoryId
-                                                    ?.message
-                                            }
+                                            error={errors.productCategoryId?.message}
                                             className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                         />
                                     )}
@@ -167,10 +155,7 @@ const ViewProduct = () => {
                                     disabled
                                     {...register("productSubCategoryId")}
                                     error={errors.productSubCategoryId?.message}
-                                    defaultValue={
-                                        productData?.data.productSubCategory
-                                            .subCategoryId
-                                    }
+                                    defaultValue={productData?.data.productSubCategory.subCategoryId}
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                 />
                             </div>
@@ -178,17 +163,8 @@ const ViewProduct = () => {
                         <div className="flex flex-wrap my-2">
                             <div className="w-full lg:w-1/2 px-2">
                                 <div className="w-full">
-                                    <label className="inline-block mb-2 pl-1 text-base font-bold">
-                                        Product Previous Image
-                                    </label>
-                                    <img
-                                        src={
-                                            productData?.data
-                                                .productFeatureImage
-                                        }
-                                        className="max-w-96 max-h-80 object-cover rounded"
-                                        alt="Previous Category"
-                                    />
+                                    <label className="inline-block mb-2 pl-1 text-base font-bold">Product Previous Image</label>
+                                    <img src={productData?.data.productFeatureImage} className="max-w-96 max-h-80 object-cover rounded" alt="Previous Category" />
                                 </div>
                             </div>
                             <div className="w-full lg:w-1/2 px-2">
@@ -227,9 +203,7 @@ const ViewProduct = () => {
                                         className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                         readOnly
                                         disabled
-                                        error={
-                                            errors.productDiscountPrice?.message
-                                        }
+                                        error={errors.productDiscountPrice?.message}
                                     />
                                 </div>
                             </div>
@@ -304,9 +278,7 @@ const ViewProduct = () => {
                             </Suspense>
                         </div>
                         <div className="w-full border-t !mt-8 flex items-center gap-1">
-                            <Link
-                                to={`/admin/products/edit-product/${productId}`}
-                            >
+                            <Link to={`/admin/products/edit-product/${productId}`}>
                                 <Button readOnly className="Primary my-2 btnXl">
                                     <FaEdit /> Go To Edit Page
                                 </Button>

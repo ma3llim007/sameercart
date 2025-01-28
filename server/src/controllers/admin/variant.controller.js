@@ -133,6 +133,7 @@ const getVariantByProductId = asyncHandler(async (req, res) => {
     // variants by product ID
     try {
         const variants = await Variant.find({ productId: productId });
+        
         return res.status(200).json(new ApiResponse(200, variants, "Variants Fetch Successfully"));
     } catch (error) {
         return res.status(500).json(new ApiError(500, error.message));

@@ -12,18 +12,4 @@ import TextArea from "../../components/Form/TextArea";
 import ErrorMessage from "./ErrorMessage";
 import ProductDetailsVariant from "./ProductDetailsVariant";
 
-export {
-    LogoutBtn,
-    Input,
-    PageHeader,
-    AdminSideBar,
-    Header,
-    Footer,
-    Table,
-    Loading,
-    ButtonWithAlert,
-    Select,
-    TextArea,
-    ErrorMessage,
-    ProductDetailsVariant,
-};
+export { LogoutBtn, Input, PageHeader, AdminSideBar, Header, Footer, Table, Loading, ButtonWithAlert, Select, TextArea, ErrorMessage, ProductDetailsVariant };

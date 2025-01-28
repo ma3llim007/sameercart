@@ -11,8 +11,8 @@ const ReturnPolicy = () => {
                     <div className="w-full p-4 space-y-8">
                         <h1 className="text-4xl font-bold text-light-blue dark:text-dark-light mb-6">Return Policy</h1>
                         <p className="text-lg mb-6">
-                            At <strong>SameerCart</strong>, we want to ensure you are completely satisfied with your purchase. If you are not fully
-                            happy with your product, you can return or exchange it under the following conditions.
+                            At <strong>SameerCart</strong>, we want to ensure you are completely satisfied with your purchase. If you are not fully happy with your product, you can return or exchange
+                            it under the following conditions.
                         </p>
                         <div>
                             <h2 className="text-2xl font-semibold text-light-blue dark:text-dark-light mb-4">Eligibility for Returns</h2>
@@ -52,12 +52,10 @@ const ReturnPolicy = () => {
                                     to receive your return authorization.
                                 </li>
                                 <li>
-                                    <strong>Prepare Your Item</strong>: Ensure that the item is securely packaged in its original packaging, along
-                                    with all tags and accessories.
+                                    <strong>Prepare Your Item</strong>: Ensure that the item is securely packaged in its original packaging, along with all tags and accessories.
                                 </li>
                                 <li>
-                                    <strong>Ship the Item</strong>: Use the return label provided by our team, or ship to the following address at
-                                    your own cost:
+                                    <strong>Ship the Item</strong>: Use the return label provided by our team, or ship to the following address at your own cost:
                                     <address className="mt-2 ml-4">
                                         <span className="block">Hyderabad, Telanagana, 500005,</span>
                                         <span className="block">India.</span>
@@ -68,16 +66,16 @@ const ReturnPolicy = () => {
                         <div>
                             <h2 className="text-2xl font-semibold text-light-blue dark:text-dark-light mb-4">Refunds</h2>
                             <p className="text-lg mb-6">
-                                Once your return is received and inspected, we will send you an email to notify you of the approval or rejection of
-                                your refund. Approved refunds will be processed and applied to your original method of payment within
+                                Once your return is received and inspected, we will send you an email to notify you of the approval or rejection of your refund. Approved refunds will be processed and
+                                applied to your original method of payment within
                                 <strong>7-10 business days</strong>.
                             </p>
                         </div>
                         <div>
                             <h2 className="text-2xl font-semibold text-light-blue dark:text-dark-light mb-4">Exchanges</h2>
                             <p className="text-lg mb-6">
-                                If you wish to exchange an item, please contact our customer service to arrange an exchange for a different size,
-                                color, or product. Exchanges are subject to stock availability.
+                                If you wish to exchange an item, please contact our customer service to arrange an exchange for a different size, color, or product. Exchanges are subject to stock
+                                availability.
                             </p>
                         </div>
                         <div>
@@ -87,8 +85,7 @@ const ReturnPolicy = () => {
                                 <a href="mailto:mohdsameer68257@gmail.com" className="text-light-blue dark:text-dark-light hover:underline mx-2">
                                     mohdsameer68257@gmail.com
                                 </a>
-                                with details and images of the issue. We will provide instructions on how to proceed, and in most cases, we will cover
-                                the return shipping cost.
+                                with details and images of the issue. We will provide instructions on how to proceed, and in most cases, we will cover the return shipping cost.
                             </p>
                         </div>
                         <div>
@@ -104,10 +101,7 @@ const ReturnPolicy = () => {
                         </div>
                         <div>
                             <h2 className="text-2xl font-semibold text-light-blue dark:text-dark-light mb-4">International Returns</h2>
-                            <p className="text-lg mb-6">
-                                For international returns, shipping fees are non-refundable, and customers are responsible for any customs or import
-                                duties incurred.
-                            </p>
+                            <p className="text-lg mb-6">For international returns, shipping fees are non-refundable, and customers are responsible for any customs or import duties incurred.</p>
                         </div>
                         <div>
                             <h2 className="text-2xl font-semibold text-light-blue dark:text-dark-light mb-4">Contact Us</h2>

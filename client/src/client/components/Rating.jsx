@@ -15,18 +15,8 @@ const Rating = ({ rating, size = "text-base", onRatingChange }) => {
     return (
         <div className="w-full flex items-center gap-0.5">
             {Stars.map(index => (
-                <span
-                    key={index}
-                    onMouseEnter={() => handleMouseEnter(index)}
-                    onMouseLeave={handleMouseLeave}
-                    onClick={() => handleRating(index)}
-                    aria-label={`Rate ${index} stars`}
-                >
-                    {hoveredStar >= index || rating >= index ? (
-                        <AiFillStar className={`text-yellow-600 ${size}`} />
-                    ) : (
-                        <AiOutlineStar className={`text-yellow-600 ${size}`} />
-                    )}
+                <span key={index} onMouseEnter={() => handleMouseEnter(index)} onMouseLeave={handleMouseLeave} onClick={() => handleRating(index)} aria-label={`Rate ${index} stars`}>
+                    {hoveredStar >= index || rating >= index ? <AiFillStar className={`text-yellow-600 ${size}`} /> : <AiOutlineStar className={`text-yellow-600 ${size}`} />}
                 </span>
             ))}
         </div>

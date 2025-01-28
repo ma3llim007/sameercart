@@ -6,12 +6,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
 import { FaBagShopping } from "react-icons/fa6";
 import { BiSolidUserVoice } from "react-icons/bi";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import useSticky from "../../hooks/useSticky";
 import Logo from "../Logo";
 import SideBar from "./SideBar";
@@ -21,6 +16,7 @@ import { formatNumberWithCommas } from "@/utils";
 
 const Header = ({ data }) => {
     const { carts, totalCartPrice } = useSelector(state => state.cart);
+    const { wishlists } = useSelector(state => state.wishlist);
     const isSticky = useSticky(100);
     const [MobileNavOpen, setMobileNavOpen] = useState(false);
 
@@ -28,26 +24,20 @@ const Header = ({ data }) => {
         setMobileNavOpen(prev => !prev);
     };
     const cartQty = carts?.length || 0;
-    const wishListQty = 1;
+    const wishListQty = wishlists?.length || 0;
     const price = formatNumberWithCommas(totalCartPrice || 0);
-    
+
     return (
         <>
             <header className="w-screen flex flex-col text-xs sm:text-sm lg:text-base xl:text-base 2xl:text-base shadow select-none bg-light-bgWhite dark:bg-dark-bgDark">
                 <div className="w-full">
                     <div className="px-4 sm:px-10 lg:px-12 xl:px-4 2xl:px-4">
                         <div className="w-full flex mt-2 flex-col sm:flex-row sm:gap-5 sm:justify-between sm:items-center">
-                            <div className="text-center text-light-textGray dark:text-dark-textLightGray">
-                                Welcome you to SameerCart Store!
-                            </div>
+                            <div className="text-center text-light-textGray dark:text-dark-textLightGray">Welcome you to SameerCart Store!</div>
                             <div className="flex justify-center text-center items-center gap-2">
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <div
-                                            className="flex gap-1 cursor-pointer items-center outline-none"
-                                            role="button"
-                                            tabIndex="0"
-                                        >
+                                        <div className="flex gap-1 cursor-pointer items-center outline-none" role="button" tabIndex="0">
                                             Setting <IoIosArrowDown />
                                         </div>
                                     </DropdownMenuTrigger>
@@ -56,26 +46,13 @@ const Header = ({ data }) => {
                                         className="border-none bg-light-bgLightGray text-light-textDarkGray dark:bg-dark-deep dark:text-dark-textWhite z-40"
                                         sideOffset={10}
                                     >
-                                        <DropdownMenuItem
-                                            asChild
-                                            className="py-2 px-4 cursor-pointer"
-                                        >
-                                            <Link to={"/my-account"}>
-                                                My Account
-                                            </Link>
+                                        <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
+                                            <Link to={"/my-account"}>My Account</Link>
                                         </DropdownMenuItem>
-                                        <DropdownMenuItem
-                                            asChild
-                                            className="py-2 px-4 cursor-pointer"
-                                        >
-                                            <Link to={"/checkout"}>
-                                                Checkout
-                                            </Link>
+                                        <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
+                                            <Link to={"/checkout"}>Checkout</Link>
                                         </DropdownMenuItem>
-                                        <DropdownMenuItem
-                                            asChild
-                                            className="py-2 px-4 cursor-pointer"
-                                        >
+                                        <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
                                             <Link to={"/login"}>Login</Link>
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
@@ -108,9 +85,7 @@ const Header = ({ data }) => {
                                                     className="absolute top-0 end-0 p-2.5 font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                                 >
                                                     <CiSearch className="font-bold text-xl" />
-                                                    <span className="sr-only">
-                                                        Search
-                                                    </span>
+                                                    <span className="sr-only">Search</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -123,12 +98,8 @@ const Header = ({ data }) => {
                                                 <BiSolidUserVoice />
                                             </div>
                                             <div className="pr-2 xl:pr-6 2xl:pr-5">
-                                                <p className="text-xs font-normal">
-                                                    Call Us:
-                                                </p>
-                                                <p className="text-base font-bold">
-                                                    +91 12345 67890
-                                                </p>
+                                                <p className="text-xs font-normal">Call Us:</p>
+                                                <p className="text-base font-bold">+91 12345 67890</p>
                                             </div>
                                         </div>
                                         <div className="items-center gap-2 hidden sm:flex md:flex">
@@ -151,13 +122,8 @@ const Header = ({ data }) => {
                                                 </Link>
                                             </div>
                                         </div>
-                                        <p className="text-base xl:text-base font-semibold">
-                                            $ {price}
-                                        </p>
-                                        <FaBars
-                                            onClick={handleMobileModel}
-                                            className="text-2xl ml-1 cursor-pointer font-extrabold lg:hidden xl:hidden 2xl:hidden"
-                                        />
+                                        <p className="text-base xl:text-base font-semibold">$ {price}</p>
+                                        <FaBars onClick={handleMobileModel} className="text-2xl ml-1 cursor-pointer font-extrabold lg:hidden xl:hidden 2xl:hidden" />
                                     </div>
                                 </div>
                             </div>
@@ -192,10 +158,7 @@ const Header = ({ data }) => {
                                     Home
                                     <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
                                 </NavLink>
-                                <NavLink
-                                    className="relative group"
-                                    to={"/about-us"}
-                                >
+                                <NavLink className="relative group" to={"/about-us"}>
                                     About Us
                                     <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
                                 </NavLink>
@@ -211,9 +174,7 @@ const Header = ({ data }) => {
                                                     aria-haspopup="true"
                                                     aria-expanded="false"
                                                 >
-                                                    {upperFirst(
-                                                        category?.categoryName
-                                                    )}
+                                                    {upperFirst(category?.categoryName)}
                                                 </Link>
                                                 <DropdownMenuTrigger asChild>
                                                     <button>
@@ -227,61 +188,37 @@ const Header = ({ data }) => {
                                                 className="min-w-[9rem] overflow-hidden p-1 shadow-md border-none divide-light-border dark:divide-dark-border bg-light-blue text-light-textWhite dark:text-dark-textWhite z-40"
                                                 sideOffset={22}
                                             >
-                                                {category?.subcategories.map(
-                                                    subcategory => (
-                                                        <DropdownMenuItem
-                                                            asChild
-                                                            className="py-2 px-4 cursor-pointer"
-                                                            key={
-                                                                subcategory?._id
-                                                            }
+                                                {category?.subcategories.map(subcategory => (
+                                                    <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer" key={subcategory?._id}>
+                                                        <Link
+                                                            to={`${category.categorySlug}/${subcategory?.subCategorySlug}/products`}
+                                                            className="px-4 py-2 text-base border-b rounded-none border-opacity-50 border-light-gray"
                                                         >
-                                                            <Link
-                                                                to={`${category.categorySlug}/${subcategory?.subCategorySlug}/products`}
-                                                                className="px-4 py-2 text-base border-b rounded-none border-opacity-50 border-light-gray"
-                                                            >
-                                                                {upperCase(
-                                                                    subcategory?.subCategoryName
-                                                                )}
-                                                            </Link>
-                                                        </DropdownMenuItem>
-                                                    )
-                                                )}
+                                                            {upperCase(subcategory?.subCategoryName)}
+                                                        </Link>
+                                                    </DropdownMenuItem>
+                                                ))}
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     ))}
                                 </div>
-                                <NavLink
-                                    className="relative group"
-                                    to={"/category"}
-                                >
+                                <NavLink className="relative group" to={"/category"}>
                                     Category
                                     <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
                                 </NavLink>
-                                <NavLink
-                                    className="relative group"
-                                    to={"/contact-us"}
-                                >
+                                <NavLink className="relative group" to={"/contact-us"}>
                                     Contact Us
                                     <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
                                 </NavLink>
                             </ul>
                         </nav>
                         <div className="text-sm w-[15%] lg:hidden xl:block 2xl:block">
-                            <p className="text-center">
-                                Free Shipping on Orders $50+
-                            </p>
+                            <p className="text-center">Free Shipping on Orders $50+</p>
                         </div>
                     </div>
                 </div>
             </header>
-            <SideBar
-                cartQty={cartQty}
-                wishListQty={wishListQty}
-                handleModel={handleMobileModel}
-                isOpenModel={MobileNavOpen}
-                catgoryAndSubCategory={data.data}
-            />
+            <SideBar cartQty={cartQty} wishListQty={wishListQty} handleModel={handleMobileModel} isOpenModel={MobileNavOpen} catgoryAndSubCategory={data.data} />
         </>
     );
 };

@@ -7,13 +7,4 @@ import RichTextEditor from "./Form/RichTextEditor";
 import Select from "./Form/Select";
 import TextArea from "./Form/TextArea";
 
-export {
-    Badge,
-    Model,
-    ResponsiveViewer,
-    LoadingOverlay,
-    Input,
-    RichTextEditor,
-    Select,
-    TextArea,
-};
+export { Badge, Model, ResponsiveViewer, LoadingOverlay, Input, RichTextEditor, Select, TextArea };

@@ -23,25 +23,17 @@ const SubCategoryList = () => {
     });
 
     // delete sub-category
-    const { mutate: deleteSubCategory, isPending: isPendingDeleteSubCategory } =
-        useMutation({
-            mutationFn: id =>
-                crudService.delete(
-                    `sub-category/delete-subcategory/${id}`,
-                    true
-                ),
-            onSuccess: data => {
-                queryClient.invalidateQueries("subCategoryList");
-                toastService.success(data?.message);
-            },
-            onError: error => {
-                const errorMessage =
-                    error?.response?.data?.message ||
-                    error?.message ||
-                    "An error occurred";
-                toastService.error(errorMessage);
-            },
-        });
+    const { mutate: deleteSubCategory, isPending: isPendingDeleteSubCategory } = useMutation({
+        mutationFn: id => crudService.delete(`sub-category/delete-subcategory/${id}`, true),
+        onSuccess: data => {
+            queryClient.invalidateQueries("subCategoryList");
+            toastService.success(data?.message);
+        },
+        onError: error => {
+            const errorMessage = error?.response?.data?.message || error?.message || "An error occurred";
+            toastService.error(errorMessage);
+        },
+    });
 
     // toggle sub-category
     const toggleSubCategory = useMutation({
@@ -54,10 +46,7 @@ const SubCategoryList = () => {
             toastService.success(data?.message);
         },
         onError: error => {
-            const errorMessage =
-                error?.response?.data?.message ||
-                error?.message ||
-                "An error occurred";
+            const errorMessage = error?.response?.data?.message || error?.message || "An error occurred";
             toastService.error(errorMessage);
         },
     });
@@ -68,11 +57,7 @@ const SubCategoryList = () => {
         {
             accessorKey: "categoryName",
             header: "Category Name",
-            cell: ({ row }) => (
-                <p className="font-bold">
-                    {upperFirst(row.original.categoryName)}
-                </p>
-            ),
+            cell: ({ row }) => <p className="font-bold">{upperFirst(row.original.categoryName)}</p>,
         },
         { accessorKey: "subCategoryName", header: "Sub Category Name" },
         { accessorKey: "subCategorySlug", header: "Sub Category Slug" },
@@ -81,45 +66,25 @@ const SubCategoryList = () => {
             header: "Sub Category Image",
             cell: ({ row }) => (
                 <div className="w-flex flex justify-center">
-                    <img
-                        src={row.original?.subCategoryImage}
-                        className="min-w-28 max-w-28 min-h-20 max-h-20 object-center rounded-md"
-                        alt="Sub Category Image"
-                    />
+                    <img src={row.original?.subCategoryImage} className="min-w-28 max-w-28 min-h-20 max-h-20 object-center rounded-md" alt="Sub Category Image" />
                 </div>
             ),
         },
         {
             accessorKey: "isActive",
             header: "Active Status",
-            cell: ({ row }) => (
-                <Badge
-                    className={`${row.original?.isActive ? "Success" : "Secondary"} hover:pointer-events-none`}
-                    title={row.original?.isActive ? "Active" : "InActive"}
-                />
-            ),
+            cell: ({ row }) => <Badge className={`${row.original?.isActive ? "Success" : "Secondary"} hover:pointer-events-none`} title={row.original?.isActive ? "Active" : "InActive"} />,
         },
         {
             accessorKey: "updatedAt",
             header: "Date Time",
-            cell: ({ row }) => (
-                <p className="text-wrap">
-                    {formatDateTime(row.original?.updatedAt)}
-                </p>
-            ),
+            cell: ({ row }) => <p className="text-wrap">{formatDateTime(row.original?.updatedAt)}</p>,
         },
         {
             header: "Actions",
             cell: ({ row }) => (
                 <div className="flex gap-1 items-center flex-wrap">
-                    <Button
-                        className="Primary"
-                        onClick={() =>
-                            navigate(
-                                `/admin/sub-category/edit-category/${row.original._id}`
-                            )
-                        }
-                    >
+                    <Button className="Primary" onClick={() => navigate(`/admin/sub-category/edit-category/${row.original._id}`)}>
                         Edit
                     </Button>
                     |
@@ -128,9 +93,7 @@ const SubCategoryList = () => {
                         dialogTitle="Are You Sure You Want to Delete This Sub-Category?"
                         dialogDesc="This Action Will Permanently Delete The Sub-Category. Proceed?"
                         dialogActionTitle="Delete Sub-Category"
-                        dialogActionfn={() =>
-                            deleteSubCategory(row.original?._id)
-                        }
+                        dialogActionfn={() => deleteSubCategory(row.original?._id)}
                     />
                     |
                     {row.original.isActive ? (
@@ -168,26 +131,14 @@ const SubCategoryList = () => {
         },
     ];
 
-    const subCategoryData =
-        data?.data?.map((data, index) => ({ no: index + 1, ...data })) || [];
+    const subCategoryData = data?.data?.map((data, index) => ({ no: index + 1, ...data })) || [];
 
     if (isLoading) return <Loading />;
     if (isPendingDeleteSubCategory) return <LoadingOverlay />;
     return (
         <>
-            <PageHeader
-                title="Manage Sub-Category"
-                controller="Sub-Category"
-                controllerUrl="/admin/sub-category/"
-                page="Sub Category's List"
-            />
-            <Table
-                columns={subCategoryColumns}
-                data={subCategoryData}
-                paginationOptions={{ pageSize: 10 }}
-                sortable
-                loading={isLoading}
-            />
+            <PageHeader title="Manage Sub-Category" controller="Sub-Category" controllerUrl="/admin/sub-category/" page="Sub Category's List" />
+            <Table columns={subCategoryColumns} data={subCategoryData} paginationOptions={{ pageSize: 10 }} sortable loading={isLoading} />
         </>
     );
 };

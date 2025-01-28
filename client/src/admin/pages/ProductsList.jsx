@@ -23,17 +23,13 @@ const ProductsList = () => {
 
     // Delete Product
     const { mutate: deleteProduct, isPending: deleteIsPending } = useMutation({
-        mutationFn: productId =>
-            crudService.delete(`/product/delete-product/${productId}`, true),
+        mutationFn: productId => crudService.delete(`/product/delete-product/${productId}`, true),
         onSuccess: data => {
             queryClient.invalidateQueries("categoryList");
             toastService.success(data?.message);
         },
         onError: error => {
-            const errorMessage =
-                error?.response?.data?.message ||
-                error?.message ||
-                "An error occurred";
+            const errorMessage = error?.response?.data?.message || error?.message || "An error occurred";
             toastService.error(errorMessage);
         },
     });
@@ -47,9 +43,7 @@ const ProductsList = () => {
                 <div className="w-full flex flex-col gap-3">
                     <p>{upperFirst(row.original?.productName)}</p>
                     <div className="w-2/5">
-                        <Badge
-                            title={upperFirst(row.original?.productType)}
-                        ></Badge>
+                        <Badge title={upperFirst(row.original?.productType)}></Badge>
                     </div>
                 </div>
             ),
@@ -59,11 +53,7 @@ const ProductsList = () => {
             header: "Product Feature Image",
             cell: ({ row }) => (
                 <div className="w-full flex justify-center">
-                    <img
-                        src={row.original?.productFeatureImage}
-                        className="min-w-28 max-w-28 min-h-28 max-h-28 object-cover rounded-md"
-                        alt="Category Image"
-                    />
+                    <img src={row.original?.productFeatureImage} className="min-w-28 max-w-28 min-h-28 max-h-28 object-cover rounded-md" alt="Category Image" />
                 </div>
             ),
         },
@@ -80,24 +70,13 @@ const ProductsList = () => {
         {
             accessorKey: "updatedAt",
             header: "Date Time",
-            cell: ({ row }) => (
-                <p className="text-wrap">
-                    {formatDateTime(row.original?.updatedAt)}
-                </p>
-            ),
+            cell: ({ row }) => <p className="text-wrap">{formatDateTime(row.original?.updatedAt)}</p>,
         },
         {
             header: "Actions",
             cell: ({ row }) => (
                 <div className="flex gap-y-2 gap-x-0.5 items-center justify-center flex-wrap">
-                    <Button
-                        className="Primary"
-                        onClick={() =>
-                            navigate(
-                                `/admin/products/edit-product/${row.original._id}`
-                            )
-                        }
-                    >
+                    <Button className="Primary" onClick={() => navigate(`/admin/products/edit-product/${row.original._id}`)}>
                         Edit
                     </Button>
                     |
@@ -109,27 +88,13 @@ const ProductsList = () => {
                         dialogActionfn={() => deleteProduct(row.original?._id)}
                     />
                     |
-                    <Button
-                        className="Info"
-                        onClick={() =>
-                            navigate(
-                                `/admin/products/view-product/${row.original._id}`
-                            )
-                        }
-                    >
+                    <Button className="Info" onClick={() => navigate(`/admin/products/view-product/${row.original._id}`)}>
                         View
                     </Button>
                     {row.original.productType === "variable" && (
                         <>
                             |
-                            <Button
-                                onClick={() =>
-                                    navigate(
-                                        `/admin/products/variants/${row.original._id}`
-                                    )
-                                }
-                                className="Purple"
-                            >
+                            <Button onClick={() => navigate(`/admin/products/variants/${row.original._id}`)} className="Purple">
                                 Variant
                             </Button>
                         </>
@@ -138,26 +103,14 @@ const ProductsList = () => {
             ),
         },
     ];
-    const productData =
-        data?.data?.map((data, index) => ({ no: index + 1, ...data })) || [];
+    const productData = data?.data?.map((data, index) => ({ no: index + 1, ...data })) || [];
 
     if (isLoading) return <Loader />;
     if (deleteIsPending) return <LoadingOverlay />;
     return (
         <>
-            <PageHeader
-                title={"Manage Product"}
-                controller={"Product"}
-                controllerUrl={"/admin/products/products-list"}
-                page={"Product's List"}
-            />
-            <Table
-                columns={productColums}
-                data={productData}
-                paginationOptions={{ pageSize: 10 }}
-                sortable
-                loading={isLoading}
-            />
+            <PageHeader title={"Manage Product"} controller={"Product"} controllerUrl={"/admin/products/products-list"} page={"Product's List"} />
+            <Table columns={productColums} data={productData} paginationOptions={{ pageSize: 10 }} sortable loading={isLoading} />
         </>
     );
 };

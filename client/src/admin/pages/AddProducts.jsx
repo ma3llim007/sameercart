@@ -64,10 +64,7 @@ const AddProducts = () => {
         queryKey: ["subCategoryOptions", selectedCategory],
         queryFn: () => {
             if (selectedCategory) {
-                return crudService.get(
-                    `sub-category/get-subcategory-option/${selectedCategory}`,
-                    true
-                );
+                return crudService.get(`sub-category/get-subcategory-option/${selectedCategory}`, true);
             }
             return Promise.resolve([]);
         },
@@ -79,14 +76,11 @@ const AddProducts = () => {
     // add new product
     const { mutate, isPending } = useMutation({
         mutationFn: data => {
-            const { productDescription, productSpecification } =
-                data;
+            const { productDescription, productSpecification } = data;
 
             // Sanitize the productDescription and productSpecification
-            const sanitizeProductDescription =
-                DOMPurify.sanitize(productDescription);
-            const sanitizeProductSpecification =
-                DOMPurify.sanitize(productSpecification);
+            const sanitizeProductDescription = DOMPurify.sanitize(productDescription);
+            const sanitizeProductSpecification = DOMPurify.sanitize(productSpecification);
 
             // Create a new data object with sanitized content
             const sanitizedData = {
@@ -95,12 +89,7 @@ const AddProducts = () => {
                 productSpecification: sanitizeProductSpecification,
             };
 
-            return crudService.post(
-                "product/add-product",
-                true,
-                sanitizedData,
-                "multipart/form-data"
-            );
+            return crudService.post("product/add-product", true, sanitizedData, "multipart/form-data");
         },
         onSuccess: data => {
             navigate("/admin/products/products-list");
@@ -116,27 +105,14 @@ const AddProducts = () => {
     if (isPending) return <LoadingOverlay />;
     return (
         <>
-            <PageHeader
-                title={"Manage Products"}
-                controller={"Products"}
-                controllerUrl={"/admin/products/products-list"}
-                page={"Add Product's"}
-            />
+            <PageHeader title={"Manage Products"} controller={"Products"} controllerUrl={"/admin/products/products-list"} page={"Add Product's"} />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800">
-                    <form
-                        className="space-y-5"
-                        onSubmit={handleSubmit(data => mutate(data))}
-                        encType="multipart/form-data"
-                    >
-                        <h1 className="text-xl font-bold my-4 px-2">
-                            Add Products
-                        </h1>
+                    <form className="space-y-5" onSubmit={handleSubmit(data => mutate(data))} encType="multipart/form-data">
+                        <h1 className="text-xl font-bold my-4 px-2">Add Products</h1>
                         {errors.root && (
                             <div className="w-full my-4 bg-red-500 text-center rounded-md border border-red-600 py-3 px-4">
-                                <h4 className="text-white font-bold text-sm">
-                                    {errors.root.message}
-                                </h4>
+                                <h4 className="text-white font-bold text-sm">{errors.root.message}</h4>
                             </div>
                         )}
                         <div className="flex flex-wrap my-2">
@@ -182,15 +158,10 @@ const AddProducts = () => {
                                             {...register("productCategoryId")}
                                             onChange={e => {
                                                 field.onChange(e.target.value);
-                                                setSelectedCategory(
-                                                    e.target.value
-                                                );
+                                                setSelectedCategory(e.target.value);
                                             }}
                                             value={field.value}
-                                            error={
-                                                errors.productCategoryId
-                                                    ?.message
-                                            }
+                                            error={errors.productCategoryId?.message}
                                             className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                         />
                                     )}
@@ -225,15 +196,10 @@ const AddProducts = () => {
                                             disabled={isPending}
                                             accept=".jpg, .jpeg, .png, .gif, .svg, .webp"
                                             onChange={e => {
-                                                field.onChange(
-                                                    e.target.files[0]
-                                                );
+                                                field.onChange(e.target.files[0]);
                                             }}
                                             className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                            error={
-                                                errors.productFeatureImage
-                                                    ?.message
-                                            }
+                                            error={errors.productFeatureImage?.message}
                                         />
                                     )}
                                 />
@@ -272,9 +238,7 @@ const AddProducts = () => {
                                         placeholder="Enter The Product Discount Price"
                                         {...register("productDiscountPrice")}
                                         className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                        error={
-                                            errors.productDiscountPrice?.message
-                                        }
+                                        error={errors.productDiscountPrice?.message}
                                     />
                                 </div>
                             </div>
@@ -343,10 +307,7 @@ const AddProducts = () => {
                             </Suspense>
                         </div>
                         <div className="w-full border-t !mt-6">
-                            <Button
-                                disabled={isPending}
-                                className="Primary my-2 btnXl"
-                            >
+                            <Button disabled={isPending} className="Primary my-2 btnXl">
                                 {isPending ? (
                                     <Loading height="7" weight="7" />
                                 ) : (

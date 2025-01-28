@@ -47,17 +47,11 @@ const LogoutBtn = () => {
                 <AlertDialogContent className="bg-white dark:bg-slate-950">
                     <AlertDialogHeader>
                         <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            Are you sure you want to log out? This will end your
-                            current session.
-                        </AlertDialogDescription>
+                        <AlertDialogDescription>Are you sure you want to log out? This will end your current session.</AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                            className="Danger"
-                            onClick={logoutHandler}
-                        >
+                        <AlertDialogAction className="Danger" onClick={logoutHandler}>
                             Continue
                         </AlertDialogAction>
                     </AlertDialogFooter>

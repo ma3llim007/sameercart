@@ -4,17 +4,17 @@
 
 @layer base {
     :root {
-        --deep: #146CDA;
-        --blue: #0562D6;
-        --bgWhite: #FFFFFF;
-        --bgLightGray: #F9F9F9;
-        --bgLighterGray: #F7F7F7;
-        --textGray: #47494A;
-        --textDarkGray: #1D1D1D;
-        --textWhite: #FFFFFF;
+        --deep: #146cda;
+        --blue: #0562d6;
+        --bgWhite: #ffffff;
+        --bgLightGray: #f9f9f9;
+        --bgLighterGray: #f7f7f7;
+        --textGray: #47494a;
+        --textDarkGray: #1d1d1d;
+        --textWhite: #ffffff;
         --border: rgba(255, 255, 255, 0.1);
-        --shadow: rgba(51, 51, 51, 0.30);
-        --link: #146CDA;
+        --shadow: rgba(51, 51, 51, 0.3);
+        --link: #146cda;
         /* Existing Variables */
         --background: var(--bgWhite);
         --foreground: var(--textGray);
@@ -37,9 +37,9 @@
         --ring: var(--blue);
         --chart-1: var(--deep);
         --chart-2: var(--blue);
-        --chart-3: #FFB74D;
-        --chart-4: #4CAF50;
-        --chart-5: #F44336;
+        --chart-3: #ffb74d;
+        --chart-4: #4caf50;
+        --chart-5: #f44336;
         --radius: 0.5rem;
         --sidebar-background: 0 0% 98%;
         --sidebar-foreground: 240 5.3% 26.1%;
@@ -52,19 +52,19 @@
     }
 
     .dark {
-        --deep: #1E3A8A;
-        --dark: #1E40AF;
-        --light: #3B82F6;
-        --bgDark: #0F172A;
-        --bgGray: #1E293B;
+        --deep: #1e3a8a;
+        --dark: #1e40af;
+        --light: #3b82f6;
+        --bgDark: #0f172a;
+        --bgGray: #1e293b;
         --bgLightGray: #334155;
-        --textLightGray: #E5E7EB;
-        --textLight: #F8FAFC;
-        --textWhite: #FFFFFF;
+        --textLightGray: #e5e7eb;
+        --textLight: #f8fafc;
+        --textWhite: #ffffff;
         --border: rgba(255, 255, 255, 0.1);
         --shadow: rgba(51, 51, 51, 0.25);
-        --link: #3B82F6;
-        --hoverLink: #3B82F6;
+        --link: #3b82f6;
+        --hoverLink: #3b82f6;
         /* Existing Variables */
         --background: var(--bgDark);
         --foreground: var(--textLightGray);

@@ -53,29 +53,21 @@ const Categories = ({ categories }) => {
                                 <div className="flex flex-col gap-2">
                                     <Link to={`/sub-category/${category.categorySlug}`}>
                                         <h4 className="text-xl text-center font-bold mb-3 cursor-pointer no-underline hover:underline transition-all duration-300 delay-300 ease-in-out decoration-2">
-                                            {upperFirst(
-                                                category?.categoryName
-                                            )}
+                                            {upperFirst(category?.categoryName)}
                                         </h4>
                                     </Link>
                                     <ul className="text-base grid gap-2 text-light-textGray dark:text-dark-textLightGray">
-                                        {category?.subcategories.map(
-                                            subcategories => (
-                                                <Link
-                                                    to={`/${category.categorySlug}/${subcategories.subCategorySlug}/products`}
-                                                    className="text-base my-1 font-semibold text-center no-underline hover:underline transition-all duration-300 delay-300 ease-in-out decoration-2"
-                                                    key={subcategories._id}
-                                                >
-                                                    {upperFirst(
-                                                        subcategories.subCategoryName
-                                                    )}
-                                                </Link>
-                                            )
-                                        )}
+                                        {category?.subcategories.map(subcategories => (
+                                            <Link
+                                                to={`/${category.categorySlug}/${subcategories.subCategorySlug}/products`}
+                                                className="text-base my-1 font-semibold text-center no-underline hover:underline transition-all duration-300 delay-300 ease-in-out decoration-2"
+                                                key={subcategories._id}
+                                            >
+                                                {upperFirst(subcategories.subCategoryName)}
+                                            </Link>
+                                        ))}
                                     </ul>
-                                    <Button className="Primary uppercase">
-                                        View All
-                                    </Button>
+                                    <Button className="Primary uppercase">View All</Button>
                                 </div>
                             </div>
                         </SwiperSlide>

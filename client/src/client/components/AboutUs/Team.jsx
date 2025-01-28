@@ -19,13 +19,12 @@ const Team = () => {
             </div>
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-6 select-none">
                 {teams.map(team => (
-                    <div key={team?.id} className="w-full flex flex-col justify-center gap-5 bg-light-gray/50 dark:bg-dark-gray rounded-lg px-4 py-8 group overflow-hidden hover:cursor-pointer hover:shadow-2xl shadow-light-shadow dark:shadow-dark-shadow">
+                    <div
+                        key={team?.id}
+                        className="w-full flex flex-col justify-center gap-5 bg-light-gray/50 dark:bg-dark-gray rounded-lg px-4 py-8 group overflow-hidden hover:cursor-pointer hover:shadow-2xl shadow-light-shadow dark:shadow-dark-shadow"
+                    >
                         <div className="inline-flex justify-center">
-                        <img
-                            className="w-2/4 rounded-full h-auto object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out transform"
-                            src={team?.image}
-                            alt={team?.name}
-                        />
+                            <img className="w-2/4 rounded-full h-auto object-cover group-hover:scale-110 transition-transform duration-500 ease-in-out transform" src={team?.image} alt={team?.name} />
                         </div>
                         <div className="flex flex-col justify-center items-center space-y-3">
                             <h2 className="text-2xl font-bold">{team?.name}</h2>

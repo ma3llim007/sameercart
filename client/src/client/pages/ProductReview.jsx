@@ -1,12 +1,6 @@
 import { Banner, Container, Rating } from "../components";
 import bannerImage from "../assets/banner/basket_banner.webp";
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Input, TextArea } from "@/components";
@@ -41,36 +35,22 @@ const ProductReview = () => {
             </Banner>
             <Container>
                 <section className="w-4/5 mx-auto my-10">
-                    <h1 className="text-2xl lg:text-3xl font-bold my-2">
-                        Create Review
-                    </h1>
+                    <h1 className="text-2xl lg:text-3xl font-bold my-2">Create Review</h1>
                     <div className="flex flex-col gap-4 justify-center items-center flex-wrap md:flex-row md:justify-start my-5">
                         <div className="w-20 h-20 lg:w-36 lg:h-36">
-                            <img
-                                src="https://m.media-amazon.com/images/I/31IgULr1cEL._SR240,240_.jpg"
-                                alt="Product Image"
-                                className="w-full h-auto object-cover rounded"
-                            />
+                            <img src="https://m.media-amazon.com/images/I/31IgULr1cEL._SR240,240_.jpg" alt="Product Image" className="w-full h-auto object-cover rounded" />
                         </div>
                         <h2 className="text-xl font-semibold">Product Name</h2>
                     </div>
                     <hr className="my-4 border-gray-400 dark:border-gray-700" />
                     <form className="space-y-5">
                         <div className="space-y-4">
-                            <h2 className="text-xl font-bold">
-                                Overall Rating
-                            </h2>
-                            <Rating
-                                rating={rating}
-                                onRatingChange={handleRatingChange}
-                                size={"text-3xl"}
-                            />
+                            <h2 className="text-xl font-bold">Overall Rating</h2>
+                            <Rating rating={rating} onRatingChange={handleRatingChange} size={"text-3xl"} />
                         </div>
                         <hr className="my-4 border-gray-400 dark:border-gray-700" />
                         <div className="space-y-4">
-                            <h2 className="text-xl font-bold">
-                                Add a headline
-                            </h2>
+                            <h2 className="text-xl font-bold">Add a headline</h2>
                             <div className="w-full">
                                 <Input
                                     placeholder="What's most important to know?"
@@ -83,9 +63,7 @@ const ProductReview = () => {
                         </div>
                         <hr className="my-4 border-gray-400 dark:border-gray-700" />
                         <div className="space-y-4">
-                            <h2 className="text-xl font-bold">
-                                Add a written review
-                            </h2>
+                            <h2 className="text-xl font-bold">Add a written review</h2>
                             <div className="w-full">
                                 <TextArea
                                     placeholder="What did you like or dislike? What did you use the product for?"
@@ -99,17 +77,11 @@ const ProductReview = () => {
                                     //     "productShortDescription"
                                     // )}
                                 />
-                                <p className="my-2">
-                                    We will notify you via email as soon as your
-                                    review is processed.
-                                </p>
+                                <p className="my-2">We will notify you via email as soon as your review is processed.</p>
                             </div>
                         </div>
                         <div className="w-full border-t">
-                            <Button
-                                disabled={isPending}
-                                className="Primary mt-4 btnXl"
-                            >
+                            <Button disabled={isPending} className="Primary mt-4 btnXl">
                                 {isPending ? (
                                     <Loading height="7" weight="7" />
                                 ) : (

@@ -171,6 +171,11 @@ const productListing = asyncHandler(async (req, res) => {
                     updatedAt: 1,
                 },
             },
+            {
+                $sort: {
+                    updatedAt: -1,
+                },
+            },
         ]);
         return res.status(200).json(new ApiResponse(200, products, "Products Fetch Successfully"));
     } catch (error) {

@@ -1,15 +1,6 @@
 import slider1 from "../assets/sliders/slider1.webp";
 import slider2 from "../assets/sliders/slider2.webp";
-import {
-    Categories,
-    Container,
-    HomeBanner,
-    HomeBlog,
-    IconSection,
-    InfoCardSection,
-    ProductsSection,
-    Slider,
-} from "../components";
+import { Categories, Container, HomeBanner, HomeBlog, IconSection, InfoCardSection, ProductsSection, Slider } from "../components";
 import { useQuery } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";

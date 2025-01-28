@@ -176,11 +176,7 @@ const EditSubCategory = () => {
                             <div className="w-full md:w-1/2 px-2">
                                 <div className="w-full">
                                     <label className="inline-block mb-2 pl-1 text-base font-bold">Previous Image</label>
-                                    <img
-                                        src={subCategoryData?.data[0]?.subCategoryImage}
-                                        className="max-w-60 max-h-40 object-cover rounded"
-                                        alt="Previous Category"
-                                    />
+                                    <img src={subCategoryData?.data[0]?.subCategoryImage} className="max-w-60 max-h-40 object-cover rounded" alt="Previous Category" />
                                 </div>
                             </div>
                         </div>

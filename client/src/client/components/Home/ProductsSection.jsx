@@ -1,13 +1,7 @@
 import { productsData } from "@/client/data/products";
 import { Button } from "@/components/ui/button";
 import { useMemo, useRef } from "react";
-import {
-    FaArrowAltCircleLeft,
-    FaArrowAltCircleRight,
-    FaHeart,
-    FaCartPlus,
-    FaEye,
-} from "react-icons/fa";
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight, FaHeart, FaCartPlus, FaEye } from "react-icons/fa";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Rating from "../Rating";
@@ -55,24 +49,13 @@ const ProductsSection = ({ title = "Featured Products" }) => {
                                     alt={product?.product_title}
                                     className="w-full h-80 object-cover rounded-lg mb-4 overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105"
                                 />
-                                <span className="absolute text-white top-1 left-1 bg-light-blue px-1 leading-5 capitalize font-bold rounded-md text-[12px]">
-                                    New
-                                </span>
+                                <span className="absolute text-white top-1 left-1 bg-light-blue px-1 leading-5 capitalize font-bold rounded-md text-[12px]">New</span>
                             </div>
                             <div className="flex flex-col gap-3">
-                                <h3 className="text-xl font-semibold mb-2 whitespace-nowrap truncate text-light-blue dark:text-dark-light">
-                                    {product?.product_title}
-                                </h3>
-                                <h4 className="text-light-textGray dark:text-dark-textWhite text-base dark:opacity-60">
-                                    {product?.product_short_description}
-                                </h4>
-                                <Rating
-                                    size={"text-base"}
-                                    rating={product?.product_star}
-                                />
-                                <p className="font-bold text-lg leading-6">
-                                    ${product?.product_price}
-                                </p>
+                                <h3 className="text-xl font-semibold mb-2 whitespace-nowrap truncate text-light-blue dark:text-dark-light">{product?.product_title}</h3>
+                                <h4 className="text-light-textGray dark:text-dark-textWhite text-base dark:opacity-60">{product?.product_short_description}</h4>
+                                <Rating size={"text-base"} rating={product?.product_star} />
+                                <p className="font-bold text-lg leading-6">${product?.product_price}</p>
                             </div>
                             <div className="relative flex justify-center">
                                 <motion.div
@@ -85,22 +68,13 @@ const ProductsSection = ({ title = "Featured Products" }) => {
                                     }}
                                     className="hidden group-hover:flex flex-wrap justify-center items-center absolute bottom-0 left-0 bg-light-bgLighterGray dark:bg-dark-bgDark p-2 rounded-md gap-4 max-w-max"
                                 >
-                                    <Button
-                                        className="text-base Primary"
-                                        title="Add To Cart"
-                                    >
+                                    <Button className="text-base Primary" title="Add To Cart">
                                         <FaCartPlus />
                                     </Button>
-                                    <Button
-                                        className="text-base Primary"
-                                        title="Add To Wishlist"
-                                    >
+                                    <Button className="text-base Primary" title="Add To Wishlist">
                                         <FaHeart />
                                     </Button>
-                                    <Button
-                                        className="text-base Primary"
-                                        title="View Product"
-                                    >
+                                    <Button className="text-base Primary" title="View Product">
                                         <FaEye />
                                     </Button>
                                 </motion.div>

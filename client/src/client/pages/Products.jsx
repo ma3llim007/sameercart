@@ -1,10 +1,4 @@
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Banner, Container } from "../components";
 import { Link, useParams } from "react-router-dom";
 import bannerImage from "../assets/banner/basket_banner.webp";
@@ -22,25 +16,20 @@ import { motion } from "framer-motion";
 import Loader from "../components/Loader/Loader";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/features/home/cartSlice";
+import { addToWishList } from "@/features/home/wishlistSlice";
 
 const Products = () => {
     const { categorySlug, subCategorySlug } = useParams();
-    const subCategory = subCategorySlug
-        ? slugToText(subCategorySlug)
-        : "Unknown Sub-Category";
+    const subCategory = subCategorySlug ? slugToText(subCategorySlug) : "Unknown Sub-Category";
     const [page, setPage] = useState(1);
     const limit = 9;
     useTopScroll({ topPosition: 300, page });
     const dispatch = useDispatch();
 
-
     // Fetching Products
     const { data, isLoading } = useQuery({
         queryKey: ["products", subCategorySlug, page, limit],
-        queryFn: () =>
-            crudService.get(
-                `/products/all-products/?categorySlug=${categorySlug}&subCategorySlug=${subCategorySlug}&page=${page}&limit=${limit}`
-            ),
+        queryFn: () => crudService.get(`/products/all-products/?categorySlug=${categorySlug}&subCategorySlug=${subCategorySlug}&page=${page}&limit=${limit}`),
         onError: error => {
             const message = error?.response?.data?.message || error?.message;
             toastService.error(message || "Failed to fetch Data.");
@@ -53,6 +42,7 @@ const Products = () => {
     const handleAddToCart = data => {
         dispatch(addToCart(data));
     };
+
     if (isLoading) return <Loader />;
     return (
         <>
@@ -68,9 +58,7 @@ const Products = () => {
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbPage>
-                                {capitalizeWords(subCategory)}
-                            </BreadcrumbPage>
+                            <BreadcrumbPage>{capitalizeWords(subCategory)}</BreadcrumbPage>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
@@ -82,13 +70,9 @@ const Products = () => {
             {!products?.length > 0 ? (
                 <Container>
                     <section className="w-full h-full flex flex-col justify-center items-center leading-10 py-20 px-5 text-center">
-                        <h1 className="font-extrabold text-4xl mb-1">
-                            Product Are Not Avaiable
-                        </h1>
+                        <h1 className="font-extrabold text-4xl mb-1">Product Are Not Avaiable</h1>
                         <Link to={"/"}>
-                            <Button className="Primary btnXl">
-                                Back To Home
-                            </Button>
+                            <Button className="Primary btnXl">Back To Home</Button>
                         </Link>
                     </section>
                 </Container>
@@ -96,9 +80,7 @@ const Products = () => {
                 <Container>
                     <section className="w-full my-5">
                         <div className="w-full text-center mx-auto">
-                            <h1 className="text-3xl md:text-4xl  text-light-deep dark:text-dark-light font-bold underline decoration-4">
-                                Products
-                            </h1>
+                            <h1 className="text-3xl md:text-4xl  text-light-deep dark:text-dark-light font-bold underline decoration-4">Products</h1>
                         </div>
                         <div className="grid grid-cols-1 justify-items-center items-center py-6 px-3 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3">
                             {products?.map(product => (
@@ -112,58 +94,29 @@ const Products = () => {
                                         alt={product.productName}
                                         className="w-4/5 h-60 object-contain rounded group-hover:scale-105 transition-all duration-300 ease-in-out transform"
                                     />
-                                    <Link
-                                        to={`/product-details/${product?.productSlug}`}
-                                    >
-                                        <h4 className="text-lg text-center font-bold text-light-deep dark:text-dark-light line-clamp-1">
-                                            {capitalizeWords(
-                                                product.productName
-                                            )}
-                                        </h4>
+                                    <Link to={`/product-details/${product?.productSlug}`}>
+                                        <h4 className="text-lg text-center font-bold text-light-deep dark:text-dark-light line-clamp-1">{capitalizeWords(product.productName)}</h4>
                                     </Link>
-                                    <Link
-                                        to={`/product-details/${product?.productSlug}`}
-                                    >
-                                        <p className="text-light-textGray dark:text-dark-textWhite text-base text-center line-clamp-2">
-                                            {upperFirst(
-                                                product?.productShortDescription
-                                            )}
-                                        </p>
+                                    <Link to={`/product-details/${product?.productSlug}`}>
+                                        <p className="text-light-textGray dark:text-dark-textWhite text-base text-center line-clamp-2">{upperFirst(product?.productShortDescription)}</p>
                                     </Link>
                                     <div>
-                                        <Rating
-                                            size={"text-base"}
-                                            rating={
-                                                product?.ratings
-                                                    .averageRating || 3
-                                            }
-                                        />
+                                        <Rating size={"text-base"} rating={product?.ratings.averageRating || 3} />
                                     </div>
                                     {product?.productType === "simple" && (
                                         <div className="w-full flex flex-col items-center gap-1 select-none">
                                             <p className="text-xl font-bold flex items-center gap-1">
                                                 <FaRupeeSign size={18} />
-                                                {formatNumberWithCommas(
-                                                    product?.productDiscountPrice
-                                                )}
+                                                {formatNumberWithCommas(product?.productDiscountPrice)}
                                             </p>
                                             <div className="flex items-center gap-2">
                                                 <p className="text-sm text-gray-700 line-through flex items-center gap-1 dark:text-gray-300">
                                                     <FaRupeeSign size={14} />
-                                                    {formatNumberWithCommas(
-                                                        product?.basePrice
-                                                    )}
+                                                    {formatNumberWithCommas(product?.basePrice)}
                                                 </p>
-                                                {product?.basePrice >
-                                                    product?.productDiscountPrice && (
+                                                {product?.basePrice > product?.productDiscountPrice && (
                                                     <p className="text-sm font-semibold text-red-600">
-                                                        {Math.round(
-                                                            ((product?.basePrice -
-                                                                product?.productDiscountPrice) /
-                                                                product?.basePrice) *
-                                                                100
-                                                        )}
-                                                        % Off
+                                                        {Math.round(((product?.basePrice - product?.productDiscountPrice) / product?.basePrice) * 100)}% Off
                                                     </p>
                                                 )}
                                             </div>
@@ -180,17 +133,12 @@ const Products = () => {
                                         className="flex justify-center items-center bg-light-bgLighterGray dark:bg-dark-bgDark p-2 gap-2 rounded-md max-w-max"
                                     >
                                         <Button
-                                            disabled={
-                                                product?.productType ===
-                                                "simple"
-                                                    ? false
-                                                    : true
-                                            }
+                                            disabled={product?.productType === "simple" ? false : true}
                                             onClick={() => {
                                                 handleAddToCart({
                                                     id: product?._id,
                                                     name: product?.productName,
-                                                    price: product?.basePrice,
+                                                    price: product?.productDiscountPrice,
                                                     quantity: 1,
                                                     image: product?.productFeatureImage,
                                                 });
@@ -201,24 +149,25 @@ const Products = () => {
                                             <FaCartPlus /> Add To Cart
                                         </Button>
                                         <Button
-                                            disabled={
-                                                product?.productType ===
-                                                "simple"
-                                                    ? false
-                                                    : true
-                                            }
+                                            disabled={product?.productType === "simple" ? false : true}
+                                            onClick={() => {
+                                                dispatch(
+                                                    addToWishList({
+                                                        id: product?._id,
+                                                        name: product?.productName,
+                                                        price: product?.productDiscountPrice,
+                                                        slug: product?.productSlug,
+                                                        image: product?.productFeatureImage,
+                                                    })
+                                                );
+                                            }}
                                             className="text-base Primary"
                                             title="Add To Wishlist"
                                         >
                                             <FaHeart />
                                         </Button>
-                                        <Link
-                                            to={`/product-details/${product?.productSlug}`}
-                                        >
-                                            <Button
-                                                className="text-base Primary"
-                                                title="View Product"
-                                            >
+                                        <Link to={`/product-details/${product?.productSlug}`}>
+                                            <Button className="text-base Primary" title="View Product">
                                                 <FaEye />
                                             </Button>
                                         </Link>
@@ -228,25 +177,13 @@ const Products = () => {
                         </div>
                         <div className="w-full flex flex-col items-center gap-6 justify-between mt-6 py-4 border-t border-gray-400">
                             <h5 className="text-center text-lg font-medium">
-                                You Are Currently Viewing{" "}
-                                <strong>Page: {pageNumber}</strong> Out Of{" "}
-                                <strong>{totalPages}</strong> Pages.
+                                You Are Currently Viewing <strong>Page: {pageNumber}</strong> Out Of <strong>{totalPages}</strong> Pages.
                             </h5>
                             <div className="flex gap-4">
-                                <Button
-                                    onClick={() => setPage(page - 1)}
-                                    disabled={page === 1}
-                                    className="btnXl"
-                                    variant="outline"
-                                >
+                                <Button onClick={() => setPage(page - 1)} disabled={page === 1} className="btnXl" variant="outline">
                                     Previous
                                 </Button>
-                                <Button
-                                    onClick={() => setPage(page + 1)}
-                                    className="btnXl"
-                                    variant="outline"
-                                    disabled={page === totalPages}
-                                >
+                                <Button onClick={() => setPage(page + 1)} className="btnXl" variant="outline" disabled={page === totalPages}>
                                     Next
                                 </Button>
                             </div>

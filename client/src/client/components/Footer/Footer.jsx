@@ -13,9 +13,7 @@ const Footer = () => {
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-16 lg:grid-cols-4 lg:gap-1 xl:gap-0">
                     <div className="w-4/5">
                         <h4 className="font-bold text-xl mb-2 uppercase lg:text-base">about us</h4>
-                        <p className="mb-4 leading-7 lg:leading-7 lg:text-base">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti deleniti cupiditate a.
-                        </p>
+                        <p className="mb-4 leading-7 lg:leading-7 lg:text-base">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti deleniti cupiditate a.</p>
                         <div className="flex items-start gap-2">
                             <FiPhoneCall className="text-4xl lg:text-3xl" />
                             <div className="flex flex-col gap-1">
@@ -73,9 +71,7 @@ const Footer = () => {
                     </div>
                     <div>
                         <h4 className="font-bold text-xl mb-2 uppercase lg:text-base">NEWSLETTER</h4>
-                        <p className="leading-7">
-                            You may unsubscribe at any moment. For that purpose, please find our contact info in the legal notice.
-                        </p>
+                        <p className="leading-7">You may unsubscribe at any moment. For that purpose, please find our contact info in the legal notice.</p>
                         <div className="relative w-full mt-2 overflow-hidden">
                             <input
                                 type="email"
@@ -83,10 +79,7 @@ const Footer = () => {
                                 placeholder="Enter Your Email Here"
                                 required
                             />
-                            <button
-                                type="submit"
-                                className="absolute top-0 end-0 p-3 font-medium text-light-textWhite bg-light-textDarkGray dark:bg-dark-bgDark rounded-e-lg"
-                            >
+                            <button type="submit" className="absolute top-0 end-0 p-3 font-medium text-light-textWhite bg-light-textDarkGray dark:bg-dark-bgDark rounded-e-lg">
                                 SIGN UP
                             </button>
                         </div>

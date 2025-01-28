@@ -30,8 +30,8 @@ const SecurePayment = () => {
                 <section className="w-full mb-5 mt-10 px-4 py-4">
                     <h1 className="text-3xl font-bold text-light-blue dark:text-dark-light">Secure Payment</h1>
                     <p className="text-lg">
-                        At <span className="font-bold">SameerCart</span>, we take your security seriously. Our secure payment systems and
-                        industry-leading encryption ensure that your personal information stays safe throughout the transaction process.
+                        At <span className="font-bold">SameerCart</span>, we take your security seriously. Our secure payment systems and industry-leading encryption ensure that your personal
+                        information stays safe throughout the transaction process.
                     </p>
                 </section>
                 <section className="w-full my-5 px-4 py-2">
@@ -40,29 +40,27 @@ const SecurePayment = () => {
                         <li className="flex items-center gap-2 text-lg">
                             <MdOutlineDoubleArrow className="text-2xl" />
                             <p>
-                                <strong className="mr-2">SSL Encryption:</strong>We use Secure Socket Layer (SSL) technology to encrypt your sensitive
-                                information, including payment details, ensuring they cannot be intercepted during transmission.
+                                <strong className="mr-2">SSL Encryption:</strong>We use Secure Socket Layer (SSL) technology to encrypt your sensitive information, including payment details, ensuring
+                                they cannot be intercepted during transmission.
                             </p>
                         </li>
                         <li className="flex items-center gap-2">
                             <MdOutlineDoubleArrow className="text-2xl" />
                             <p>
-                                <strong className="mr-2">PCI-DSS Compliance:</strong>We comply with industry standards for the protection of your
-                                data. Your credit card information is never stored on our servers.
+                                <strong className="mr-2">PCI-DSS Compliance:</strong>We comply with industry standards for the protection of your data. Your credit card information is never stored on
+                                our servers.
                             </p>
                         </li>
                         <li className="flex items-center gap-2">
                             <MdOutlineDoubleArrow className="text-2xl" />
                             <p>
-                                <strong className="mr-2">Trusted Payment Gateways:</strong>We work with top-tier payment processors like PayPal and
-                                Stripe to guarantee secure transactions.
+                                <strong className="mr-2">Trusted Payment Gateways:</strong>We work with top-tier payment processors like PayPal and Stripe to guarantee secure transactions.
                             </p>
                         </li>
                         <li className="flex items-center gap-2">
                             <MdOutlineDoubleArrow className="text-2xl" />
                             <p>
-                                <strong className="mr-2">Fraud Detection:</strong>Our systems automatically monitor and flag suspicious activities,
-                                preventing fraud and unauthorized transactions.
+                                <strong className="mr-2">Fraud Detection:</strong>Our systems automatically monitor and flag suspicious activities, preventing fraud and unauthorized transactions.
                             </p>
                         </li>
                     </ul>

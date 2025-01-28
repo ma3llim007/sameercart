@@ -23,12 +23,7 @@ const Model = ({ isOpen, onClose, title, children, disabled }) => {
             <div className="bg-light-bgWhite text-light-textDarkGray dark:bg-dark-bgDark dark:text-dark-textWhite rounded-xl shadow-2xl w-11/12 max-w-lg transform transition-all scale-100 md:scale-105">
                 <div className="flex justify-between items-center border-b px-6 py-1">
                     <h2 className="text-xl font-bold">{title}</h2>
-                    <Button
-                        onClick={onClose}
-                        className="p-2"
-                        aria-label="Close"
-                        disabled={disabled}
-                    >
+                    <Button onClick={onClose} className="p-2" aria-label="Close" disabled={disabled}>
                         <FaTimes size={25} />
                     </Button>
                 </div>

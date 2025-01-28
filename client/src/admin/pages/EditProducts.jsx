@@ -1,12 +1,5 @@
 import { Suspense, useEffect, useState } from "react";
-import {
-    ErrorMessage,
-    Input,
-    Loading,
-    PageHeader,
-    Select,
-    TextArea,
-} from "../components";
+import { ErrorMessage, Input, Loading, PageHeader, Select, TextArea } from "../components";
 import { Controller, useForm } from "react-hook-form";
 import RichTextEditor from "../../components/Form/RichTextEditor";
 import Loader from "@/client/components/Loader/Loader";
@@ -47,8 +40,7 @@ const EditProducts = () => {
         isError: productError,
     } = useQuery({
         queryKey: ["product", productId],
-        queryFn: () =>
-            crudService.get(`product/get-product/${productId}`, true),
+        queryFn: () => crudService.get(`product/get-product/${productId}`, true),
         onError: err => {
             toastService.error(err?.message || "Failed to fetch Data.");
         },
@@ -59,9 +51,7 @@ const EditProducts = () => {
         queryKey: ["categoryOptions"],
         queryFn: () => crudService.get("category/options-category", true),
         onError: err => {
-            toastService.error(
-                err?.message || "Failed to fetch Category Options."
-            );
+            toastService.error(err?.message || "Failed to fetch Category Options.");
         },
     });
 
@@ -70,10 +60,7 @@ const EditProducts = () => {
         queryKey: ["subCategoryOptions", selectedCategory],
         queryFn: () => {
             if (selectedCategory) {
-                return crudService.get(
-                    `sub-category/get-subcategory-option/${selectedCategory}`,
-                    true
-                );
+                return crudService.get(`sub-category/get-subcategory-option/${selectedCategory}`, true);
             }
             return Promise.resolve([]);
         },
@@ -138,21 +125,14 @@ const EditProducts = () => {
     useEffect(() => {
         if (selectedCategory) {
             if (productData?.data?.productSubCategory?.subCategoryId) {
-                setValue(
-                    "productSubCategoryId",
-                    productData.data.productSubCategory.subCategoryId
-                );
+                setValue("productSubCategoryId", productData.data.productSubCategory.subCategoryId);
             } else {
                 setValue("productSubCategoryId", "");
             }
         } else {
             setValue("productSubCategoryId", "");
         }
-    }, [
-        selectedCategory,
-        productData?.data?.productSubCategory?.subCategoryId,
-        setValue,
-    ]);
+    }, [selectedCategory, productData?.data?.productSubCategory?.subCategoryId, setValue]);
     const productType = productData?.data?.productType;
 
     // Update the Data
@@ -163,42 +143,21 @@ const EditProducts = () => {
             formData.append("productSlug", data?.productSlug);
             formData.append("productCategoryId", data?.productCategoryId);
             formData.append("productSubCategoryId", data?.productSubCategoryId);
-            if (data?.productFeatureImage)
-                formData.append(
-                    "productFeatureImage",
-                    data?.productFeatureImage
-                );
+            if (data?.productFeatureImage) formData.append("productFeatureImage", data?.productFeatureImage);
             if (data?.basePrice) {
                 formData.append("basePrice", data?.basePrice);
             }
             if (data?.productDiscountPrice) {
-                formData.append(
-                    "productDiscountPrice",
-                    data?.productDiscountPrice
-                );
+                formData.append("productDiscountPrice", data?.productDiscountPrice);
             }
             formData.append("productStock", data?.productStock);
             formData.append("productBrand", data?.productBrand);
-            formData.append(
-                "productShortDescription",
-                data?.productShortDescription
-            );
-            formData.append(
-                "productDescription",
-                DOMPurify.sanitize(data?.productDescription)
-            );
-            formData.append(
-                "productSpecification",
-                DOMPurify.sanitize(data?.productSpecification)
-            );
+            formData.append("productShortDescription", data?.productShortDescription);
+            formData.append("productDescription", DOMPurify.sanitize(data?.productDescription));
+            formData.append("productSpecification", DOMPurify.sanitize(data?.productSpecification));
             formData.append("productId", productId);
 
-            return crudService.patch(
-                "/product/edit-product",
-                true,
-                formData,
-                "multipart/form-data"
-            );
+            return crudService.patch("/product/edit-product", true, formData, "multipart/form-data");
         },
         onSuccess: data => {
             navigate("/admin/products/products-list");
@@ -214,11 +173,7 @@ const EditProducts = () => {
     });
 
     if (productError || categoryError || subcategoryError) {
-        return (
-            <ErrorMessage
-                message={"Error Loading Data. Please Try Again Later."}
-            />
-        );
+        return <ErrorMessage message={"Error Loading Data. Please Try Again Later."} />;
     }
 
     if (isPending) {
@@ -226,27 +181,14 @@ const EditProducts = () => {
     }
     return (
         <>
-            <PageHeader
-                title={"Manage Products"}
-                controller={"Products"}
-                controllerUrl={"/admin/products/products-list"}
-                page={"Edit Product's"}
-            />
+            <PageHeader title={"Manage Products"} controller={"Products"} controllerUrl={"/admin/products/products-list"} page={"Edit Product's"} />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800">
-                    <form
-                        className="space-y-5"
-                        onSubmit={handleSubmit(data => mutate(data))}
-                        encType="multipart/form-data"
-                    >
-                        <h1 className="text-xl font-bold my-4 px-2">
-                            Edit Products
-                        </h1>
+                    <form className="space-y-5" onSubmit={handleSubmit(data => mutate(data))} encType="multipart/form-data">
+                        <h1 className="text-xl font-bold my-4 px-2">Edit Products</h1>
                         {errors.root && (
                             <div className="w-full my-4 bg-red-500 text-center rounded-md border border-red-600 py-3 px-4">
-                                <h4 className="text-white font-bold text-sm">
-                                    {errors.root.message}
-                                </h4>
+                                <h4 className="text-white font-bold text-sm">{errors.root.message}</h4>
                             </div>
                         )}
                         <div className="flex flex-wrap my-2">
@@ -291,14 +233,9 @@ const EditProducts = () => {
                                             {...register("productCategoryId")}
                                             onChange={e => {
                                                 field.onChange(e.target.value);
-                                                setSelectedCategory(
-                                                    e.target.value
-                                                );
+                                                setSelectedCategory(e.target.value);
                                             }}
-                                            error={
-                                                errors.productCategoryId
-                                                    ?.message
-                                            }
+                                            error={errors.productCategoryId?.message}
                                             className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                         />
                                     )}
@@ -314,10 +251,7 @@ const EditProducts = () => {
                                     disabled={isPending}
                                     {...register("productSubCategoryId")}
                                     error={errors.productSubCategoryId?.message}
-                                    defaultValue={
-                                        productData?.data.productSubCategory
-                                            .subCategoryId || ""
-                                    }
+                                    defaultValue={productData?.data.productSubCategory.subCategoryId || ""}
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                 />
                             </div>
@@ -336,32 +270,18 @@ const EditProducts = () => {
                                             disabled={isPending}
                                             accept=".jpg, .jpeg, .png, .gif, .svg, .webp"
                                             onChange={e => {
-                                                field.onChange(
-                                                    e.target.files[0]
-                                                );
+                                                field.onChange(e.target.files[0]);
                                             }}
                                             className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                            error={
-                                                errors.productFeatureImage
-                                                    ?.message
-                                            }
+                                            error={errors.productFeatureImage?.message}
                                         />
                                     )}
                                 />
                             </div>
                             <div className="w-full lg:w-1/2 px-2">
                                 <div className="w-full">
-                                    <label className="inline-block mb-2 pl-1 text-base font-bold">
-                                        Product Previous Image
-                                    </label>
-                                    <img
-                                        src={
-                                            productData?.data
-                                                .productFeatureImage
-                                        }
-                                        className="max-w-96 max-h-80 object-cover rounded"
-                                        alt="Previous Category"
-                                    />
+                                    <label className="inline-block mb-2 pl-1 text-base font-bold">Product Previous Image</label>
+                                    <img src={productData?.data.productFeatureImage} className="max-w-96 max-h-80 object-cover rounded" alt="Previous Category" />
                                 </div>
                             </div>
                         </div>
@@ -375,9 +295,7 @@ const EditProducts = () => {
                                     readOnly
                                     disabled
                                     {...register("productType")}
-                                    defaultValue={
-                                        productData?.data?.productType
-                                    }
+                                    defaultValue={productData?.data?.productType}
                                     name="productType"
                                     error={errors.productType?.message}
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
@@ -403,9 +321,7 @@ const EditProducts = () => {
                                         disabled={isPending}
                                         {...register("productDiscountPrice")}
                                         className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                        error={
-                                            errors.productDiscountPrice?.message
-                                        }
+                                        error={errors.productDiscountPrice?.message}
                                     />
                                 </div>
                             </div>
@@ -475,10 +391,7 @@ const EditProducts = () => {
                             </Suspense>
                         </div>
                         <div className="w-full border-t !mt-6">
-                            <Button
-                                disabled={isPending}
-                                className="Primary my-2 btnXl"
-                            >
+                            <Button disabled={isPending} className="Primary my-2 btnXl">
                                 {isPending ? (
                                     <Loading height="7" weight="7" />
                                 ) : (

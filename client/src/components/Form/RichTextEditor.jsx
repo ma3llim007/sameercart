@@ -30,8 +30,7 @@ const baseTinyMceConfig = {
     ],
     toolbar:
         "undo redo | formatselect | fontsizeselect | fontselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | blockquote subscript superscript | link unlink anchor | codesample table emoticons | hr pagebreak charmap | fullscreen preview removeformat | styleselect searchreplace insertdatetime media image help",
-    quickbars_selection_toolbar:
-        "bold italic underline strikethrough | quicklink h1 h2 h3 h4 h5 h6 blockquote",
+    quickbars_selection_toolbar: "bold italic underline strikethrough | quicklink h1 h2 h3 h4 h5 h6 blockquote",
     content_style: "body { font-size:20px; }",
     autosave_interval: "30s",
     autosave_retention: "2m",
@@ -42,8 +41,7 @@ const baseTinyMceConfig = {
     menubar: "file edit view insert format tools table help",
     toolbar_mode: "wrap",
     fontsize_formats: "12pt 14pt 16pt 18pt 24pt 36pt 48pt",
-    block_formats:
-        "Paragraph=p; Heading 1=h1; Heading 2=h2; Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6; Code=pre",
+    block_formats: "Paragraph=p; Heading 1=h1; Heading 2=h2; Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6; Code=pre",
     end_container_on_empty_block: true,
     link_context_toolbar: true,
     table_advtab: true,
@@ -53,17 +51,7 @@ const baseTinyMceConfig = {
 };
 
 const RichTextEditor = forwardRef(function RichTextEditor(
-    {
-        name = "Description",
-        control,
-        defaultValue = "",
-        placeholder = "",
-        label = "",
-        className = "",
-        error = null,
-        tinymceConfig = {},
-        ...props
-    },
+    { name = "Description", control, defaultValue = "", placeholder = "", label = "", className = "", error = null, tinymceConfig = {}, ...props },
     ref
 ) {
     const id = useId();
@@ -83,10 +71,7 @@ const RichTextEditor = forwardRef(function RichTextEditor(
                 control={control}
                 defaultValue={defaultValue}
                 placeholder={placeholder}
-                render={({
-                    field: { onChange, value },
-                    fieldState: { error: fieldError },
-                }) => (
+                render={({ field: { onChange, value }, fieldState: { error: fieldError } }) => (
                     <div className="w-full">
                         <div className="mb-2">
                             <Editor
@@ -102,11 +87,7 @@ const RichTextEditor = forwardRef(function RichTextEditor(
                                 }}
                             />
                         </div>
-                        {(error || fieldError) && (
-                            <p className="text-red-700 font-bold my-2 text-base px-2">
-                                {error || fieldError?.message}
-                            </p>
-                        )}
+                        {(error || fieldError) && <p className="text-red-700 font-bold my-2 text-base px-2">{error || fieldError?.message}</p>}
                     </div>
                 )}
             />

@@ -13,9 +13,7 @@ const Slider = ({ sliderData }) => {
     }, [sliders.length]);
 
     const prevSlide = useCallback(() => {
-        setCurrentIndex(
-            preValue => (preValue - 1 + sliders.length) % sliderData.length
-        );
+        setCurrentIndex(preValue => (preValue - 1 + sliders.length) % sliderData.length);
     }, [sliders.length, sliderData.length]);
 
     return (
@@ -32,11 +30,7 @@ const Slider = ({ sliderData }) => {
                             transition={{ duration: 0.8, ease: "easeInOut" }}
                         >
                             <div className="relative w-full h-full flex items-center justify-center">
-                                <img
-                                    src={slider.imageUrl}
-                                    alt={`Slider ${index + 1}`}
-                                    className="w-full h-full object-cover"
-                                />
+                                <img src={slider.imageUrl} alt={`Slider ${index + 1}`} className="w-full h-full object-cover" />
                                 <div className="absolute flex flex-col items-center justify-center gap-4 bg-black bg-opacity-50 text-white p-8 h-full w-full">
                                     <motion.h3
                                         className="text-xl italic uppercase font-light"
@@ -69,9 +63,7 @@ const Slider = ({ sliderData }) => {
                                         }}
                                     >
                                         <Link to={slider.achor_link}>
-                                            <Button className="Primary mt-4 btnLg">
-                                                {slider.achor_title}
-                                            </Button>
+                                            <Button className="Primary mt-4 btnLg">{slider.achor_title}</Button>
                                         </Link>
                                     </motion.div>
                                 </div>
@@ -96,11 +88,7 @@ const Slider = ({ sliderData }) => {
             </button>
             <div className="absolute bottom-4 w-full flex justify-center mt-2 py-1">
                 {sliderData.map((_, index) => (
-                    <span
-                        key={index}
-                        className={`w-3 h-3 mx-1 rounded-full cursor-pointer ${index === currentIndex ? "bg-blue-600" : "bg-gray-300"}`}
-                        onClick={() => setCurrentIndex(index)}
-                    />
+                    <span key={index} className={`w-3 h-3 mx-1 rounded-full cursor-pointer ${index === currentIndex ? "bg-blue-600" : "bg-gray-300"}`} onClick={() => setCurrentIndex(index)} />
                 ))}
             </div>
         </div>

@@ -19,15 +19,9 @@ const HomeBlog = () => {
                         key={blog.id}
                         className="w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl rounded-lg overflow-hidden bg-light-bgLighterGray dark:bg-dark-bgGray cursor-pointer px-2 py-1 group"
                     >
-                        <img
-                            className="w-full h-48 object-cover shadow-sm rounded-lg group-hover:scale-105 transition-all duration-300 ease-in-out transform"
-                            src={blogImage}
-                            alt={blog.title}
-                        />
+                        <img className="w-full h-48 object-cover shadow-sm rounded-lg group-hover:scale-105 transition-all duration-300 ease-in-out transform" src={blogImage} alt={blog.title} />
                         <div className="flex flex-col p-2">
-                            <h4 className="text-lg sm:text-xl xl:text-2xl mb-2 font-semibold whitespace-nowrap overflow-hidden text-ellipsis text-light-blue dark:text-dark-light">
-                                {blog.title}
-                            </h4>
+                            <h4 className="text-lg sm:text-xl xl:text-2xl mb-2 font-semibold whitespace-nowrap overflow-hidden text-ellipsis text-light-blue dark:text-dark-light">{blog.title}</h4>
                             <div className="flex items-center text-sm sm:text-base mb-3 ">
                                 <div className="flex gap-1.5 items-center">
                                     <FaUser />
@@ -40,16 +34,10 @@ const HomeBlog = () => {
                             </div>
                             <div className="flex flex-col gap-2">
                                 <p className="text-light-textGray dark:text-dark-textWhite text-sm sm:text-base leading-relaxed mb-4">
-                                    {blog.content.length > 100
-                                        ? `${blog.content.substring(0, 100)}`
-                                        : blog.content}
+                                    {blog.content.length > 100 ? `${blog.content.substring(0, 100)}` : blog.content}
                                 </p>
                                 <Link to={"/"} className="self-start mt-auto">
-                                    <Button
-                                        className="text-base Primary"
-                                    >
-                                        Read More
-                                    </Button>
+                                    <Button className="text-base Primary">Read More</Button>
                                 </Link>
                             </div>
                         </div>

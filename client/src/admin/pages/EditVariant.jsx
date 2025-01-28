@@ -32,16 +32,14 @@ const EditVariant = () => {
     const { data, isLoading, isSuccess } = useQuery({
         queryKey: ["variant", variantId],
         enabled: !!variantId,
-        queryFn: () =>
-            crudService.get(`variant/variant-by-id/${variantId}`, true),
+        queryFn: () => crudService.get(`variant/variant-by-id/${variantId}`, true),
         onError: err => {
             toastService.error(err?.message || "Failed to fetch Data.");
         },
     });
     useEffect(() => {
         if (isSuccess && data?.data) {
-            const { basePrice, discountPrice, stockQuantity, attributes } =
-                data?.data || {};
+            const { basePrice, discountPrice, stockQuantity, attributes } = data?.data || {};
             setValue("basePrice", basePrice);
             setValue("discountPrice", discountPrice);
             setValue("stockQuantity", stockQuantity);
@@ -96,19 +94,11 @@ const EditVariant = () => {
             />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800">
-                    <form
-                        className="space-y-5"
-                        onSubmit={handleSubmit(data => mutate(data))}
-                        encType="multipart/form-data"
-                    >
-                        <h1 className="text-xl font-bold my-4 px-2">
-                            Edit Variant
-                        </h1>
+                    <form className="space-y-5" onSubmit={handleSubmit(data => mutate(data))} encType="multipart/form-data">
+                        <h1 className="text-xl font-bold my-4 px-2">Edit Variant</h1>
                         {errors.root && (
                             <div className="w-full my-4 bg-red-500 text-center rounded-md border border-red-600 py-3 px-4">
-                                <h4 className="text-white font-bold text-sm">
-                                    {errors.root.message}
-                                </h4>
+                                <h4 className="text-white font-bold text-sm">{errors.root.message}</h4>
                             </div>
                         )}
                         <div className="flex flex-wrap my-2">
@@ -144,30 +134,16 @@ const EditVariant = () => {
                         </div>
                         <div className="w-full px-3">
                             <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
-                                <h2 className="text-2xl font-bold px-2">
-                                    Attribues
-                                </h2>
-                                <Button
-                                    disabled={isPending}
-                                    className="Success btnLg flex items-center gap-2"
-                                    onClick={() =>
-                                        append({ name: "", value: "" })
-                                    }
-                                >
+                                <h2 className="text-2xl font-bold px-2">Attribues</h2>
+                                <Button disabled={isPending} className="Success btnLg flex items-center gap-2" onClick={() => append({ name: "", value: "" })}>
                                     <FaPlus /> Add Variant
                                 </Button>
                             </div>
                             <div className="space-y-4">
                                 {fields.map((field, index) => (
-                                    <div
-                                        key={field.id}
-                                        className="flex flex-wrap items-center justify-center gap-4 p-4 shadow-md rounded-lg border"
-                                    >
+                                    <div key={field.id} className="flex flex-wrap items-center justify-center gap-4 p-4 shadow-md rounded-lg border">
                                         <div className="flex justify-center items-center min-h-[90px]">
-                                            <Button
-                                                className="Danger flex items-center gap-2 p-5 mt-6 rounded-md"
-                                                onClick={() => remove(index)}
-                                            >
+                                            <Button className="Danger flex items-center gap-2 p-5 mt-6 rounded-md" onClick={() => remove(index)}>
                                                 <FaTrash />
                                             </Button>
                                         </div>
@@ -176,14 +152,9 @@ const EditVariant = () => {
                                                 placeholder="Key"
                                                 disabled={isPending}
                                                 label="Key"
-                                                {...register(
-                                                    `attributes.${index}.name`
-                                                )}
+                                                {...register(`attributes.${index}.name`)}
                                                 className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                                error={
-                                                    errors.attributes?.[index]
-                                                        ?.name?.message
-                                                }
+                                                error={errors.attributes?.[index]?.name?.message}
                                             />
                                         </div>
                                         <div className="flex-1">
@@ -191,14 +162,9 @@ const EditVariant = () => {
                                                 placeholder="value"
                                                 disabled={isPending}
                                                 label="value"
-                                                {...register(
-                                                    `attributes.${index}.value`
-                                                )}
+                                                {...register(`attributes.${index}.value`)}
                                                 className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                                error={
-                                                    errors.attributes?.[index]
-                                                        ?.value?.message
-                                                }
+                                                error={errors.attributes?.[index]?.value?.message}
                                             />
                                         </div>
                                     </div>
@@ -206,11 +172,7 @@ const EditVariant = () => {
                             </div>
                         </div>
                         <div className="w-full border-t !mt-8 px-2">
-                            <Button
-                                type="submit"
-                                disabled={isPending}
-                                className="Primary my-2 btnXl"
-                            >
+                            <Button type="submit" disabled={isPending} className="Primary my-2 btnXl">
                                 {isPending ? (
                                     <Loading height="7" weight="7" />
                                 ) : (

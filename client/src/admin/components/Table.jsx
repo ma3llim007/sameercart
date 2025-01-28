@@ -1,31 +1,11 @@
-import {
-    flexRender,
-    getCoreRowModel,
-    getPaginationRowModel,
-    getSortedRowModel,
-    useReactTable,
-} from "@tanstack/react-table";
+import { flexRender, getCoreRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { Input, Loading } from "./index";
-import {
-    Table as CnTable,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
+import { Table as CnTable, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { ImSortAmountDesc, ImSortAmountAsc } from "react-icons/im";
 
-const Table = ({
-    columns,
-    data,
-    paginationOptions = { pageSize: 10 },
-    sortable = true,
-    loading = false,
-    emptyMessage = "No Data Available",
-}) => {
+const Table = ({ columns, data, paginationOptions = { pageSize: 10 }, sortable = true, loading = false, emptyMessage = "No Data Available" }) => {
     // State for global search filter
     const [globalFilter, SetGlobalFilter] = useState("");
     // State for pagination page size
@@ -39,10 +19,7 @@ const Table = ({
         return dataMemo.filter(row => {
             return columnsMemo.some(column => {
                 const cellValue = row[column.accessorKey];
-                return (
-                    typeof cellValue === "string" &&
-                    cellValue.toLowerCase().includes(globalFilter.toLowerCase())
-                );
+                return typeof cellValue === "string" && cellValue.toLowerCase().includes(globalFilter.toLowerCase());
             });
         });
     }, [dataMemo, globalFilter, columnsMemo]);
@@ -96,11 +73,7 @@ const Table = ({
                             transition duration-200 ease-in-out`}
                     >
                         {[10, 20, 30, 40, 50, 100].map(size => (
-                            <option
-                                className="text-base text-inherit"
-                                key={size}
-                                value={size}
-                            >
+                            <option className="text-base text-inherit" key={size} value={size}>
                                 {size}
                             </option>
                         ))}
@@ -109,13 +82,7 @@ const Table = ({
                 </div>
                 <div className="w-96 flex justify-center items-center">
                     <p className="text-lg font-bold">Search:</p>
-                    <Input
-                        type="text"
-                        value={globalFilter}
-                        onChange={e => SetGlobalFilter(e.target.value)}
-                        className="ml-2 p-1 border border-gray-500"
-                        placeholder="Search..."
-                    />
+                    <Input type="text" value={globalFilter} onChange={e => SetGlobalFilter(e.target.value)} className="ml-2 p-1 border border-gray-500" placeholder="Search..." />
                 </div>
             </div>
             <CnTable className="shadow-sm border border-gray-500 border-opacity-25 rounded-lg">
@@ -126,31 +93,16 @@ const Table = ({
                                 <TableHead
                                     key={header.id}
                                     onClick={() => {
-                                        const currentSort =
-                                            header.column.getIsSorted();
-                                        header.column.toggleSorting(
-                                            currentSort === "asc"
-                                        );
+                                        const currentSort = header.column.getIsSorted();
+                                        header.column.toggleSorting(currentSort === "asc");
                                     }}
-                                    className={`py-2 border border-gray-500 border-opacity-25 select-none font-bold text-base ${
-                                        sortable ? "cursor-pointer" : ""
-                                    }`}
+                                    className={`py-2 border border-gray-500 border-opacity-25 select-none font-bold text-base ${sortable ? "cursor-pointer" : ""}`}
                                 >
                                     <div className="w-full flex items-center p-1 justify-between">
-                                        {flexRender(
-                                            header.column.columnDef.header,
-                                            header.getContext()
-                                        )}
+                                        {flexRender(header.column.columnDef.header, header.getContext())}
                                         {sortable && (
                                             <>
-                                                <span className="ml-1">
-                                                    {header.column.getIsSorted() ===
-                                                    "desc" ? (
-                                                        <ImSortAmountDesc />
-                                                    ) : (
-                                                        <ImSortAmountAsc />
-                                                    )}
-                                                </span>
+                                                <span className="ml-1">{header.column.getIsSorted() === "desc" ? <ImSortAmountDesc /> : <ImSortAmountAsc />}</span>
                                             </>
                                         )}
                                     </div>
@@ -162,13 +114,8 @@ const Table = ({
                 <TableBody>
                     {table.getRowModel().rows.length === 0 ? (
                         <TableRow>
-                            <TableCell
-                                colSpan={table.getAllColumns().length}
-                                className="p-3 text-center border border-gray-300 border-opacity-20"
-                            >
-                                <h5 className="text-lg font-bold">
-                                    No data available
-                                </h5>
+                            <TableCell colSpan={table.getAllColumns().length} className="p-3 text-center border border-gray-300 border-opacity-20">
+                                <h5 className="text-lg font-bold">No data available</h5>
                             </TableCell>
                         </TableRow>
                     ) : (
@@ -182,14 +129,8 @@ const Table = ({
                                 }
                             >
                                 {row.getVisibleCells().map(cell => (
-                                    <TableCell
-                                        key={cell.id}
-                                        className="p-3 border border-gray-300 border-opacity-20"
-                                    >
-                                        {flexRender(
-                                            cell.column.columnDef.cell,
-                                            cell.getContext()
-                                        )}
+                                    <TableCell key={cell.id} className="p-3 border border-gray-300 border-opacity-20">
+                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}
                             </TableRow>
@@ -204,18 +145,10 @@ const Table = ({
                 </div>
                 {/* Page Navigation */}
                 <div className="flex items-center space-x-2">
-                    <Button
-                        variant="outline"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
-                    >
+                    <Button variant="outline" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
                         Previous
                     </Button>
-                    <Button
-                        variant="outline"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                    >
+                    <Button variant="outline" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
                         Next
                     </Button>
                 </div>

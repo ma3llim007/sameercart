@@ -1,30 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import {
-    ButtonWithAlert,
-    Input,
-    Loading,
-    PageHeader,
-    ProductDetailsVariant,
-    Table,
-} from "../components";
-import {
-    FaEdit,
-    FaEye,
-    FaPlus,
-    FaRegTrashAlt,
-    FaRupeeSign,
-    FaTimes,
-    FaTrash,
-} from "react-icons/fa";
+import { ButtonWithAlert, Input, Loading, PageHeader, ProductDetailsVariant, Table } from "../components";
+import { FaEdit, FaEye, FaPlus, FaRegTrashAlt, FaRupeeSign, FaTimes, FaTrash } from "react-icons/fa";
 import { RiEdit2Fill } from "react-icons/ri";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-    addVariantScheme,
-    editVariantImage,
-} from "@/validation/admin/ProductScheme";
+import { addVariantScheme, editVariantImage } from "@/validation/admin/ProductScheme";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
@@ -73,8 +55,7 @@ const AddVariants = () => {
     const { data: productData, isLoading } = useQuery({
         queryKey: ["product", productId],
         enabled: !!productId,
-        queryFn: () =>
-            crudService.get(`product/get-product/${productId}`, true),
+        queryFn: () => crudService.get(`product/get-product/${productId}`, true),
         onError: err => {
             toastService.error(err?.message || "Failed to fetch Data.");
         },
@@ -93,12 +74,7 @@ const AddVariants = () => {
             });
             // Convert object into JSON string for sending via FormData
             payload.append("attributes", JSON.stringify(data?.attributes));
-            return crudService.post(
-                "variant/add-variant",
-                true,
-                payload,
-                "multipart/form-data"
-            );
+            return crudService.post("variant/add-variant", true, payload, "multipart/form-data");
         },
         onSuccess: data => {
             reset();
@@ -116,57 +92,41 @@ const AddVariants = () => {
     const { data, isLoading: variantLoading } = useQuery({
         queryKey: ["variantList", productId],
         enabled: !!productId,
-        queryFn: () =>
-            crudService.get(`variant/variants-by-product/${productId}`, true),
+        queryFn: () => crudService.get(`variant/variants-by-product/${productId}`, true),
         onError: err => {
             toastService.error(err?.message || "Failed to fetch Data.");
         },
     });
 
     // Delete Variant
-    const { mutate: deleteVariant, isPending: isPendingDeleteVariant } =
-        useMutation({
-            mutationFn: variantId =>
-                crudService.delete(
-                    `/variant/delete-variant/${variantId}`,
-                    true
-                ),
-            onSuccess: data => {
-                queryClient.invalidateQueries(["variantList", productId]);
-                toastService.success(data?.message);
-            },
-            onError: error => {
-                const errorMessage =
-                    error?.response?.data?.message ||
-                    error?.message ||
-                    "An error occurred";
-                toastService.error(errorMessage);
-            },
-        });
+    const { mutate: deleteVariant, isPending: isPendingDeleteVariant } = useMutation({
+        mutationFn: variantId => crudService.delete(`/variant/delete-variant/${variantId}`, true),
+        onSuccess: data => {
+            queryClient.invalidateQueries(["variantList", productId]);
+            toastService.success(data?.message);
+        },
+        onError: error => {
+            const errorMessage = error?.response?.data?.message || error?.message || "An error occurred";
+            toastService.error(errorMessage);
+        },
+    });
 
     // delete images
-    const { mutate: deleteImageMutate, isPending: isPendingDeleteImageMutate } =
-        useMutation({
-            mutationFn: ({ variantId, publicId }) => {
-                const encodedPublicId = encodeURIComponent(publicId);
+    const { mutate: deleteImageMutate, isPending: isPendingDeleteImageMutate } = useMutation({
+        mutationFn: ({ variantId, publicId }) => {
+            const encodedPublicId = encodeURIComponent(publicId);
 
-                return crudService.delete(
-                    `variant/delete-variant-image/${variantId}/${encodedPublicId}`,
-                    true
-                );
-            },
-            onSuccess: data => {
-                queryClient.invalidateQueries(["variantList", productId]);
-                toastService.success(data?.message);
-            },
-            onError: error => {
-                const errorMessage =
-                    error?.response?.data?.message ||
-                    error?.message ||
-                    "An error occurred";
-                toastService.error(errorMessage);
-            },
-        });
+            return crudService.delete(`variant/delete-variant-image/${variantId}/${encodedPublicId}`, true);
+        },
+        onSuccess: data => {
+            queryClient.invalidateQueries(["variantList", productId]);
+            toastService.success(data?.message);
+        },
+        onError: error => {
+            const errorMessage = error?.response?.data?.message || error?.message || "An error occurred";
+            toastService.error(errorMessage);
+        },
+    });
 
     // modelHandler
     const modelHandler = ({ image, variantId }) => {
@@ -187,17 +147,9 @@ const AddVariants = () => {
             const formData = new FormData();
             formData.append("variantId", imageData?.variantId);
             formData.append("imageId", imageData?._id);
-            formData.append(
-                "publicId",
-                encodeURIComponent(imageData?.publicId)
-            );
+            formData.append("publicId", encodeURIComponent(imageData?.publicId));
             formData.append("image", data?.image);
-            return crudService.patch(
-                `/variant/update-variant-image/${encodeURIComponent(imageData?.variantId)}/${encodeURIComponent(imageData?.publicId)}`,
-                true,
-                formData,
-                "multipart/form-data"
-            );
+            return crudService.patch(`/variant/update-variant-image/${encodeURIComponent(imageData?.variantId)}/${encodeURIComponent(imageData?.publicId)}`, true, formData, "multipart/form-data");
         },
         onSuccess: data => {
             navigate(`/admin/products/variants/${productId}`);
@@ -214,10 +166,6 @@ const AddVariants = () => {
     // Table Columns
     const productVariantColums = [
         { accessorKey: "no", header: "No." },
-        {
-            accessorKey: "sku",
-            header: "SKU",
-        },
         {
             header: "Price",
             cell: ({ row }) => (
@@ -240,24 +188,10 @@ const AddVariants = () => {
             cell: ({ row }) => (
                 <div className="min-w-96 flex gap-4 flex-wrap items-center justify-center">
                     {row?.original?.images.map((image, index) => (
-                        <div
-                            key={image?.publicId || index}
-                            className="relative group flex flex-col items-center"
-                        >
-                            <img
-                                key={image?.publicId}
-                                className="max-w-36 max-h-max-w-36 object-cover rounded-lg"
-                                src={image?.imageUrl}
-                                alt={image?.publicId || "Variant image"}
-                            />
+                        <div key={image?.publicId || index} className="relative group flex flex-col items-center">
+                            <img key={image?.publicId} className="max-w-36 max-h-max-w-36 object-cover rounded-lg" src={image?.imageUrl} alt={image?.publicId || "Variant image"} />
                             <div className="absolute bottom-2 right-2 hidden group-hover:flex items-center gap-2 bg-black bg-opacity-70 p-1 rounded-lg shadow-lg text-base">
-                                <Button
-                                    title="View Image"
-                                    onClick={() =>
-                                        modelHandlerViewImage({ image })
-                                    }
-                                    className="p-2 rounded-full bg-purple-500 text-white hover:bg-purple-600"
-                                >
+                                <Button title="View Image" onClick={() => modelHandlerViewImage({ image })} className="p-2 rounded-full bg-purple-500 text-white hover:bg-purple-600">
                                     <FaEye />
                                 </Button>
                                 <Button
@@ -275,9 +209,7 @@ const AddVariants = () => {
                                 <ButtonWithAlert
                                     title="Delete Variant Image"
                                     buttonTitle={<FaRegTrashAlt />}
-                                    dialogTitle={
-                                        "Are You Sure You Want To Delete This Image?"
-                                    }
+                                    dialogTitle={"Are You Sure You Want To Delete This Image?"}
                                     dialogDesc="This Action Will Permanently Delete The Product Variant Image. Proceed?"
                                     dialogActionTitle="Delete Variant Image"
                                     dialogActionfn={() =>
@@ -286,11 +218,7 @@ const AddVariants = () => {
                                             publicId: image?.publicId,
                                         })
                                     }
-                                    className={`p-2 rounded-full ${
-                                        row?.original?.images.length === 1
-                                            ? "bg-red-400 text-white cursor-not-allowed"
-                                            : "bg-red-500 text-white hover:bg-red-600"
-                                    }`}
+                                    className={`p-2 rounded-full ${row?.original?.images.length === 1 ? "bg-red-400 text-white cursor-not-allowed" : "bg-red-500 text-white hover:bg-red-600"}`}
                                 />
                             </div>
                         </div>
@@ -304,10 +232,7 @@ const AddVariants = () => {
             cell: ({ row }) => (
                 <div className="flex flex-wrap gap-2">
                     {row.original?.attributes.map(attr => (
-                        <Badge
-                            key={attr._id}
-                            title={`${attr.name}: ${attr.value}`}
-                        />
+                        <Badge key={attr._id} title={`${attr.name}: ${attr.value}`} />
                     ))}
                 </div>
             ),
@@ -315,24 +240,13 @@ const AddVariants = () => {
         {
             accessorKey: "updatedAt",
             header: "Date Time",
-            cell: ({ row }) => (
-                <p className="text-wrap">
-                    {formatDateTime(row.original?.updatedAt)}
-                </p>
-            ),
+            cell: ({ row }) => <p className="text-wrap">{formatDateTime(row.original?.updatedAt)}</p>,
         },
         {
             header: "Actions",
             cell: ({ row }) => (
                 <div className="flex gap-y-2 gap-x-0.5 items-center justify-center flex-wrap">
-                    <Button
-                        className="Primary"
-                        onClick={() =>
-                            navigate(
-                                `/admin/products/variants/${productId}/edit-variant/${row.original._id}`
-                            )
-                        }
-                    >
+                    <Button className="Primary" onClick={() => navigate(`/admin/products/variants/${productId}/edit-variant/${row.original._id}`)}>
                         Edit
                     </Button>
                     |
@@ -355,8 +269,7 @@ const AddVariants = () => {
         })) || [];
 
     if (isLoading || variantLoading) return <Loading />;
-    if (isPending || isPendingDeleteVariant || isPendingDeleteImageMutate)
-        return <LoadingOverlay />;
+    if (isPending || isPendingDeleteVariant || isPendingDeleteImageMutate) return <LoadingOverlay />;
     return (
         <>
             <PageHeader
@@ -371,20 +284,11 @@ const AddVariants = () => {
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-4 bg-gray-100 dark:bg-slate-800">
                     <ProductDetailsVariant data={productData?.data} />
                     <hr className="mt-6" />
-                    <form
-                        className="space-y-5 border-2 rounded-xl mt-4 border-green-700"
-                        onSubmit={handleSubmit(data => mutate(data))}
-                        encType="multipart/form-data"
-                        method="POST"
-                    >
-                        <h1 className="text-xl font-bold py-4 px-2 bg-green-700 rounded-t-lg">
-                            Add Variants
-                        </h1>
+                    <form className="space-y-5 border-2 rounded-xl mt-4 border-green-700" onSubmit={handleSubmit(data => mutate(data))} encType="multipart/form-data" method="POST">
+                        <h1 className="text-xl font-bold py-4 px-2 bg-green-700 rounded-t-lg">Add Variants</h1>
                         {errors.root && (
                             <div className="w-full my-4 bg-red-500 text-center rounded-md border border-red-600 py-3 px-4">
-                                <h4 className="text-white font-bold text-sm">
-                                    {errors.root.message}
-                                </h4>
+                                <h4 className="text-white font-bold text-sm">{errors.root.message}</h4>
                             </div>
                         )}
                         <div className="flex flex-wrap my-2">
@@ -430,10 +334,7 @@ const AddVariants = () => {
                                             accept=".jpg, .jpeg, .png, .gif, .svg, .webp"
                                             multiple
                                             onChange={e => {
-                                                const filesArray = e.target
-                                                    .files
-                                                    ? Array.from(e.target.files)
-                                                    : [];
+                                                const filesArray = e.target.files ? Array.from(e.target.files) : [];
                                                 field.onChange(filesArray);
                                             }}
                                             className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
@@ -445,30 +346,16 @@ const AddVariants = () => {
                         </div>
                         <div className="w-full px-3">
                             <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
-                                <h2 className="text-2xl font-bold px-2">
-                                    Attribues
-                                </h2>
-                                <Button
-                                    disabled={isPending}
-                                    className="Success btnLg flex items-center gap-2"
-                                    onClick={() =>
-                                        append({ name: "", value: "" })
-                                    }
-                                >
+                                <h2 className="text-2xl font-bold px-2">Attribues</h2>
+                                <Button disabled={isPending} className="Success btnLg flex items-center gap-2" onClick={() => append({ name: "", value: "" })}>
                                     <FaPlus /> Add Variant
                                 </Button>
                             </div>
                             <div className="space-y-4">
                                 {fields.map((field, index) => (
-                                    <div
-                                        key={field.id}
-                                        className="flex flex-wrap items-center justify-center gap-4 p-4 shadow-md rounded-lg border"
-                                    >
+                                    <div key={field.id} className="flex flex-wrap items-center justify-center gap-4 p-4 shadow-md rounded-lg border">
                                         <div className="flex justify-center items-center min-h-[90px]">
-                                            <Button
-                                                className="Danger flex items-center gap-2 p-5 mt-6 rounded-md"
-                                                onClick={() => remove(index)}
-                                            >
+                                            <Button className="Danger flex items-center gap-2 p-5 mt-6 rounded-md" onClick={() => remove(index)}>
                                                 <FaTrash />
                                             </Button>
                                         </div>
@@ -477,14 +364,9 @@ const AddVariants = () => {
                                                 placeholder="Enter The Key Name"
                                                 disabled={isPending}
                                                 label="Key Name"
-                                                {...register(
-                                                    `attributes.${index}.name`
-                                                )}
+                                                {...register(`attributes.${index}.name`)}
                                                 className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                                error={
-                                                    errors.attributes?.[index]
-                                                        ?.name?.message
-                                                }
+                                                error={errors.attributes?.[index]?.name?.message}
                                             />
                                         </div>
                                         <div className="flex-1">
@@ -492,14 +374,9 @@ const AddVariants = () => {
                                                 label="Value"
                                                 placeholder="Enter The Value"
                                                 disabled={isPending}
-                                                {...register(
-                                                    `attributes.${index}.value`
-                                                )}
+                                                {...register(`attributes.${index}.value`)}
                                                 className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
-                                                error={
-                                                    errors.attributes?.[index]
-                                                        ?.value?.message
-                                                }
+                                                error={errors.attributes?.[index]?.value?.message}
                                             />
                                         </div>
                                     </div>
@@ -507,11 +384,7 @@ const AddVariants = () => {
                             </div>
                         </div>
                         <div className="w-full border-t !mt-8 px-2">
-                            <Button
-                                type="submit"
-                                disabled={isPending}
-                                className="Primary my-2 btnXl"
-                            >
+                            <Button type="submit" disabled={isPending} className="Primary my-2 btnXl">
                                 {isPending ? (
                                     <Loading height="7" weight="7" />
                                 ) : (
@@ -524,48 +397,22 @@ const AddVariants = () => {
                     </form>
                 </div>
                 <div className="my-4 w-full container mx-auto border-t-4 border-orange-700 rounded-lg p-4 bg-gray-100 dark:bg-slate-800">
-                    <h1 className="text-3xl font-bold px-4">
-                        Variants Listing
-                    </h1>
-                    <Table
-                        columns={productVariantColums}
-                        data={productVariant}
-                        paginationOptions={{ pageSize: 10 }}
-                        sortable
-                        loading={variantLoading}
-                    />
+                    <h1 className="text-3xl font-bold px-4">Variants Listing</h1>
+                    <Table columns={productVariantColums} data={productVariant} paginationOptions={{ pageSize: 10 }} sortable loading={variantLoading} />
                 </div>
             </section>
-            <Model
-                title={"Update Image"}
-                isOpen={isModelOpen}
-                onClose={() => setIsModelOpen(false)}
-                disabled={editIsPending}
-            >
-                <form
-                    onSubmit={handleSubmitVariant(data =>
-                        editImageMutate(data)
-                    )}
-                    encType="multipart/form-data"
-                >
+            <Model title={"Update Image"} isOpen={isModelOpen} onClose={() => setIsModelOpen(false)} disabled={editIsPending}>
+                <form onSubmit={handleSubmitVariant(data => editImageMutate(data))} encType="multipart/form-data">
                     {errosVariant?.root && (
                         <div className="w-full my-4 bg-red-500 text-center rounded-md border border-red-600 py-3 px-4">
-                            <h4 className="text-white font-bold text-sm">
-                                {errosVariant?.root?.message}
-                            </h4>
+                            <h4 className="text-white font-bold text-sm">{errosVariant?.root?.message}</h4>
                         </div>
                     )}
                     <div className="flex flex-wrap my-1">
                         <div className="w-10/12 px-2 my-1">
                             <div className="w-full">
-                                <label className="inline-block mb-2 pl-1 text-base font-bold">
-                                    Variant Preview Image
-                                </label>
-                                <img
-                                    src={imageData?.imageUrl}
-                                    className="max-w-60 max-h-60 object-cover rounded-lg"
-                                    alt="Preview Image"
-                                />
+                                <label className="inline-block mb-2 pl-1 text-base font-bold">Variant Preview Image</label>
+                                <img src={imageData?.imageUrl} className="max-w-60 max-h-60 object-cover rounded-lg" alt="Preview Image" />
                             </div>
                         </div>
                         <div className="w-full px-2 my-2">
@@ -579,9 +426,7 @@ const AddVariants = () => {
                                         type="file"
                                         disabled={editIsPending}
                                         accept=".jpg, .jpeg, .png, .gif, .svg, .webp"
-                                        onChange={e =>
-                                            field.onChange(e.target.files[0])
-                                        }
+                                        onChange={e => field.onChange(e.target.files[0])}
                                         className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                         error={errosVariant?.image?.message}
                                     />
@@ -590,10 +435,7 @@ const AddVariants = () => {
                         </div>
                     </div>
                     <div className="w-full flex justify-between border-t !mt-6">
-                        <Button
-                            disabled={editIsPending}
-                            className="Success my-2 btnXl"
-                        >
+                        <Button disabled={editIsPending} className="Success my-2 btnXl">
                             {editIsPending ? (
                                 <Loading height="7" weight="7" />
                             ) : (
@@ -602,29 +444,17 @@ const AddVariants = () => {
                                 </>
                             )}
                         </Button>
-                        <Button
-                            disabled={editIsPending}
-                            onClick={() => setIsModelOpen(false)}
-                            className="Secondary my-2 btnXl"
-                        >
+                        <Button disabled={editIsPending} onClick={() => setIsModelOpen(false)} className="Secondary my-2 btnXl">
                             <FaTimes />
                             Close
                         </Button>
                     </div>
                 </form>
             </Model>
-            <Model
-                title={"View Image"}
-                isOpen={isModelOpenView}
-                onClose={() => setIsModelOpenView(false)}
-            >
+            <Model title={"View Image"} isOpen={isModelOpenView} onClose={() => setIsModelOpenView(false)}>
                 <div className="flex my-1 justify-center">
                     <div className="w-10/12 px-2 my-1">
-                        <img
-                            src={imageData?.imageUrl}
-                            className="max-w-full max-h-full object-cover rounded-lg"
-                            alt="Preview Image"
-                        />
+                        <img src={imageData?.imageUrl} className="max-w-full max-h-full object-cover rounded-lg" alt="Preview Image" />
                     </div>
                 </div>
             </Model>

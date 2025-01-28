@@ -10,6 +10,6 @@ export default defineConfig({
         },
     },
     optimizeDeps: {
-        exclude:['react-toastify']
-    }
+        exclude: ["react-toastify"],
+    },
 });

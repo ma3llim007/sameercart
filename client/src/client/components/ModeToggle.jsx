@@ -14,10 +14,7 @@ export function ModeToggle() {
                     <span className="sr-only">Toggle theme</span>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent
-                className="bg-light-bgWhite text-light-textDarkGray dark:bg-dark-deep dark:text-dark-textWhite border-none"
-                align="end"
-            >
+            <DropdownMenuContent className="bg-light-bgWhite text-light-textDarkGray dark:bg-dark-deep dark:text-dark-textWhite border-none" align="end">
                 <DropdownMenuItem
                     className={`cursor-pointer
                         ${theme === "light" && "bg-light-blue text-light-textWhite font-bold shadow cursor-pointer"}`}

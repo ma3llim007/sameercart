@@ -29,13 +29,7 @@ const AddCategory = () => {
     });
 
     const { mutate, isPending } = useMutation({
-        mutationFn: data =>
-            crudService.post(
-                "category/add-category",
-                true,
-                data,
-                "multipart/form-data"
-            ),
+        mutationFn: data => crudService.post("category/add-category", true, data, "multipart/form-data"),
         onSuccess: data => {
             navigate("/admin/category/category-list");
             queryClient.invalidateQueries("adminsList");
@@ -67,27 +61,14 @@ const AddCategory = () => {
 
     return (
         <>
-            <PageHeader
-                title={"Manage Category"}
-                controller={"Category"}
-                controllerUrl={"/admin/category/add-category/"}
-                page={"Add Category's"}
-            />
+            <PageHeader title={"Manage Category"} controller={"Category"} controllerUrl={"/admin/category/add-category/"} page={"Add Category's"} />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800">
-                    <form
-                        className="space-y-5"
-                        onSubmit={handleSubmit(data => mutate(data))}
-                        encType="multipart/form-data"
-                    >
-                        <h1 className="text-xl font-bold my-4 px-2">
-                            Add Category
-                        </h1>
+                    <form className="space-y-5" onSubmit={handleSubmit(data => mutate(data))} encType="multipart/form-data">
+                        <h1 className="text-xl font-bold my-4 px-2">Add Category</h1>
                         {errors.root && (
                             <div className="w-full my-4 bg-red-500 text-center rounded-md border border-red-600 py-3 px-4">
-                                <h4 className="text-white font-bold text-sm">
-                                    {errors.root.message}
-                                </h4>
+                                <h4 className="text-white font-bold text-sm">{errors.root.message}</h4>
                             </div>
                         )}
                         <div className="flex flex-wrap my-2 gap-4 md:gap-0">
@@ -128,25 +109,16 @@ const AddCategory = () => {
                                             type="file"
                                             disabled={isPending}
                                             accept=".jpg, .jpeg, .png, .gif, .svg, .webp"
-                                            onChange={e =>
-                                                field.onChange(
-                                                    e.target.files[0]
-                                                )
-                                            }
+                                            onChange={e => field.onChange(e.target.files[0])}
                                             className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                            error={
-                                                errors.categoryImage?.message
-                                            }
+                                            error={errors.categoryImage?.message}
                                         />
                                     )}
                                 />
                             </div>
                         </div>
                         <div className="w-full border-t !mt-6">
-                            <Button
-                                disabled={isPending}
-                                className="Primary my-2 btnXl"
-                            >
+                            <Button disabled={isPending} className="Primary my-2 btnXl">
                                 {isPending ? (
                                     <Loading height="7" weight="7" />
                                 ) : (

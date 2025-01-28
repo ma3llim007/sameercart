@@ -4,8 +4,7 @@ import bgImage from "../../assets/about_us/bg_our_story.webp";
 
 const content = {
     title: "Our Story",
-    description:
-        "From humble beginnings to industry leaders, our journey is marked by passion, perseverance, and innovation. Here's a look at some of the key milestones that shaped our company.",
+    description: "From humble beginnings to industry leaders, our journey is marked by passion, perseverance, and innovation. Here's a look at some of the key milestones that shaped our company.",
     milestones: [
         {
             id: 1,
@@ -40,10 +39,7 @@ const content = {
 };
 const OurStory = () => {
     return (
-        <section
-            className="w-full my-20 rounded-lg"
-            style={{ backgroundImage: `url(${content?.backgroundImage})`, backgroundSize: "cover", backgroundPosition: "center" }}
-        >
+        <section className="w-full my-20 rounded-lg" style={{ backgroundImage: `url(${content?.backgroundImage})`, backgroundSize: "cover", backgroundPosition: "center" }}>
             <div className="w-full text-center text-white p-10 bg-black/60 shadow-md">
                 <h2 className="text-4xl mb-10 font-bold underline decoration-2">{content?.title}</h2>
                 <p className="text-xl text-center my-8">{content?.description}</p>

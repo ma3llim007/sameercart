@@ -31,8 +31,7 @@ const TestimonailsData = [
         image: image3,
         name: "Isabella",
         location: "Toronto, Canada",
-        message:
-            "Exceptional quality and fantastic customer service. Would buy again!",
+        message: "Exceptional quality and fantastic customer service. Would buy again!",
     },
 ];
 
@@ -40,9 +39,7 @@ const Testimonails = () => {
     return (
         <section className="w-full my-20">
             <div className="w-full text-center">
-                <h2 className="text-4xl font-bold underline decoration-2 mb-5">
-                    Testimonails
-                </h2>
+                <h2 className="text-4xl font-bold underline decoration-2 mb-5">Testimonails</h2>
             </div>
             <Swiper
                 modules={[Navigation, Pagination, Autoplay]}
@@ -71,19 +68,11 @@ const Testimonails = () => {
                     <SwiperSlide key={testimonail?.id} className="p-2">
                         <div className="bg-light-bgLighterGray dark:bg-dark-bgGray rounded-lg cursor-pointer shadow-lg px-4 py-2 group overflow-hidden flex flex-col items-center">
                             <div className="w-2/4">
-                                <img
-                                    className="w-full h-auto rounded-full object-cover"
-                                    src={testimonail?.image}
-                                    alt={testimonail?.name}
-                                />
+                                <img className="w-full h-auto rounded-full object-cover" src={testimonail?.image} alt={testimonail?.name} />
                             </div>
                             <div className="flex flex-col space-y-2 justify-center items-center my-2">
-                                <h4 className="text-2xl font-bold">
-                                    {testimonail?.name}
-                                </h4>
-                                <p className="text-light-textGray dark:text-dark-textLightGray">
-                                    {testimonail?.location}
-                                </p>
+                                <h4 className="text-2xl font-bold">{testimonail?.name}</h4>
+                                <p className="text-light-textGray dark:text-dark-textLightGray">{testimonail?.location}</p>
                                 <div className="w-4/5 mx-auto text-center">
                                     <p>{testimonail?.message}</p>
                                 </div>

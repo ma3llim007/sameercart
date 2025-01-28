@@ -36,8 +36,7 @@ const EditCategory = () => {
     // Fetch category data based on categoryId
     const { data: categoryData, isSuccess } = useQuery({
         queryKey: ["category", categoryId],
-        queryFn: () =>
-            crudService.get(`category/get-category/${categoryId}`, true),
+        queryFn: () => crudService.get(`category/get-category/${categoryId}`, true),
         enabled: !!categoryId,
         onError: err => {
             toastService.error(err?.message || "Failed to fetch Data.");
@@ -61,12 +60,7 @@ const EditCategory = () => {
                 formData.append("categoryImage", data?.categoryImage);
             }
             formData.append("categoryId", categoryId);
-            return crudService.patch(
-                "category/update-category",
-                true,
-                formData,
-                "multipart/form-data"
-            );
+            return crudService.patch("category/update-category", true, formData, "multipart/form-data");
         },
         onSuccess: data => {
             navigate("/admin/category/category-list");
@@ -100,27 +94,14 @@ const EditCategory = () => {
     if (isPending) return <LoadingOverlay />;
     return (
         <>
-            <PageHeader
-                title={"Manage Category"}
-                controller={"Category"}
-                controllerUrl={"/admin/category/edit-category/"}
-                page={"Edit Category"}
-            />
+            <PageHeader title={"Manage Category"} controller={"Category"} controllerUrl={"/admin/category/edit-category/"} page={"Edit Category"} />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800">
-                    <form
-                        className="space-y-5"
-                        onSubmit={handleSubmit(data => mutate(data))}
-                        encType="multipart/form-data"
-                    >
-                        <h1 className="text-xl font-bold my-4 px-2">
-                            Edit Category
-                        </h1>
+                    <form className="space-y-5" onSubmit={handleSubmit(data => mutate(data))} encType="multipart/form-data">
+                        <h1 className="text-xl font-bold my-4 px-2">Edit Category</h1>
                         {errors.root && (
                             <div className="w-full my-4 bg-red-500 text-center rounded-md border border-red-600 py-3 px-4">
-                                <h4 className="text-white font-bold text-sm">
-                                    {errors.root.message}
-                                </h4>
+                                <h4 className="text-white font-bold text-sm">{errors.root.message}</h4>
                             </div>
                         )}
                         <div className="flex flex-wrap my-2">
@@ -163,37 +144,22 @@ const EditCategory = () => {
                                             type="file"
                                             disabled={isPending}
                                             accept=".jpg, .jpeg, .png, .gif, .svg, .webp"
-                                            onChange={e =>
-                                                field.onChange(
-                                                    e.target.files[0]
-                                                )
-                                            }
+                                            onChange={e => field.onChange(e.target.files[0])}
                                             className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                            error={
-                                                errors.categoryImage?.message
-                                            }
+                                            error={errors.categoryImage?.message}
                                         />
                                     )}
                                 />
                             </div>
                             <div className="w-full md:w-1/2 px-2">
                                 <div className="w-full">
-                                    <label className="inline-block mb-2 pl-1 text-base font-bold">
-                                        Previous Image
-                                    </label>
-                                    <img
-                                        src={categoryData?.data?.categoryImage}
-                                        className="max-w-60 max-h-60 object-cover rounded"
-                                        alt="Previous Category"
-                                    />
+                                    <label className="inline-block mb-2 pl-1 text-base font-bold">Previous Image</label>
+                                    <img src={categoryData?.data?.categoryImage} className="max-w-60 max-h-60 object-cover rounded" alt="Previous Category" />
                                 </div>
                             </div>
                         </div>
                         <div className="w-full border-t !mt-6">
-                            <Button
-                                disabled={isPending}
-                                className="Success my-2 btnXl"
-                            >
+                            <Button disabled={isPending} className="Success my-2 btnXl">
                                 {isPending ? (
                                     <Loading height="7" weight="7" />
                                 ) : (

@@ -2,13 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { Banner, Container } from "../components";
 import { capitalizeWords, slugToText } from "@/utils";
 import bannerImage from "../assets/banner/basket_banner.webp";
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
@@ -25,10 +19,7 @@ const SubCategory = () => {
     // Fetching Category
     const { data, isLoading } = useQuery({
         queryKey: ["subcategorys", categorySlug, page, limit],
-        queryFn: () =>
-            crudService.get(
-                `/sub-category/subcategories-by-category/${categorySlug}?page=${page}&limit=${limit}`
-            ),
+        queryFn: () => crudService.get(`/sub-category/subcategories-by-category/${categorySlug}?page=${page}&limit=${limit}`),
         onError: error => {
             const message = error?.response?.data?.message || error?.message;
             toastService.error(message || "Failed to fetch Data.");
@@ -60,9 +51,7 @@ const SubCategory = () => {
             <Container>
                 <section className="w-full my-5">
                     <div className="w-full text-center mx-auto">
-                        <h1 className="text-3xl md:text-4xl  text-light-deep dark:text-dark-light font-bold underline decoration-4">
-                            Sub Category
-                        </h1>
+                        <h1 className="text-3xl md:text-4xl  text-light-deep dark:text-dark-light font-bold underline decoration-4">Sub Category</h1>
                     </div>
                     <div className="grid grid-cols-1 justify-items-center items-center py-6 px-3 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3">
                         {subCategorys?.map(subCategory => (
@@ -76,42 +65,22 @@ const SubCategory = () => {
                                     alt={subCategory.subCategoryName}
                                     className="w-4/5 object-cover rounded group-hover:scale-105 transition-all duration-300 ease-in-out transform"
                                 />
-                                <h2 className="mt-3 text-xl font-bold underline">
-                                    {capitalizeWords(
-                                        subCategory.subCategoryName
-                                    )}
-                                </h2>
-                                <Link
-                                    to={`/${categorySlug}/${subCategory?.subCategorySlug}/products`}
-                                >
-                                    <Button className="Primary btnXl mt-4">
-                                        View All Products
-                                    </Button>
+                                <h2 className="mt-3 text-xl font-bold underline">{capitalizeWords(subCategory.subCategoryName)}</h2>
+                                <Link to={`/${categorySlug}/${subCategory?.subCategorySlug}/products`}>
+                                    <Button className="Primary btnXl mt-4">View All Products</Button>
                                 </Link>
                             </div>
                         ))}
                     </div>
                     <div className="w-full flex flex-col items-center gap-6 justify-between mt-6 py-4 border-t border-gray-400">
                         <h5 className="text-center text-lg font-medium">
-                            You Are Currently Viewing{" "}
-                            <strong>Page: {responsePage}</strong> Out Of{" "}
-                            <strong>{totalPages}</strong> Pages.
+                            You Are Currently Viewing <strong>Page: {responsePage}</strong> Out Of <strong>{totalPages}</strong> Pages.
                         </h5>
                         <div className="flex gap-4">
-                            <Button
-                                onClick={() => setPage(page - 1)}
-                                disabled={page === 1}
-                                className="btnXl"
-                                variant="outline"
-                            >
+                            <Button onClick={() => setPage(page - 1)} disabled={page === 1} className="btnXl" variant="outline">
                                 Previous
                             </Button>
-                            <Button
-                                onClick={() => setPage(page + 1)}
-                                className="btnXl"
-                                variant="outline"
-                                disabled={page === totalPages}
-                            >
+                            <Button onClick={() => setPage(page + 1)} className="btnXl" variant="outline" disabled={page === totalPages}>
                                 Next
                             </Button>
                         </div>

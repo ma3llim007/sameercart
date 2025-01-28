@@ -7,7 +7,8 @@ export const capitalizeWords = str => {
 
 export const slugToText = str => {
     return str
-        .replace("-", " ")
+        .trim()
+        .replace(/-+/g, " ")
         .split(" ")
         .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
         .join(" ");
