@@ -1,16 +1,7 @@
 import mongoose, { isValidObjectId } from "mongoose";
 import { Product } from "../../models/product.model.js";
 import { Variant } from "../../models/variant.model.js";
-import {
-    asyncHandler,
-    ApiError,
-    ApiResponse,
-    ConvertImageWebp,
-    uploadCloudinary,
-    extractPublicId,
-    removeImage,
-    removeImageById,
-} from "../../utils/index.js";
+import { asyncHandler, ApiError, ApiResponse, ConvertImageWebp, uploadCloudinary, extractPublicId, removeImage, removeImageById } from "../../utils/index.js";
 
 // Add Product
 const addProduct = asyncHandler(async (req, res) => {
@@ -94,15 +85,8 @@ const addProduct = asyncHandler(async (req, res) => {
         };
 
         if (productType === "simple") {
-            if (
-                !basePrice ||
-                isNaN(Number(basePrice)) ||
-                !productStock ||
-                isNaN(Number(productStock) || !productDiscountPrice || isNaN(productDiscountPrice))
-            ) {
-                return res
-                    .status(422)
-                    .json(new ApiError(422, "Base Price, Discount Price And Stock Are Required For Simple Product."));
+            if (!basePrice || isNaN(Number(basePrice)) || !productStock || isNaN(Number(productStock) || !productDiscountPrice || isNaN(productDiscountPrice))) {
+                return res.status(422).json(new ApiError(422, "Base Price, Discount Price And Stock Are Required For Simple Product."));
             }
 
             productData.basePrice = Number(basePrice);
@@ -114,9 +98,8 @@ const addProduct = asyncHandler(async (req, res) => {
         const product = await Product.create(productData);
 
         return res.status(201).json(new ApiResponse(201, product, "Product Created Successfully"));
-    } catch (_error) {
-        console.error(_error);
-        return res.status(400).json(new ApiError(400, "Something Went Wrong."));
+    } catch (error) {
+        return res.status(400).json(new ApiError(400, error?.message));
     }
 });
 
