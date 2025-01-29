@@ -5,10 +5,11 @@ import { ButtonWithAlert, PageHeader, Table } from "../components";
 import { formatDateTime } from "@/utils";
 import { Button } from "@/components/ui/button";
 import Badge from "@/components/Badge";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toastService from "@/services/toastService";
 import { LoadingOverlay } from "@/components";
 import { upperFirst } from "lodash";
+import { FaEye } from "react-icons/fa";
 
 const ProductsList = () => {
     const navigate = useNavigate();
@@ -44,6 +45,19 @@ const ProductsList = () => {
                     <p>{upperFirst(row.original?.productName)}</p>
                     <div className="w-2/5">
                         <Badge title={upperFirst(row.original?.productType)}></Badge>
+                    </div>
+                    <div className="w-fit">
+                        <Link to={`/product-details/${row.original?.productSlug}`} target="_blank">
+                            <Badge
+                                className="Secondary flex items-center gap-1 text-base"
+                                title={
+                                    <>
+                                        <FaEye />
+                                        <p title="Product View">Product View</p>
+                                    </>
+                                }
+                            />
+                        </Link>
                     </div>
                 </div>
             ),

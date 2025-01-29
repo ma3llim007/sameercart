@@ -140,6 +140,7 @@ const productListing = asyncHandler(async (req, res) => {
                 $project: {
                     _id: 1,
                     productName: 1,
+                    productSlug: 1,
                     productPrice: 1,
                     productFeatureImage: 1,
                     productCategory: {
