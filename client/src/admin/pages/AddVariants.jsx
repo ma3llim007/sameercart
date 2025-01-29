@@ -395,10 +395,11 @@ const AddVariants = () => {
                             </Button>
                         </div>
                     </form>
-                </div>
-                <div className="my-4 w-full container mx-auto border-t-4 border-orange-700 rounded-lg p-4 bg-gray-100 dark:bg-slate-800">
-                    <h1 className="text-3xl font-bold px-4">Variants Listing</h1>
-                    <Table columns={productVariantColums} data={productVariant} paginationOptions={{ pageSize: 10 }} sortable loading={variantLoading} />
+
+                    <div className="space-y-5 border-2 rounded-xl mt-4 border-orange-700">
+                        <h1 className="text-xl font-bold py-4 px-2 bg-orange-700 rounded-t-lg">Variants Listing</h1>
+                        <Table columns={productVariantColums} data={productVariant} paginationOptions={{ pageSize: 10 }} sortable loading={variantLoading} />
+                    </div>
                 </div>
             </section>
             <Model title={"Update Image"} isOpen={isModelOpen} onClose={() => setIsModelOpen(false)} disabled={editIsPending}>

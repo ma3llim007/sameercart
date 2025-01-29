@@ -43,20 +43,10 @@ const ProductsList = () => {
             cell: ({ row }) => (
                 <div className="w-full flex flex-col gap-3">
                     <p>{upperFirst(row.original?.productName)}</p>
-                    <div className="w-2/5">
+                    <div className="flex items-center gap-2">
                         <Badge title={upperFirst(row.original?.productType)}></Badge>
-                    </div>
-                    <div className="w-fit">
                         <Link to={`/product-details/${row.original?.productSlug}`} target="_blank">
-                            <Badge
-                                className="Secondary flex items-center gap-1 text-base"
-                                title={
-                                    <>
-                                        <FaEye />
-                                        <p title="Product View">Product View</p>
-                                    </>
-                                }
-                            />
+                            <Badge className="Secondary flex items-center gap-1 text-base" title={<FaEye />} />
                         </Link>
                     </div>
                 </div>

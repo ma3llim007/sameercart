@@ -7,7 +7,7 @@ const cleanString = (str) => {
             .toLowerCase()
             .replace(/[^\w\s-]/g, "")
             .replace(/\s+/g, "-")
-            .replace(/--+/g, "-")
+            .replace(/-{2,}/g, "-")
             .replace(/^-+|-+$/g, "") || ""
     );
 };
