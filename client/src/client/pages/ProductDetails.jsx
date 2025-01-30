@@ -263,7 +263,7 @@ const ProductDetails = () => {
                                                         value={value}
                                                         selected={selectedVariant?.attributes?.some(attr => attr.name === groupName && attr.value === value)}
                                                     >
-                                                        {upperCase(value)}
+                                                        {value}
                                                     </option>
                                                 ))}
                                             </select>

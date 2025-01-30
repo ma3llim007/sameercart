@@ -21,7 +21,7 @@ const ProductDetails = lazy(() => import("../client/pages/ProductDetails"));
 const ProductReview = lazy(() => import("../client/pages/ProductReview"));
 const Cart = lazy(() => import("../client/pages/Cart"));
 const WishList = lazy(() => import("../client/pages/WishList"));
-
+const Register = lazy(() => import("../client/pages/Register"));
 // Client Router
 const clientRouters = createBrowserRouter(
     createRoutesFromElements(
@@ -45,6 +45,7 @@ const clientRouters = createBrowserRouter(
             <Route path="/create-review/:productId" element={<ProductReview />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/wishlist" element={<WishList />} />
+            <Route path="/register" element={<Register />} />
             <Route path="*" element={<ClientNotFound />} />
         </Route>
     )

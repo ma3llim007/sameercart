@@ -1,15 +1,7 @@
 import mongoose, { isValidObjectId, ObjectId } from "mongoose";
 import { Variant } from "../../models/variant.model.js";
 import { Product } from "../../models/product.model.js";
-import {
-    asyncHandler,
-    ApiError,
-    ApiResponse,
-    removeImageById,
-    ConvertImageWebp,
-    uploadCloudinary,
-    generateSKU,
-} from "../../utils/index.js";
+import { asyncHandler, ApiError, ApiResponse, removeImageById, ConvertImageWebp, uploadCloudinary, generateSKU } from "../../utils/index.js";
 
 // Add Variant
 const addVariant = asyncHandler(async (req, res) => {
@@ -27,9 +19,7 @@ const addVariant = asyncHandler(async (req, res) => {
 
     // Check if variantPrice and stockQty are valid numbers
     if (isNaN(basePriceNum) || isNaN(discountPriceNum) || isNaN(stockQuantityNum)) {
-        return res
-            .status(422)
-            .json(new ApiError(422, "Base Price, Discount Price and Stock Quantity Should Be Valid Numbers"));
+        return res.status(422).json(new ApiError(422, "Base Price, Discount Price and Stock Quantity Should Be Valid Numbers"));
     }
 
     // Validate productId
@@ -49,14 +39,7 @@ const addVariant = asyncHandler(async (req, res) => {
     const product = await Product.findById(productId).lean();
 
     if (product.productType === "simple") {
-        return res
-            .status(404)
-            .json(
-                new ApiError(
-                    404,
-                    `Permission Denied: The Product ${product.productName.toUpperCase()} Cannot Have Variants Added.`
-                )
-            );
+        return res.status(404).json(new ApiError(404, `Permission Denied: The Product ${product.productName.toUpperCase()} Cannot Have Variants Added.`));
     }
 
     const imageUpload = [];
@@ -133,7 +116,7 @@ const getVariantByProductId = asyncHandler(async (req, res) => {
     // variants by product ID
     try {
         const variants = await Variant.find({ productId: productId });
-        
+
         return res.status(200).json(new ApiResponse(200, variants, "Variants Fetch Successfully"));
     } catch (error) {
         return res.status(500).json(new ApiError(500, error.message));
@@ -206,9 +189,7 @@ const deleteVariant = asyncHandler(async (req, res) => {
     });
 
     if (varinatRelatedProduct) {
-        varinatRelatedProduct.productVariants = varinatRelatedProduct.productVariants.filter(
-            (variant) => variant._id.toString() !== variantId.toString()
-        );
+        varinatRelatedProduct.productVariants = varinatRelatedProduct.productVariants.filter((variant) => variant._id.toString() !== variantId.toString());
         await varinatRelatedProduct.save();
     }
     return res.status(200).json(new ApiResponse(200, {}, "Variant Delete Successfully"));
@@ -230,9 +211,7 @@ const updateVariant = asyncHandler(async (req, res) => {
 
         // Check if variantPrice and stockQty are valid numbers
         if (isNaN(basePriceNum) || isNaN(discountPriceNum) || isNaN(stockQuantityNum)) {
-            return res
-                .status(422)
-                .json(new ApiError(422, "Base Price, Discount Price and Stock Quantity Should Be Valid Numbers"));
+            return res.status(422).json(new ApiError(422, "Base Price, Discount Price and Stock Quantity Should Be Valid Numbers"));
         }
 
         // Validate productId
@@ -247,14 +226,7 @@ const updateVariant = asyncHandler(async (req, res) => {
 
         // Check if at least one field is provided for update
         if (!basePrice && !discountPrice && !stockQuantity) {
-            return res
-                .status(400)
-                .json(
-                    new ApiError(
-                        400,
-                        "At Least One Field (Base Price, Stock Quantity, Or Attributes) Is Required For Update"
-                    )
-                );
+            return res.status(400).json(new ApiError(400, "At Least One Field (Base Price, Stock Quantity, Or Attributes) Is Required For Update"));
         }
 
         // Update fields if there are no conflicts
@@ -272,8 +244,8 @@ const updateVariant = asyncHandler(async (req, res) => {
         }
         await currVariant.save();
         return res.status(200).json(new ApiResponse(200, currVariant, "Variant Updated Successfully"));
-    } catch (_error) {
-        return res.status(500).json(new ApiError(500, "Something Went Wrong"));
+    } catch (error) {
+        return res.status(500).json(new ApiError(500, error?.message));
     }
 });
 
@@ -389,12 +361,4 @@ const editVariantImageById = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, {}, "Varaint Image Update Successfully"));
 });
 
-export {
-    addVariant,
-    getVariantByProductId,
-    getVariantByVariantId,
-    deleteVariant,
-    updateVariant,
-    deleteVariantImageByIds,
-    editVariantImageById,
-};
+export { addVariant, getVariantByProductId, getVariantByVariantId, deleteVariant, updateVariant, deleteVariantImageByIds, editVariantImageById };

@@ -53,6 +53,9 @@ const Header = ({ data }) => {
                                             <Link to={"/checkout"}>Checkout</Link>
                                         </DropdownMenuItem>
                                         <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
+                                            <Link to={"/register"}>Register</Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
                                             <Link to={"/login"}>Login</Link>
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>

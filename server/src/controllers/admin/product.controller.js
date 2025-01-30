@@ -74,7 +74,7 @@ const addProduct = asyncHandler(async (req, res) => {
         const productData = {
             productName,
             productSlug,
-            productFeatureImage: productFeatureImageUpload.secure_url,
+            productFeatureImage: productFeatureImageUpload?.secure_url,
             productCategoryId,
             productSubCategoryId,
             productShortDescription,
