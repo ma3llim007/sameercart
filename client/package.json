@@ -12,7 +12,6 @@
         "format": "prettier --write ."
     },
     "dependencies": {
-        "@ckeditor/ckeditor5-react": "^9.4.0",
         "@hookform/resolvers": "^3.9.0",
         "@radix-ui/react-accordion": "^1.2.1",
         "@radix-ui/react-alert-dialog": "^1.1.2",

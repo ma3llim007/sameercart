@@ -6,11 +6,16 @@ import categoryRouter from "./routes/admin/category.routes.js";
 import subCategoryRouter from "./routes/admin/subCategory.routes.js";
 import productRouter from "./routes/admin/product.routes.js";
 import variantRouter from "./routes/admin/variant.routes.js";
-import publicCategoryRouter from "./routes/public/category.routes.js";
-import publicSubCategoryRouter from "./routes/public/subcategory.routes.js";
-import publicProductRouter from "./routes/public/product.routes.js";
+import publicCategoryRouter from "./routes/category.routes.js";
+import publicSubCategoryRouter from "./routes/subcategory.routes.js";
+import publicProductRouter from "./routes/product.routes.js";
+import publicUserRouter from "./routes/user.routes.js";
+import publicDashboardRouter from "./routes/dashboard.routes.js";
+import "./config/passportJwtStrategy.js";
 
 const app = express();
+
+// Middleware
 app.use(
     cors({
         origin: process.env.CORS_ORIGIN,
@@ -33,5 +38,7 @@ app.use("/api/v1/admin/variant", variantRouter);
 app.use("/api/v1/category", publicCategoryRouter);
 app.use("/api/v1/sub-category", publicSubCategoryRouter);
 app.use("/api/v1/products", publicProductRouter);
+app.use("/api/v1/users", publicUserRouter);
+app.use("/api/v1/users/dashboard", publicDashboardRouter);
 
 export { app };

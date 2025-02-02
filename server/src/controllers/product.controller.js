@@ -1,9 +1,8 @@
 import mongoose, { isValidObjectId } from "mongoose";
-import { Category } from "../../models/category.model.js";
-import { Product } from "../../models/product.model.js";
-import { SubCategory } from "../../models/subCategory.model.js";
-import { ApiError, ApiResponse, asyncHandler } from "../../utils/index.js";
-import util from "util";
+import { Category } from "../models/category.model.js";
+import { Product } from "../models/product.model.js";
+import { SubCategory } from "../models/subCategory.model.js";
+import { ApiError, ApiResponse, asyncHandler } from "../utils/index.js";
 
 const getProductByCategoryWithSubCategory = asyncHandler(async (req, res) => {
     const { categorySlug, subCategorySlug, page, limit } = req.query;

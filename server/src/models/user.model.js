@@ -16,7 +16,6 @@ const userSchema = new Schema(
         },
         username: {
             type: String,
-            required: [true, "Username Is Required"],
             lowercase: true,
             trim: true,
         },
@@ -33,41 +32,40 @@ const userSchema = new Schema(
         },
         phoneNumber: {
             type: String,
-            required: [true, "Phone Number Is Required"],
         },
         password: {
             type: String,
-            required: [true, "Password Is Required"],
         },
         address: {
             street: {
                 type: String,
-                required: [true, "Street is required"],
                 trim: true,
             },
             city: {
                 type: String,
-                required: [true, "City is required"],
                 trim: true,
             },
             state: {
                 type: String,
-                required: [true, "State is required"],
                 trim: true,
             },
             country: {
                 type: String,
-                required: [true, "Country is required"],
                 trim: true,
             },
             zip_code: {
                 type: String,
-                required: [true, "Zip Code is required"],
             },
         },
-        is_active: {
-            type: Boolean,
-            default: false,
+        googleId: { type: String },
+        facebookId: { type: String },
+        refreshToken: {
+            type: String,
+        },
+        authMethod: {
+            type: String,
+            enum: ["email", "google", "facebook"],
+            required: [true, "Auth Method Is Required"],
         },
     },
     { timestamps: true }

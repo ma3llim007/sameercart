@@ -131,7 +131,6 @@ const ViewProduct = () => {
                                             placeholder="Select The Category"
                                             title="View The Category"
                                             options={categoryOptions}
-                                            isRequired="true"
                                             readOnly
                                             disabled
                                             {...register("productCategoryId")}
@@ -150,7 +149,6 @@ const ViewProduct = () => {
                                     placeholder="Select The Sub-Category"
                                     title="View The Sub-Category"
                                     options={subCategoryOptions}
-                                    isRequired="true"
                                     readOnly
                                     disabled
                                     {...register("productSubCategoryId")}

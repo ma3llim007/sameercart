@@ -2,7 +2,7 @@ import crudService from "@/api/crudService";
 import { editSubCategoryScheme } from "@/validation/admin/subCategoyrSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { Input, Loading, PageHeader, Select } from "../components";
@@ -55,7 +55,7 @@ const EditSubCategory = () => {
     // setting the value to forms
     useEffect(() => {
         if (isSuccess && subCategoryData?.data) {
-            const { subCategoryName, subCategorySlug, parentCategory } = subCategoryData?.data[0];
+            const { subCategoryName, subCategorySlug, parentCategory } = subCategoryData?.data[0] || {};
             setValue("parentCategory", parentCategory);
             setValue("subCategoryName", subCategoryName);
             setValue("subCategorySlug", subCategorySlug);
@@ -121,7 +121,6 @@ const EditSubCategory = () => {
                                     title="Select The Category"
                                     options={categoryOptions?.data}
                                     error={errors.parentCategory?.message}
-                                    isRequired="true"
                                     disabled={isPending}
                                     {...register("parentCategory")}
                                     defaultValue={subCategoryData?.data[0]?.parentCategory}

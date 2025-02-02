@@ -1,7 +1,7 @@
-import { Category } from "../../models/category.model.js";
-import { ApiError } from "../../utils/ApiError.js";
-import { ApiResponse } from "../../utils/ApiResponse.js";
-import { asyncHandler } from "../../utils/asyncHandler.js";
+import { Category } from "../models/category.model.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 // Listing the category with subCategory for header
 const categoryWithSubCategory = asyncHandler(async (req, res) => {

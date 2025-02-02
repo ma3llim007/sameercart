@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import { Admin } from "../models/admin.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -20,11 +19,11 @@ export const verifyAdmin = asyncHandler(async (req, res, next) => {
 
         const admin = await Admin.findById(decodedToken?._id).select("-password -refreshToken");
         if (!admin || !admin.isActive) {
-            return res.status(401).json(new ApiError(403, "Access Denied. Your Account is Inactive."));
+            return res.status(403).json(new ApiError(403, "Access Denied. Your Account is Inactive."));
         }
 
         if (!admin.asOwnerShip) {
-            return res.status(401).json(new ApiError(403, "Access Denied. Admin Panel Access Restricted."));
+            return res.status(403).json(new ApiError(403, "Access Denied. Admin Panel Access Restricted."));
         }
         if (!admin) {
             return res.status(401).json(new ApiError(401, "Admin Not Found"));
@@ -32,8 +31,7 @@ export const verifyAdmin = asyncHandler(async (req, res, next) => {
         req.admin = admin;
         next();
     } catch (error) {
-        const errorMessage =
-            error.name === "TokenExpiredError" ? "Access Token Expired" : error?.message || "Invalid Access Token";
+        const errorMessage = error.name === "TokenExpiredError" ? "Access Token Expired" : error?.message || "Invalid Access Token";
         res.status(401).json(new ApiError(401, errorMessage));
     }
 });

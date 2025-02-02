@@ -1,8 +1,8 @@
-import { Category } from "../../models/category.model.js";
-import { SubCategory } from "../../models/subCategory.model.js";
-import { ApiError } from "../../utils/ApiError.js";
-import { ApiResponse } from "../../utils/ApiResponse.js";
-import { asyncHandler } from "../../utils/asyncHandler.js";
+import { Category } from "../models/category.model.js";
+import { SubCategory } from "../models/subCategory.model.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 // all Sub-categories
 const subcategories = asyncHandler(async (req, res) => {

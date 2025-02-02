@@ -228,7 +228,6 @@ const EditProducts = () => {
                                             placeholder="Select The Category"
                                             title="Select The Category"
                                             options={categoryOptions?.data}
-                                            isRequired="true"
                                             disabled={isPending}
                                             {...register("productCategoryId")}
                                             onChange={e => {
@@ -247,7 +246,6 @@ const EditProducts = () => {
                                     placeholder="Select The Sub-Category"
                                     title="Select The Sub-Category"
                                     options={SubCategoryOptions?.data || []}
-                                    isRequired="true"
                                     disabled={isPending}
                                     {...register("productSubCategoryId")}
                                     error={errors.productSubCategoryId?.message}
@@ -291,7 +289,6 @@ const EditProducts = () => {
                                     label="Product Type"
                                     placeholder="Select The Product Type"
                                     options={productTypeOptions}
-                                    isRequired="true"
                                     readOnly
                                     disabled
                                     {...register("productType")}

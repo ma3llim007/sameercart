@@ -21,9 +21,7 @@ const generateAccessAndRefeshTokens = async (adminId) => {
 };
 
 const verifyToken = (token, secret) => {
-    new Promise((resolve, reject) =>
-        jwt.verify(token, secret, (err, decoded) => (err ? reject(err) : resolve(decoded)))
-    );
+    new Promise((resolve, reject) => jwt.verify(token, secret, (err, decoded) => (err ? reject(err) : resolve(decoded))));
 };
 
 // HTTP OPTIONS
@@ -78,20 +76,11 @@ const loginAdmin = asyncHandler(async (req, res) => {
     }
 
     if (!adminIsExisted.isActive) {
-        return res
-            .status(403)
-            .json(
-                new ApiError(
-                    403,
-                    "Access Denied. Your Account Is Not Active. Please Verify Your Email To Activate Your Account."
-                )
-            );
+        return res.status(403).json(new ApiError(403, "Access Denied. Your Account Is Not Active. Please Verify Your Email To Activate Your Account."));
     }
 
     if (!adminIsExisted.asOwnerShip) {
-        return res
-            .status(403)
-            .json(new ApiError(403, "Access Denied. You Do Not Have Ownership Permissions To Access The Panel."));
+        return res.status(403).json(new ApiError(403, "Access Denied. You Do Not Have Ownership Permissions To Access The Panel."));
     }
 
     const { accessToken, refreshToken } = await generateAccessAndRefeshTokens(adminIsExisted._id);
@@ -174,9 +163,7 @@ const checkSession = asyncHandler(async (req, res) => {
     }
     try {
         const admin = await verifyToken(accessToken, process.env.ACCESS_TOKEN_SECRET);
-        return res
-            .status(200)
-            .json(new ApiResponse(200, { isAuthenticated: true, admin }, "Admin AccessToken Verified Successfully"));
+        return res.status(200).json(new ApiResponse(200, { isAuthenticated: true, admin }, "Admin AccessToken Verified Successfully"));
     } catch (_error) {
         return res.status(403).json(new ApiError(403, "Access Token Is Not Valid"));
     }
