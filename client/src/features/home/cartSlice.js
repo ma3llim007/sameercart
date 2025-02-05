@@ -76,6 +76,7 @@ const cartSlice = createSlice({
         clearCart: state => {
             state.carts = [];
             state.totalCartPrice = 0;
+            toastService.info(`Cart Is Clear`);
         },
     },
 });

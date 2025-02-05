@@ -115,7 +115,7 @@ const getVariantByProductId = asyncHandler(async (req, res) => {
 
     // variants by product ID
     try {
-        const variants = await Variant.find({ productId: productId });
+        const variants = await Variant.find({ productId: productId }).sort({ updatedAt: -1 });
 
         return res.status(200).json(new ApiResponse(200, variants, "Variants Fetch Successfully"));
     } catch (error) {
@@ -240,9 +240,14 @@ const updateVariant = asyncHandler(async (req, res) => {
             currVariant.stockQuantity = stockQuantityNum;
         }
         if (attributes) {
-            currVariant.attributes = JSON.parse(attributes);
+            // find the product id and checking that it have varainat object or not
+            const product = await Product.findById(currVariant.productId).lean();
+            const parseAttribute = JSON.parse(attributes);
+            currVariant.sku = generateSKU(product.productName, product.productBrand, parseAttribute);
+            currVariant.attributes = parseAttribute;
         }
         await currVariant.save();
+
         return res.status(200).json(new ApiResponse(200, currVariant, "Variant Updated Successfully"));
     } catch (error) {
         return res.status(500).json(new ApiError(500, error?.message));

@@ -66,9 +66,7 @@ export const addProductScheme = Yup.object().shape({
     productFeatureImage: Yup.mixed()
         .required("Product Feature Image Is Required")
         .test("fileType", "Unsupported File Format", value => isValidFileType(value)),
-    productBrand: Yup.string()
-        .required("Product Brand Is Required")
-        .matches(/^[A-Za-z\s]+$/, "Product Brand Must Only Contain Letters"),
+    productBrand: Yup.string().required("Product Brand Is Required"),
     productShortDescription: Yup.string().required("Product Short Description Is Required").max(120, "Maximum Length Is 120 Characters"),
     productType: Yup.string().required("Product Type Is Required").notOneOf(["", "default"], "You Must Select A Valid Product Type"),
     productDescription: Yup.string().required("Product Description Is Required").min(5, "Product Description Atleast Have More Than 5 Characters"),
@@ -139,9 +137,7 @@ export const editProductScheme = Yup.object().shape({
     productFeatureImage: Yup.mixed().test("fileType", "Unsupported file format", value => {
         return !value || isValidExtensions(value);
     }),
-    productBrand: Yup.string()
-        .required("Product Brand Is Required")
-        .matches(/^[A-Za-z\s]+$/, "Product Brand Must Only Contain Letters"),
+    productBrand: Yup.string().required("Product Brand Is Required"),
     productShortDescription: Yup.string().required("Product Short Description Is Required").max(120, "Maximum Length Is 120 Characters"),
     productType: Yup.string().required("Product Type Is Required").notOneOf(["", "default"], "You Must Select A Valid Product Type"),
     productDescription: Yup.string().required("Product Description Is Required").min(5, "Product Description Atleast Have More Than 5 Characters"),

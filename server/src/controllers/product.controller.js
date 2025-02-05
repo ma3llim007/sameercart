@@ -1,8 +1,7 @@
-import mongoose, { isValidObjectId } from "mongoose";
 import { Category } from "../models/category.model.js";
 import { Product } from "../models/product.model.js";
 import { SubCategory } from "../models/subCategory.model.js";
-import { ApiError, ApiResponse, asyncHandler } from "../utils/index.js";
+import { ApiError, ApiResponse, asyncHandler, groupVariants, groupVariantsByAttributes } from "../utils/index.js";
 
 const getProductByCategoryWithSubCategory = asyncHandler(async (req, res) => {
     const { categorySlug, subCategorySlug, page, limit } = req.query;
@@ -51,21 +50,15 @@ const getProductByCategoryWithSubCategory = asyncHandler(async (req, res) => {
             .skip(skip)
             .limit(limitNumber)
             .sort({ createdAt: -1 })
-            .select(
-                "productName productSlug productFeatureImage productShortDescription basePrice productDiscountPrice ratings productType"
-            );
+            .select("productName productSlug productFeatureImage productShortDescription basePrice productDiscountPrice ratings productType");
 
         // If no product are found, handle the empty state
         if (!products.length) {
-            return res
-                .status(200)
-                .json(new ApiResponse(200, { products: [], pageNumber, totalPages }, "No Sub Category Found"));
+            return res.status(200).json(new ApiResponse(200, { products: [], pageNumber, totalPages }, "No Sub Category Found"));
         }
 
         // Return The Pagination Sub Category With Metadata
-        return res
-            .status(200)
-            .json(new ApiResponse(200, { products, pageNumber, totalPages }, "Sub Category Fetch Successfully"));
+        return res.status(200).json(new ApiResponse(200, { products, pageNumber, totalPages }, "Sub Category Fetch Successfully"));
     } catch (error) {
         return res.status(500).json(new ApiError(500, error.message));
     }
@@ -134,7 +127,7 @@ const getProductBySlug = asyncHandler(async (req, res) => {
             },
         ]);
 
-        if (!product[0]) {
+        if (!product.length) {
             return res.status(404).json(new ApiResponse(404, null, "Product Not Found"));
         }
 

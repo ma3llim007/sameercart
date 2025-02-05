@@ -66,7 +66,7 @@ const Cart = () => {
                                             </TableCell>
                                             <TableCell className="p-3 border border-gray-600 dark:border-gray-400">
                                                 <div className="max-w-52 flex flex-col gap-2">
-                                                    {capitalizeWords(crt.name)}
+                                                    <Link to={`/product-details/${crt.slug}`}>{capitalizeWords(crt.name)}</Link>
                                                     {crt.attributes &&
                                                         crt.attributes?.map(attribute => (
                                                             <Badge key={attribute?._id} title={`${capitalizeWords(attribute.name)}: ${upperCase(attribute.value)}`} className="Primary max-w-fit" />
@@ -108,7 +108,7 @@ const Cart = () => {
                                                 </div>
                                             </TableCell>
                                             <TableCell className="p-3 border border-gray-600 dark:border-gray-400 text-center">{formatNumberWithCommas(crt.price * crt.quantity)}</TableCell>
-                                            <TableCell className="p-3 border border-gray-600 dark:border-gray-400">
+                                            <TableCell className="p-3 border border-gray-600 dark:border-gray-400 text-center">
                                                 <Button
                                                     className="Danger p-5 rounded-md"
                                                     onClick={() =>

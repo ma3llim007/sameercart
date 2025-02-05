@@ -201,7 +201,9 @@ const logoutUser = asyncHandler(async (req, res) => {
 });
 
 // Change Password
-
+// Send Password Reset Email
+// Password Reset
+// Logout
 const OAuthGoogleLogin = asyncHandler(async (req, res) => {
     try {
         const user = await req.user;

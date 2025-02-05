@@ -139,6 +139,7 @@ const Products = () => {
                                                     id: product?._id,
                                                     name: product?.productName,
                                                     price: product?.productDiscountPrice,
+                                                    slug: product?.productSlug,
                                                     quantity: 1,
                                                     image: product?.productFeatureImage,
                                                 });
