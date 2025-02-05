@@ -1,5 +1,3 @@
-import React from "react";
-
 const ResponsiveViewer = () => {
     return (
         <div className="fixed bottom-4 left-4 z-50 flex size-8 items-center justify-center rounded-full bg-purple-950 p-5 font-bold font-mono text-xl text-white">

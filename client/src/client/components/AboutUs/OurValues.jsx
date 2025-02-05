@@ -1,4 +1,3 @@
-import React from "react";
 import { FaHandshake, FaHandsHelping, FaLightbulb, FaStar } from "react-icons/fa";
 
 const valuesData = [

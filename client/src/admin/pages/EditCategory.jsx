@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Input, Loading, PageHeader } from "../components";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { FaEdit } from "react-icons/fa";
 import crudService from "@/api/crudService";
 import { LoadingOverlay } from "@/components";
+import toastService from "@/services/toastService";
 
 const EditCategory = () => {
     const queryClient = useQueryClient();
@@ -44,7 +45,7 @@ const EditCategory = () => {
     });
     useEffect(() => {
         if (isSuccess && categoryData?.data) {
-            const { categoryName, categorySlug } = categoryData?.data;
+            const { categoryName, categorySlug } = categoryData?.data || {};
             setValue("categoryName", categoryName);
             setValue("categorySlug", categorySlug);
         }

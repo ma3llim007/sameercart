@@ -1,4 +1,3 @@
-import React from "react";
 import { Banner, Container, Faq } from "../components";
 import securePaymentBanner from "../assets/banner/secure_payment.webp";
 import { MdOutlineDoubleArrow } from "react-icons/md";

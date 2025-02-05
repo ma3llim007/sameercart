@@ -1,4 +1,3 @@
-import React from "react";
 import companyOverviewImage from "../../assets/about_us/company_overview.webp";
 const content = {
     title: "Who We Are",

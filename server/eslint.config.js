@@ -36,10 +36,7 @@ export default [
             "no-buffer-constructor": "warn",
             "no-with": "error",
             "no-path-concat": "warn",
-            "no-unused-vars": [
-                "warn",
-                { argsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_", varsIgnorePattern: "^_" },
-            ],
+            "no-unused-vars": ["warn", { argsIgnorePattern: "^_", caughtErrorsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
             "no-multiple-empty-lines": ["error", { max: 2, maxEOF: 2 }],
             "require-await": "warn",
             "no-extend-native": "warn",

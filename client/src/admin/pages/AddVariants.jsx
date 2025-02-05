@@ -38,6 +38,7 @@ const AddVariants = () => {
     });
 
     const {
+        // eslint-disable-next-line no-unused-vars
         register: registerVariant,
         handleSubmit: handleSubmitVariant,
         control: controlVariant,

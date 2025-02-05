@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { FiPhoneCall } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import payment from "../../assets/payment.webp";
@@ -56,7 +56,7 @@ const Footer = () => {
                                 <Link to={"/return-policy"}>Return Policy</Link>
                             </li>
                             <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link to={"/category"}>Category's</Link>
+                                <Link to={"/category"}>Category&apos;s</Link>
                             </li>
                             <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={"/terms-and-conditions"}>Terms & Condition</Link>

@@ -1,4 +1,3 @@
-import React from "react";
 import { FaCreditCard, FaShippingFast, FaUserAstronaut } from "react-icons/fa";
 import { TbTruckReturn } from "react-icons/tb";
 

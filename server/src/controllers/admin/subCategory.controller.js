@@ -187,10 +187,7 @@ const updateSubCategory = asyncHandler(async (req, res) => {
     // check if there's a conflict with either name or slug
     const duplicateSubCategory = await SubCategory.findOne({
         _id: { $ne: subCategoryId },
-        $or: [
-            { subCategoryName: subCategoryName ? subCategoryName : subCategoryCur.subCategoryName },
-            { subCategorySlug: subCategorySlug ? subCategorySlug : subCategoryCur.subCategorySlug },
-        ],
+        $or: [{ subCategoryName: subCategoryName ? subCategoryName : subCategoryCur.subCategoryName }, { subCategorySlug: subCategorySlug ? subCategorySlug : subCategoryCur.subCategorySlug }],
     });
 
     // Check if there's a conflict with either name or slug
@@ -292,20 +289,10 @@ const subCategoryByIdOptions = asyncHandler(async (req, res) => {
             },
         ]);
 
-        return res
-            .status(200)
-            .json(new ApiResponse(200, subCategoryOptions, "Sub Category Options Fetch Successfully"));
+        return res.status(200).json(new ApiResponse(200, subCategoryOptions, "Sub Category Options Fetch Successfully"));
     } catch (error) {
         return res.status(500).json(new ApiError(500, error.message));
     }
 });
 
-export {
-    addSubCategory,
-    getSubCategory,
-    deleteSubCategory,
-    getSubCategoryById,
-    updateSubCategory,
-    toggleSubCategory,
-    subCategoryByIdOptions,
-};
+export { addSubCategory, getSubCategory, deleteSubCategory, getSubCategoryById, updateSubCategory, toggleSubCategory, subCategoryByIdOptions };

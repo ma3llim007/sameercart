@@ -1,4 +1,3 @@
-import React from "react";
 import { Banner, Container, DeliveryPolicies, FAQsSection, OrderProcessingTime, ReturnsAndExchanges, ShippingMethods } from "../components";
 import bannerImage from "../assets/banner/delivery.webp";
 

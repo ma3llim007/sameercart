@@ -1,4 +1,3 @@
-import React from "react";
 import { FaTruck, FaShippingFast, FaClock, FaGlobe } from "react-icons/fa";
 
 const shippingCard = [

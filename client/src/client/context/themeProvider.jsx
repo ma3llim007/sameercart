@@ -6,6 +6,7 @@ const themeProviderContext = createContext({
     setTheme: () => null,
 });
 
+// eslint-disable-next-line no-unused-vars
 export function ThemeProvider({ children, defaultTheme = "system", storageKey = "vite-ui-theme", ...props }) {
     const [theme, setTheme] = useState(() => {
         return localStorage.getItem(storageKey) || defaultTheme;

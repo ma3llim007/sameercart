@@ -1,11 +1,5 @@
 import { Router } from "express";
-import {
-    checkSession,
-    loginAdmin,
-    logOutAdmin,
-    refreshAccessTokenAdmin,
-    registerAdmin,
-} from "../../controllers/admin/adminAuth.controller.js";
+import { checkSession, loginAdmin, logOutAdmin, refreshAccessTokenAdmin, registerAdmin } from "../../controllers/admin/adminAuth.controller.js";
 import { verifyAdmin } from "../../middlewares/auth.middleware.js";
 
 const router = Router();

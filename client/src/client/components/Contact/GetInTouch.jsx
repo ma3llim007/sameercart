@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
 import { FaFacebook, FaGlobe, FaGoogle, FaInstagram, FaLinkedinIn, FaPhoneAlt, FaTwitter } from "react-icons/fa";
 import { IoLocation } from "react-icons/io5";
 

@@ -1,4 +1,3 @@
-import React from "react";
 import { blogs } from "@/client/data/blogs";
 import blogImage from "../../assets/blog.webp";
 import { FaUser } from "react-icons/fa";

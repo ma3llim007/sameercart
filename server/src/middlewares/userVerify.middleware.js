@@ -18,4 +18,3 @@ const userVerify = (req, res, next) => {
 };
 
 export default userVerify;
- 

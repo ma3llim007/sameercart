@@ -1,4 +1,3 @@
-import React from "react";
 import { Banner, Container } from "../components";
 import privacyPolicyBanner from "../assets/banner/privacy_polics.webp";
 

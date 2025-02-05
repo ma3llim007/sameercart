@@ -1,15 +1,7 @@
 import { Router } from "express";
 import { verifyAdmin } from "../../middlewares/auth.middleware.js";
 import { upload } from "../../middlewares/multer.middleware.js";
-import {
-    addVariant,
-    deleteVariant,
-    deleteVariantImageByIds,
-    editVariantImageById,
-    getVariantByProductId,
-    getVariantByVariantId,
-    updateVariant,
-} from "../../controllers/admin/variant.controller.js";
+import { addVariant, deleteVariant, deleteVariantImageByIds, editVariantImageById, getVariantByProductId, getVariantByVariantId, updateVariant } from "../../controllers/admin/variant.controller.js";
 
 const router = Router();
 router.use(verifyAdmin);

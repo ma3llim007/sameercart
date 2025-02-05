@@ -1,4 +1,3 @@
-import React from "react";
 import { Banner, Container } from "../components";
 import termsAndcondition from "../assets/banner/terms_and_conditions.webp";
 import { Link } from "react-router-dom";

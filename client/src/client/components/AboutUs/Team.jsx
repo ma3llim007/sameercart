@@ -1,4 +1,3 @@
-import React from "react";
 import sameer from "../../assets/teams/sameer.webp";
 import shaiksameer from "../../assets/teams/shaik_sameer.webp";
 import salman from "../../assets/teams/salman.webp";

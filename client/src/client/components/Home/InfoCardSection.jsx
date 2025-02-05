@@ -1,4 +1,3 @@
-import React from "react";
 import image1 from "../../assets/home/info_section/info_Image1.webp";
 import image2 from "../../assets/home/info_section/info_Image2.webp";
 import image3 from "../../assets/home/info_section/info_Image3.webp";

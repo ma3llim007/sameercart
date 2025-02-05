@@ -1,4 +1,3 @@
-import React from "react";
 import { FaFlag, FaProductHunt, FaGlobe, FaUsers } from "react-icons/fa";
 import bgImage from "../../assets/about_us/bg_our_story.webp";
 

@@ -1,4 +1,3 @@
-import React from "react";
 import image from "../../assets/delivery/returns_and_exchanges.webp";
 import { FaBox, FaShippingFast, FaMoneyBillWave } from "react-icons/fa";
 import { FiPackage } from "react-icons/fi";

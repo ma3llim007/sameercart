@@ -5,7 +5,7 @@ import useAuth from "../hooks/useAuth";
 import toastService from "@/services/toastService";
 
 export default function DashboardLayout() {
-    const { admin, isError, isAuthenticated, isLoading } = useAuth();
+    const { admin, isError, isLoading } = useAuth();
 
     if (isLoading) {
         return <Loading />;

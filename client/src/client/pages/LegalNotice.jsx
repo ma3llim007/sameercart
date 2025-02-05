@@ -1,4 +1,3 @@
-import React from "react";
 import { Banner, Container } from "../components";
 import legalNoticeBanner from "../assets/banner/legal_notice.webp";
 import { Link } from "react-router-dom";

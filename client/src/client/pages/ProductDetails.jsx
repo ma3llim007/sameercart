@@ -10,7 +10,6 @@ import { capitalizeWords, formatNumberWithCommas } from "@/utils";
 import Rating from "../components/Rating";
 import { FaCartPlus, FaFacebook, FaHeart, FaInstagram, FaRupeeSign, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { useEffect, useMemo, useState } from "react";
-import { upperCase } from "lodash";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components";
 import { FaShuffle } from "react-icons/fa6";

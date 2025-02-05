@@ -1,5 +1,3 @@
-import React from "react";
-
 const Loading = ({ weight = "14", height = "14" }) => {
     return (
         <div className="mx-8 my-4">

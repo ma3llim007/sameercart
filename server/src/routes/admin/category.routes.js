@@ -1,13 +1,5 @@
 import { Router } from "express";
-import {
-    addCategory,
-    categories,
-    deleteCategory,
-    getCateogryById,
-    getOptionsCategory,
-    toggleCategory,
-    updateCategory,
-} from "../../controllers/admin/category.controller.js";
+import { addCategory, categories, deleteCategory, getCateogryById, getOptionsCategory, toggleCategory, updateCategory } from "../../controllers/admin/category.controller.js";
 import { verifyAdmin } from "../../middlewares/auth.middleware.js";
 import { upload } from "../../middlewares/multer.middleware.js";
 

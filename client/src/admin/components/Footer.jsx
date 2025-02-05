@@ -1,5 +1,4 @@
 import { currentYear } from "@/utils";
-import React from "react";
 
 const Footer = () => {
     return (

@@ -1,14 +1,6 @@
 import { Router } from "express";
 import { upload } from "../../middlewares/multer.middleware.js";
-import {
-    addSubCategory,
-    deleteSubCategory,
-    getSubCategory,
-    getSubCategoryById,
-    subCategoryByIdOptions,
-    toggleSubCategory,
-    updateSubCategory,
-} from "../../controllers/admin/subCategory.controller.js";
+import { addSubCategory, deleteSubCategory, getSubCategory, getSubCategoryById, subCategoryByIdOptions, toggleSubCategory, updateSubCategory } from "../../controllers/admin/subCategory.controller.js";
 import { verifyAdmin } from "../../middlewares/auth.middleware.js";
 
 const router = Router();

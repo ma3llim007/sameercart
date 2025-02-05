@@ -176,23 +176,15 @@ const categories = asyncHandler(async (req, res) => {
         }
 
         // Fetch paginated categories
-        const categories = await Category.find()
-            .skip(skip)
-            .limit(limit)
-            .sort({ createdAt: -1 })
-            .select("categoryName categorySlug categoryImage");
+        const categories = await Category.find().skip(skip).limit(limit).sort({ createdAt: -1 }).select("categoryName categorySlug categoryImage");
 
         // If no categories are found, handle the empty state
         if (!categories.length) {
-            return res
-                .status(200)
-                .json(new ApiResponse(200, { categories: [], page, totalPages }, "No categories Found"));
+            return res.status(200).json(new ApiResponse(200, { categories: [], page, totalPages }, "No categories Found"));
         }
 
         // Return the paginated categories with metadata
-        return res
-            .status(200)
-            .json(new ApiResponse(200, { categories, page, totalPages }, "Categories Fetch Successfully"));
+        return res.status(200).json(new ApiResponse(200, { categories, page, totalPages }, "Categories Fetch Successfully"));
     } catch (error) {
         return res.status(500).json(new ApiError(500, error.message));
     }

@@ -25,23 +25,15 @@ const subcategories = asyncHandler(async (req, res) => {
         }
 
         // Fetch paginated Sub-categories
-        const subcategories = await SubCategory.find()
-            .skip(skip)
-            .limit(limit)
-            .sort({ createdAt: -1 })
-            .select("subCategoryName subCategorySlug subCategoryImage");
+        const subcategories = await SubCategory.find().skip(skip).limit(limit).sort({ createdAt: -1 }).select("subCategoryName subCategorySlug subCategoryImage");
 
         // If no categories are found, handle the empty state
         if (!subcategories.length) {
-            return res
-                .status(200)
-                .json(new ApiResponse(200, { subcategories: [], page, totalPages }, "No Sub Category Found"));
+            return res.status(200).json(new ApiResponse(200, { subcategories: [], page, totalPages }, "No Sub Category Found"));
         }
 
         // Return the paginated categories with metadata
-        return res
-            .status(200)
-            .json(new ApiResponse(200, { subcategories, page, totalPages }, "Sub Category Fetch Successfully"));
+        return res.status(200).json(new ApiResponse(200, { subcategories, page, totalPages }, "Sub Category Fetch Successfully"));
     } catch (error) {
         return res.status(500).json(new ApiError(500, error.message));
     }
@@ -77,23 +69,15 @@ const subCategoryByCategory = asyncHandler(async (req, res) => {
         }
 
         // Fetching Pagination Sub Category
-        const subCategorys = await SubCategory.find({ parentCategory: category._id })
-            .skip(skip)
-            .limit(limit)
-            .sort({ createdAt: -1 })
-            .select("subCategoryName subCategorySlug subCategoryImage");
+        const subCategorys = await SubCategory.find({ parentCategory: category._id }).skip(skip).limit(limit).sort({ createdAt: -1 }).select("subCategoryName subCategorySlug subCategoryImage");
 
         // If no subcategories are found, handle the empty state
         if (!subCategorys.length) {
-            return res
-                .status(200)
-                .json(new ApiResponse(200, { subCategory: [], page, totalPages }, "No Sub Category Found"));
+            return res.status(200).json(new ApiResponse(200, { subCategory: [], page, totalPages }, "No Sub Category Found"));
         }
 
         // Return The Pagination Sub Category With Metadata
-        return res
-            .status(200)
-            .json(new ApiResponse(200, { subCategorys, page, totalPages }, "Sub Category Fetch Successfully"));
+        return res.status(200).json(new ApiResponse(200, { subCategorys, page, totalPages }, "Sub Category Fetch Successfully"));
     } catch (error) {
         return res.status(500).json(new ApiError(500, error.message));
     }

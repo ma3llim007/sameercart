@@ -103,17 +103,12 @@ const updateCategory = asyncHandler(async (req, res) => {
 
     // Check if at least one field is provided for update
     if (!categoryName && !categorySlug && !categoryImage) {
-        return res
-            .status(400)
-            .json(new ApiError(400, "At least one field (Name, Slug, or Image) is required for update"));
+        return res.status(400).json(new ApiError(400, "At least one field (Name, Slug, or Image) is required for update"));
     }
 
     const duplicateCategory = await Category.findOne({
         _id: { $ne: categoryId },
-        $or: [
-            { categoryName: categoryName ? categoryName : category.categoryName },
-            { categorySlug: categorySlug ? categorySlug : category.categorySlug },
-        ],
+        $or: [{ categoryName: categoryName ? categoryName : category.categoryName }, { categorySlug: categorySlug ? categorySlug : category.categorySlug }],
     });
 
     // Check if there's a conflict with either name or slug

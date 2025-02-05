@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Faq from "../Faq";
 
 const faqs = [

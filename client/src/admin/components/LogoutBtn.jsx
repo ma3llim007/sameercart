@@ -29,7 +29,7 @@ const LogoutBtn = () => {
             storePersistor.purge();
         },
         onError: error => {
-            toastService.error("Something Went Wrong While Log-Out");
+            toastService.error(error.message || "Something Went Wrong While Log-Out");
         },
     });
 

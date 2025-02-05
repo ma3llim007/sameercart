@@ -1,4 +1,3 @@
-import React from "react";
 import returnPolicyBanner from "../assets/banner/return_policy.webp";
 import { Banner, Container } from "../components";
 
@@ -33,7 +32,7 @@ const ReturnPolicy = () => {
                                 <li>Personalized or custom-made items.</li>
                                 <li>Perishable goods (e.g., food, flowers).</li>
                                 <li>Digital products and gift cards.</li>
-                                <li>Items marked as "Final Sale" at the time of purchase.</li>
+                                <li>Items marked as &quot;Final Sale&quot; at the time of purchase.</li>
                             </ul>
                         </div>
                         <div>

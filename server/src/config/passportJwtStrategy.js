@@ -15,7 +15,7 @@ passport.use(
     new JWTStrategy(OPTIONS, async (jwt_payload, done) => {
         try {
             const user = await User.findById(jwt_payload._id).select("-password -refreshToken");
-            
+
             if (!user) {
                 return done(null, false, { message: "User Not Found" });
             }
