@@ -72,7 +72,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
     const isPasswordValid = await adminIsExisted.isPasswordCorrect(password);
     if (!isPasswordValid) {
-        return res.status(401).json(new ApiError(401, "Password Not Match"));
+        return res.status(401).json(new ApiError(401, "Incorrect Password. Please Try Again."));
     }
 
     if (!adminIsExisted.isActive) {
