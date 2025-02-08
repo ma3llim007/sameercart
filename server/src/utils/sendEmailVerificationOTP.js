@@ -11,7 +11,7 @@ export const sendEmailVerificationOTP = async (user) => {
         await EmailVerification.create({ userId: user._id, otpCode });
 
         // OTP Verification Link
-        const otpVerificationLink = `${process.env.FRONTEND_HOST}/account/verify-email`;
+        const otpVerificationLink = `${process.env.FRONTEND_HOST}/verify-email`;
         const emailHtml = `
             <html>
                 <head>
@@ -34,14 +34,14 @@ export const sendEmailVerificationOTP = async (user) => {
                         }
     
                         h2 {
-                            color: #5e72e4;
+                            color: #0562D6;
                             text-align: center;
                         }
     
                         .otp {
                             font-size: 24px;
                             font-weight: bold;
-                            color: #5e72e4;
+                            color: #0562D6;
                             text-align: center;
                             margin: 20px 0;
                         }
@@ -57,15 +57,30 @@ export const sendEmailVerificationOTP = async (user) => {
                             display: block;
                             width: 100%;
                             padding: 15px;
-                            background-color: #5e72e4;
-                            color: white;
+                            background-color: #0562D6;
+                            color: white !important;
                             text-align: center;
                             border-radius: 5px;
                             text-decoration: none;
                             font-weight: bold;
                             margin-top: 20px;
                         }
-    
+
+                        .link-message {
+                            font-size: 14px;
+                            color: #555;
+                            margin-top: 15px;
+                        }
+
+                        .link {
+                            display: block;
+                            margin-top: 5px;
+                            font-size: 14px;
+                            color: #0562D6;
+                            text-decoration: underline;
+                            word-break: break-all;
+                        }
+
                         .footer {
                             text-align: center;
                             font-size: 12px;
@@ -80,8 +95,10 @@ export const sendEmailVerificationOTP = async (user) => {
                         <h2>Welcome to SameerCart!</h2>
                         <p class="message">Thank you for registering. To verify your email address, please enter the OTP below:</p>
                         <div class="otp">${otpCode}</div>
-                        <p class="message">Alternatively, you can click the link below to verify your email address:</p>
-                        <a href="${otpVerificationLink}" class="button">Verify Your Email</a>
+                        <p class="message">Alternatively, you can click the button below to verify your email:</p>
+                        <a target="_blank" href="${otpVerificationLink}" class="button">Verify Your Email</a>
+                        <p class="link-message">If the button above doesn't work, please click on the link below:</p>
+                        <a target="_blank" href="${otpVerificationLink}" class="link">${otpVerificationLink}</a>
                         <p class="footer">This OTP is valid for 15 minutes. If you did not request this email, please ignore it.</p>
                     </div>
                 </body>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaBars, FaRegHeart } from "react-icons/fa";
 import { ModeToggle } from "../ModeToggle";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import { CiSearch } from "react-icons/ci";
 import { FaBagShopping } from "react-icons/fa6";
@@ -11,15 +11,23 @@ import useSticky from "../../hooks/useSticky";
 import Logo from "../Logo";
 import SideBar from "./SideBar";
 import { upperCase, upperFirst } from "lodash";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { formatNumberWithCommas } from "@/utils";
+import { useMutation } from "@tanstack/react-query";
+import crudService from "@/api/crudService";
+import toastService from "@/services/toastService";
+import { userLogOut } from "@/features/home/userAuthSlice";
+import Loader from "../Loader/Loader";
+import { storePersistor } from "@/store";
 
 const Header = ({ data }) => {
     const { carts, totalCartPrice } = useSelector(state => state.cart);
+    const { isAuthenticated } = useSelector(state => state.userAuth);
+    const navigate = useNavigate();
     const { wishlists } = useSelector(state => state.wishlist);
     const isSticky = useSticky(100);
     const [MobileNavOpen, setMobileNavOpen] = useState(false);
-
+    const dispatch = useDispatch();
     const handleMobileModel = () => {
         setMobileNavOpen(prev => !prev);
     };
@@ -27,6 +35,22 @@ const Header = ({ data }) => {
     const wishListQty = wishlists?.length || 0;
     const price = formatNumberWithCommas(totalCartPrice || 0);
 
+    const { mutate, isPending } = useMutation({
+        mutationFn: () => crudService.post("/users/log-out", false),
+        onSuccess: data => {
+            dispatch(userLogOut());
+            toastService.info(data?.message || "Logged out successfully");
+            // Ensure storePersistor exists before calling purge()
+            if (storePersistor?.purge) {
+                storePersistor.purge();
+            }
+            navigate("/");
+        },
+        onError: error => {
+            toastService.error(error?.response?.data?.message || "Something went wrong while logging out");
+        },
+    });
+    if (isPending) return <Loader />;
     return (
         <>
             <header className="w-screen flex flex-col text-xs sm:text-sm lg:text-base xl:text-base 2xl:text-base shadow select-none bg-light-bgWhite dark:bg-dark-bgDark">
@@ -46,18 +70,25 @@ const Header = ({ data }) => {
                                         className="border-none bg-light-bgLightGray text-light-textDarkGray dark:bg-dark-deep dark:text-dark-textWhite z-40"
                                         sideOffset={10}
                                     >
-                                        <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
-                                            <Link to={"/my-account"}>My Account</Link>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
-                                            <Link to={"/checkout"}>Checkout</Link>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
-                                            <Link to={"/register"}>Register</Link>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
-                                            <Link to={"/login"}>Login</Link>
-                                        </DropdownMenuItem>
+                                        {isAuthenticated ? (
+                                            <>
+                                                <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
+                                                    <Link to={"/account/dashboad"}>My Account</Link>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={mutate} className="py-2 px-4 cursor-pointer">
+                                                    Logout
+                                                </DropdownMenuItem>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
+                                                    <Link to={"/register"}>Register</Link>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
+                                                    <Link to={"/login"}>Login</Link>
+                                                </DropdownMenuItem>
+                                            </>
+                                        )}
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                                 |

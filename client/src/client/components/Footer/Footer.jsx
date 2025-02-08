@@ -65,7 +65,7 @@ const Footer = () => {
                                 <Link to={"/privacy-policy"}>Privacy polics</Link>
                             </li>
                             <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
-                                <Link to={"/my-account"}>My Account</Link>
+                                <Link to={"/account/dashboad"}>My Account</Link>
                             </li>
                         </ul>
                     </div>

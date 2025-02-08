@@ -1,90 +1,134 @@
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Banner, Container } from "../components";
-import { Link } from "react-router-dom";
-import bannerImage from "../assets/banner/basket_banner.webp";
+import { Container } from "../components";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FaFacebook, FaGoogle } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaFacebook, FaGoogle } from "react-icons/fa";
 import { Input } from "@/components";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { loginUser } from "@/validation/UserScheme";
+import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import crudService from "@/api/crudService";
+import toastService from "@/services/toastService";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogin } from "@/features/home/userAuthSlice";
 
 const Login = () => {
+    const {
+        handleSubmit,
+        register,
+        formState: { errors },
+        setError,
+        reset,
+    } = useForm({
+        resolver: yupResolver(loginUser),
+        mode: "onChange",
+    });
+    const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+    const dispatch = useDispatch();
+    const { isAuthenticated } = useSelector(state => state.userAuth);
+
+    // Ensure toast doesn't trigger infinitely
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate("/account/dashboad");
+        }
+    }, [isAuthenticated, navigate]);
+
+    // Mutation
+    const { mutate, isPending } = useMutation({
+        mutationFn: data => crudService.post("users/login", false, data),
+        onSuccess: data => {
+            const { _id, firstName, lastName, email } = data?.data?.user || {};
+            dispatch(userLogin({ _id, firstName, lastName, email }));
+            navigate("/account/dashboad");
+            toastService.success(data?.message);
+        },
+        onError: error => {
+            const message = error?.response?.data?.message || error?.message;
+            reset();
+            setError("root", { message });
+        },
+    });
+
     return (
-        <div>
-            <Banner title={"Login"} image={bannerImage}>
-                <Breadcrumb>
-                    <BreadcrumbList className="text-lg">
-                        <BreadcrumbItem>
-                            <Link to="/">Home</Link>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbPage>{"Login"}</BreadcrumbPage>
-                        </BreadcrumbItem>
-                    </BreadcrumbList>
-                </Breadcrumb>
-            </Banner>
-            <Container>
-                <section className="w-full my-10">
-                    <section className="w-full my-10">
-                        <div className="max-w-lg mx-auto border-2 border-gray-700 p-8 rounded-2xl shadow-2xl bg-gray-800 space-y-6 text-white">
-                            <div className="text-center">
-                                <h1 className="text-4xl font-bold text-blue-500 mb-2">Login</h1>
+        <Container>
+            <section className="w-full my-10">
+                <div className="max-w-lg mx-auto border-2 border-gray-700 p-5 rounded-2xl shadow-2xl bg-gray-800 space-y-6 text-white">
+                    <div className="text-center">
+                        <h1 className="text-3xl font-bold text-blue-500">Login</h1>
+                    </div>
+                    <form className="space-y-5" onSubmit={handleSubmit(data => mutate(data))}>
+                        <div className="flex justify-center space-x-4">
+                            <div
+                                className="flex items-center justify-center w-12 h-12 bg-red-600 text-white rounded-full transition duration-300 hover:bg-red-700 hover:scale-105 cursor-pointer"
+                                onClick={() => console.log("FaGoogle")}
+                            >
+                                <FaGoogle className="text-2xl" />
                             </div>
-                            <form className="space-y-6">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <Button className="flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white text-xl font-semibold p-8 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
-                                        <FaGoogle /> Google
-                                    </Button>
-                                    <Button className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-xl font-semibold p-8 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
-                                        <FaFacebook /> Facebook
-                                    </Button>
-                                </div>
-                                <div className="relative flex items-center justify-center">
-                                    <hr className="w-full border-gray-600" />
-                                    <span className="absolute bg-gray-800 px-4 text-gray-400">or</span>
-                                </div>
-                                <Input
-                                    className="w-full text-lg rounded-lg px-3 py-3 border border-gray-600 !bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    placeholder="Enter Your E-Mail"
-                                    type="email"
-                                />
-                                <div>
-                                    <Input
-                                        className="w-full text-lg rounded-lg px-3 py-3 border border-gray-600 !bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        placeholder="Enter Your Password"
-                                        type="password"
-                                    />
-                                    <p className="mt-1">
-                                        Forgot Your Password?{" "}
-                                        <Link to={"/forgot-password"} className="text-blue-500 hover:underline">
-                                            Reset It
-                                        </Link>
-                                    </p>
-                                </div>
-                                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xl font-semibold p-8 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
-                                    Sign Up
-                                </Button>
-                            </form>
-                            <p className="text-center text-gray-400">
-                                By signing up, you agree to our{" "}
-                                <Link to="/terms-and-conditions" className="text-blue-500 hover:underline">
-                                    Terms of Service
-                                </Link>
-                                .
-                            </p>
-                            <div className="mt-6 text-center">
-                                <p className="font-semibold text-gray-300">
-                                    {/* eslint-disable-next-line react/no-unescaped-entities */}
-                                    Don't have an account?{" "}
-                                    <Link to="/register" className="text-blue-500 hover:underline">
-                                        Sign up here
-                                    </Link>
-                                </p>
+                            <div
+                                className="flex items-center justify-center w-12 h-12 bg-blue-600 text-white rounded-full transition duration-300 hover:bg-blue-700 hover:scale-105 cursor-pointer"
+                                onClick={() => console.log("FaFacebook")}
+                            >
+                                <FaFacebook className="text-2xl" />
                             </div>
                         </div>
-                    </section>
-                </section>
-            </Container>
-        </div>
+                        <div className="relative flex items-center justify-center">
+                            <hr className="w-full border-gray-600" />
+                            <span className="absolute bg-gray-800 px-4 text-gray-400">or</span>
+                        </div>
+                        {errors.root && (
+                            <div className="w-full my-4 bg-red-500 text-center rounded-md border border-red-600 py-3 px-4">
+                                <p className="text-white font-bold text-sm">{errors.root.message}</p>
+                            </div>
+                        )}
+                        <Input
+                            {...register("email")}
+                            className="w-full text-lg rounded px-3 py-3 border border-gray-600 !bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            label="E-Mail"
+                            placeholder="Enter Your E-Mail"
+                            type="email"
+                            disabled={isPending}
+                            error={errors.email?.message}
+                        />
+                        <div>
+                            <label htmlFor={"password"} className="inline-block pl-1 text-base font-bold mb-2">
+                                Password <span className="text-red-500 font-black">*</span>
+                            </label>
+                            <div className="relative w-full">
+                                <input
+                                    id="password"
+                                    placeholder="Enter Your Password"
+                                    type={showPassword ? "text" : "password"}
+                                    {...register("password")}
+                                    disabled={isPending}
+                                    onCopy={e => e.preventDefault()}
+                                    onPaste={e => e.preventDefault()}
+                                    className="w-full text-lg rounded px-3 py-3 border border-gray-600 !bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
+                                />
+                                <button onClick={() => setShowPassword(prev => !prev)} type="button" className="absolute top-4 right-3 flex items-center justify-center">
+                                    {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                                </button>
+                                {errors.password?.message && <p className="text-red-700 font-bold my-2 text-base px-2">{errors.password?.message}</p>}
+                                <Link to={"/forgot-password"}>
+                                    <p className="text-light-blue font-bold mt-4 text-base px-2">Forgot Password ?</p>
+                                </Link>
+                            </div>
+                        </div>
+                        <Button disabled={isPending} className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xl font-semibold p-6 rounded-lg transition duration-300 ease-in-out transform">
+                            Login
+                        </Button>
+                    </form>
+                    <p className="font-semibold text-gray-300">
+                        Don&apos;t Have An Account?{" "}
+                        <Link to="/register" className="text-blue-500 hover:underline">
+                            Create An Account
+                        </Link>
+                    </p>
+                </div>
+            </section>
+        </Container>
     );
 };
 

@@ -212,7 +212,7 @@ const ProductDetails = () => {
                         <hr className="decoration-2 my-4 lg:hidden" />
                         {/* Product Details */}
                         <div className="flex flex-col p-2 space-y-4">
-                            <h1 className="text-3xl font-semibold mb-4 text-center">{capitalizeWords(productData?.productName)}</h1>
+                            <h1 className="text-3xl font-semibold">{capitalizeWords(productData?.productName)}</h1>
                             <h3 className="text-xl font-bold">Description:</h3>
                             <p>{productData?.productShortDescription}</p>
                             {/* Product Brand */}

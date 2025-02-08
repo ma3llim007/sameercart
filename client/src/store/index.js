@@ -6,6 +6,7 @@ import { persistReducer, persistStore } from "redux-persist";
 import authSlice from "@/features/admin/authSlice";
 import cartSlice from "@/features/home/cartSlice";
 import wishlistSlice from "@/features/home/wishlistSlice";
+import userAuthSlice from "@/features/home/userAuthSlice";
 
 // Persistence Configuration for auth
 const authPersistenConfig = {
@@ -28,16 +29,25 @@ const wishListPersistenConfig = {
     storage,
 };
 
+// Persistence Configuration for User Auth
+const userAuthPersistenConfig = {
+    key: "user",
+    version: 1,
+    storage,
+};
+
 // persist the slice
 const persistedAuthReducer = persistReducer(authPersistenConfig, authSlice);
 const persistedCartReducer = persistReducer(cartPersistenConfig, cartSlice);
 const persistedWishListReducer = persistReducer(wishListPersistenConfig, wishlistSlice);
+const persistedUserAuthReducer = persistReducer(userAuthPersistenConfig, userAuthSlice);
 
 // create a root reducer
 const rootReducer = combineReducers({
     auth: persistedAuthReducer,
     cart: persistedCartReducer,
     wishlist: persistedWishListReducer,
+    userAuth: persistedUserAuthReducer,
 });
 
 const store = configureStore({

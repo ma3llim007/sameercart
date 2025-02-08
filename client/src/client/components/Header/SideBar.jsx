@@ -82,7 +82,7 @@ const SideBar = ({ isOpenModel, handleModel, wishListQty, cartQty, catgoryAndSub
                 </nav>
                 <div className="w-full px-5 mb-6">
                     <div className="flex justify-start gap-5 p-2 items-center">
-                        <Link to="/my-account" className="flex items-center" onClick={handleModel}>
+                        <Link to="/account/dashboad" className="flex items-center" onClick={handleModel}>
                             <FaRegUser className="text-2xl mr-2 font-extrabold cursor-pointer" />
                         </Link>
                         <div className="relative">

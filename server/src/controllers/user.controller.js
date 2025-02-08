@@ -18,12 +18,12 @@ const register = asyncHandler(async (req, res) => {
         const { firstName, lastName, email, password } = req.body;
 
         if (!firstName?.trim() || !lastName?.trim() || !email?.trim() || !password?.trim()) {
-            return res.status(422).json(new ApiError(422, "All Field Are Required"));
+            return res.status(422).json(new ApiError(422, "All Field Are Required. Please Provide First Name, Last Name, Email And Password"));
         }
 
         const userIsExisted = await User.findOne({ email });
         if (userIsExisted) {
-            return res.status(409).json(new ApiError(409, "User Is Already Exists"));
+            return res.status(409).json(new ApiError(409, "User Is Already Exists, Please Login Or Use A Different Email"));
         }
 
         const user = await User.create({
@@ -33,13 +33,14 @@ const register = asyncHandler(async (req, res) => {
             password,
             authMethod: "email",
         });
-
         await sendEmailVerificationOTP(user);
+
+        // Remove sensitive information before sending response
         const registerUser = user.toObject();
         delete registerUser.authMethod;
         delete registerUser.password;
 
-        return res.status(201).json(new ApiResponse(201, registerUser, "User Created Successfully"));
+        return res.status(201).json(new ApiResponse(201, registerUser, "User Register Successfully, Please Check Your Email For Verification"));
     } catch (error) {
         return res.status(500).json(new ApiError(500, error.message || "Internal Server Error"));
     }
@@ -91,9 +92,9 @@ const verifyEmail = asyncHandler(async (req, res) => {
 
         // Delete Email Verification
         await EmailVerification.deleteMany({ userId: userIsExisted._id });
-        return res.status(200).json(new ApiResponse(200, "Email Verified Successfully"));
-    } catch (error) {
-        return res.status(500).json(new ApiError(500, error.message || "Unable To Verify Email, Please Try Again Later"));
+        return res.status(200).json(new ApiResponse(200, {}, "Email Verified Successfully"));
+    } catch (_error) {
+        return res.status(500).json(new ApiError(500, "Unable To Verify Email, Please Try Again Later"));
     }
 });
 
@@ -103,21 +104,28 @@ const login = asyncHandler(async (req, res) => {
         const { email, password } = req.body;
 
         if (!email?.trim() || !password?.trim()) {
-            return res.status(422).json(new ApiError(422, "All Field Are Required"));
+            return res.status(422).json(new ApiError(422, "Email And Password Are Request"));
         }
 
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(404).json(new ApiError(404, "User Not Found"));
+            return res.status(404).json(new ApiError(404, "No Account Found With This Email."));
         }
 
+        // Check if the email is verified
         if (!user.email_verify) {
-            return res.status(401).json(new ApiError(401, "Your Account Is Not Verified"));
+            const emailVerifyTokenIsExisted = await EmailVerification.findOne({ userId: user._id });
+            if (!emailVerifyTokenIsExisted) {
+                await sendEmailVerificationOTP(user);
+                return res.status(403).json(new ApiError(403, "A New OTP Has Been Sent To Your Email For Verification."));
+            }
+            return res.status(403).json(new ApiError(403, "Your Account Is Not Verified. Please Check Your Email."));
         }
 
+        // Validate password
         const isPasswordValid = await user.isPasswordCorrect(password);
         if (!isPasswordValid) {
-            return res.status(401).json(new ApiError(401, "Incorrect Password. Please Try Again."));
+            return res.status(401).json(new ApiError(401, "Invalid Credentials. Please Check Your Password And Try Again."));
         }
 
         const { accessToken, refreshToken } = await generateAccessAndRefeshTokens(user._id);
@@ -138,7 +146,7 @@ const login = asyncHandler(async (req, res) => {
                         user: loggedInUser,
                         accessToken,
                     },
-                    "User Logged In Successfully"
+                    "Login Successful. Welcome back!"
                 )
             );
     } catch (error) {
@@ -204,15 +212,22 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 // Change Password
 const changePassword = asyncHandler(async (req, res) => {
-    const { password } = req.body;
-    if (!password?.trim()) {
-        return res.status(422).json(new ApiError(422, "Password Is Required"));
+    const { currentPassword, password } = req.body;
+
+    if (!password?.trim() || !currentPassword?.trim()) {
+        return res.status(422).json(new ApiError(422, "Current Password And New Password Are Required"));
     }
     try {
         const user = await User.findById(req.user._id);
-        const currentPassword = user.password;
-        const isSamePassword = await bcrypt.compare(password, currentPassword);
 
+        // Check if the current password is correct
+        const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
+        if (!isCurrentPasswordValid) {
+            return res.status(401).json(new ApiError(401, "Current Password Is Incorrect."));
+        }
+
+        // Ensure the new password is different from the current one
+        const isSamePassword = await bcrypt.compare(password, user.password);
         if (isSamePassword) {
             return res.status(422).json(new ApiError(422, "New password Must Be Different From The Current Password"));
         }
@@ -224,8 +239,8 @@ const changePassword = asyncHandler(async (req, res) => {
             .clearCookie("accessToken", HttpOptions)
             .clearCookie("refreshToken", HttpOptions)
             .json(new ApiResponse(200, {}, "Password Updated Successfully"));
-    } catch (error) {
-        return res.status(500).json(new ApiError(500, error.message));
+    } catch (_error) {
+        return res.status(500).json(new ApiError(500, "An Error Occurred While Updating The Password."));
     }
 });
 
@@ -257,7 +272,7 @@ const sendUserPasswordResetEmail = asyncHandler(async (req, res) => {
         );
 
         // Reset Link
-        const resetLink = `${process.env.FRONTEND_HOST}/account/reset-password-confirm/${user._id}/${token}`;
+        const resetLink = `${process.env.FRONTEND_HOST}/reset-password-confirm/${user._id}/${token}`;
         const emailHtml = `
             <html>
                 <head>
@@ -280,7 +295,7 @@ const sendUserPasswordResetEmail = asyncHandler(async (req, res) => {
                         }
 
                         h2 {
-                            color: #5e72e4;
+                            color: #0562D6;
                             text-align: center;
                         }
 
@@ -295,7 +310,7 @@ const sendUserPasswordResetEmail = asyncHandler(async (req, res) => {
                             display: block;
                             width: 100%;
                             padding: 15px;
-                            background-color: #5e72e4;
+                            background-color: #0562D6;
                             color: white !important;
                             text-align: center;
                             border-radius: 5px;
