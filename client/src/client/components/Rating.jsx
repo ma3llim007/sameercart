@@ -1,12 +1,21 @@
 import { useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 
-const Rating = ({ rating, size = "text-base", onRatingChange }) => {
+const Rating = ({ rating, size = "text-base", onRatingChange, enableHover = false }) => {
     const [hoveredStar, setHoveredStar] = useState(0);
     const Stars = Array.from({ length: 5 }, (_, index) => index + 1);
 
-    const handleMouseEnter = idx => setHoveredStar(idx);
-    const handleMouseLeave = () => setHoveredStar(0);
+    const handleMouseEnter = idx => {
+        if (enableHover) {
+            setHoveredStar(idx);
+        }
+    };
+    const handleMouseLeave = () => {
+        if (enableHover) {
+            setHoveredStar(0);
+        }
+    };
+
     const handleRating = index => {
         if (onRatingChange) {
             onRatingChange(index);
