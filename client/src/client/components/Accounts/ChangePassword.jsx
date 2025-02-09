@@ -55,27 +55,6 @@ const ChangePassword = () => {
                 )}
                 <div className="flex flex-wrap my-2 gap-4 lg:gap-0">
                     <div className="w-full lg:w-1/2 px-2">
-                        <label htmlFor={"currentPassword"} className="inline-block pl-1 text-base font-bold mb-2">
-                            Current Password <span className="text-red-500 font-black">*</span>
-                        </label>
-                        <div className="relative w-full">
-                            <input
-                                id="currentPassword"
-                                placeholder="Enter Your Current Password"
-                                type={showPassword ? "text" : "password"}
-                                {...register("currentPassword")}
-                                disabled={isPending}
-                                onCopy={e => e.preventDefault()}
-                                onPaste={e => e.preventDefault()}
-                                className="w-full text-lg rounded px-3 py-3 border border-gray-600 !bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
-                            />
-                            <button onClick={() => setShowPassword(prev => !prev)} type="button" className="absolute top-4 right-3 flex items-center justify-center">
-                                {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
-                            </button>
-                            {errors.currentPassword?.message && <p className="text-red-700 font-bold my-2 text-base px-2">{errors.currentPassword?.message}</p>}
-                        </div>
-                    </div>
-                    <div className="w-full lg:w-1/2 px-2">
                         <label htmlFor={"newPassword"} className="inline-block pl-1 text-base font-bold mb-2">
                             New Password <span className="text-red-500 font-black">*</span>
                         </label>
@@ -96,28 +75,29 @@ const ChangePassword = () => {
                             {errors.newPassword?.message && <p className="text-red-700 font-bold my-2 text-base px-2">{errors.newPassword?.message}</p>}
                         </div>
                     </div>
-                </div>
-                <div className="w-full lg:w-1/2 px-2">
-                    <label htmlFor={"confirmPassword"} className="inline-block pl-1 text-base font-bold mb-2">
-                        Confrim Password <span className="text-red-500 font-black">*</span>
-                    </label>
-                    <div className="relative w-full">
-                        <input
-                            id="confirmPassword"
-                            placeholder="Enter Your Confrim Password"
-                            type={showPassword ? "text" : "password"}
-                            {...register("confirmPassword")}
-                            disabled={isPending}
-                            onCopy={e => e.preventDefault()}
-                            onPaste={e => e.preventDefault()}
-                            className="w-full text-lg rounded px-3 py-3 border border-gray-600 !bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
-                        />
-                        <button onClick={() => setShowPassword(prev => !prev)} type="button" className="absolute top-4 right-3 flex items-center justify-center">
-                            {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
-                        </button>
-                        {errors.confirmPassword?.message && <p className="text-red-700 font-bold my-2 text-base px-2">{errors.confirmPassword?.message}</p>}
+                    <div className="w-full lg:w-1/2 px-2">
+                        <label htmlFor={"confirmPassword"} className="inline-block pl-1 text-base font-bold mb-2">
+                            Confrim Password <span className="text-red-500 font-black">*</span>
+                        </label>
+                        <div className="relative w-full">
+                            <input
+                                id="confirmPassword"
+                                placeholder="Enter Your Confrim Password"
+                                type={showPassword ? "text" : "password"}
+                                {...register("confirmPassword")}
+                                disabled={isPending}
+                                onCopy={e => e.preventDefault()}
+                                onPaste={e => e.preventDefault()}
+                                className="w-full text-lg rounded px-3 py-3 border border-gray-600 !bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12"
+                            />
+                            <button onClick={() => setShowPassword(prev => !prev)} type="button" className="absolute top-4 right-3 flex items-center justify-center">
+                                {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                            </button>
+                            {errors.confirmPassword?.message && <p className="text-red-700 font-bold my-2 text-base px-2">{errors.confirmPassword?.message}</p>}
+                        </div>
                     </div>
                 </div>
+
                 <div className="px-2 max-w-60">
                     <Button disabled={isPending} className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xl font-semibold p-6 rounded transition duration-300 ease-in-out transform">
                         {isPending ? "Updating..." : "Update Password"}

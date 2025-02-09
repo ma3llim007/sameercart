@@ -51,8 +51,6 @@ export const resetPasswordConfrim = Yup.object().shape({
 });
 
 export const changePasswordSchema = Yup.object().shape({
-    currentPassword: Yup.string().required("Current Password is required").min(6, "Current Password must be at least 6 characters").max(20, "Current Password must be less than 20 characters"),
-
     newPassword: Yup.string()
         .required("New Password is required")
         .min(8, "New Password must be at least 8 characters")

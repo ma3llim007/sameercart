@@ -1,7 +1,7 @@
-import { Container } from "../components";
-import { Link, useNavigate } from "react-router-dom";
+import { Container, GitHubAuthBtn, GoogleAuthBtn } from "../components";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FaEye, FaEyeSlash, FaFacebook, FaGoogle } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Input } from "@/components";
 import { useMutation } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
@@ -22,31 +22,8 @@ const Register = () => {
         resolver: yupResolver(registerUser),
         mode: "onChange",
     });
-    const navigate = useNavigate();
     const [message, setMessage] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
-
-    // Mutation With Google And Facebook
-    // const { mutate: mutationGoogle } = useMutation({
-    //     mutationFn: async () => {
-    //         try {
-    //             const response = await crudService.get("users/auth/google");
-    //             console.log(response);
-    //             // Redirect the user to Google's OAuth page
-    //             if (response.data && response.data.redirectUrl) {
-    //                 window.location.href = response.data.redirectUrl;
-    //             }
-    //         } catch (error) {
-    //             const message = error.response?.data?.message || error?.message || "An unexpected error occurred.";
-    //             // Handle error (display message, etc.)
-    //             console.error(message);
-    //         }
-    //     },
-    //     onError: error => {
-    //         const message = error.response?.data?.message || error?.message || "An unexpected error occurred.";
-    //         setError("root", { message });
-    //     },
-    // });
 
     // Mutation
     const { mutate, isPending } = useMutation({
@@ -71,29 +48,19 @@ const Register = () => {
             return () => clearTimeout(timer);
         }
     }, [message]);
-    
+
     if (isPending) return <Loader />;
     return (
         <Container>
             <section className="w-full my-5 select-none">
-                <div className="max-w-lg mx-auto border-2 border-gray-700 px-3 py-2 rounded-2xl shadow-2xl bg-gray-800 space-y-4 text-white">
+                <div className="max-w-lg mx-auto border-2 border-gray-700 px-4 py-2 rounded-2xl shadow-2xl bg-gray-800 space-y-4 text-white">
                     <div className="text-center">
                         <h1 className="text-3xl font-bold text-blue-500 mb-1">Register</h1>
                         <p className="text-gray-300">Create Your Free Account 😎</p>
                     </div>
-                    <div className="flex justify-center space-x-4">
-                        <div
-                            className="flex items-center justify-center w-12 h-12 bg-red-600 text-white rounded-full transition duration-300 hover:bg-red-700 hover:scale-105 cursor-pointer"
-                            onClick={() => console.log("FaGoogle")}
-                        >
-                            <FaGoogle className="text-2xl" />
-                        </div>
-                        <div
-                            className="flex items-center justify-center w-12 h-12 bg-blue-600 text-white rounded-full transition duration-300 hover:bg-blue-700 hover:scale-105 cursor-pointer"
-                            onClick={() => console.log("FaFacebook")}
-                        >
-                            <FaFacebook className="text-2xl" />
-                        </div>
+                    <div className="flex flex-wrap justify-center gap-4">
+                        <GoogleAuthBtn isPending={isPending} isRegister />
+                        <GitHubAuthBtn isPending={isPending} isRegister />
                     </div>
                     <form className="space-y-4" onSubmit={handleSubmit(data => mutate(data))}>
                         <div className="relative flex items-center justify-center">

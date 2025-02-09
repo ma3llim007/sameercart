@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
+import storageSession from "redux-persist/lib/storage/session";
 
 // Slices
 import authSlice from "@/features/admin/authSlice";
@@ -12,7 +13,7 @@ import userAuthSlice from "@/features/home/userAuthSlice";
 const authPersistenConfig = {
     key: "auth",
     version: 1,
-    storage,
+    storage: storageSession,
 };
 
 // Persistence Configuration for Cart
@@ -33,7 +34,7 @@ const wishListPersistenConfig = {
 const userAuthPersistenConfig = {
     key: "user",
     version: 1,
-    storage,
+    storage: storageSession,
 };
 
 // persist the slice

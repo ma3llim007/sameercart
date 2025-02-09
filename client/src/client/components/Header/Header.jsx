@@ -73,7 +73,7 @@ const Header = ({ data }) => {
                                         {isAuthenticated ? (
                                             <>
                                                 <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
-                                                    <Link to={"/account/dashboad"}>My Account</Link>
+                                                    <Link to={"/account/dashboard"}>My Account</Link>
                                                 </DropdownMenuItem>
                                                 <DropdownMenuItem onClick={mutate} className="py-2 px-4 cursor-pointer">
                                                     Logout

@@ -4,9 +4,10 @@ import { ApiError, ApiResponse, asyncHandler, generateAccessAndRefeshTokens, sen
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import transporter from "../config/emails.js";
+import { isValidObjectId } from "mongoose";
 
 // HTTP OPTIONS
-const HttpOptions = {
+export const HttpOptions = {
     httpOnly: true,
     secure: true,
     sameSite: "strict",
@@ -212,19 +213,13 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 // Change Password
 const changePassword = asyncHandler(async (req, res) => {
-    const { currentPassword, password } = req.body;
+    const { password } = req.body;
 
-    if (!password?.trim() || !currentPassword?.trim()) {
-        return res.status(422).json(new ApiError(422, "Current Password And New Password Are Required"));
+    if (!password?.trim()) {
+        return res.status(422).json(new ApiError(422, "New Password Is Required"));
     }
     try {
         const user = await User.findById(req.user._id);
-
-        // Check if the current password is correct
-        const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
-        if (!isCurrentPasswordValid) {
-            return res.status(401).json(new ApiError(401, "Current Password Is Incorrect."));
-        }
 
         // Ensure the new password is different from the current one
         const isSamePassword = await bcrypt.compare(password, user.password);
@@ -394,49 +389,56 @@ const passwordReset = asyncHandler(async (req, res) => {
     }
 });
 
-// Logout
-const OAuthGoogleLogin = asyncHandler(async (req, res) => {
+// Login User With Google
+const loginWithOAuth = asyncHandler(async (req, res) => {
     try {
-        const user = await req.user;
+        const { userId } = req.params;
 
+        if (!userId) {
+            return res.status(422).json(new ApiError(422, "User Id Is Required"));
+        }
+
+        if (!isValidObjectId(userId)) {
+            return res.status(400).json(new ApiError(400, "Invalid User ID"));
+        }
+
+        const user = await User.findById(userId);
         if (!user) {
-            return res.status(404).json(new ApiResponse(400, "Google User Data Is Missing"));
+            return res.status(404).json(new ApiError(404, "User Not Found"));
         }
 
-        // Check if the user already exists in the database using googleId
-        const userIsExisted = await User.findOne({ googleId: user?.id });
+        // Generate Token
+        const { accessToken, refreshToken } = await generateAccessAndRefeshTokens(user._id);
 
-        // If user already exists, generate new tokens and return user data
-        if (userIsExisted) {
-            const { accessToken, refreshToken } = await generateAccessAndRefeshTokens(userIsExisted?._id);
-
-            return res
-                .status(200)
-                .cookie("accessToken", accessToken, HttpOptions)
-                .cookie("refreshToken", refreshToken, HttpOptions)
-                .json(new ApiResponse(200, { user: userIsExisted, accessToken, refreshToken }, "User Logged In Successfully"));
-        }
-        const newUser = await User.create({
-            firstName: user?.name?.givenName,
-            lastName: user?.name?.familyName,
-            email: user?.emails[0]?.value,
-            email_verify: true,
-            googleId: user?.id,
-            authMethod: "google",
-            is_active: true,
-        });
-
-        // Generate Tokens
-        const { accessToken, refreshToken } = await generateAccessAndRefeshTokens(newUser?._id);
+        // Convert user to object and remove sensitive fields
+        const loggedInUser = user.toObject();
+        delete loggedInUser.password;
+        delete loggedInUser.refreshToken;
 
         return res
             .status(200)
             .cookie("accessToken", accessToken, HttpOptions)
             .cookie("refreshToken", refreshToken, HttpOptions)
-            .json(new ApiResponse(200, { user: newUser, accessToken, refreshToken }, "User Logged In Successfully"));
-    } catch (error) {
-        return res.status(500).json(new ApiError(500, error.message || "Internal Server Error"));
+            .json(
+                new ApiResponse(
+                    200,
+                    {
+                        user: loggedInUser,
+                        accessToken,
+                    },
+                    "Login Successful. Welcome back!"
+                )
+            );
+    } catch (_error) {
+        return res.status(500).json(new ApiError(500, "Internal Server Error"));
     }
 });
 
-export { register, login, OAuthGoogleLogin, verifyEmail, refreshToken, logoutUser, changePassword, sendUserPasswordResetEmail, passwordReset };
+// OAuth redirect
+const OAuthRedirect = (req, res) => {
+    if (!req.user) {
+        return res.redirect(`${process.env.FRONTEND_HOST}/login?error=OAuthFailed`);
+    }
+    res.redirect(`${process.env.FRONTEND_HOST}/oauth-success/${req.user._id}`);
+};
+export { register, login, verifyEmail, refreshToken, logoutUser, changePassword, sendUserPasswordResetEmail, passwordReset, loginWithOAuth, OAuthRedirect };

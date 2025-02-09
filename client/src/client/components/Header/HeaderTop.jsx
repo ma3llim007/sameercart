@@ -22,7 +22,7 @@ const HeaderTop = ({ wishListQty, cartQty, price, handleModel }) => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="center" className="border-none bg-light-bgLightGray text-light-textDarkGray dark:bg-dark-deep dark:text-dark-textWhite z-40" sideOffset={10}>
                             <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
-                                <Link to={"/account/dashboad"}>My Account</Link>
+                                <Link to={"/account/dashboard"}>My Account</Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
                                 <Link to={"/checkout"}>Checkout</Link>

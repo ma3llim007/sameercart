@@ -1,5 +1,5 @@
-import { Container } from "../components";
-import { Link, useNavigate } from "react-router-dom";
+import { Container, GitHubAuthBtn, GoogleAuthBtn } from "../components";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FaEye, FaEyeSlash, FaFacebook, FaGoogle } from "react-icons/fa";
 import { Input } from "@/components";
@@ -28,11 +28,13 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const dispatch = useDispatch();
     const { isAuthenticated } = useSelector(state => state.userAuth);
+    const location = useLocation();
+    const errorMessage = location.state;
 
     // Ensure toast doesn't trigger infinitely
     useEffect(() => {
         if (isAuthenticated) {
-            navigate("/account/dashboad");
+            navigate("/account/dashboard");
         }
     }, [isAuthenticated, navigate]);
 
@@ -42,7 +44,7 @@ const Login = () => {
         onSuccess: data => {
             const { _id, firstName, lastName, email } = data?.data?.user || {};
             dispatch(userLogin({ _id, firstName, lastName, email }));
-            navigate("/account/dashboad");
+            navigate("/account/dashboard");
             toastService.success(data?.message);
         },
         onError: error => {
@@ -51,7 +53,6 @@ const Login = () => {
             setError("root", { message });
         },
     });
-
     return (
         <Container>
             <section className="w-full my-10">
@@ -59,21 +60,11 @@ const Login = () => {
                     <div className="text-center">
                         <h1 className="text-3xl font-bold text-blue-500">Login</h1>
                     </div>
+                    <div className="flex flex-wrap justify-center gap-4">
+                        <GoogleAuthBtn isPending={isPending} />
+                        <GitHubAuthBtn isPending={isPending} />
+                    </div>
                     <form className="space-y-5" onSubmit={handleSubmit(data => mutate(data))}>
-                        <div className="flex justify-center space-x-4">
-                            <div
-                                className="flex items-center justify-center w-12 h-12 bg-red-600 text-white rounded-full transition duration-300 hover:bg-red-700 hover:scale-105 cursor-pointer"
-                                onClick={() => console.log("FaGoogle")}
-                            >
-                                <FaGoogle className="text-2xl" />
-                            </div>
-                            <div
-                                className="flex items-center justify-center w-12 h-12 bg-blue-600 text-white rounded-full transition duration-300 hover:bg-blue-700 hover:scale-105 cursor-pointer"
-                                onClick={() => console.log("FaFacebook")}
-                            >
-                                <FaFacebook className="text-2xl" />
-                            </div>
-                        </div>
                         <div className="relative flex items-center justify-center">
                             <hr className="w-full border-gray-600" />
                             <span className="absolute bg-gray-800 px-4 text-gray-400">or</span>
@@ -81,6 +72,11 @@ const Login = () => {
                         {errors.root && (
                             <div className="w-full my-4 bg-red-500 text-center rounded-md border border-red-600 py-3 px-4">
                                 <p className="text-white font-bold text-sm">{errors.root.message}</p>
+                            </div>
+                        )}
+                        {errorMessage && (
+                            <div className="w-full my-4 bg-red-500 text-center rounded-md border border-red-600 py-3 px-4">
+                                <p className="text-white font-bold text-sm">{errorMessage}</p>
                             </div>
                         )}
                         <Input

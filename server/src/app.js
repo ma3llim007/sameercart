@@ -11,7 +11,7 @@ import publicSubCategoryRouter from "./routes/subcategory.routes.js";
 import publicProductRouter from "./routes/product.routes.js";
 import publicUserRouter from "./routes/user.routes.js";
 import publicDashboardRouter from "./routes/dashboard.routes.js";
-import "./config/passportJwtStrategy.js";
+import "./config/passportStrategy.js";
 
 const app = express();
 

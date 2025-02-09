@@ -29,6 +29,7 @@ const ResetPassword = lazy(() => import("../client/pages/ResetPassword"));
 const VerifyEmail = lazy(() => import("../client/pages/VerifyEmail"));
 const ForgotPassword = lazy(() => import("../client/pages/ForgotPassword"));
 const ResetPasswordConfirm = lazy(() => import("../client/pages/ResetPasswordConfirm"));
+const OAuthSuccess = lazy(() => import("../client/pages/OAuthSuccess"));
 
 // Client Router
 const clientRouters = createBrowserRouter(
@@ -212,6 +213,14 @@ const clientRouters = createBrowserRouter(
                 }
             />
             <Route
+                path="/oauth-success/:userId"
+                element={
+                    <Suspense fallback={<Loader />}>
+                        <OAuthSuccess />
+                    </Suspense>
+                }
+            />
+            <Route
                 path="*"
                 element={
                     <Suspense fallback={<Loader />}>
@@ -222,7 +231,7 @@ const clientRouters = createBrowserRouter(
             {/* PROTECTED ROUTES */}
             <Route path="/account" element={<ProtectedRoute />}>
                 <Route
-                    path="dashboad"
+                    path="dashboard"
                     element={
                         <Suspense fallback={<Loader />}>
                             <MyAccount />

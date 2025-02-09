@@ -35,6 +35,7 @@ const userSchema = new Schema(
         },
         password: {
             type: String,
+            required: [true, "Password Is Required"],
         },
         address: {
             street: {
@@ -64,7 +65,7 @@ const userSchema = new Schema(
         },
         authMethod: {
             type: String,
-            enum: ["email", "google", "facebook"],
+            enum: ["email", "google", "github"],
             required: [true, "Auth Method Is Required"],
         },
     },
