@@ -1,7 +1,7 @@
-import { Container, GitHubAuthBtn, GoogleAuthBtn } from "../components";
+import { Container, OAuthButtons } from "../components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { FaEye, FaEyeSlash, FaFacebook, FaGoogle } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Input } from "@/components";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginUser } from "@/validation/UserScheme";
@@ -60,10 +60,7 @@ const Login = () => {
                     <div className="text-center">
                         <h1 className="text-3xl font-bold text-blue-500">Login</h1>
                     </div>
-                    <div className="flex flex-wrap justify-center gap-4">
-                        <GoogleAuthBtn isPending={isPending} />
-                        <GitHubAuthBtn isPending={isPending} />
-                    </div>
+                    <OAuthButtons />
                     <form className="space-y-5" onSubmit={handleSubmit(data => mutate(data))}>
                         <div className="relative flex items-center justify-center">
                             <hr className="w-full border-gray-600" />

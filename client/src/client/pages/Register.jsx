@@ -1,4 +1,4 @@
-import { Container, GitHubAuthBtn, GoogleAuthBtn } from "../components";
+import { Container, OAuthButtons } from "../components";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -58,10 +58,7 @@ const Register = () => {
                         <h1 className="text-3xl font-bold text-blue-500 mb-1">Register</h1>
                         <p className="text-gray-300">Create Your Free Account 😎</p>
                     </div>
-                    <div className="flex flex-wrap justify-center gap-4">
-                        <GoogleAuthBtn isPending={isPending} isRegister />
-                        <GitHubAuthBtn isPending={isPending} isRegister />
-                    </div>
+                    <OAuthButtons />
                     <form className="space-y-4" onSubmit={handleSubmit(data => mutate(data))}>
                         <div className="relative flex items-center justify-center">
                             <hr className="w-full border-gray-600" />

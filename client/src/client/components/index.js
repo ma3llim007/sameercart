@@ -26,8 +26,8 @@ import ProductDetailsTabSection from "./Products/ProductDetailsTabSection";
 import Rating from "./Rating";
 import OtpInput from "./OtpInput";
 import ChangePassword from "./Accounts/ChangePassword";
-import GoogleAuthBtn from "./GoogleAuthBtn";
-import GitHubAuthBtn from "./GitHubAuthBtn";
+import OAuthButtons from "./OAuthButtons";
+import ProfileInformation from "./Accounts/ProfileInformation";
 
 export {
     Header,
@@ -58,6 +58,6 @@ export {
     Rating,
     OtpInput,
     ChangePassword,
-    GoogleAuthBtn,
-    GitHubAuthBtn,
+    OAuthButtons,
+    ProfileInformation,
 };

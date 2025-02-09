@@ -46,7 +46,7 @@ const ChangePassword = () => {
     if (isPending) return <Loader />;
     return (
         <>
-            <h1 className="text-3xl font-bold text-blue-500 px-2">Change Password</h1>
+            <h1 className="text-2xl font-bold px-2 mb-5">Change Password</h1>
             <form className="space-y-5" onSubmit={handleSubmit(data => mutate(data))}>
                 {errors.root && (
                     <div className="w-full my-4 bg-red-500 text-center rounded-md border border-red-600 py-3 px-4">
