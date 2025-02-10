@@ -86,7 +86,7 @@ const Products = () => {
                             {products?.map(product => (
                                 <div
                                     key={product?.productSlug}
-                                    className="w-full border-2 border-gray-300 rounded-lg bg-light-bgLighterGray dark:bg-dark-bgLightGray hover:border-dark-dark hover:shadow-lg transition-all ease-in duration-300 flex flex-col items-center justify-center px-4 overflow-hidden min-h-[500px] max-h-[500px] space-y-3 group"
+                                    className="w-full border-2 border-gray-300 rounded-lg bg-light-bgLighterGray dark:bg-dark-bgLightGray hover:border-dark-dark hover:shadow-lg transition-all ease-in duration-300 flex flex-col items-center justify-center px-4 overflow-hidden min-h-[550px] max-h-[550px] space-y-3 group"
                                 >
                                     <img
                                         src={product?.productFeatureImage}
@@ -97,7 +97,7 @@ const Products = () => {
                                     <Link to={`/product-details/${product?.productSlug}`}>
                                         <h4 className="text-lg text-center font-bold text-light-deep dark:text-dark-light line-clamp-1">{capitalizeWords(product.productName)}</h4>
                                     </Link>
-                                    <Link to={`/product-details/${product?.productSlug}`}>
+                                    <Link to={`/product-details/${product?.productSlug}`} className="py-2">
                                         <p className="text-light-textGray dark:text-dark-textWhite text-base text-center line-clamp-2">{upperFirst(product?.productShortDescription)}</p>
                                     </Link>
                                     <div>
