@@ -75,7 +75,7 @@ const MyAccount = () => {
                             Logout
                         </p>
                     </TabsList>
-                    <div className="flex-1 bg-gray-300 dark:bg-gray-800 p-4 rounded-lg w-full order-1 lg:order-2 shadow-2xl">
+                    <div className="flex-1 bg-gray-300 dark:bg-gray-800 p-2 rounded-lg w-full order-1 lg:order-2 shadow-2xl">
                         <TabsContent value="dashboard">
                             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
                                 <Dashboard user={data?.data} />
