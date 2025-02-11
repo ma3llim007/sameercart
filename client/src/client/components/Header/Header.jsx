@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaBars, FaRegHeart } from "react-icons/fa";
+import { FaBars, FaRegHeart, FaUserPlus } from "react-icons/fa";
 import { ModeToggle } from "../ModeToggle";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
@@ -13,16 +13,18 @@ import SideBar from "./SideBar";
 import { upperCase, upperFirst } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import { formatNumberWithCommas } from "@/utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { userLogOut } from "@/features/home/userAuthSlice";
 import Loader from "../Loader/Loader";
 import { storePersistor } from "@/store";
+import { IoLogOutOutline, IoPersonCircleOutline } from "react-icons/io5";
+import { RiLoginBoxFill } from "react-icons/ri";
 
 const Header = ({ data }) => {
     const { carts, totalCartPrice } = useSelector(state => state.cart);
-    const { isAuthenticated } = useSelector(state => state.userAuth);
+    const { isAuthenticated, user } = useSelector(state => state.userAuth);
     const navigate = useNavigate();
     const { wishlists } = useSelector(state => state.wishlist);
     const isSticky = useSticky(100);
@@ -34,17 +36,23 @@ const Header = ({ data }) => {
     const cartQty = carts?.length || 0;
     const wishListQty = wishlists?.length || 0;
     const price = formatNumberWithCommas(totalCartPrice || 0);
+    const queryClient = useQueryClient();
 
     const { mutate, isPending } = useMutation({
         mutationFn: () => crudService.post("/users/log-out", false),
         onSuccess: data => {
             dispatch(userLogOut());
             toastService.info(data?.message || "Logged out successfully");
+
             // Ensure storePersistor exists before calling purge()
             if (storePersistor?.purge) {
                 storePersistor.purge();
             }
-            navigate("/");
+
+            if (user?._id) {
+                queryClient.removeQueries(["userData", user._id]);
+            }
+            navigate("/login");
         },
         onError: error => {
             toastService.error(error?.response?.data?.message || "Something went wrong while logging out");
@@ -72,20 +80,32 @@ const Header = ({ data }) => {
                                     >
                                         {isAuthenticated ? (
                                             <>
-                                                <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
-                                                    <Link to={"/account/dashboard"}>My Account</Link>
+                                                <DropdownMenuItem asChild>
+                                                    <Link to="/account/dashboard" className="flex items-center gap-2 px-4 py-2 cursor-pointer rounded-md transition-all duration-200">
+                                                        <IoPersonCircleOutline className="text-lg" />
+                                                        <span className="text-sm font-medium">My Account</span>
+                                                    </Link>
                                                 </DropdownMenuItem>
-                                                <DropdownMenuItem onClick={mutate} className="py-2 px-4 cursor-pointer">
-                                                    Logout
+
+                                                <DropdownMenuItem onClick={mutate} className="flex items-center gap-2 px-4 py-2 cursor-pointer rounded-md transition-all duration-200">
+                                                    <IoLogOutOutline className="text-lg" />
+                                                    <span className="text-sm font-medium">Logout</span>
                                                 </DropdownMenuItem>
                                             </>
                                         ) : (
                                             <>
-                                                <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
-                                                    <Link to={"/register"}>Register</Link>
+                                                <DropdownMenuItem asChild>
+                                                    <Link to="/register" className="flex items-center gap-2 px-4 py-2 cursor-pointer rounded-md transition-all duration-200">
+                                                        <FaUserPlus className="text-lg" />
+                                                        <span className="text-sm font-medium">Register</span>
+                                                    </Link>
                                                 </DropdownMenuItem>
-                                                <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer">
-                                                    <Link to={"/login"}>Login</Link>
+
+                                                <DropdownMenuItem asChild>
+                                                    <Link to="/login" className="flex items-center gap-2 px-4 py-2 cursor-pointer rounded-md transition-all duration-200">
+                                                        <RiLoginBoxFill className="text-lg" />
+                                                        <span className="text-sm font-medium">Login</span>
+                                                    </Link>
                                                 </DropdownMenuItem>
                                             </>
                                         )}
