@@ -41,21 +41,26 @@ const userSchema = new Schema(
             street: {
                 type: String,
                 trim: true,
+                lowercase: true,
             },
             city: {
                 type: String,
                 trim: true,
+                lowercase: true,
             },
             state: {
                 type: String,
                 trim: true,
+                lowercase: true,
             },
             country: {
                 type: String,
                 trim: true,
+                lowercase: true,
             },
             zip_code: {
                 type: String,
+                lowercase: true,
             },
         },
         googleId: { type: String },

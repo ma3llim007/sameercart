@@ -441,4 +441,5 @@ const OAuthRedirect = (req, res) => {
     }
     res.redirect(`${process.env.FRONTEND_HOST}/oauth-success/${req.user._id}`);
 };
+
 export { register, login, verifyEmail, refreshToken, logoutUser, changePassword, sendUserPasswordResetEmail, passwordReset, loginWithOAuth, OAuthRedirect };

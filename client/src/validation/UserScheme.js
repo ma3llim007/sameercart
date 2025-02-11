@@ -64,3 +64,23 @@ export const changePasswordSchema = Yup.object().shape({
         .required("Confirm Password is required")
         .oneOf([Yup.ref("newPassword")], "Confirm Password must match New Password"),
 });
+
+export const profileInformation = Yup.object().shape({
+    firstName: Yup.string().required("First Name Is Required").min(3, "First Name Must Be At Least 3 Characters Long"),
+    lastName: Yup.string().required("Last Name Is Required").min(3, "Last Name Must Be At Least 3 Characters Long"),
+    email: Yup.string().required("Email Is Required").email("Please Enter A Valid Email Address"),
+    username: Yup.string().required("Username Is Required").min(3, "Username Must Be At Least 3 Characters Long").matches(/^\S*$/, "Username Cannot Contain Spaces"),
+    phoneNumber: Yup.string()
+        .required("Phone Number Is Required")
+        .matches(/^[0-9]{10,15}$/, "Phone Number Must Be Between 10 and 15 digits"),
+});
+
+export const addressInformation = Yup.object().shape({
+    street: Yup.string().required("Street Is Required").min(3, "Street Must Be At Least 3 Characters"),
+    city: Yup.string().required("City Is Required").notOneOf(["", "default"], "You Must Select A Valid City"),
+    state: Yup.string().required("State Is Required").notOneOf(["", "default"], "You Must Select A Valid State"),
+    country: Yup.string().required("Country Is Required").notOneOf(["", "default"], "You Must Select A Valid Country"),
+    zipCode: Yup.string()
+        .required("Zip Code Is Required")
+        .matches(/^\d{5}(-\d{4})?$/, "Invalid Zip Code Format"),
+});

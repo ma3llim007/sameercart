@@ -28,6 +28,7 @@ import OtpInput from "./OtpInput";
 import ChangePassword from "./Accounts/ChangePassword";
 import OAuthButtons from "./OAuthButtons";
 import ProfileInformation from "./Accounts/ProfileInformation";
+import Dashboard from "./Accounts/Dashboard";
 
 export {
     Header,
@@ -60,4 +61,5 @@ export {
     ChangePassword,
     OAuthButtons,
     ProfileInformation,
+    Dashboard,
 };

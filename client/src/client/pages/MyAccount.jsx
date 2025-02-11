@@ -1,21 +1,22 @@
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { ChangePassword, Container } from "../components";
+import { ChangePassword, Container, Dashboard, ProfileInformation } from "../components";
 import { TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userLogOut } from "@/features/home/userAuthSlice";
 import toastService from "@/services/toastService";
 import { storePersistor } from "@/store";
 import Loader from "../components/Loader/Loader";
 
 const MyAccount = () => {
-    const [activeTab, setActiveTab] = useState("account");
+    const [activeTab, setActiveTab] = useState("dashboard");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { _id } = useSelector(state => state.userAuth?.user || {});
 
     const { mutate, isPending } = useMutation({
         mutationFn: () => crudService.post("/users/log-out", false),
@@ -33,14 +34,24 @@ const MyAccount = () => {
         },
     });
 
-    if (isPending) return <Loader />;
+    // Fetching User Data
+    const { data, isPending: DataIsPending } = useQuery({
+        queryKey: ["userData", _id],
+        queryFn: () => crudService.get("users/dashboard/", false),
+        onError: err => {
+            toastService.error(err?.message || "Failed to fetch Data.");
+        },
+        enabled: !!_id,
+    });
+
+    if (isPending || DataIsPending) return <Loader />;
     return (
         <Container>
             <section className="w-full my-10 rounded-lg shadow-lg mx-auto select-none">
-                <Tabs defaultValue="account" className="flex flex-col md:flex-row gap-5">
+                <Tabs defaultValue={activeTab} className="flex flex-col md:flex-row gap-5">
                     {/* Sidebar Tabs List */}
-                    <TabsList className="flex flex-col justify-start gap-4 bg-dark-dark p-4 rounded-lg shadow-lg w-4/5 md:w-48 lg:w-56 order-2 md:order-1 mx-auto">
-                        {["account", "address", "changePassword", "order"].map(tab => (
+                    <TabsList className="flex flex-col justify-start gap-4 bg-dark-dark p-4 rounded-lg w-4/5 md:w-48 lg:w-56 order-2 md:order-1 mx-auto h-max shadow-2xl">
+                        {["dashboard", "profileInformation", "changePassword", "order"].map(tab => (
                             <TabsTrigger
                                 key={tab}
                                 value={tab}
@@ -64,17 +75,20 @@ const MyAccount = () => {
                             Logout
                         </p>
                     </TabsList>
-                    <div className="flex-1 bg-gray-800 p-4 rounded-lg shadow-md w-full order-1 lg:order-2">
-                        <TabsContent value="account">
+                    <div className="flex-1 bg-gray-300 dark:bg-gray-800 p-4 rounded-lg w-full order-1 lg:order-2 shadow-2xl">
+                        <TabsContent value="dashboard">
                             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-                                <h2 className="text-xl font-semibold mb-2">Account Information</h2>
-                                <p className="text-gray-400">Manage your account settings here.</p>
+                                <Dashboard user={data?.data} />
                             </motion.div>
                         </TabsContent>
-                        <TabsContent value="address">
-                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="text-white">
-                                <h2 className="text-xl font-semibold mb-2">Address Details</h2>
-                                <p className="text-gray-400">Update your shipping and billing addresses.</p>
+                        <TabsContent value="profileInformation">
+                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                                <ProfileInformation data={data?.data} setActiveTab={setActiveTab} />
+                            </motion.div>
+                        </TabsContent>
+                        <TabsContent value="editUserDetail">
+                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                                <h1>Edit User Details</h1>
                             </motion.div>
                         </TabsContent>
                         <TabsContent value="changePassword">
