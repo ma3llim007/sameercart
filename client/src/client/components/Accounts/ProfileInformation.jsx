@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Loading } from "@/admin/components";
 import crudService from "@/api/crudService";
 import { Input } from "@/components";
@@ -17,9 +16,12 @@ import { upperCase } from "lodash";
 const ProfileInformation = ({ data }) => {
     const [editProfileInformation, setEditProfileInformation] = useState(false);
     const [addressInformation, setAddressInformation] = useState(false);
-    const [selectedCountry, setSelectedCountry] = useState(data?.address?.country || "");
-    const [selectedState, setSelectedState] = useState(data?.address?.state || "");
+    const [selectedCountry, setSelectedCountry] = useState(data.address?.country || "");
+    const [selectedState, setSelectedState] = useState(data.address?.state || "");
+    const [selectedCity, setSelectedCity] = useState(data.address?.city || "");
+    const queryClient = useQueryClient();
 
+    // Profile Form
     const {
         register: profileRegister,
         handleSubmit: profileHandleSubmit,
@@ -38,51 +40,37 @@ const ProfileInformation = ({ data }) => {
         },
     });
 
+    // Address Form
     const {
         register: addressRegister,
         handleSubmit: addressHandleSubmit,
         formState: { errors: addressErrors },
         reset: addressReset,
         setError: addressSetError,
+        setValue: profileSetValue,
     } = useForm({
         mode: "onChange",
         resolver: yupResolver(addressInformationValidation),
         defaultValues: {
-            street: "",
-            city: "",
-            state: "",
-            country: "",
-            zipCode: "",
+            street: data?.address?.street || "",
+            city: data?.address?.city || "",
+            state: data?.address?.state || "",
+            country: data?.address?.country || "",
+            zipCode: data?.address?.zip_code || "",
         },
     });
 
-    const queryClient = useQueryClient();
-
-    // Update form values when `data` changes of profile Information
+    // Sync profile and address data when `data` changes
     useEffect(() => {
-        if (data) {
-            profileReset({
-                firstName: data.firstName || "",
-                lastName: data.lastName || "",
-                email: data.email || "",
-                username: data.username || "",
-                phoneNumber: data.phoneNumber || "",
-            });
-        }
-    }, [data, profileReset]);
-
-    // Update form values when `data` changes of Address Information
-    useEffect(() => {
-        if (data?.address) {
-            addressReset({
-                street: data.address?.firstName || "",
-                city: data.address?.firstName || "",
-                state: data.address?.firstName || "",
-                country: data.address?.firstName || "",
-                zipCode: data.address?.firstName || "",
-            });
-        }
-    }, [data, addressReset]);
+        profileReset(data);
+        addressReset({
+            street: data?.address?.street,
+            zipCode: data?.address?.zip_code,
+        });
+        setSelectedCountry(data.address?.country || "");
+        setSelectedState(data.address?.state || "");
+        setSelectedCity(data.address?.city || "");
+    }, [data, profileReset, addressReset]);
 
     // Update Profile Information
     const { mutate: profileMutate, isPending: profileIsPending } = useMutation({
@@ -100,38 +88,31 @@ const ProfileInformation = ({ data }) => {
         },
     });
 
-    // Discard Profile Information Changes
-    const discardDetails = () => {
-        if (data) {
-            profileReset({
-                firstName: data.firstName || "",
-                lastName: data.lastName || "",
-                email: data.email || "",
-                username: data.username || "",
-                phoneNumber: data.phoneNumber || "",
-            });
-        }
+    // Cancel Profile Editing
+    const discardProfileChanges = () => {
+        profileReset();
         setEditProfileInformation(false);
     };
 
-    // Discard Address Information Changes
-    const discardAddressDetails = () => {
-        if (data) {
-            addressReset({
-                street: data.address?.firstName || "",
-                city: data.address?.firstName || "",
-                state: data.address?.firstName || "",
-                country: data.address?.firstName || "",
-                zipCode: data.address?.firstName || "",
-            });
+    // Cancel Address Editing
+    const discardAddressChanges = () => {
+        addressReset();
+        if (data?.address?.country) {
+            setSelectedCountry(data?.address?.country);
+        }
+        if (data?.address?.state) {
+            setSelectedState(data?.address?.state);
+        }
+        if (data?.address?.city) {
+            setSelectedCity(data?.address?.city);
         }
         setAddressInformation(false);
     };
 
     // Fetch Country, State, and City Lists (Memoized for Performance)
     const countries = useMemo(() => Country.getAllCountries().map(c => ({ label: c.name, value: c.isoCode })), []);
-    const states = useMemo(() => (selectedCountry ? State.getStatesOfCountry(selectedCountry).map(s => ({ label: s.name, value: s.isoCode })) : []), [selectedCountry]);
-    const cities = useMemo(() => (selectedState ? City.getCitiesOfState(selectedCountry, selectedState).map(c => ({ label: c.name, value: c.name })) : []), [selectedState]);
+    const states = useMemo(() => (selectedCountry ? State.getStatesOfCountry(selectedCountry.toUpperCase()).map(s => ({ label: s.name, value: s.isoCode })) : []), [selectedCountry]);
+    const cities = useMemo(() => (selectedState ? City.getCitiesOfState(selectedCountry, selectedState).map(c => ({ label: c.name, value: c.name })) : []), [selectedCountry, selectedState]);
 
     // Update Address Information
     const { mutate: addressMutate, isPending: addressPending } = useMutation({
@@ -264,7 +245,7 @@ const ProfileInformation = ({ data }) => {
                             className="Secondary my-2 btnXl flex items-center justify-center gap-2 transition-all duration-200 hover:bg-opacity-80"
                             aria-label="Cancel Editing"
                             type="button"
-                            onClick={discardDetails}
+                            onClick={discardProfileChanges}
                         >
                             {profileIsPending ? (
                                 <Loading height="7" weight="7" />
@@ -278,7 +259,7 @@ const ProfileInformation = ({ data }) => {
                 )}
             </form>
             <hr className="my-5" />
-            <form className="space-y-5" onSubmit={addressHandleSubmit(addressData => addressMutate(addressData))}>
+            <form className="space-y-5 mb-5" onSubmit={addressHandleSubmit(addressData => addressMutate(addressData))}>
                 <div className="flex items-center justify-between mb-5">
                     <h1 className="text-2xl font-bold">Address Information</h1>
                     {!addressInformation && (
@@ -320,8 +301,13 @@ const ProfileInformation = ({ data }) => {
                             disabled={!addressInformation || addressPending}
                             readOnly={!addressInformation}
                             {...addressRegister("country")}
-                            onChange={e => setSelectedCountry(e.target.value)}
-                            className={`w-full text-lg rounded px-3 py-3 bg-white text-black dark:bg-slate-800 dark:text-white outline-none focus:bg-gray-50 dark:focus:bg-slate-700 duration-200 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                            value={selectedCountry?.toUpperCase()}
+                            onChange={e => {
+                                setSelectedCountry(e.target.value);
+                                setSelectedState("");
+                                setSelectedCity("");
+                            }}
+                            className={`w-full text-lg rounded px-3 py-3 bg-white text-black dark:bg-slate-800 dark:text-white outline-none focus:bg-gray-50 dark:focus:bg-slate-700 duration-200 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${addressInformation ? "cursor-auto" : "cursor-not-allowed"}`}
                         >
                             <option value="" className="bg-white text-gray-700 dark:bg-slate-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700">
                                 Select Your Country
@@ -350,8 +336,12 @@ const ProfileInformation = ({ data }) => {
                             disabled={!addressInformation || addressPending}
                             readOnly={!addressInformation}
                             {...addressRegister("state")}
-                            onChange={e => setSelectedState(e.target.value)}
-                            className={`w-full text-lg rounded px-3 py-3 bg-white text-black dark:bg-slate-800 dark:text-white outline-none focus:bg-gray-50 dark:focus:bg-slate-700 duration-200 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                            value={selectedState?.toUpperCase()}
+                            onChange={e => {
+                                setSelectedState(e.target.value);
+                                setSelectedCity("");
+                            }}
+                            className={`w-full text-lg rounded px-3 py-3 bg-white text-black dark:bg-slate-800 dark:text-white outline-none focus:bg-gray-50 dark:focus:bg-slate-700 duration-200 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${addressInformation ? "cursor-auto" : "cursor-not-allowed"}`}
                         >
                             <option value="" className="bg-white text-gray-700 dark:bg-slate-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700">
                                 Select Your State
@@ -381,18 +371,30 @@ const ProfileInformation = ({ data }) => {
                             title="Select Your City"
                             disabled={!addressInformation || addressPending}
                             readOnly={!addressInformation}
+                            value={selectedCity}
                             {...addressRegister("city")}
-                            className={`w-full text-lg rounded px-3 py-3 bg-white text-black dark:bg-slate-800 dark:text-white outline-none focus:bg-gray-50 dark:focus:bg-slate-700 duration-200 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                            onChange={e => {
+                                setSelectedCity(e.target.value);
+                                profileSetValue("city", e.target.value);
+                            }}
+                            className={`w-full text-lg rounded px-3 py-3 bg-white text-black dark:bg-slate-800 dark:text-white outline-none focus:bg-gray-50 dark:focus:bg-slate-700 duration-200 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${addressInformation ? "cursor-auto" : "cursor-not-allowed"}`}
                         >
                             <option value="" className="bg-white text-gray-700 dark:bg-slate-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700">
                                 Select Your City
                             </option>
-                            {cities.length > 0 ? (
-                                cities.map(c => (
-                                    <option key={c.value} value={c.value}>
-                                        {upperCase(c.value)}
-                                    </option>
-                                ))
+                            {cities.length > 0 || selectedCity ? (
+                                <>
+                                    {selectedCity && !cities.some(c => c.value === selectedCity) && (
+                                        <option key={selectedCity} value={selectedCity}>
+                                            {upperCase(selectedCity)}
+                                        </option>
+                                    )}
+                                    {cities.map(c => (
+                                        <option key={c.value} value={c.value}>
+                                            {upperCase(c.value)}
+                                        </option>
+                                    ))}
+                                </>
                             ) : (
                                 <option disabled>No Options Available</option>
                             )}
@@ -429,7 +431,7 @@ const ProfileInformation = ({ data }) => {
                             className="Secondary my-2 btnXl flex items-center justify-center gap-2 transition-all duration-200 hover:bg-opacity-80"
                             aria-label="Cancel Editing"
                             type="button"
-                            onClick={discardAddressDetails}
+                            onClick={discardAddressChanges}
                         >
                             <IoCloseCircleOutline size="24" /> Discard
                         </Button>
