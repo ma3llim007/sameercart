@@ -7,6 +7,7 @@ import { generateAccessAndRefeshTokens } from "./generateAccessAndRefeshTokens.j
 import { generateSKU } from "./generateSKU.js";
 import { isTokenExpired } from "./isTokenExpired.js";
 import { sendEmailVerificationOTP } from "./sendEmailVerificationOTP.js";
+import { sendOrderConfirmationEmail } from "./sendOrderConfirmationEmail.js";
 
 export {
     ApiError,
@@ -21,4 +22,5 @@ export {
     sendEmailVerificationOTP,
     isTokenExpired,
     generateAccessAndRefeshTokens,
+    sendOrderConfirmationEmail,
 };
