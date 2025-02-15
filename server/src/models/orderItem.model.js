@@ -23,6 +23,10 @@ const orderItemSchema = new Schema(
             ref: "Admin",
             required: [true, "Product Is Required"],
         },
+        variantId: {
+            type: Schema.Types.ObjectId,
+            ref: "Variant",
+        },
     },
     { timeseries: true }
 );

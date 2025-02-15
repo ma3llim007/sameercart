@@ -9,12 +9,14 @@ import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import Loader from "../components/Loader/Loader";
 import { Button } from "@/components/ui/button";
+import useTopScroll from "../hooks/useTopScroll";
 
 const SubCategory = () => {
     const { categorySlug } = useParams();
     const title = categorySlug ? slugToText(categorySlug) : "Unknown Category";
     const [page, setPage] = useState(1);
     const limit = 9;
+    useTopScroll(0, [page]);
 
     // Fetching Category
     const { data, isLoading } = useQuery({

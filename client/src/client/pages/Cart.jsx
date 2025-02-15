@@ -12,6 +12,7 @@ import { FaRupeeSign, FaTrash } from "react-icons/fa";
 import { Badge, Input } from "@/components";
 import { upperCase } from "lodash";
 import { clearCart, decrementQuanity, incrementQuanity, removeFromCart } from "@/features/home/cartSlice";
+import toastService from "@/services/toastService";
 
 const Cart = () => {
     const { carts, totalCartPrice } = useSelector(state => state.cart);
@@ -137,52 +138,35 @@ const Cart = () => {
                                 <Button
                                     onClick={() => {
                                         dispatch(clearCart());
+                                        toastService.info(`Cart Is Clear`);
                                     }}
-                                    className="Primary lg:btnLg uppercase"
+                                    className="Danger lg:btnLg uppercase"
                                 >
                                     Clear Shopping Cart
                                 </Button>
                             </div>
                             <hr className="my-5" />
-                            <div className="w-3/4 mx-auto flex gap-4 justify-between flex-wrap lg:flex-nowrap">
-                                <div className="w-full p-4 space-y-4 dark:bg-slate-800 rounded shadow-lg">
-                                    <h4 className="text-2xl font-extrabold">Use Coupon Code</h4>
-                                    <p className="text-lg text-gray-700 dark:text-gray-300">Enter Your Coupon Code If You Have One.</p>
-                                    <Input placeholder="Enter The Coupon" className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                                    <Button className="Primary btnXl !mt-4">Apply Coupon</Button>
-                                </div>
-                                <div className="w-full shadow-lg p-4 space-y-4 dark:bg-slate-800 rounded">
-                                    <h4 className="text-2xl font-extrabold">Use Coupon Code</h4>
+                            <div className="max-w-md mx-auto flex gap-4 justify-between flex-wrap lg:flex-nowrap border rounded-md">
+                                <div className="w-full shadow-lg p-4 space-y-5 dark:bg-slate-800 rounded">
+                                    <h4 className="text-2xl font-extrabold">Cart Total</h4>
                                     <div className="flex justify-between text-lg">
                                         <h5>Total Products</h5>
-                                        <h5 className="font-bold flex items-center gap-1">
-                                            <FaRupeeSign size={15} />
+                                        <h5 className="font-bold flex items-center">
+                                            <FaRupeeSign size={14} />
                                             {formatNumberWithCommas(totalCartPrice)}
                                         </h5>
                                     </div>
-                                    <div className="flex justify-between text-lg">
-                                        <p>Delivery Charges</p>
-                                        <p className="font-bold flex items-center gap-1">
-                                            <FaRupeeSign size={15} />
-                                            40
-                                        </p>
-                                    </div>
-                                    <div className="flex justify-between text-xl text-blue-700 dark:text-blue-500">
-                                        <h5 className="font-extrabold">Grand Total</h5>
-                                        <h5 className="font-extrabold flex items-center gap-1">
-                                            <FaRupeeSign size={15} />
-                                            {formatNumberWithCommas(totalCartPrice + 40)}
-                                        </h5>
-                                    </div>
                                     <div className="w-full flex justify-center">
-                                        <Button className="Primary btnXl">Proceed To Checkout</Button>
+                                        <Link to={"/account/checkout"}>
+                                            <Button className="Primary btnXl">Proceed To Checkout</Button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
                         </>
                     ) : (
                         <div className="w-full h-full flex flex-col justify-center items-center gap-5">
-                            <img className="w-2/5 h-auto object-cover" src={emptyCartImage} alt="Empty Cart" />
+                            <img className="w-2/5 max-h-72 object-contain" src={emptyCartImage} alt="Empty Cart" />
                             <h1 className="font-bold text-xl lg:text-4xl xl:text-4xl 2xl:text-4xl">Your Cart Is Empty</h1>
                             <p className="leading-7 text-xl font-medium text-center">Looks Like You Have Not Added Anything To Your Cart.Go Ahead & Explore Our Products</p>
                             <Link to={"/"}>

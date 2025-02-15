@@ -84,3 +84,24 @@ export const addressInformation = Yup.object().shape({
         .required("Zip Code Is Required")
         .matches(/^\d{5}(-\d{4})?$/, "Invalid Zip Code Format"),
 });
+
+export const BillingDetails = Yup.object().shape({
+    firstName: Yup.string().required("First Name Is Required").min(3, "First Name Must Be At Least 3 Characters Long"),
+    lastName: Yup.string().required("Last Name Is Required").min(3, "Last Name Must Be At Least 3 Characters Long"),
+    email: Yup.string().required("Email Is Required").email("Please Enter A Valid Email Address"),
+    username: Yup.string().required("Username Is Required").min(3, "Username Must Be At Least 3 Characters Long").matches(/^\S*$/, "Username Cannot Contain Spaces"),
+    phoneNumber: Yup.string()
+        .required("Phone Number Is Required")
+        .matches(/^[0-9]{10,15}$/, "Phone Number Must Be Between 10 and 15 digits"),
+    street: Yup.string().required("Street Is Required"),
+    city: Yup.string().required("City Is Required"),
+    state: Yup.string().required("State Is Required"),
+    country: Yup.string().required("Country Is Required"),
+    zipCode: Yup.string()
+        .required("Zip Code Is Required")
+        .matches(/^\d{5}(-\d{4})?$/, "Invalid Zip Code Format"),
+    additionalNotes: Yup.string()
+        .notRequired()
+        .max(500, "Additional Notes Cannot Exceed 500 Characters")
+        .matches(/^[a-zA-Z0-9\s.,!?'-]*$/, "Additional Notes Contain Invalid Characters"),
+});

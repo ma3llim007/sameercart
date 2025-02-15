@@ -28,6 +28,7 @@
         "passport-github2": "^0.1.12",
         "passport-google-oauth20": "^2.0.0",
         "passport-jwt": "^4.0.1",
+        "stripe": "^17.6.0",
         "uuid": "^11.0.5",
         "webp-converter": "^2.3.3"
     },

@@ -50,34 +50,6 @@ const WishList = () => {
                     {wishlists.length > 0 ? (
                         <>
                             <h1 className="text-3xl md:text-4xl  text-light-deep dark:text-dark-light font-bold underline decoration-4">My Wishlist ({wishlists.length})</h1>
-                            {/* <div className="flex flex-col gap-4 my-4">
-                                {wishlists.map((wishlist, idx) => (
-                                    <div
-                                        key={wishlist.id + idx}
-                                        className="border border-gray-600 dark:border-gray-300 p-3 shadow-md rounded flex flex-col lg:flex-row gap-2 relative items-center lg:items-start"
-                                    >
-                                        
-                                        <div className="flex-grow group text-center lg:text-start mt-2">
-                                            <Link to={`/product-details/${wishlist?.slug}`} className="space-y-2">
-                                                <h3 className="text-base lg:text-xl font-semibold group-hover:text-blue-600">{capitalizeWords(wishlist?.name)}</h3>
-                                                {wishlist.attributes &&
-                                                    wishlist.attributes.map(attribute => (
-                                                        <Badge key={attribute?._id} title={`${capitalizeWords(attribute.name)}: ${upperCase(attribute.value)}`} className="Primary max-w-fit mx-1" />
-                                                    ))}
-                                            </Link>
-                                            <p className="text-2xl font-bold flex items-center gap-1 justify-center lg:justify-start mt-3">
-                                                <FaRupeeSign size={20} />
-                                                {formatNumberWithCommas(wishlist?.price || 0)}
-                                            </p>
-                                        </div>
-                                        <div className="absolute top-1 right-1">
-                                            <Button className="Danger p-3 rounded-md" onClick={() => handleRemoveFromWishList(wishlist)}>
-                                                <FaTrash />
-                                            </Button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div> */}
                             <Table className="shadow-sm border border-gray-500 border-opacity-45 rounded-xl w-full overflow-x-auto my-4">
                                 <TableHeader className="bg-gray-200 dark:bg-gray-800">
                                     <TableRow>
@@ -133,14 +105,14 @@ const WishList = () => {
                                         Continue Shopping
                                     </Button>
                                 </Link>
-                                <Button onClick={handleClearWishlist} className="Primary btnLg uppercase">
+                                <Button onClick={handleClearWishlist} className="Danger btnLg uppercase">
                                     Clear Shopping Wishlist
                                 </Button>
                             </div>
                         </>
                     ) : (
                         <div className="w-full h-full flex flex-col justify-center items-center gap-5">
-                            <img className="w-2/5 h-auto object-cover" src={emptyCartImage} alt="Empty Wishlist" />
+                            <img className="w-2/5 max-h-72 object-contain" src={emptyCartImage} alt="Empty Wishlist" />
                             <h1 className="font-bold text-xl lg:text-4xl xl:text-4xl 2xl:text-4xl">Your Wishlist Is Empty</h1>
                             <p className="leading-7 text-xl font-medium text-center">Looks Like You Have Not Added Anything To Your Wishlist.Go Ahead & Explore Our Products</p>
                             <Link to={"/"}>

@@ -1,13 +1,10 @@
-import { useEffect, useRef } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from "react";
 
-const useTopScroll = ({ topPosition = 100, page }) => {
-    const hasScrolled = useRef(false);
-
+const useTopScroll = (topPosition = 0, dependency = []) => {
     useEffect(() => {
-        if (!hasScrolled.current && page !== 1) {
-            window.scrollTo({ top: topPosition, behavior: "smooth" });
-        }
-    }, [topPosition, page]);
+        window.scrollTo({ top: topPosition, behavior: "smooth" });
+    }, dependency);
 };
 
 export default useTopScroll;

@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import Rating from "../components/Rating";
 import { upperFirst } from "lodash";
 import { FaCartPlus, FaEye, FaHeart, FaRupeeSign } from "react-icons/fa";
-import useTopScroll from "../hooks/useTopScroll";
 import { motion } from "framer-motion";
 import Loader from "../components/Loader/Loader";
 import { useDispatch } from "react-redux";
@@ -23,7 +22,6 @@ const Products = () => {
     const subCategory = subCategorySlug ? slugToText(subCategorySlug) : "Unknown Sub-Category";
     const [page, setPage] = useState(1);
     const limit = 9;
-    useTopScroll({ topPosition: 300, page });
     const dispatch = useDispatch();
 
     // Fetching Products

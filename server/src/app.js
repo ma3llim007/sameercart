@@ -11,6 +11,7 @@ import publicSubCategoryRouter from "./routes/subcategory.routes.js";
 import publicProductRouter from "./routes/product.routes.js";
 import publicUserRouter from "./routes/user.routes.js";
 import publicDashboardRouter from "./routes/dashboard.routes.js";
+import publicOrderRouter from "./routes/order.routes.js";
 import "./config/passportStrategy.js";
 
 const app = express();
@@ -40,5 +41,6 @@ app.use("/api/v1/sub-category", publicSubCategoryRouter);
 app.use("/api/v1/products", publicProductRouter);
 app.use("/api/v1/users", publicUserRouter);
 app.use("/api/v1/users/dashboard", publicDashboardRouter);
+app.use("/api/v1/order", publicOrderRouter);
 
 export { app };

@@ -9,6 +9,7 @@ const orderSchema = new Schema(
         },
         orderDate: {
             type: Date,
+            default: Date.now,
             required: [true, "Order Date Is Required"],
         },
         shippingAddress: {
@@ -49,23 +50,38 @@ const orderSchema = new Schema(
         },
         paymentType: {
             type: String,
+            enum: ["COD", "PayNow"],
             required: [true, "Payment Type Is Required"],
         },
         totalAmount: {
             type: Number,
             required: [true, "Total Amount is required"],
         },
-        discountAmount: {
-            type: Number,
-            required: [true, "Discount Amount is required"],
-        },
         completeOrderdate: {
             type: Date,
         },
-        orderItems: {
-            type: Schema.Types.ObjectId,
-            ref: "User",
-            required: [true, "Order Items Is Required"],
+        orderItems: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "OrderItem",
+                required: [true, "Order Items Is Required"],
+            },
+        ],
+        additionalInformation: {
+            type: String,
+            default: null,
+        },
+        razorPayOrderId: {
+            type: String,
+            default: null,
+        },
+        razorPayPaymentId: {
+            type: String,
+            default: null,
+        },
+        razorPaySignature: {
+            type: String,
+            default: null,
         },
     },
     { timestamps: true }

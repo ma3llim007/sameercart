@@ -16,6 +16,7 @@ import { FaShuffle } from "react-icons/fa6";
 import { addToCart } from "@/features/home/cartSlice";
 import { useDispatch } from "react-redux";
 import { addToWishList } from "@/features/home/wishlistSlice";
+import useTopScroll from "../hooks/useTopScroll";
 
 const ProductDetails = () => {
     const { productSlug } = useParams();
@@ -25,6 +26,7 @@ const ProductDetails = () => {
     const [isDragging, setIsDragging] = useState(false);
     const [quantity, setQuantity] = useState(1);
     const dispatch = useDispatch();
+    useTopScroll(0, []);
 
     // Fetching Products
     const { data, isLoading, isFetching } = useQuery({
@@ -125,6 +127,7 @@ const ProductDetails = () => {
         };
         dispatch(addToCart(cartItem));
     };
+
     // Product Add To Cart
     const handleAddToWishList = () => {
         const cartItem = {
@@ -139,6 +142,7 @@ const ProductDetails = () => {
         };
         dispatch(addToWishList(cartItem));
     };
+    
     if (isLoading || isFetching) return <Loader />;
     return (
         <>

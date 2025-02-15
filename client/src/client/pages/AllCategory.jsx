@@ -14,7 +14,7 @@ import useTopScroll from "../hooks/useTopScroll";
 const AllCategory = () => {
     const [page, setPage] = useState(1);
     const limit = 9;
-    useTopScroll({ topPosition: 300, page });
+    useTopScroll(0, [page]);
 
     // Fetching Category
     const { data, isLoading, isFetching } = useQuery({

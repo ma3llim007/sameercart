@@ -1,7 +1,7 @@
 import { adminLoginSchema } from "./admin/AdminLoginSchema";
 import { addCategoryScheme } from "./admin/categorySchema";
 import { addProductScheme } from "./admin/ProductScheme";
-import { addressInformation, changePasswordSchema, emailVerify, forgotPassword, profileInformation, registerUser, resetPassword, resetPasswordConfrim } from "./UserScheme";
+import { addressInformation, BillingDetails, changePasswordSchema, emailVerify, forgotPassword, profileInformation, registerUser, resetPassword, resetPasswordConfrim } from "./UserScheme";
 
 export {
     adminLoginSchema,
@@ -15,4 +15,5 @@ export {
     changePasswordSchema,
     profileInformation,
     addressInformation,
+    BillingDetails,
 };
