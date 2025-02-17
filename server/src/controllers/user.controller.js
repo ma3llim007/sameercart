@@ -145,7 +145,6 @@ const login = asyncHandler(async (req, res) => {
                     200,
                     {
                         user: loggedInUser,
-                        accessToken,
                     },
                     "Login Successful. Welcome back!"
                 )
