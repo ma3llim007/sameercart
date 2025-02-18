@@ -69,19 +69,15 @@ const orderSchema = new Schema(
         ],
         additionalInformation: {
             type: String,
-            default: null,
         },
         razorPayOrderId: {
             type: String,
-            default: null,
         },
         razorPayPaymentId: {
             type: String,
-            default: null,
         },
         razorPaySignature: {
             type: String,
-            default: null,
         },
     },
     { timestamps: true }

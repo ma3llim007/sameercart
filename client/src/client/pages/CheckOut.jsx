@@ -19,12 +19,13 @@ import { upperCase } from "lodash";
 import { Button } from "@/components/ui/button";
 import useTopScroll from "../hooks/useTopScroll";
 import { clearCart } from "@/features/home/cartSlice";
+import logo from "@/client/assets/Logo.svg";
 
 const CheckOut = () => {
     const { user } = useSelector(state => state.userAuth);
     const { carts, totalCartPrice } = useSelector(state => state.cart);
     const [selectedPayment, setSelectedPayment] = useState("cod");
-    
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -81,36 +82,63 @@ const CheckOut = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess, setValue, data]);
 
-    const { mutate, isPending } = useMutation({
-        mutationFn: data => {
-            console.log(data);
-            
-            const formData = new FormData();
-            const shippingAddress = {
-                street: data.street,
-                city: data.city,
-                state: data.state,
-                country: data.country,
-                zip_code: data.zipCode,
-            };
-            const orderItems = carts.map(cart => ({
-                productName: cart.name,
-                price: cart.price,
-                quantity: cart.quantity,
-                totalPrice: cart.price * cart.quantity,
-                productId: cart.id,
-                ...(cart.variantId && { variantId: cart.variantId }),
-            }));
-            formData.append("shippingAddress", JSON.stringify(shippingAddress));
-            formData.append("paymentStatus", "Pending");
-            formData.append("orderStatus", "Pending");
-            formData.append("paymentType", "COD");
-            formData.append("totalAmount", Number(totalCartPrice) + 40);
-            formData.append("orderItems", JSON.stringify(orderItems));
-            formData.append("additionalInformation", data.additionalInformation || null);
+    // const { mutate, isPending } = useMutation({
+    //     mutationFn: data => {
+    //         console.log(data);
+    //         const formData = new FormData();
+    //         const shippingAddress = {
+    //             street: data.street,
+    //             city: data.city,
+    //             state: data.state,
+    //             country: data.country,
+    //             zip_code: data.zipCode,
+    //         };
+    //         const orderItems = carts.map(cart => ({
+    //             productName: cart.name,
+    //             price: cart.price,
+    //             quantity: cart.quantity,
+    //             totalPrice: cart.price * cart.quantity,
+    //             productId: cart.id,
+    //             ...(cart.variantId && { variantId: cart.variantId }),
+    //         }));
+    //         formData.append("shippingAddress", JSON.stringify(shippingAddress));
+    //         formData.append("paymentStatus", "Pending");
+    //         formData.append("orderStatus", "Pending");
+    //         formData.append("paymentType", "COD");
+    //         formData.append("totalAmount", Number(totalCartPrice) + 40);
+    //         formData.append("orderItems", JSON.stringify(orderItems));
+    //         formData.append("additionalInformation", data.additionalInformation || null);
 
-            return crudService.post("order/order", false, formData);
-        },
+    //         return crudService.post("order/order", false, formData);
+    //     },
+    //     onSuccess: data => {
+    //         dispatch(clearCart());
+    //         navigate("/account/dashboard");
+    //         toastService.success(data?.message);
+    //     },
+    //     onError: error => {
+    //         const message = error?.response?.data?.message || error?.message;
+    //         setError("root", { message });
+    //     },
+    // });
+
+    const loadScript = src => {
+        return new Promise(resolve => {
+            const script = document.createElement("script");
+            script.src = src;
+            script.onload = () => {
+                resolve(true);
+            };
+            script.onerror = () => {
+                resolve(false);
+            };
+            document.body.appendChild(script);
+        });
+    };
+
+    // Cash On Delivery Mutatation
+    const { mutate: createOrder, isPending: createOrderIsPending } = useMutation({
+        mutationFn: data => crudService.post("order/create-order-cash", false, data),
         onSuccess: data => {
             dispatch(clearCart());
             navigate("/account/dashboard");
@@ -121,8 +149,113 @@ const CheckOut = () => {
             setError("root", { message });
         },
     });
-    useTopScroll(0, [isPending]);
-    if (DataIsPending || isPending) return <Loader />;
+
+    // Razorpay Mutatation
+    const onPaymentRazorPay = async formData => {
+        const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+        if (!res) {
+            alert("Razropay Failed To Load!!");
+            return;
+        }
+
+        try {
+            const option = {
+                totalAmount: formData.totalAmount,
+            };
+
+            // creating a new order
+            const newOrder = await crudService.post("/order/create-order-razorpay", false, option);
+            if (!newOrder?.data || !newOrder.data.id) {
+                alert("Server error. Are you online?");
+                return;
+            }
+
+            //  Creating Razorpay payment instance
+            const razorPayOptions = {
+                key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+                amount: newOrder.data.amount,
+                currency: "INR",
+                name: "sameerCart.",
+                description: `Purchase From sameerCart - Order #${newOrder.data.receipt.split("_").pop()}`,
+                image: logo,
+                orderId: newOrder.data.id,
+                prefill: {
+                    name: `${formData.firstName} ${formData.lastName}`,
+                    email: formData.email,
+                    contact: formData.phoneNumber,
+                },
+                notes: {
+                    address: "sameerCart",
+                },
+                theme: {
+                    color: "#0562d6",
+                },
+                handler: async function (response) {
+                    console.log("Payment successful", response);
+                    // Check if payment details are missing
+                    if (!response.razorpay_payment_id || !response.razorpay_order_id || !response.razorpay_signature) {
+                        console.error("❌ Missing Payment Data:", response);
+                        alert("Payment failed or incomplete. Please try again.");
+                        return;
+                    }
+
+                    // Prepare data for payment verification
+                    const paymentData = {
+                        razorpayPaymentId: response.razorpay_payment_id,
+                        razorpayOrderId: response.razorpay_order_id,
+                        razorpaySignature: response.razorpay_signature,
+                    };
+                    console.log(paymentData);
+                    // Verify payment on the backend
+                    try {
+                        const result = await crudService.post("/order/verify-payment", false, paymentData);
+                        console.log("Payment Verification Result:", result);
+                        alert(result.data.msg);
+                    } catch (error) {
+                        console.error("Payment Verification Failed:", error);
+                        alert("Payment verification failed. Please try again.");
+                    }
+                },
+            };
+            // Open Razorpay Payment Modal
+            const paymentObject = new window.Razorpay(razorPayOptions);
+            paymentObject.open();
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleSubmitForm = data => {
+        const orderData = {
+            ...data,
+            orderItems: carts.map(cart => ({
+                productName: cart.name,
+                price: cart.price,
+                quantity: cart.quantity,
+                totalPrice: cart.price * cart.quantity,
+                productId: cart.id,
+                ...(cart.variantId && { variantId: cart.variantId }),
+            })),
+            shippingAddress: {
+                street: data.street,
+                city: data.city,
+                state: data.state,
+                country: data.country,
+                zip_code: data.zipCode,
+            },
+            totalAmount: totalCartPrice + 40,
+            paymentStatus: "Pending",
+            orderStatus: "Pending",
+            paymentType: selectedPayment === "cod" ? "COD" : "PayNow",
+        };
+        if (selectedPayment === "cod") {
+            createOrder(orderData);
+        } else {
+            onPaymentRazorPay(orderData);
+        }
+    };
+    useTopScroll(0, [createOrderIsPending]);
+    if (DataIsPending || createOrderIsPending) return <Loader />;
     return (
         <>
             <section className="w-full mt-4 bg-gray-700 bg-opacity-70 py-4 px-5 rounded-md-md shadow-md select-none">
@@ -147,7 +280,7 @@ const CheckOut = () => {
                 </Breadcrumb>
             </section>
             <Container>
-                <form onSubmit={handleSubmit(data => mutate(data))}>
+                <form onSubmit={handleSubmit(data => handleSubmitForm(data))}>
                     <section className="w-full my-5 grid grid-cols-1 lg:grid-cols-3 gap-4 select-none">
                         <div className="bg-zinc-300 dark:bg-gray-800 shadow-2xl rounded-lg p-3 h-fit col-span-2">
                             <h1 className="text-3xl font-bold text-center">Billing Details</h1>
@@ -374,9 +507,7 @@ const CheckOut = () => {
                                                 Place Order
                                             </Button>
                                         ) : (
-                                            <Button type="button" className="Primary btnFull">
-                                                Pay Now
-                                            </Button>
+                                            <Button className="Primary btnFull">Pay Now</Button>
                                         )}
                                     </div>
                                 </div>
