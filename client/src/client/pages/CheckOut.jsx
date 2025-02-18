@@ -451,7 +451,7 @@ const CheckOut = () => {
                                                     {capitalizeWords(cart.name)} X {cart.quantity}
                                                 </p>
                                                 {cart.attributes?.map(attribute => (
-                                                    <Badge key={attribute?._id} title={`${capitalizeWords(attribute.name)}: ${upperCase(attribute.value)}`} className="Primary max-w-fit my-2" />
+                                                    <Badge key={attribute?._id} title={`${capitalizeWords(attribute.name)}: ${upperCase(attribute.value)}`} className="Primary max-w-fit my-2 !leading-normal !rounded-sm" />
                                                 ))}
                                             </div>
                                             <div className="text-lg font-medium flex items-center">
