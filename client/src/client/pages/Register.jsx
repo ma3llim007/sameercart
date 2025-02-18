@@ -58,7 +58,7 @@ const Register = () => {
                         <h1 className="text-3xl font-bold text-blue-500 mb-1">Register</h1>
                         <p className="text-gray-300">Create Your Free Account 😎</p>
                     </div>
-                    <OAuthButtons />
+                    <OAuthButtons isRegister={true} isPending={isPending} />
                     <form className="space-y-4" onSubmit={handleSubmit(data => mutate(data))}>
                         <div className="relative flex items-center justify-center">
                             <hr className="w-full border-gray-600" />
