@@ -1,5 +1,5 @@
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { ChangePassword, Container, Dashboard, ProfileInformation } from "../components";
+import { ChangePassword, Container, Dashboard, Order, ProfileInformation } from "../components";
 import { TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -16,7 +16,7 @@ const MyAccount = () => {
     const [activeTab, setActiveTab] = useState("dashboard");
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { _id } = useSelector(state => state.userAuth?.user || {});
+    const { _id: userId } = useSelector(state => state.userAuth?.user || {});
 
     const { mutate, isPending } = useMutation({
         mutationFn: () => crudService.post("/users/log-out", false),
@@ -36,12 +36,12 @@ const MyAccount = () => {
 
     // Fetching User Data
     const { data, isPending: DataIsPending } = useQuery({
-        queryKey: ["userData", _id],
+        queryKey: ["userData", userId],
         queryFn: () => crudService.get("users/dashboard/", false),
         onError: err => {
             toastService.error(err?.message || "Failed to fetch Data.");
         },
-        enabled: !!_id,
+        enabled: !!userId,
     });
 
     if (isPending || DataIsPending) return <Loader />;
@@ -86,20 +86,14 @@ const MyAccount = () => {
                                 <ProfileInformation data={data?.data} setActiveTab={setActiveTab} />
                             </motion.div>
                         </TabsContent>
-                        <TabsContent value="editUserDetail">
-                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-                                <h1>Edit User Details</h1>
-                            </motion.div>
-                        </TabsContent>
                         <TabsContent value="changePassword">
-                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="text-white">
+                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
                                 <ChangePassword />
                             </motion.div>
                         </TabsContent>
                         <TabsContent value="order">
-                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="text-white">
-                                <h2 className="text-xl font-semibold mb-2">Order History</h2>
-                                <p className="text-gray-400">View and manage your past orders.</p>
+                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                                <Order userId={userId} />
                             </motion.div>
                         </TabsContent>
                     </div>

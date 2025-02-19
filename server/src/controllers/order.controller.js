@@ -1,4 +1,4 @@
-import { isValidObjectId } from "mongoose";
+import mongoose, { isValidObjectId } from "mongoose";
 import { ApiError, ApiResponse, asyncHandler, sendOrderConfirmationEmail } from "../utils/index.js";
 import { User } from "../models/user.model.js";
 import { OrderItem } from "../models/orderItem.model.js";
@@ -19,9 +19,9 @@ const createOrder = asyncHandler(async (req, res) => {
         return res.status(404).json(new ApiError(404, "User Not Found"));
     }
     try {
-        const { paymentStatus, orderStatus, paymentType, totalAmount, additionalInformation, shippingAddress, orderItems } = req.body;
-        // const shippingAddress = JSON.parse(req.body.shippingAddress);
-        // const orderItems = JSON.parse(req.body.orderItems);
+        const { paymentStatus, orderStatus, paymentType, totalAmount, additionalInformation } = req.body;
+        const shippingAddress = JSON.parse(req.body.shippingAddress);
+        const orderItems = JSON.parse(req.body.orderItems);
 
         if (!userId || !shippingAddress || !paymentStatus || !orderStatus || orderItems.length === 0) {
             return res.status(404).json(new ApiError(404, "Missing Required Fields"));
@@ -82,10 +82,12 @@ const createOrderRazorPay = asyncHandler(async (req, res) => {
     }
 
     const { totalAmount } = req.body;
-    if (!totalAmount) {
-        return res.status(400).json(new ApiError(400, "Missing Required Fields"));
+    if (!totalAmount || isNaN(totalAmount) || totalAmount <= 0) {
+        return res.status(400).json(new ApiError(400, "Invalid or Missing Amount"));
     }
+
     try {
+        // Prepare Razorpay order options
         const options = {
             amount: totalAmount * 100,
             currency: "INR",
@@ -105,21 +107,115 @@ const createOrderRazorPay = asyncHandler(async (req, res) => {
 
 // Verify Payment
 const verifyRazorPayPayment = asyncHandler(async (req, res) => {
-    console.log(req.body);
-    const { orderId, paymentId, signature } = req.body;
-
-    const secret = process.env.RAZORPAY_KEY_SECRET;
-
+    const { _id: userId } = req.user;
+    const { paymentStatus, orderStatus, paymentType, totalAmount, additionalInformation, razorPayOrderId, razorPayPaymentId, razorPaySignature } = req.body;
+    const shippingAddress = JSON.parse(req.body.shippingAddress);
+    const orderItems = JSON.parse(req.body.orderItems);
     // Creating HMAC Object
-    const hmac = crypto.createHmac("sha256", secret);
-    hmac.update(`${orderId} | ${paymentId}`);
-    const generateSignature = hmac.digest("hex");
+    const hmac = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET);
+    hmac.update(`${razorPayOrderId}|${razorPayPaymentId}`);
+    const generatedSignature = hmac.digest("hex");
 
-    if (generateSignature === signature) {
-        return res.status(200).json(new ApiResponse(200, {}, "Payment Verified"));
-    } else {
-        return res.status(400).json(new ApiResponse(400, "Payment Not Verified"));
+    if (generatedSignature !== razorPaySignature) {
+        return res.status(400).json(new ApiError(400, "Payment Not Verified"));
     }
+
+    // Create Order Items
+    let savedOrderItems;
+    try {
+        savedOrderItems = await Promise.all(
+            orderItems.map(async (item) => {
+                return await OrderItem.create({
+                    productName: item.productName,
+                    price: item.price,
+                    quantity: item.quantity,
+                    totalPrice: item.totalPrice,
+                    productId: item.productId,
+                    variantId: item.variantId || null,
+                });
+            })
+        );
+    } catch (_error) {
+        return res.status(500).json(new ApiError(500, "Failed To Create Order Items"));
+    }
+    const orderItemIds = savedOrderItems.map((orderItems) => orderItems._id);
+
+    // Create & Save Order
+    let newOrder;
+    try {
+        newOrder = await Order.create({
+            userId,
+            shippingAddress,
+            paymentStatus,
+            orderStatus,
+            paymentType,
+            totalAmount,
+            orderItems: orderItemIds,
+            additionalInformation,
+            razorPayOrderId,
+            razorPayPaymentId,
+            razorPaySignature,
+        });
+    } catch (_error) {
+        return res.status(500).json(new ApiError(500, "Failed To Create Order"));
+    }
+    // Send Order Confirmation Email
+
+    try {
+        await sendOrderConfirmationEmail(req.user, newOrder, shippingAddress, paymentStatus);
+    } catch (_emailError) {
+        return res.status(200).json(new ApiResponse(200, { emailSent: false }, "Order Created, But Email Sending Failed"));
+    }
+
+    return res.status(200).json(new ApiResponse(200, {}, "Order Created Successfully"));
 });
 
-export { createOrder, createOrderRazorPay, verifyRazorPayPayment };
+// Get Orders By User
+const getOrderByUser = asyncHandler(async (req, res) => {
+    try {
+        const { _id: userId } = req.user;
+        if (!isValidObjectId(userId)) {
+            return res.status(404).json(new ApiError(404, "Invalid User Id"));
+        }
+
+        const userData = await User.findById(userId);
+        if (!userData) {
+            return res.status(404).json(new ApiError(404, "User Not Found"));
+        }
+
+        const orders = await Order.aggregate([
+            {
+                $match: {
+                    userId: new mongoose.Types.ObjectId(userId),
+                },
+            },
+            {
+                $lookup: {
+                    from: "orderitems",
+                    localField: "orderItems",
+                    foreignField: "_id",
+                    as: "orderItems",
+                },
+            },
+            {
+                $sort: {
+                    orderDate: -1,
+                },
+            },
+            {
+                $project: {
+                    _id: 1,
+                    orderDate: 1,
+                    orderStatus: 1,
+                    totalAmount: 1,
+                    orderItemCount: { $size: "$orderItems" },
+                },
+            },
+        ]);
+
+        return res.status(200).json(new ApiResponse(200, orders, "User Orders Fetch Successfully"));
+    } catch (_error) {
+        return res.status(500).json(new ApiError(500, "Something Went Wrong While Fetching User Order"));
+    }
+});
+export { createOrder, createOrderRazorPay, verifyRazorPayPayment, getOrderByUser };

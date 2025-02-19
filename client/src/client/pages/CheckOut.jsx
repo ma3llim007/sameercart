@@ -13,7 +13,7 @@ import Loader from "../components/Loader/Loader";
 import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { BillingDetails } from "@/validation";
-import { capitalizeWords, formatNumberWithCommas } from "@/utils";
+import { capitalizeWords, formatNumberWithCommas, loadScript } from "@/utils";
 import { Country, State } from "country-state-city";
 import { upperCase } from "lodash";
 import { Button } from "@/components/ui/button";
@@ -25,7 +25,6 @@ const CheckOut = () => {
     const { user } = useSelector(state => state.userAuth);
     const { carts, totalCartPrice } = useSelector(state => state.cart);
     const [selectedPayment, setSelectedPayment] = useState("cod");
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -82,63 +81,80 @@ const CheckOut = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSuccess, setValue, data]);
 
-    // const { mutate, isPending } = useMutation({
-    //     mutationFn: data => {
-    //         console.log(data);
-    //         const formData = new FormData();
-    //         const shippingAddress = {
-    //             street: data.street,
-    //             city: data.city,
-    //             state: data.state,
-    //             country: data.country,
-    //             zip_code: data.zipCode,
-    //         };
-    //         const orderItems = carts.map(cart => ({
-    //             productName: cart.name,
-    //             price: cart.price,
-    //             quantity: cart.quantity,
-    //             totalPrice: cart.price * cart.quantity,
-    //             productId: cart.id,
-    //             ...(cart.variantId && { variantId: cart.variantId }),
-    //         }));
-    //         formData.append("shippingAddress", JSON.stringify(shippingAddress));
-    //         formData.append("paymentStatus", "Pending");
-    //         formData.append("orderStatus", "Pending");
-    //         formData.append("paymentType", "COD");
-    //         formData.append("totalAmount", Number(totalCartPrice) + 40);
-    //         formData.append("orderItems", JSON.stringify(orderItems));
-    //         formData.append("additionalInformation", data.additionalInformation || null);
-
-    //         return crudService.post("order/order", false, formData);
-    //     },
-    //     onSuccess: data => {
-    //         dispatch(clearCart());
-    //         navigate("/account/dashboard");
-    //         toastService.success(data?.message);
-    //     },
-    //     onError: error => {
-    //         const message = error?.response?.data?.message || error?.message;
-    //         setError("root", { message });
-    //     },
-    // });
-
-    const loadScript = src => {
-        return new Promise(resolve => {
-            const script = document.createElement("script");
-            script.src = src;
-            script.onload = () => {
-                resolve(true);
-            };
-            script.onerror = () => {
-                resolve(false);
-            };
-            document.body.appendChild(script);
-        });
-    };
-
     // Cash On Delivery Mutatation
     const { mutate: createOrder, isPending: createOrderIsPending } = useMutation({
-        mutationFn: data => crudService.post("order/create-order-cash", false, data),
+        mutationFn: data => {
+            const formData = new FormData();
+            const shippingAddress = {
+                street: data.street,
+                city: data.city,
+                state: data.state,
+                country: data.country,
+                zip_code: data.zipCode,
+            };
+            const orderItems = carts.map(cart => ({
+                productName: cart.name,
+                price: cart.price,
+                quantity: cart.quantity,
+                totalPrice: cart.price * cart.quantity,
+                productId: cart.id,
+                ...(cart.variantId && { variantId: cart.variantId }),
+            }));
+            formData.append("shippingAddress", JSON.stringify(shippingAddress));
+            formData.append("paymentStatus", "Pending");
+            formData.append("orderStatus", "Pending");
+            formData.append("paymentType", "COD");
+            formData.append("totalAmount", Number(totalCartPrice) + 40);
+            formData.append("orderItems", JSON.stringify(orderItems));
+            formData.append("additionalInformation", data.additionalInformation || null);
+
+            return crudService.post("order/create-order-cash", false, formData);
+        },
+        onSuccess: data => {
+            dispatch(clearCart());
+            navigate("/account/dashboard");
+            toastService.success(data?.message);
+        },
+        onError: error => {
+            const message = error?.response?.data?.message || error?.message;
+            setError("root", { message });
+        },
+    });
+
+    // Pay Now Mutatation
+    const { mutate: payNowOrder, isPending: payNowOrderIsPending } = useMutation({
+        mutationFn: data => {
+            const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = data;
+            const formData = new FormData();
+            const shippingAddress = {
+                street: data.street,
+                city: data.city,
+                state: data.state,
+                country: data.country,
+                zip_code: data.zipCode,
+            };
+            const orderItems = carts.map(cart => ({
+                productName: cart.name,
+                price: cart.price,
+                quantity: cart.quantity,
+                totalPrice: cart.price * cart.quantity,
+                productId: cart.id,
+                ...(cart.variantId && { variantId: cart.variantId }),
+            }));
+            const orderStatus = !razorpay_payment_id && !razorpay_order_id && !razorpay_signature ? "Failed" : "Completed";
+            formData.append("shippingAddress", JSON.stringify(shippingAddress));
+            formData.append("paymentStatus", orderStatus);
+            formData.append("orderStatus", "Pending");
+            formData.append("paymentType", "PayNow");
+            formData.append("totalAmount", Number(totalCartPrice) + 40);
+            formData.append("orderItems", JSON.stringify(orderItems));
+            formData.append("additionalInformation", data.additionalInformation || null);
+            formData.append("razorPayOrderId", razorpay_order_id);
+            formData.append("razorPayPaymentId", razorpay_payment_id);
+            formData.append("razorPaySignature", razorpay_signature);
+
+            return crudService.post("order/verify-payment", false, formData);
+        },
         onSuccess: data => {
             dispatch(clearCart());
             navigate("/account/dashboard");
@@ -159,12 +175,10 @@ const CheckOut = () => {
         }
 
         try {
-            const option = {
-                totalAmount: formData.totalAmount,
-            };
-
             // creating a new order
-            const newOrder = await crudService.post("/order/create-order-razorpay", false, option);
+            const newOrder = await crudService.post("/order/create-order-razorpay", false, {
+                totalAmount: formData.totalAmount,
+            });
             if (!newOrder?.data || !newOrder.data.id) {
                 alert("Server error. Are you online?");
                 return;
@@ -178,43 +192,25 @@ const CheckOut = () => {
                 name: "sameerCart.",
                 description: `Purchase From sameerCart - Order #${newOrder.data.receipt.split("_").pop()}`,
                 image: logo,
-                orderId: newOrder.data.id,
+                order_id: newOrder.data.id,
+                handler: function (response) {
+                    const updateformData = {
+                        ...formData,
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_signature: response.razorpay_signature,
+                    };
+
+                    return payNowOrder(updateformData);
+                },
                 prefill: {
                     name: `${formData.firstName} ${formData.lastName}`,
                     email: formData.email,
                     contact: formData.phoneNumber,
                 },
-                notes: {
-                    address: "sameerCart",
-                },
                 theme: {
                     color: "#0562d6",
-                },
-                handler: async function (response) {
-                    console.log("Payment successful", response);
-                    // Check if payment details are missing
-                    if (!response.razorpay_payment_id || !response.razorpay_order_id || !response.razorpay_signature) {
-                        console.error("❌ Missing Payment Data:", response);
-                        alert("Payment failed or incomplete. Please try again.");
-                        return;
-                    }
-
-                    // Prepare data for payment verification
-                    const paymentData = {
-                        razorpayPaymentId: response.razorpay_payment_id,
-                        razorpayOrderId: response.razorpay_order_id,
-                        razorpaySignature: response.razorpay_signature,
-                    };
-                    console.log(paymentData);
-                    // Verify payment on the backend
-                    try {
-                        const result = await crudService.post("/order/verify-payment", false, paymentData);
-                        console.log("Payment Verification Result:", result);
-                        alert(result.data.msg);
-                    } catch (error) {
-                        console.error("Payment Verification Failed:", error);
-                        alert("Payment verification failed. Please try again.");
-                    }
+                    // backdrop_color: "#3D3D3D",
                 },
             };
             // Open Razorpay Payment Modal
@@ -226,36 +222,18 @@ const CheckOut = () => {
     };
 
     const handleSubmitForm = data => {
-        const orderData = {
-            ...data,
-            orderItems: carts.map(cart => ({
-                productName: cart.name,
-                price: cart.price,
-                quantity: cart.quantity,
-                totalPrice: cart.price * cart.quantity,
-                productId: cart.id,
-                ...(cart.variantId && { variantId: cart.variantId }),
-            })),
-            shippingAddress: {
-                street: data.street,
-                city: data.city,
-                state: data.state,
-                country: data.country,
-                zip_code: data.zipCode,
-            },
-            totalAmount: totalCartPrice + 40,
-            paymentStatus: "Pending",
-            orderStatus: "Pending",
-            paymentType: selectedPayment === "cod" ? "COD" : "PayNow",
-        };
         if (selectedPayment === "cod") {
-            createOrder(orderData);
+            createOrder(data);
         } else {
-            onPaymentRazorPay(orderData);
+            const updateDate = {
+                ...data,
+                totalAmount: Number(totalCartPrice + 40),
+            };
+            onPaymentRazorPay(updateDate);
         }
     };
-    useTopScroll(0, [createOrderIsPending]);
-    if (DataIsPending || createOrderIsPending) return <Loader />;
+    useTopScroll(0, [createOrderIsPending, payNowOrderIsPending]);
+    if (DataIsPending || createOrderIsPending || payNowOrderIsPending) return <Loader />;
     return (
         <>
             <section className="w-full mt-4 bg-gray-700 bg-opacity-70 py-4 px-5 rounded-md-md shadow-md select-none">
@@ -451,7 +429,11 @@ const CheckOut = () => {
                                                     {capitalizeWords(cart.name)} X {cart.quantity}
                                                 </p>
                                                 {cart.attributes?.map(attribute => (
-                                                    <Badge key={attribute?._id} title={`${capitalizeWords(attribute.name)}: ${upperCase(attribute.value)}`} className="Primary max-w-fit my-2 !leading-normal !rounded-sm" />
+                                                    <Badge
+                                                        key={attribute?._id}
+                                                        title={`${capitalizeWords(attribute.name)}: ${upperCase(attribute.value)}`}
+                                                        className="Primary max-w-fit my-2 !leading-normal !rounded-sm"
+                                                    />
                                                 ))}
                                             </div>
                                             <div className="text-lg font-medium flex items-center">

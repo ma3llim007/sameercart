@@ -29,6 +29,7 @@ import ChangePassword from "./Accounts/ChangePassword";
 import OAuthButtons from "./OAuthButtons";
 import ProfileInformation from "./Accounts/ProfileInformation";
 import Dashboard from "./Accounts/Dashboard";
+import Order from "./Accounts/Order";
 
 export {
     Header,
@@ -62,4 +63,5 @@ export {
     OAuthButtons,
     ProfileInformation,
     Dashboard,
+    Order,
 };

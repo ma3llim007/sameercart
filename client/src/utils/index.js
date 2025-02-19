@@ -4,5 +4,18 @@ import slugTransform from "./slugTransform";
 import { slugToText, capitalizeWords, formatNumberWithCommas } from "./texts";
 import { productTypeOptions } from "./options";
 import { calculateUserDetailsScore } from "./calculateUserDetailsScore";
+import { loadScript } from "./loadScript";
 
-export { currentYear, isValidFileType, slugTransform, isValidExtensions, formatDateTime, productTypeOptions, slugToText, capitalizeWords, formatNumberWithCommas, calculateUserDetailsScore };
+export {
+    currentYear,
+    isValidFileType,
+    slugTransform,
+    isValidExtensions,
+    formatDateTime,
+    productTypeOptions,
+    slugToText,
+    capitalizeWords,
+    formatNumberWithCommas,
+    calculateUserDetailsScore,
+    loadScript,
+};
