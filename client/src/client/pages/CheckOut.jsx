@@ -5,7 +5,7 @@ import { FaHome, FaRupeeSign } from "react-icons/fa";
 import { FaBagShopping } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
 import { Badge, Input, TextArea } from "@/components";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
@@ -27,6 +27,7 @@ const CheckOut = () => {
     const [selectedPayment, setSelectedPayment] = useState("cod");
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const queryClient = useQueryClient();
 
     const {
         handleSubmit,
@@ -114,6 +115,7 @@ const CheckOut = () => {
             dispatch(clearCart());
             navigate("/account/dashboard");
             toastService.success(data?.message);
+            queryClient.invalidateQueries(["userOrder", user._id]);
         },
         onError: error => {
             const message = error?.response?.data?.message || error?.message;
@@ -159,6 +161,7 @@ const CheckOut = () => {
             dispatch(clearCart());
             navigate("/account/dashboard");
             toastService.success(data?.message);
+            queryClient.invalidateQueries(["userOrder", user._id]);
         },
         onError: error => {
             const message = error?.response?.data?.message || error?.message;
