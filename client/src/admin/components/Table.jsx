@@ -115,7 +115,7 @@ const Table = ({ columns, data, paginationOptions = { pageSize: 10 }, sortable =
                     {table.getRowModel().rows.length === 0 ? (
                         <TableRow>
                             <TableCell colSpan={table.getAllColumns().length} className="p-3 text-center border border-gray-300 border-opacity-20">
-                                <h5 className="text-lg font-bold">No data available</h5>
+                                <h5 className="text-lg font-bold">{emptyMessage}</h5>
                             </TableCell>
                         </TableRow>
                     ) : (
