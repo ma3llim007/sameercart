@@ -107,7 +107,7 @@ const CheckOut = () => {
             formData.append("paymentType", "COD");
             formData.append("totalAmount", Number(totalCartPrice) + 40);
             formData.append("orderItems", JSON.stringify(orderItems));
-            formData.append("additionalInformation", data.additionalInformation || null);
+            formData.append("additionalInformation", data.additionalNotes);
 
             return crudService.post("order/create-order-cash", false, formData);
         },
@@ -150,7 +150,7 @@ const CheckOut = () => {
             formData.append("paymentType", "PayNow");
             formData.append("totalAmount", Number(totalCartPrice) + 40);
             formData.append("orderItems", JSON.stringify(orderItems));
-            formData.append("additionalInformation", data.additionalInformation || null);
+            formData.append("additionalInformation", data.additionalNotes);
             formData.append("razorPayOrderId", razorpay_order_id);
             formData.append("razorPayPaymentId", razorpay_payment_id);
             formData.append("razorPaySignature", razorpay_signature);
