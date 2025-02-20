@@ -1,10 +1,14 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub } from "@/components/ui/sidebar";
-import { FaHome, FaList, FaUsers, FaCube, FaCubes, FaProductHunt } from "react-icons/fa";
+import { FaHome, FaList, FaUsers, FaCube, FaCubes, FaProductHunt, FaShippingFast, FaBorderAll } from "react-icons/fa";
 import avatar from "../assets/avatar5.png";
 import { AiFillDashboard } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
+import { BsFillCartCheckFill } from "react-icons/bs";
+import { FaPlus } from "react-icons/fa6";
+import { TbShoppingCartCancel } from "react-icons/tb";
+import { CiDeliveryTruck } from "react-icons/ci";
 
 const navBar = [
     { name: "Main Site", Icon: FaHome, urlLink: "/" },
@@ -21,6 +25,7 @@ const navBar = [
             {
                 name: "Add User",
                 urlLink: "/admin/users/add-user",
+                Icon: FaPlus,
             },
             {
                 name: "User List",
@@ -36,6 +41,7 @@ const navBar = [
             {
                 name: "Add Category",
                 urlLink: "/admin/category/add-category",
+                Icon: FaPlus,
             },
             {
                 name: "Category List",
@@ -51,6 +57,7 @@ const navBar = [
             {
                 name: "Add Sub-Category",
                 urlLink: "/admin/sub-category/add-subcategory",
+                Icon: FaPlus,
             },
             {
                 name: "Sub-Category List",
@@ -66,10 +73,43 @@ const navBar = [
             {
                 name: "Add Products",
                 urlLink: "/admin/products/add-products",
+                Icon: FaPlus,
             },
             {
                 name: "Products List",
                 urlLink: "/admin/products/products-list",
+            },
+        ],
+        segment: "products",
+    },
+    {
+        name: "Manage Order",
+        Icon: BsFillCartCheckFill,
+        innerLists: [
+            {
+                name: "New Order",
+                urlLink: "/admin/orders/new-order",
+                Icon: FaPlus,
+            },
+            {
+                name: "Shipping Order",
+                urlLink: "/admin/orders/shipping-order",
+                Icon: FaShippingFast,
+            },
+            {
+                name: "Canceled Order",
+                urlLink: "/admin/orders/canceled-order",
+                Icon: TbShoppingCartCancel,
+            },
+            {
+                name: "Delivery Order",
+                urlLink: "/admin/orders/delivery-order",
+                Icon: CiDeliveryTruck,
+            },
+            {
+                name: "All Order",
+                urlLink: "/admin/products/all-order",
+                Icon: FaBorderAll,
             },
         ],
         segment: "products",
@@ -114,7 +154,7 @@ export function AdminSideBar({ username, ...props }) {
                                                     {items?.innerLists.map(item => (
                                                         <SidebarMenuButton key={item?.name} className="data-[active=true]:bg-transparent" asChild>
                                                             <Link to={item?.urlLink}>
-                                                                <FaList />
+                                                                {item.Icon ? <item.Icon /> : <FaList />}
                                                                 {item?.name}
                                                             </Link>
                                                         </SidebarMenuButton>

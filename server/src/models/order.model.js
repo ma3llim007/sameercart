@@ -45,8 +45,8 @@ const orderSchema = new Schema(
         },
         orderStatus: {
             type: String,
-            enum: ["Pending", "Shipped", "Delivery", "CanceledByUser", "CanceledByAdmin"],
-            default: "Pending",
+            enum: ["Order", "Shipped", "Delivery", "CanceledByUser", "CanceledByAdmin"],
+            default: "Order",
         },
         paymentType: {
             type: String,
@@ -56,6 +56,9 @@ const orderSchema = new Schema(
         totalAmount: {
             type: Number,
             required: [true, "Total Amount is required"],
+        },
+        orderShippingDate: {
+            type: Date,
         },
         completeOrderdate: {
             type: Date,

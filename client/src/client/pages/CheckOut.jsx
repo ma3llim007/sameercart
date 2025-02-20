@@ -103,7 +103,7 @@ const CheckOut = () => {
             }));
             formData.append("shippingAddress", JSON.stringify(shippingAddress));
             formData.append("paymentStatus", "Pending");
-            formData.append("orderStatus", "Pending");
+            formData.append("orderStatus", "Order");
             formData.append("paymentType", "COD");
             formData.append("totalAmount", Number(totalCartPrice) + 40);
             formData.append("orderItems", JSON.stringify(orderItems));
@@ -146,7 +146,7 @@ const CheckOut = () => {
             const orderStatus = !razorpay_payment_id && !razorpay_order_id && !razorpay_signature ? "Failed" : "Completed";
             formData.append("shippingAddress", JSON.stringify(shippingAddress));
             formData.append("paymentStatus", orderStatus);
-            formData.append("orderStatus", "Pending");
+            formData.append("orderStatus", "Order");
             formData.append("paymentType", "PayNow");
             formData.append("totalAmount", Number(totalCartPrice) + 40);
             formData.append("orderItems", JSON.stringify(orderItems));

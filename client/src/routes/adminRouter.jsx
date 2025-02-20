@@ -23,6 +23,8 @@ const ProductsList = lazy(() => import("@/admin/pages/ProductsList"));
 const ViewProduct = lazy(() => import("@/admin/pages/ViewProduct"));
 const AddVariants = lazy(() => import("@/admin/pages/AddVariants"));
 const EditVariant = lazy(() => import("@/admin/pages/EditVariant"));
+const NewOrder = lazy(() => import("@/admin/pages/NewOrder"));
+const ViewNewOrder = lazy(() => import("@/admin/pages/ViewNewOrder"));
 
 const adminRouters = createBrowserRouter([
     {
@@ -220,6 +222,51 @@ const adminRouters = createBrowserRouter([
                                 ),
                             },
                         ],
+                    },
+                ],
+            },
+            {
+                path: "orders",
+                children: [
+                    {
+                        index: true,
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <NewOrder />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "new-order/",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <NewOrder />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "view-new-order/:orderId",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <ViewNewOrder />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "subcategory-list/",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <SubCategoryList />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "edit-category/:subCategoryId",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <EditSubCategory />
+                            </Suspense>
+                        ),
                     },
                 ],
             },
