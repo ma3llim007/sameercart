@@ -200,7 +200,7 @@ const ProductDetails = () => {
                                     src={selectedVariant?.images[currentImage]?.imageUrl || productData?.productFeatureImage}
                                     alt={productData?.productName || "Product Name"}
                                     key={currentImage}
-                                    className={`rounded-lg border border-gray-300 w-full h-auto transition-opacity duration-500 ease-in-out opacity-100 ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+                                    className={`rounded-lg border border-gray-300 w-full h-auto transition-opacity duration-500 ease-in-out opacity-100 ${isDragging ? "cursor-grabbing" : "cursor-default"}`}
                                 />
                                 <div className="absolute w-full flex justify-center mt-2 py-1 lg:hidden">
                                     {(selectedVariant?.images || []).map((_, idx) => (
