@@ -111,7 +111,6 @@ const viewOrder = asyncHandler(async (req, res) => {
             return res.status(400).json(new ApiError(400, "Invalid Order Id"));
         }
 
-        // const orderData = await Order.aggregate([{ $match: { _id: new mongoose.Types.ObjectId(orderId) } },]);
         const orderData = await Order.aggregate([
             {
                 $match: {
@@ -166,6 +165,7 @@ const viewOrder = asyncHandler(async (req, res) => {
                     paymentType: 1,
                     totalAmount: 1,
                     orderDate: 1,
+                    additionalInformation: 1,
                     orderItems: {
                         _id: 1,
                         productName: 1,
@@ -189,20 +189,18 @@ const viewOrder = asyncHandler(async (req, res) => {
                                     discountPrice: {
                                         $arrayElemAt: ["$orderItemsVariants.discountPrice", "$$matchedVariantIndex"],
                                     },
-                                    images: {
-                                        $arrayElemAt: ["$orderItemsVariants.images.imageUrl", "$$matchedVariantIndex"],
-                                    },
                                     attributes: {
                                         $arrayElemAt: ["$orderItemsVariants.attributes", "$$matchedVariantIndex"],
                                     },
                                 },
                             },
                         },
-                        additionalInformation: 1,
                     },
                 },
             },
         ]);
+        console.log(orderData[0]);
+        
         return res.status(200).json(new ApiResponse(200, orderData[0], "Order Fetch Successfully."));
     } catch (_error) {
         return res.status(200).json(new ApiError(200, "Something Went Wrong! While Fetch Order"));
