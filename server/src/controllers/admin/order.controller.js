@@ -65,40 +65,6 @@ const getOrder = asyncHandler(async (req, res) => {
     }
 });
 
-// Delete Order
-const deleteOrder = asyncHandler(async (req, res) => {
-    try {
-        const { orderId } = req.params;
-        if (!orderId || orderId.trim() === "") {
-            return res.status(422).json(new ApiError(422, "Order ID Is Required"));
-        }
-
-        if (!isValidObjectId(orderId)) {
-            return res.status(400).json(new ApiError(400, "Invalid Order Id"));
-        }
-
-        // Find Order
-        const order = await Order.findById(orderId);
-        if (!order) {
-            return res.status(404).json(new ApiError(404, "Order Not Found"));
-        }
-
-        // Prevent deletion if payment is completed
-        if (order === "PayNow") {
-            return res.status(422).json(new ApiError(422, "This Order Cannot Be Deleted Because The Payment Has Already Been Made."));
-        }
-
-        // Delete Order Items
-        await OrderItem.deleteMany({ _id: { $in: order.orderItems } });
-        // Delete Order
-        await Order.deleteOne({ _id: orderId });
-
-        return res.status(200).json(new ApiResponse(200, {}, "Order and Associated Order Items Deleted Successfully."));
-    } catch (_error) {
-        return res.status(500).json(new ApiError(500, "Something Went Wrong! While Delte Order"));
-    }
-});
-
 // View Order With OrderItem
 const viewOrder = asyncHandler(async (req, res) => {
     try {
@@ -112,11 +78,7 @@ const viewOrder = asyncHandler(async (req, res) => {
         }
 
         const orderData = await Order.aggregate([
-            {
-                $match: {
-                    _id: new mongoose.Types.ObjectId(orderId),
-                },
-            },
+            { $match: { _id: new mongoose.Types.ObjectId(orderId) } },
             {
                 $lookup: {
                     from: "users",
@@ -149,6 +111,49 @@ const viewOrder = asyncHandler(async (req, res) => {
                 },
             },
             {
+                $unwind: {
+                    path: "$orderItems",
+                    preserveNullAndEmptyArrays: true,
+                },
+            },
+            {
+                $set: {
+                    orderItems: {
+                        $mergeObjects: [
+                            "$orderItems",
+                            {
+                                variant: {
+                                    $arrayElemAt: [
+                                        {
+                                            $filter: {
+                                                input: "$orderItemsVariants",
+                                                as: "variant",
+                                                cond: { $eq: ["$$variant._id", "$orderItems.variantId"] },
+                                            },
+                                        },
+                                        0,
+                                    ],
+                                },
+                            },
+                        ],
+                    },
+                },
+            },
+            {
+                $group: {
+                    _id: "$_id",
+                    user: { $first: "$user" },
+                    shippingAddress: { $first: "$shippingAddress" },
+                    paymentStatus: { $first: "$paymentStatus" },
+                    orderStatus: { $first: "$orderStatus" },
+                    paymentType: { $first: "$paymentType" },
+                    totalAmount: { $first: "$totalAmount" },
+                    orderDate: { $first: "$orderDate" },
+                    additionalInformation: { $first: "$additionalInformation" },
+                    orderItems: { $push: "$orderItems" },
+                },
+            },
+            {
                 $project: {
                     _id: 1,
                     user: {
@@ -173,38 +178,63 @@ const viewOrder = asyncHandler(async (req, res) => {
                         quantity: 1,
                         totalPrice: 1,
                         variant: {
-                            $let: {
-                                vars: {
-                                    matchedVariantIndex: {
-                                        $indexOfArray: ["$orderItemsVariants._id", "$orderItems.variantId"],
-                                    },
-                                },
-                                in: {
-                                    _id: {
-                                        $arrayElemAt: ["$orderItemsVariants._id", "$$matchedVariantIndex"],
-                                    },
-                                    sku: {
-                                        $arrayElemAt: ["$orderItemsVariants.sku", "$$matchedVariantIndex"],
-                                    },
-                                    discountPrice: {
-                                        $arrayElemAt: ["$orderItemsVariants.discountPrice", "$$matchedVariantIndex"],
-                                    },
-                                    attributes: {
-                                        $arrayElemAt: ["$orderItemsVariants.attributes", "$$matchedVariantIndex"],
-                                    },
-                                },
-                            },
+                            _id: 1,
+                            sku: 1,
+                            discountPrice: 1,
+                            attributes: 1,
                         },
+                        createdAt: 1,
                     },
                 },
             },
         ]);
-        console.log(orderData[0]);
-        
+
         return res.status(200).json(new ApiResponse(200, orderData[0], "Order Fetch Successfully."));
     } catch (_error) {
-        return res.status(200).json(new ApiError(200, "Something Went Wrong! While Fetch Order"));
+        return res.status(500).json(new ApiError(500, "Something Went Wrong! While Fetch Order"));
     }
 });
 
-export { getOrder, deleteOrder, viewOrder };
+// New Order Actions
+const newOrderAction = asyncHandler(async (req, res) => {
+    const { orderId } = req.params;
+
+    if (!orderId) {
+        return res.status(422).json(new ApiError(422, "Order ID is Required"));
+    }
+
+    if (!isValidObjectId(orderId)) {
+        return res.status(404).json(new ApiError(404, "Invalid Order Id"));
+    }
+
+    try {
+        const { orderStatus, orderShippingDate, orderCancelReason } = req.body;
+
+        const order = await Order.findById(orderId);
+        if (!order) {
+            return res.status(404).json(new ApiError(404, "Order Not Found"));
+        }
+
+        // Check if at least one field is provided for update
+        if (!orderStatus && !orderShippingDate && !orderCancelReason) {
+            return res.status(400).json(new ApiError(400, "At least One Field (Order Status, Delivery Date, Or Cancellation Reason) is required for update"));
+        }
+
+        if (order.orderStatus) {
+            order.orderStatus = orderStatus;
+        }
+        if (order.orderShippingDate) {
+            order.orderShippingDate = orderShippingDate;
+        }
+        if (order.orderCancelReason) {
+            order.orderCancelReason = orderCancelReason;
+        }
+        await order.save();
+        console.log(order);
+        return res.status(200).json(new ApiResponse(200, order, "Order Update Successfully"));
+    } catch (_error) {
+        return res.status(500).json(new ApiError(500, "Something Went Wrong! While Updating The Order Actions"));
+    }
+});
+
+export { getOrder, viewOrder, newOrderAction };

@@ -28,7 +28,7 @@ const orderItemSchema = new Schema(
             ref: "Variant",
         },
     },
-    { timeseries: true }
+    { timestamps: true }
 );
 
 export const OrderItem = mongoose.model("OrderItem", orderItemSchema);

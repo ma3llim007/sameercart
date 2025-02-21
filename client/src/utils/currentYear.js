@@ -15,4 +15,15 @@ const currentYear = () => {
     return date.getFullYear();
 };
 
+export const getMinDate = () => {
+    const today = new Date();
+    today.setDate(today.getDate() + 1);
+    return today;
+};
+
+export const getMaxDate = () => {
+    const today = new Date();
+    today.setDate(today.getDate() + 10);
+    return today;
+};
 export default currentYear;

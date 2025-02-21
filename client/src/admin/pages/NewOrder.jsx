@@ -4,7 +4,7 @@ import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { Badge } from "@/components";
 import { Link, useNavigate } from "react-router-dom";
-import { capitalizeWords, formatDateTime, formatNumberWithCommas } from "@/utils";
+import { capitalizeWords, formatDateTime, formatNumberWithCommas, paymentStatusClass, statusClass } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { FaRupeeSign } from "react-icons/fa";
 import Loader from "@/client/components/Loader/Loader";
@@ -14,19 +14,11 @@ const NewOrder = () => {
 
     const { data, isPending } = useQuery({
         queryKey: ["newOrder"],
-        queryFn: () => crudService.get("order/get-order", true),
+        queryFn: () => crudService.get("order/get-order?orderStatus=Order", true),
         onError: err => {
             toastService.error(err?.message || "Failed to fetch Data.");
         },
     });
-
-    const statusClass = {
-        Order: "Secondary",
-        Shipped: "Info",
-        Delivery: "Success",
-        CanceledByUser: "Danger",
-        CanceledByAdmin: "Danger",
-    };
 
     // Order Columns
     const orderColumns = [
@@ -65,6 +57,13 @@ const NewOrder = () => {
             ),
         },
         {
+            accessorKey: "paymentStatus",
+            header: "Payment Status",
+            cell: ({ row }) => (
+                <Badge title={row.original?.paymentStatus} className={`${paymentStatusClass[row?.original?.paymentStatus] || ""} rounded-md`} />
+            ),
+        },
+        {
             header: "Added By",
             cell: ({ row }) => <Link to={`/admin/users/view-user/${row.original?.user?._id}`}>{capitalizeWords(row.original?.user?.fullName)}</Link>,
         },
@@ -72,7 +71,7 @@ const NewOrder = () => {
             accessorKey: "shippingAddress",
             header: "Address",
             cell: ({ row }) => (
-                <div className="max-w-56 min-w-56 flex flex-col gap-2 items-start">
+                <div className="max-w-44 min-w-44 flex flex-col gap-2 items-start">
                     <p>
                         <strong>Street: </strong>
                     </p>

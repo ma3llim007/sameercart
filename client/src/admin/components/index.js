@@ -12,6 +12,26 @@ import TextArea from "../../components/Form/TextArea";
 import ErrorMessage from "./ErrorMessage";
 import ProductDetailsVariant from "./ProductDetailsVariant";
 import UserDetails from "./orders/UserDetails";
-import ShippingAddress from "./orders/ShippingAddress";
+import ViewOrderForm from "./orders/ViewOrderForm";
+import OrderItem from "./orders/OrderItem";
+import OrderDetails from "./orders/OrderDetails";
 
-export { LogoutBtn, Input, PageHeader, AdminSideBar, Header, Footer, Table, Loading, ButtonWithAlert, Select, TextArea, ErrorMessage, ProductDetailsVariant, UserDetails, ShippingAddress };
+export {
+    LogoutBtn,
+    Input,
+    PageHeader,
+    AdminSideBar,
+    Header,
+    Footer,
+    Table,
+    Loading,
+    ButtonWithAlert,
+    Select,
+    TextArea,
+    ErrorMessage,
+    ProductDetailsVariant,
+    UserDetails,
+    ViewOrderForm,
+    OrderItem,
+    OrderDetails,
+};

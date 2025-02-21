@@ -60,6 +60,9 @@ const orderSchema = new Schema(
         orderShippingDate: {
             type: Date,
         },
+        orderCancelReason: {
+            type: String,
+        },
         completeOrderdate: {
             type: Date,
         },
