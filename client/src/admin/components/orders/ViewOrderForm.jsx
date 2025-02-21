@@ -58,7 +58,7 @@ const ViewOrderForm = ({ orderId }) => {
                         disabled={isPending}
                         {...register("orderStatus")}
                         error={errors.orderStatus?.message}
-                        className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                        className="text-xl rounded-sm p-3 border border-gray-600 dark:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                     />
                 </div>
                 {orderStatusCurrentValue === "Shipped" && (
@@ -70,7 +70,7 @@ const ViewOrderForm = ({ orderId }) => {
                             type="date"
                             disabled={isPending}
                             max={getMaxDate().toISOString().split("T")[0]}
-                            className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            className="text-xl rounded-sm p-3 border border-gray-600 dark:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                             error={errors.orderShippingDate?.message}
                         />
                     </div>
@@ -83,7 +83,7 @@ const ViewOrderForm = ({ orderId }) => {
                             label="Cancellation Reason"
                             disabled={isPending}
                             placeholder="Provide A Reason For Cancellation (e.g., Incorrect Order, Change Of Mind, Delayed Delivery)."
-                            className={`w-full text-lg rounded px-3 py-3 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12 cursor-auto`}
+                            className={`w-full text-lg rounded px-3 py-3 border border-gray-600 dark:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-12 cursor-auto`}
                             {...register("orderCancelReason")}
                             error={errors.orderCancelReason?.message}
                         />
