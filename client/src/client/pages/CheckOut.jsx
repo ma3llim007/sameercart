@@ -207,13 +207,12 @@ const CheckOut = () => {
                     return payNowOrder(updateformData);
                 },
                 prefill: {
-                    name: `${formData.firstName} ${formData.lastName}`,
-                    email: formData.email,
-                    contact: formData.phoneNumber,
+                    name: `${formData?.firstName || ""} ${formData?.lastName || ""}`,
+                    email: formData.email || "",
+                    contact: formData.phoneNumber || "",
                 },
                 theme: {
                     color: "#0562d6",
-                    // backdrop_color: "#3D3D3D",
                 },
             };
             // Open Razorpay Payment Modal
