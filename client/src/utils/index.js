@@ -1,8 +1,8 @@
-import currentYear, { formatDateTime, getMaxDate, getMinDate } from "./currentYear";
+import currentYear, { formatDateTime, getMaxDate, getMinDate, getToday } from "./currentYear";
 import { isValidExtensions, isValidFileType } from "./files";
 import slugTransform from "./slugTransform";
 import { slugToText, capitalizeWords, formatNumberWithCommas } from "./texts";
-import { orderViewActionOptions, paymentStatusClass, productTypeOptions, statusClass } from "./options";
+import { orderShippingActionOptions, orderViewActionOptions, paymentStatusClass, productTypeOptions, statusClass } from "./options";
 import { calculateUserDetailsScore } from "./calculateUserDetailsScore";
 import { loadScript } from "./loadScript";
 
@@ -22,5 +22,7 @@ export {
     getMaxDate,
     getMinDate,
     statusClass,
-    paymentStatusClass
+    paymentStatusClass,
+    getToday,
+    orderShippingActionOptions,
 };

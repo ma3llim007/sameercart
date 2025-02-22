@@ -54,7 +54,7 @@ const ViewOrderForm = ({ orderId }) => {
                         title="Select a Order Status"
                         options={orderViewActionOptions}
                         defaultValue="default"
-                        name="productType"
+                        name="orderStatus"
                         disabled={isPending}
                         {...register("orderStatus")}
                         error={errors.orderStatus?.message}

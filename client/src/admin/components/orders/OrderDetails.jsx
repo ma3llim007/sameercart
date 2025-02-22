@@ -65,6 +65,22 @@ const OrderDetails = ({ order }) => {
                         </th>
                         <td className="p-3 text-left">{capitalizeWords(order?.additionalInformation) || "-"}</td>
                     </tr>
+                    {order.orderCancelReason && (
+                        <tr className="hover:bg-gray-300 hover:bg-opacity-60 dark:hover:bg-gray-800 transition">
+                            <th scope="col" className="text-left p-3 font-semibold">
+                                Order Cancel Reason
+                            </th>
+                            <td className="p-3 text-left">{capitalizeWords(order?.orderCancelReason) || "-"}</td>
+                        </tr>
+                    )}
+                    {order.completeOrderdate && (
+                        <tr className="hover:bg-gray-300 hover:bg-opacity-60 dark:hover:bg-gray-800 transition">
+                            <th scope="col" className="text-left p-3 font-semibold">
+                                Complete Order Date
+                            </th>
+                            <td className="p-3 text-left">{formatDateTime(order?.completeOrderdate) || "-"}</td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
         </div>

@@ -18,9 +18,9 @@ const PageHeader = ({ title, controller, controllerUrl, subController, subContro
                     <BreadcrumbItem>
                         <Link to={controllerUrl}>{controller}</Link>
                     </BreadcrumbItem>
-                    <BreadcrumbSeparator />
                     {subController && subControllerUrl ? (
                         <>
+                            <BreadcrumbSeparator />
                             <BreadcrumbItem>
                                 <Link to={subControllerUrl}>{subController}</Link>
                             </BreadcrumbItem>

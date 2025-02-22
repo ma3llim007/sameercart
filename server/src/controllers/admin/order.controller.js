@@ -1,7 +1,6 @@
 import mongoose, { isValidObjectId } from "mongoose";
 import { Order } from "../../models/order.model.js";
 import { ApiError, ApiResponse, asyncHandler } from "../../utils/index.js";
-import { OrderItem } from "../../models/orderItem.model.js";
 
 // Get Orders
 const getOrder = asyncHandler(async (req, res) => {
@@ -150,6 +149,9 @@ const viewOrder = asyncHandler(async (req, res) => {
                     totalAmount: { $first: "$totalAmount" },
                     orderDate: { $first: "$orderDate" },
                     additionalInformation: { $first: "$additionalInformation" },
+                    orderShippingDate: { $first: "$orderShippingDate" },
+                    orderCancelReason: { $first: "$orderCancelReason" },
+                    completeOrderdate: { $first: "$completeOrderdate" },
                     orderItems: { $push: "$orderItems" },
                 },
             },
@@ -171,6 +173,9 @@ const viewOrder = asyncHandler(async (req, res) => {
                     totalAmount: 1,
                     orderDate: 1,
                     additionalInformation: 1,
+                    orderShippingDate: 1,
+                    orderCancelReason: 1,
+                    completeOrderdate: 1,
                     orderItems: {
                         _id: 1,
                         productName: 1,
@@ -220,21 +225,63 @@ const newOrderAction = asyncHandler(async (req, res) => {
             return res.status(400).json(new ApiError(400, "At least One Field (Order Status, Delivery Date, Or Cancellation Reason) is required for update"));
         }
 
-        if (order.orderStatus) {
+        if (orderStatus) {
             order.orderStatus = orderStatus;
         }
-        if (order.orderShippingDate) {
+        if (orderShippingDate) {
             order.orderShippingDate = orderShippingDate;
         }
-        if (order.orderCancelReason) {
+        if (orderCancelReason) {
             order.orderCancelReason = orderCancelReason;
         }
         await order.save();
-        console.log(order);
         return res.status(200).json(new ApiResponse(200, order, "Order Update Successfully"));
     } catch (_error) {
         return res.status(500).json(new ApiError(500, "Something Went Wrong! While Updating The Order Actions"));
     }
 });
 
-export { getOrder, viewOrder, newOrderAction };
+// Shipping Order Actions
+const shippingOrderAction = asyncHandler(async (req, res) => {
+    const { orderId } = req.params;
+
+    if (!orderId) {
+        return res.status(422).json(new ApiError(422, "Order ID is Required"));
+    }
+
+    if (!isValidObjectId(orderId)) {
+        return res.status(404).json(new ApiError(404, "Invalid Order Id"));
+    }
+
+    try {
+        const { orderStatus, completeOrderdate, paymentStatus } = req.body;
+
+        const order = await Order.findById(orderId);
+        if (!order) {
+            return res.status(404).json(new ApiError(404, "Order Not Found"));
+        }
+
+        // Check if at least one field is provided for update
+        if (!orderStatus && !completeOrderdate) {
+            return res.status(400).json(new ApiError(400, "At Least One Field (Order Status, Complete Date) Is Required For Update"));
+        }
+
+        if (orderStatus) {
+            order.orderStatus = orderStatus;
+        }
+        if (completeOrderdate) {
+            order.completeOrderdate = completeOrderdate;
+        }
+        if (paymentStatus) {
+            order.paymentStatus = paymentStatus;
+        }
+
+        await order.save();
+
+        return res.status(200).json(new ApiResponse(200, order, "Order Update Successfully"));
+    } catch (_error) {
+        return res.status(500).json(new ApiError(500, "Something Went Wrong! While Updating The Order Actions"));
+    }
+});
+
+export { getOrder, viewOrder, newOrderAction, shippingOrderAction };

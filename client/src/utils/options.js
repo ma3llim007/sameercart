@@ -8,6 +8,9 @@ export const orderViewActionOptions = [
     { _id: "CanceledByAdmin", label: "Canceled By Admin" },
 ];
 
+export const orderShippingActionOptions = [{ _id: "Delivery", label: "Delivery" }];
+export const orderShippingActionPaymentOptions = [{ _id: "Failed", label: "Failed" }, { _id: "Completed", label: "Completed" },];
+
 export const statusClass = {
     Order: "Secondary",
     Shipped: "Info",

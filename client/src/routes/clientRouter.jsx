@@ -30,7 +30,6 @@ const VerifyEmail = lazy(() => import("../client/pages/VerifyEmail"));
 const ForgotPassword = lazy(() => import("../client/pages/ForgotPassword"));
 const ResetPasswordConfirm = lazy(() => import("../client/pages/ResetPasswordConfirm"));
 const OAuthSuccess = lazy(() => import("../client/pages/OAuthSuccess"));
-const EditUserDetail = lazy(() => import("../client/pages/EditUserDetail"));
 
 // Client Router
 const clientRouters = createBrowserRouter(
@@ -236,14 +235,6 @@ const clientRouters = createBrowserRouter(
                     element={
                         <Suspense fallback={<Loader />}>
                             <MyAccount />
-                        </Suspense>
-                    }
-                />
-                <Route
-                    path="edit-user-detail"
-                    element={
-                        <Suspense fallback={<Loader />}>
-                            <EditUserDetail />
                         </Suspense>
                     }
                 />

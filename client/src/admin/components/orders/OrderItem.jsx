@@ -2,6 +2,7 @@ import { capitalizeWords, formatDateTime } from "@/utils";
 import { Table } from "../index";
 import { upperFirst } from "lodash";
 import { Badge } from "@/components";
+import { FaRupeeSign } from "react-icons/fa";
 
 const OrderItem = ({ orderItem }) => {
     // Order Item Columns
@@ -20,9 +21,31 @@ const OrderItem = ({ orderItem }) => {
                 </div>
             ),
         },
-        { accessorKey: "price", header: "Price Name" },
-        { accessorKey: "quantity", header: "Quantity" },
-        { accessorKey: "totalPrice", header: "Total Price" },
+        {
+            accessorKey: "price",
+            header: "Price Name",
+            cell: ({ row }) => (
+                <div className="flex items-center gap-1 text-base justify-center">
+                    <FaRupeeSign size={12} />
+                    <span>{row.original?.price}</span>
+                </div>
+            ),
+        },
+        {
+            accessorKey: "quantity",
+            header: "Quantity",
+            cell: ({ row }) => <div className="flex items-center gap-1 text-base justify-center">{row.original?.quantity}</div>,
+        },
+        {
+            accessorKey: "totalPrice",
+            header: "Total Price",
+            cell: ({ row }) => (
+                <div className="flex items-center gap-1 text-base justify-center">
+                    <FaRupeeSign size={12} />
+                    <span>{row.original?.totalPrice}</span>
+                </div>
+            ),
+        },
         {
             accessorKey: "createdAt",
             header: "created At",

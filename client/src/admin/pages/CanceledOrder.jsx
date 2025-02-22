@@ -1,20 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
-import { PageHeader, Table } from "../components";
 import crudService from "@/api/crudService";
-import toastService from "@/services/toastService";
-import { Badge } from "@/components";
-import { Link, useNavigate } from "react-router-dom";
-import { capitalizeWords, formatDateTime, formatNumberWithCommas, paymentStatusClass, statusClass } from "@/utils";
-import { Button } from "@/components/ui/button";
-import { FaRupeeSign } from "react-icons/fa";
 import Loader from "@/client/components/Loader/Loader";
+import { Badge } from "@/components";
+import { Button } from "@/components/ui/button";
+import toastService from "@/services/toastService";
+import { capitalizeWords, formatDateTime, formatNumberWithCommas, paymentStatusClass, statusClass } from "@/utils";
+import { useQuery } from "@tanstack/react-query";
+import { FaRupeeSign } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { PageHeader, Table } from "../components";
 
-const NewOrder = () => {
+const CanceledOrder = () => {
     const navigate = useNavigate();
 
     const { data, isPending } = useQuery({
-        queryKey: ["newOrder"],
-        queryFn: () => crudService.get("order/get-order?orderStatus=Order", true),
+        queryKey: ["canceledOrder"],
+        queryFn: () => crudService.get("order/get-order?orderStatus=Canceled", true),
         onError: err => {
             toastService.error(err?.message || "Failed to fetch Data.");
         },
@@ -44,9 +44,10 @@ const NewOrder = () => {
             accessorKey: "orderStatus",
             header: "Order Status",
             cell: ({ row }) => (
-                <div className="w-full flex justify-center">
-                    <Badge title={row.original?.orderStatus} className={`${statusClass[row?.original?.orderStatus] || ""} rounded-md`} />
-                </div>
+                <Badge
+                    title={row.original?.orderStatus === "CanceledByUser" ? "Canceled By User" : row.original?.orderStatus === "CanceledByAdmin" ? "Canceled By Admin" : row.original?.orderStatus}
+                    className={`${statusClass[row?.original?.orderStatus] || ""} rounded-md !leading-normal`}
+                />
             ),
         },
         {
@@ -105,7 +106,7 @@ const NewOrder = () => {
             header: "Actions",
             cell: ({ row }) => (
                 <div className="flex gap-1 items-center flex-wrap">
-                    <Button className="Primary" onClick={() => navigate(`/admin/orders/view-new-order/${row.original._id}`)}>
+                    <Button className="Primary" onClick={() => navigate(`/admin/orders/view-canceled-order/${row.original._id}`)}>
                         View
                     </Button>
                 </div>
@@ -117,10 +118,10 @@ const NewOrder = () => {
     if (isPending) return <Loader />;
     return (
         <>
-            <PageHeader title={"Manage Order's"} controller={"New Order's"} controllerUrl={"/admin/orders/new-order/"} />
+            <PageHeader title={"Manage Order's"} controller={"Canceled Order"} controllerUrl={"/admin/orders/canceled-order/"} />
             <Table columns={orderColumns} data={orderData} emptyMessage="Order Is Not Found" loading={isPending} paginationOptions={{ pageSize: 10 }} sortable />
         </>
     );
 };
 
-export default NewOrder;
+export default CanceledOrder;

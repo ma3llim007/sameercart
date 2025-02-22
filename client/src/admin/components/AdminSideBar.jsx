@@ -108,11 +108,11 @@ const navBar = [
             },
             {
                 name: "All Order",
-                urlLink: "/admin/products/all-order",
+                urlLink: "/admin/orders/all-order",
                 Icon: FaBorderAll,
             },
         ],
-        segment: "products",
+        segment: "orders",
     },
 ];
 export function AdminSideBar({ username, ...props }) {

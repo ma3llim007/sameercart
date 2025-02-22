@@ -1,20 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
-import { PageHeader, Table } from "../components";
 import crudService from "@/api/crudService";
-import toastService from "@/services/toastService";
-import { Badge } from "@/components";
-import { Link, useNavigate } from "react-router-dom";
-import { capitalizeWords, formatDateTime, formatNumberWithCommas, paymentStatusClass, statusClass } from "@/utils";
-import { Button } from "@/components/ui/button";
-import { FaRupeeSign } from "react-icons/fa";
 import Loader from "@/client/components/Loader/Loader";
+import toastService from "@/services/toastService";
+import { useQuery } from "@tanstack/react-query";
+import { Link, useNavigate } from "react-router-dom";
+import { PageHeader, Table } from "../components";
+import { FaRupeeSign } from "react-icons/fa";
+import { capitalizeWords, formatDateTime, formatNumberWithCommas, paymentStatusClass, statusClass } from "@/utils";
+import { Badge } from "@/components";
+import { Button } from "@/components/ui/button";
 
-const NewOrder = () => {
+const ShippingOrder = () => {
     const navigate = useNavigate();
 
     const { data, isPending } = useQuery({
-        queryKey: ["newOrder"],
-        queryFn: () => crudService.get("order/get-order?orderStatus=Order", true),
+        queryKey: ["shippingOrder"],
+        queryFn: () => crudService.get("order/get-order?orderStatus=Shipped", true),
         onError: err => {
             toastService.error(err?.message || "Failed to fetch Data.");
         },
@@ -105,7 +105,7 @@ const NewOrder = () => {
             header: "Actions",
             cell: ({ row }) => (
                 <div className="flex gap-1 items-center flex-wrap">
-                    <Button className="Primary" onClick={() => navigate(`/admin/orders/view-new-order/${row.original._id}`)}>
+                    <Button className="Primary" onClick={() => navigate(`/admin/orders/view-shipping-order/${row.original._id}`)}>
                         View
                     </Button>
                 </div>
@@ -117,10 +117,10 @@ const NewOrder = () => {
     if (isPending) return <Loader />;
     return (
         <>
-            <PageHeader title={"Manage Order's"} controller={"New Order's"} controllerUrl={"/admin/orders/new-order/"} />
+            <PageHeader title={"Manage Order's"} controller={"Shipping Order"} controllerUrl={"/admin/orders/shipping-order/"} />
             <Table columns={orderColumns} data={orderData} emptyMessage="Order Is Not Found" loading={isPending} paginationOptions={{ pageSize: 10 }} sortable />
         </>
     );
 };
 
-export default NewOrder;
+export default ShippingOrder;

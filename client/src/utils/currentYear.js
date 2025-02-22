@@ -21,9 +21,16 @@ export const getMinDate = () => {
     return today;
 };
 
-export const getMaxDate = () => {
+export const getMaxDate = (dayAhead = 10) => {
     const today = new Date();
-    today.setDate(today.getDate() + 10);
+    today.setDate(today.getDate() + dayAhead);
     return today;
 };
+
+export const getToday = () => {
+    const today = new Date();
+    today.setDate(today.getDate());
+    return today;
+};
+
 export default currentYear;

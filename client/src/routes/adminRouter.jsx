@@ -25,6 +25,13 @@ const AddVariants = lazy(() => import("@/admin/pages/AddVariants"));
 const EditVariant = lazy(() => import("@/admin/pages/EditVariant"));
 const NewOrder = lazy(() => import("@/admin/pages/NewOrder"));
 const ViewNewOrder = lazy(() => import("@/admin/pages/ViewNewOrder"));
+const ShippingOrder = lazy(() => import("@/admin/pages/ShippingOrder"));
+const CanceledOrder = lazy(() => import("@/admin/pages/CanceledOrder"));
+const DeliveryOrder = lazy(() => import("@/admin/pages/DeliveryOrder"));
+const AllOrder = lazy(() => import("@/admin/pages/AllOrder"));
+const ViewShippingOrder = lazy(() => import("@/admin/pages/ViewShippingOrder"));
+const ViewCanceledOrder = lazy(() => import("@/admin/pages/ViewCanceledOrder"));
+const ViewDeliveryOrder = lazy(() => import("@/admin/pages/ViewDeliveryOrder"));
 
 const adminRouters = createBrowserRouter([
     {
@@ -253,18 +260,66 @@ const adminRouters = createBrowserRouter([
                         ),
                     },
                     {
-                        path: "subcategory-list/",
+                        path: "shipping-order/",
                         element: (
                             <Suspense fallback={<Loader />}>
-                                <SubCategoryList />
+                                <ShippingOrder />
                             </Suspense>
                         ),
                     },
                     {
-                        path: "edit-category/:subCategoryId",
+                        path: "view-shipping-order/:orderId",
                         element: (
                             <Suspense fallback={<Loader />}>
-                                <EditSubCategory />
+                                <ViewShippingOrder />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "canceled-order/",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <CanceledOrder />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "view-canceled-order/:orderId",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <ViewCanceledOrder />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "delivery-order/",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <DeliveryOrder />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "view-delivery-order/:orderId",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <ViewDeliveryOrder />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "all-order/",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <AllOrder />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "view-all-order/:orderId",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <ViewDeliveryOrder />
                             </Suspense>
                         ),
                     },
