@@ -24,12 +24,16 @@ const PageHeader = ({ title, controller, controllerUrl, subController, subContro
                             <BreadcrumbItem>
                                 <Link to={subControllerUrl}>{subController}</Link>
                             </BreadcrumbItem>
-                            <BreadcrumbSeparator />
                         </>
                     ) : (
                         ""
                     )}
-                    <BreadcrumbItem className="select-none">{page}</BreadcrumbItem>
+                    {page && (
+                        <>
+                            <BreadcrumbSeparator />
+                            <BreadcrumbItem className="select-none">{page}</BreadcrumbItem>
+                        </>
+                    )}
                 </BreadcrumbList>
             </Breadcrumb>
         </section>
