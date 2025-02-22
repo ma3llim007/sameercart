@@ -9,7 +9,6 @@ const DashboardLayout = lazy(() => import("@/admin/layouts/DashboardLayout"));
 // Pages
 const Login = lazy(() => import("@/admin/pages/Login"));
 const Dashboard = lazy(() => import("@/admin/pages/Dashboard"));
-const AdminProfile = lazy(() => import("@/admin/pages/AdminProfile"));
 const CategoryList = lazy(() => import("@/admin/pages/CategoryList"));
 const AddCategory = lazy(() => import("@/admin/pages/AddCategory"));
 const EditCategory = lazy(() => import("@/admin/pages/EditCategory"));
@@ -33,6 +32,8 @@ const ViewShippingOrder = lazy(() => import("@/admin/pages/ViewShippingOrder"));
 const ViewCanceledOrder = lazy(() => import("@/admin/pages/ViewCanceledOrder"));
 const ViewDeliveryOrder = lazy(() => import("@/admin/pages/ViewDeliveryOrder"));
 const ViewAllOrder = lazy(() => import("@/admin/pages/ViewAllOrder"));
+const UserListing = lazy(() => import("@/admin/pages/UserListing"));
+const ViewUser = lazy(() => import("@/admin/pages/ViewUser"));
 
 const adminRouters = createBrowserRouter([
     {
@@ -86,12 +87,33 @@ const adminRouters = createBrowserRouter([
                 ),
             },
             {
-                path: "profile",
-                element: (
-                    <Suspense fallback={<Loader />}>
-                        <AdminProfile />
-                    </Suspense>
-                ),
+                path: "users",
+                children: [
+                    {
+                        index: true,
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <UserListing />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "user-list/",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <UserListing />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "view-user/:userId",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <ViewUser />
+                            </Suspense>
+                        ),
+                    },
+                ],
             },
             {
                 path: "category",

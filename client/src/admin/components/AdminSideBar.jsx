@@ -23,12 +23,7 @@ const navBar = [
         Icon: FaUsers,
         innerLists: [
             {
-                name: "Add User",
-                urlLink: "/admin/users/add-user",
-                Icon: FaPlus,
-            },
-            {
-                name: "User List",
+                name: "Users List",
                 urlLink: "/admin/users/user-list",
             },
         ],
