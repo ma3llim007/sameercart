@@ -25,7 +25,6 @@ const ProductReview = lazy(() => import("../client/pages/ProductReview"));
 const Cart = lazy(() => import("../client/pages/Cart"));
 const WishList = lazy(() => import("../client/pages/WishList"));
 const Register = lazy(() => import("../client/pages/Register"));
-const ResetPassword = lazy(() => import("../client/pages/ResetPassword"));
 const VerifyEmail = lazy(() => import("../client/pages/VerifyEmail"));
 const ForgotPassword = lazy(() => import("../client/pages/ForgotPassword"));
 const ResetPasswordConfirm = lazy(() => import("../client/pages/ResetPasswordConfirm"));
@@ -177,14 +176,6 @@ const clientRouters = createBrowserRouter(
                 element={
                     <Suspense fallback={<Loader />}>
                         <Login />
-                    </Suspense>
-                }
-            />
-            <Route
-                path="/reset-password"
-                element={
-                    <Suspense fallback={<Loader />}>
-                        <ResetPassword />
                     </Suspense>
                 }
             />
