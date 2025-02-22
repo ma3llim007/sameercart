@@ -15,7 +15,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { BillingDetails } from "@/validation";
 import { capitalizeWords, formatNumberWithCommas, loadScript } from "@/utils";
 import { Country, State } from "country-state-city";
-import { upperCase } from "lodash";
+import { update, upperCase } from "lodash";
 import { Button } from "@/components/ui/button";
 import useTopScroll from "../hooks/useTopScroll";
 import { clearCart } from "@/features/home/cartSlice";
@@ -103,6 +103,7 @@ const CheckOut = () => {
             }));
             formData.append("shippingAddress", JSON.stringify(shippingAddress));
             formData.append("paymentStatus", "Pending");
+<<<<<<< HEAD
             formData.append("orderStatus", "Order");
             formData.append("paymentType", "COD");
             formData.append("totalAmount", Number(totalCartPrice) + 40);
@@ -111,6 +112,61 @@ const CheckOut = () => {
 
             return crudService.post("order/create-order-cash", false, formData);
         },
+=======
+            formData.append("orderStatus", "Pending");
+            formData.append("paymentType", "COD");
+            formData.append("totalAmount", Number(totalCartPrice) + 40);
+            formData.append("orderItems", JSON.stringify(orderItems));
+            formData.append("additionalInformation", data.additionalInformation || null);
+
+            return crudService.post("order/create-order-cash", false, formData);
+        },
+        onSuccess: data => {
+            dispatch(clearCart());
+            navigate("/account/dashboard");
+            toastService.success(data?.message);
+        },
+        onError: error => {
+            const message = error?.response?.data?.message || error?.message;
+            setError("root", { message });
+        },
+    });
+
+    // Pay Now Mutatation
+    const { mutate: payNowOrder, isPending: payNowOrderIsPending } = useMutation({
+        mutationFn: data => {
+            const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = data;
+            const formData = new FormData();
+            const shippingAddress = {
+                street: data.street,
+                city: data.city,
+                state: data.state,
+                country: data.country,
+                zip_code: data.zipCode,
+            };
+            const orderItems = carts.map(cart => ({
+                productName: cart.name,
+                price: cart.price,
+                quantity: cart.quantity,
+                totalPrice: cart.price * cart.quantity,
+                productId: cart.id,
+                ...(cart.variantId && { variantId: cart.variantId }),
+            }));
+            const orderStatus = !razorpay_payment_id && !razorpay_order_id && !razorpay_signature ? "Failed" : "Completed";
+            formData.append("shippingAddress", JSON.stringify(shippingAddress));
+            formData.append("paymentStatus", orderStatus);
+            formData.append("orderStatus", "Pending");
+            formData.append("paymentType", "PayNow");
+            formData.append("totalAmount", Number(totalCartPrice) + 40);
+            formData.append("orderItems", JSON.stringify(orderItems));
+            formData.append("additionalInformation", data.additionalInformation || null);
+            formData.append("razorPayOrderId", razorpay_order_id);
+            formData.append("razorPayPaymentId", razorpay_payment_id);
+            formData.append("razorPaySignature", razorpay_signature);
+
+            return crudService.post("order/verify-payment", false, formData);
+        },
+>>>>>>> 334d90f (Don With RazarPay Payment Integration)
         onSuccess: data => {
             dispatch(clearCart());
             navigate("/account/dashboard");
@@ -205,6 +261,7 @@ const CheckOut = () => {
                     };
 
                     return payNowOrder(updateformData);
+<<<<<<< HEAD
                 },
                 prefill: {
                     name: `${formData?.firstName || ""} ${formData?.lastName || ""}`,
@@ -213,6 +270,17 @@ const CheckOut = () => {
                 },
                 theme: {
                     color: "#0562d6",
+=======
+                },
+                prefill: {
+                    name: `${formData.firstName} ${formData.lastName}`,
+                    email: formData.email,
+                    contact: formData.phoneNumber,
+                },
+                theme: {
+                    color: "#0562d6",
+                    // backdrop_color: "#3D3D3D",
+>>>>>>> 334d90f (Don With RazarPay Payment Integration)
                 },
             };
             // Open Razorpay Payment Modal

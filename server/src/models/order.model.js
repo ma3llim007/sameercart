@@ -45,8 +45,13 @@ const orderSchema = new Schema(
         },
         orderStatus: {
             type: String,
+<<<<<<< HEAD
             enum: ["Order", "Shipping", "Delivery", "CanceledByUser", "CanceledByAdmin"],
             default: "Order",
+=======
+            enum: ["Pending", "Shipped", "Delivery", "CanceledByUser", "CanceledByAdmin"],
+            default: "Pending",
+>>>>>>> 334d90f (Don With RazarPay Payment Integration)
         },
         paymentType: {
             type: String,

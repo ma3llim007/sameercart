@@ -135,6 +135,11 @@ const verifyRazorPayPayment = asyncHandler(async (req, res) => {
             })
         );
     } catch (_error) {
+<<<<<<< HEAD
+=======
+        console.log(_error);
+
+>>>>>>> 334d90f (Don With RazarPay Payment Integration)
         return res.status(500).json(new ApiError(500, "Failed To Create Order Items"));
     }
     const orderItemIds = savedOrderItems.map((orderItems) => orderItems._id);
@@ -156,6 +161,11 @@ const verifyRazorPayPayment = asyncHandler(async (req, res) => {
             razorPaySignature,
         });
     } catch (_error) {
+<<<<<<< HEAD
+=======
+        console.log(_error);
+
+>>>>>>> 334d90f (Don With RazarPay Payment Integration)
         return res.status(500).json(new ApiError(500, "Failed To Create Order"));
     }
     // Send Order Confirmation Email
