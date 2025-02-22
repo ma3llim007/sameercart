@@ -265,13 +265,13 @@ const CheckOut = () => {
                         <div className="bg-zinc-300 dark:bg-gray-800 shadow-2xl rounded-lg p-3 h-fit col-span-2">
                             <h1 className="text-3xl font-bold text-center">Billing Details</h1>
                             <div className="bg-blue-100 border-l-8 border-blue-700 text-black p-4 rounded-md my-4 shadow-xl">
-                                <p className="text-base">
+                                <p className="text-base leading-normal">
                                     Your Billing Details Are Saved For Faster Checkout. If You Need To Update Your Information, Please Visit Your
                                     <Link to="/account/dashboard" className="font-medium text-blue-700 hover:text-blue-500 transition">
                                         {" "}
-                                        Account Settings
+                                        Account Settings.
                                     </Link>
-                                    .
+                                    If Your Data Is Not Available, Please Complete Your Profile First.
                                 </p>
                             </div>
                             <div className="space-y-4">
