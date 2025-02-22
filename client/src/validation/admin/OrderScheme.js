@@ -2,17 +2,17 @@ import { getMaxDate, getMinDate, getToday } from "@/utils";
 import * as yup from "yup";
 
 export const newOrderScheme = yup.object().shape({
-    orderStatus: yup.string().oneOf(["Shipped", "CanceledByAdmin"], "Invalid Order Status").required("Order Status Is Required"),
+    orderStatus: yup.string().oneOf(["Shipping", "CanceledByAdmin"], "Invalid Order Status").required("Order Status Is Required"),
     orderShippingDate: yup
         .date()
         .transform((value, originalValue) => (originalValue === "" ? null : value))
         .nullable()
         .when("orderStatus", {
-            is: "Shipped",
+            is: "Shipping",
             then: schema =>
                 schema
                     .typeError("Invalid Date")
-                    .required("Shipping Date Is Required For Shipped Orders")
+                    .required("Shipping Date Is Required For Shipping Orders")
                     .min(getMinDate(), "Date Must Be At Least 1 Day After Today")
                     .max(getMaxDate(), "Date Must Be Within 10 Days From Today"),
             otherwise: schema => schema.notRequired(),
@@ -37,5 +37,5 @@ export const shippingOrderScheme = yup.object().shape({
         .required("Delivery Date Is Required")
         .min(getToday(), "Delivery Date Cannot Be In The Past")
         .max(getMaxDate(3), "Delivery Date Must Be Within 3 Days From Today"),
-    paymentStatus: yup.string().oneOf(["Completed", "Failed"], "Invalid Payment Status").required("Payment Status Is Required"),
+    paymentStatus: yup.string().oneOf(["Completed"], "Invalid Payment Status").required("Payment Status Is Required"),
 });

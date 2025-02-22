@@ -8,6 +8,7 @@ import { generateSKU } from "./generateSKU.js";
 import { isTokenExpired } from "./isTokenExpired.js";
 import { sendEmailVerificationOTP } from "./sendEmailVerificationOTP.js";
 import { sendOrderConfirmationEmail } from "./sendOrderConfirmationEmail.js";
+import { sendOrderStatusEmail } from "./sendOrderStatusEmail.js";
 
 export {
     ApiError,
@@ -23,4 +24,5 @@ export {
     isTokenExpired,
     generateAccessAndRefeshTokens,
     sendOrderConfirmationEmail,
+    sendOrderStatusEmail
 };

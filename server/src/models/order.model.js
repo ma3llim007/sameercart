@@ -45,7 +45,7 @@ const orderSchema = new Schema(
         },
         orderStatus: {
             type: String,
-            enum: ["Order", "Shipped", "Delivery", "CanceledByUser", "CanceledByAdmin"],
+            enum: ["Order", "Shipping", "Delivery", "CanceledByUser", "CanceledByAdmin"],
             default: "Order",
         },
         paymentType: {

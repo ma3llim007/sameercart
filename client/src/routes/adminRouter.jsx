@@ -32,6 +32,7 @@ const AllOrder = lazy(() => import("@/admin/pages/AllOrder"));
 const ViewShippingOrder = lazy(() => import("@/admin/pages/ViewShippingOrder"));
 const ViewCanceledOrder = lazy(() => import("@/admin/pages/ViewCanceledOrder"));
 const ViewDeliveryOrder = lazy(() => import("@/admin/pages/ViewDeliveryOrder"));
+const ViewAllOrder = lazy(() => import("@/admin/pages/ViewAllOrder"));
 
 const adminRouters = createBrowserRouter([
     {
@@ -319,7 +320,7 @@ const adminRouters = createBrowserRouter([
                         path: "view-all-order/:orderId",
                         element: (
                             <Suspense fallback={<Loader />}>
-                                <ViewDeliveryOrder />
+                                <ViewAllOrder />
                             </Suspense>
                         ),
                     },

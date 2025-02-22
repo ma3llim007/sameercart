@@ -4,14 +4,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Input, Loading, Select } from "../index";
-import { orderShippingActionOptions } from "@/utils";
+import { getMaxDate, getToday, orderShippingActionOptions } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { FaRegEdit } from "react-icons/fa";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { orderShippingActionPaymentOptions } from "@/utils/options";
 
-const ShippingOrderForm = ({ orderId }) => {
+const ShippingOrderForm = ({ orderId, setIsMutationIsLoading }) => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
@@ -27,6 +27,7 @@ const ShippingOrderForm = ({ orderId }) => {
 
     const { mutate, isPending } = useMutation({
         mutationFn: data => crudService.patch(`/order/update-shipping-order/${orderId}`, true, data),
+        onMutate: () => setIsMutationIsLoading(true),
         onSuccess: data => {
             navigate(`/admin/orders/shipping-order`);
             queryClient.invalidateQueries(["viewShippingOrder", orderId]);
@@ -36,6 +37,7 @@ const ShippingOrderForm = ({ orderId }) => {
             const message = error?.response?.data?.message || error?.message;
             setError("root", { message });
         },
+        onSettled: () => setIsMutationIsLoading(false),
     });
 
     return (
@@ -68,6 +70,9 @@ const ShippingOrderForm = ({ orderId }) => {
                         {...register("completeOrderdate", { valueAsDate: true })}
                         type="date"
                         disabled={isPending}
+                        // min={getToday().toISOString().split("T")[0]}
+                        min={new Date().toISOString().split("T")[0]} 
+                        max={getMaxDate(3).toISOString().split("T")[0]}
                         className="text-xl rounded-sm p-3 border border-gray-600 dark:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         error={errors.completeOrderdate?.message}
                     />

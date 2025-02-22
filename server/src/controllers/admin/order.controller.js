@@ -1,6 +1,7 @@
 import mongoose, { isValidObjectId } from "mongoose";
 import { Order } from "../../models/order.model.js";
-import { ApiError, ApiResponse, asyncHandler } from "../../utils/index.js";
+import { ApiError, ApiResponse, asyncHandler, sendOrderStatusEmail } from "../../utils/index.js";
+import { User } from "../../models/user.model.js";
 
 // Get Orders
 const getOrder = asyncHandler(async (req, res) => {
@@ -220,6 +221,12 @@ const newOrderAction = asyncHandler(async (req, res) => {
             return res.status(404).json(new ApiError(404, "Order Not Found"));
         }
 
+        // Find User Email
+        const user = await User.findById(order.userId).select("email");
+        if (!user) {
+            return res.status(404).json(new ApiError(404, "User Not Found Or Email Missing"));
+        }
+
         // Check if at least one field is provided for update
         if (!orderStatus && !orderShippingDate && !orderCancelReason) {
             return res.status(400).json(new ApiError(400, "At least One Field (Order Status, Delivery Date, Or Cancellation Reason) is required for update"));
@@ -235,6 +242,25 @@ const newOrderAction = asyncHandler(async (req, res) => {
             order.orderCancelReason = orderCancelReason;
         }
         await order.save();
+
+        // Send Email Notification
+        try {
+            if (orderStatus === "Shipping") {
+                await sendOrderStatusEmail(user, order, {
+                    title: "Your Order Has Been Start Shipping",
+                    subtitle: "We're preparing your order for shipment. Stay tuned!",
+                    emailSubject: "Order Accepted - SameerCart",
+                });
+            } else if (orderStatus === "CanceledByAdmin") {
+                await sendOrderStatusEmail(user, order, {
+                    title: "Your Order Has Been Canceled",
+                    subtitle: `We're sorry, but your order has been canceled. Reason: ${orderCancelReason}`,
+                    emailSubject: "Order Canceled - SameerCart",
+                });
+            }
+        } catch (_emailError) {
+            return res.status(200).json(new ApiResponse(200, { emailSent: false }, "Order Update Successfully, But Email Sending Failed"));
+        }
         return res.status(200).json(new ApiResponse(200, order, "Order Update Successfully"));
     } catch (_error) {
         return res.status(500).json(new ApiError(500, "Something Went Wrong! While Updating The Order Actions"));
@@ -261,9 +287,15 @@ const shippingOrderAction = asyncHandler(async (req, res) => {
             return res.status(404).json(new ApiError(404, "Order Not Found"));
         }
 
+        // Find User Email
+        const user = await User.findById(order.userId).select("email");
+        if (!user) {
+            return res.status(404).json(new ApiError(404, "User Not Found Or Email Missing"));
+        }
+
         // Check if at least one field is provided for update
-        if (!orderStatus && !completeOrderdate) {
-            return res.status(400).json(new ApiError(400, "At Least One Field (Order Status, Complete Date) Is Required For Update"));
+        if (!orderStatus && !completeOrderdate && !paymentStatus) {
+            return res.status(400).json(new ApiError(400, "At Least One Field (Order Status, Complete Date Or Payment Status) Is Required For Update"));
         }
 
         if (orderStatus) {
@@ -277,7 +309,15 @@ const shippingOrderAction = asyncHandler(async (req, res) => {
         }
 
         await order.save();
-
+        try {
+            await sendOrderStatusEmail(user, order, {
+                title: "Your Order Successfully Delivered To You",
+                subtitle: "We're preparing your order for shipment. Stay tuned!",
+                emailSubject: "Order Completed - SameerCart",
+            });
+        } catch (_emailError) {
+            return res.status(200).json(new ApiResponse(200, { emailSent: false }, "Order Update Successfully, But Email Sending Failed"));
+        }
         return res.status(200).json(new ApiResponse(200, order, "Order Update Successfully"));
     } catch (_error) {
         return res.status(500).json(new ApiError(500, "Something Went Wrong! While Updating The Order Actions"));

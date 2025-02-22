@@ -4,16 +4,16 @@ export const productTypeOptions = [
 ];
 
 export const orderViewActionOptions = [
-    { _id: "Shipped", label: "Shipped" },
+    { _id: "Shipping", label: "Shipping" },
     { _id: "CanceledByAdmin", label: "Canceled By Admin" },
 ];
 
 export const orderShippingActionOptions = [{ _id: "Delivery", label: "Delivery" }];
-export const orderShippingActionPaymentOptions = [{ _id: "Failed", label: "Failed" }, { _id: "Completed", label: "Completed" },];
+export const orderShippingActionPaymentOptions = [{ _id: "Completed", label: "Completed" },];
 
 export const statusClass = {
     Order: "Secondary",
-    Shipped: "Info",
+    Shipping: "Info",
     Delivery: "Success",
     CanceledByUser: "Danger",
     CanceledByAdmin: "Danger",

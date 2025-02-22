@@ -4,11 +4,13 @@ import crudService from "@/api/crudService";
 import { useNavigate, useParams } from "react-router-dom";
 import toastService from "@/services/toastService";
 import Loader from "@/client/components/Loader/Loader";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { LoadingOverlay } from "@/components";
 
 const ViewNewOrder = () => {
     const { orderId } = useParams();
     const navigate = useNavigate();
+    const [mutateIsLoading, setMutateIsLoading] = useState(false);
 
     // fetching data of order
     const { data, isPending } = useQuery({
@@ -30,6 +32,7 @@ const ViewNewOrder = () => {
     }, [isPending, data, navigate]);
 
     if (isPending) return <Loader />;
+    if (mutateIsLoading) return <LoadingOverlay />;
     return (
         <>
             <PageHeader title={"Manage Order's"} controller={"New Order Listing"} controllerUrl={"/admin/orders/new-order/"} page={"View Order"} />
@@ -37,7 +40,7 @@ const ViewNewOrder = () => {
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-4 bg-gray-100 dark:bg-slate-800">
                     <h1 className="text-2xl font-bold underline underline-offset-4 mb-4">View Order</h1>
                     <div className="space-y-4">
-                        <ViewOrderForm orderId={orderId} />
+                        <ViewOrderForm orderId={orderId} setMutateIsLoading={setMutateIsLoading} />
                         <hr className="!my-6" />
                         <UserDetails userData={user} address={shippingAddress} />
                         <OrderDetails

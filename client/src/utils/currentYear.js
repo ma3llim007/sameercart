@@ -18,18 +18,21 @@ const currentYear = () => {
 export const getMinDate = () => {
     const today = new Date();
     today.setDate(today.getDate() + 1);
+    today.setHours(0, 0, 0, 0);
     return today;
 };
 
 export const getMaxDate = (dayAhead = 10) => {
     const today = new Date();
     today.setDate(today.getDate() + dayAhead);
+    today.setHours(0, 0, 0, 0);
     return today;
 };
 
 export const getToday = () => {
     const today = new Date();
     today.setDate(today.getDate());
+    today.setHours(0, 0, 0, 0);
     return today;
 };
 

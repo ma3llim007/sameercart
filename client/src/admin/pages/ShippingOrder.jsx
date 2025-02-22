@@ -14,7 +14,7 @@ const ShippingOrder = () => {
 
     const { data, isPending } = useQuery({
         queryKey: ["shippingOrder"],
-        queryFn: () => crudService.get("order/get-order?orderStatus=Shipped", true),
+        queryFn: () => crudService.get("order/get-order?orderStatus=Shipping", true),
         onError: err => {
             toastService.error(err?.message || "Failed to fetch Data.");
         },

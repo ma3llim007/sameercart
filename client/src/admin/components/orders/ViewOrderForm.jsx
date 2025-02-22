@@ -10,7 +10,7 @@ import crudService from "@/api/crudService";
 import { useNavigate } from "react-router-dom";
 import toastService from "@/services/toastService";
 
-const ViewOrderForm = ({ orderId }) => {
+const ViewOrderForm = ({ orderId, setMutateIsLoading }) => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
@@ -28,6 +28,7 @@ const ViewOrderForm = ({ orderId }) => {
 
     const { mutate, isPending } = useMutation({
         mutationFn: data => crudService.patch(`/order/update-view-order/${orderId}`, true, data),
+        onMutate: () => setMutateIsLoading(true),
         onSuccess: data => {
             navigate(`/admin/orders/new-order`);
             queryClient.invalidateQueries(["viewNewOrder", orderId]);
@@ -37,6 +38,7 @@ const ViewOrderForm = ({ orderId }) => {
             const message = error?.response?.data?.message || error?.message;
             setError("root", { message });
         },
+        onSettled: () => setMutateIsLoading(false),
     });
     return (
         <form className="space-y-5 border-2 rounded-xl mt-4 border-green-700" onSubmit={handleSubmit(data => mutate(data))} encType="multipart/form-data" method="POST">
@@ -61,7 +63,7 @@ const ViewOrderForm = ({ orderId }) => {
                         className="text-xl rounded-sm p-3 border border-gray-600 dark:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                     />
                 </div>
-                {orderStatusCurrentValue === "Shipped" && (
+                {orderStatusCurrentValue === "Shipping" && (
                     <div className="w-full md:w-1/2 px-2 my-2">
                         <Input
                             label="Expected Delivery Date"
