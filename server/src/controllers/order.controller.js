@@ -56,8 +56,7 @@ const createOrder = asyncHandler(async (req, res) => {
 
         try {
             await sendOrderConfirmationEmail(userData, newOrder, shippingAddress, paymentStatus);
-        } catch (emailError) {
-            console.error("❌ Email Sending Failed:", emailError);
+        } catch (_emailError) {
             return res.status(200).json(new ApiResponse(200, { emailSent: false }, "Order Created, but Email Sending Failed"));
         }
 
