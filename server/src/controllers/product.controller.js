@@ -145,7 +145,7 @@ const searchProducts = asyncHandler(async (req, res) => {
             productName: { $regex: term, $options: "i" },
         })
             .select("productName productSlug")
-            .limit(9)
+            .limit(6)
             .sort({ productName: 1 });
 
         if (!products.length) {

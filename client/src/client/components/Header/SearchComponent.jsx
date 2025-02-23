@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { capitalizeWords } from "@/utils";
 import useSearchQuery from "@/client/hooks/useSearchQuery";
 
-const SearchComponent = () => {
+const SearchComponent = ({ topMargin }) => {
     const [query, setQuery] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
     const searchRef = useRef(null);
@@ -60,27 +60,27 @@ const SearchComponent = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="absolute left-0 right-0 z-50 max-w-md mt-0.5 mx-auto bg-light-bgGray dark:bg-dark-bgLightGray rounded-lg shadow-lg overflow-hidden flex flex-col gap-4"
+                    className={`absolute left-0 right-0 z-50 w-4/5 md:max-w-2xl lg:max-w-4xl xl:max-w-md 2xl:max-w-lg mt-0.5 mx-auto bg-light-bgGray dark:bg-dark-bgLightGray rounded-lg shadow-lg overflow-hidden flex flex-col gap-4 ${topMargin}`}
                     style={{ willChange: "auto" }}
                 >
-                    {isFetching && <p className="p-3 text-gray-400">Searching...</p>}
-                    {data?.data.length > 0
-                        ? data?.data?.map(product => (
-                              <Link
-                                  key={product?._id}
-                                  to={`/product-details/${product?.productSlug}`}
-                                  onClick={() => setShowDropdown(false)}
-                                  className="flex items-center gap-2 py-2 px-3 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out group"
-                              >
-                                  <CiSearch
-                                      size={22}
-                                      strokeWidth={2}
-                                      className="text-gray-500 group-hover:text-blue-600 dark:text-gray-400 dark:group-hover:text-blue-400 transition-all duration-200"
-                                  />
-                                  <span className="transition-all duration-200">{capitalizeWords(product?.productName)}</span>
-                              </Link>
-                          ))
-                        : null}
+                    {isFetching ? (
+                        <p className="p-3 text-gray-400">Searching...</p>
+                    ) : data?.data.length > 0 ? (
+                        data?.data?.map(product => (
+                            <Link
+                                key={product?._id}
+                                to={`/product-details/${product?.productSlug}`}
+                                onClick={() => {
+                                    setQuery("");
+                                    setShowDropdown(false);
+                                }}
+                                className="flex items-center gap-2 py-2 px-3 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out group"
+                            >
+                                <CiSearch size={22} strokeWidth={2} className="text-gray-500 group-hover:text-blue-600 dark:text-gray-400 dark:group-hover:text-blue-400 transition-all duration-200" />
+                                <span className="transition-all duration-200">{capitalizeWords(product?.productName)}</span>
+                            </Link>
+                        ))
+                    ) : null}
                 </motion.div>
             ) : null}
         </div>
