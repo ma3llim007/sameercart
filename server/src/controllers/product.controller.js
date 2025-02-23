@@ -137,4 +137,25 @@ const getProductBySlug = asyncHandler(async (req, res) => {
     }
 });
 
-export { getProductByCategoryWithSubCategory, getProductBySlug };
+const searchProducts = asyncHandler(async (req, res) => {
+    try {
+        const { term } = req.query;
+
+        const products = await Product.find({
+            productName: { $regex: term, $options: "i" },
+        })
+            .select("productName productSlug")
+            .limit(9)
+            .sort({ productName: 1 });
+
+        if (!products.length) {
+            return res.status(404).json(new ApiResponse(404, null, "No Matching Products Found"));
+        }
+        
+        return res.status(200).json(new ApiResponse(200, products, "Products Fetched Successfully"));
+    } catch (_error) {
+        return res.status(500).json(new ApiError(500, "Something Went Wrong! While Searching For  Products"));
+    }
+});
+
+export { getProductByCategoryWithSubCategory, getProductBySlug, searchProducts };
