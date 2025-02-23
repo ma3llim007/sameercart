@@ -39,7 +39,7 @@ const Testimonails = () => {
     return (
         <section className="w-full my-20">
             <div className="w-full text-center">
-                <h2 className="text-4xl font-bold underline decoration-2 mb-5">Testimonails</h2>
+                <h2 className="text-3xl font-bold underline decoration-2 mb-5">Testimonails</h2>
             </div>
             <Swiper
                 modules={[Navigation, Pagination, Autoplay]}

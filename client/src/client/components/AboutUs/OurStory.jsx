@@ -40,7 +40,7 @@ const OurStory = () => {
     return (
         <section className="w-full my-20 rounded-lg" style={{ backgroundImage: `url(${content?.backgroundImage})`, backgroundSize: "cover", backgroundPosition: "center" }}>
             <div className="w-full text-center text-white p-10 bg-black/60 shadow-md">
-                <h2 className="text-4xl mb-10 font-bold underline decoration-2">{content?.title}</h2>
+                <h2 className="text-3xl mb-10 font-bold underline decoration-2">{content?.title}</h2>
                 <p className="text-xl text-center my-8">{content?.description}</p>
                 <div className="grid grid-cols-1 gap-12 md:gap-16 overflow-hidden">
                     {content.milestones.map(mile => (
