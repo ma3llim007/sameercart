@@ -14,7 +14,7 @@ const Team = () => {
     return (
         <section className="w-full my-20">
             <div className="w-full text-center">
-                <h2 className="text-4xl font-bold underline decoration-2 mb-5">Our Team</h2>
+                <h2 className="text-3xl font-bold underline decoration-2 mb-5">Our Team</h2>
             </div>
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-6 select-none">
                 {teams.map(team => (

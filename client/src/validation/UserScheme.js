@@ -82,7 +82,7 @@ export const addressInformation = Yup.object().shape({
     country: Yup.string().required("Country Is Required").notOneOf(["", "default"], "You Must Select A Valid Country"),
     zipCode: Yup.string()
         .required("Zip Code Is Required")
-        .matches(/^\d{5}(-\d{4})?$/, "Invalid Zip Code Format"),
+        .matches(/^\d{5}(-\d{4})?$|^\d{6}$|^[A-Za-z0-9 -]{3,10}$/, "Invalid Zip Code format"),
 });
 
 export const BillingDetails = Yup.object().shape({
@@ -99,7 +99,7 @@ export const BillingDetails = Yup.object().shape({
     country: Yup.string().required("Country Is Required"),
     zipCode: Yup.string()
         .required("Zip Code Is Required")
-        .matches(/^\d{5}(-\d{4})?$/, "Invalid Zip Code Format"),
+        .matches(/^\d{5}(-\d{4})?$|^\d{6}$|^[A-Za-z0-9 -]{3,10}$/, "Invalid Zip Code format"),
     additionalNotes: Yup.string()
         .notRequired()
         .max(500, "Additional Notes Cannot Exceed 500 Characters")

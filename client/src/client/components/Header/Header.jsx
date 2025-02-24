@@ -3,7 +3,6 @@ import { FaBars, FaRegHeart, FaUserPlus } from "react-icons/fa";
 import { ModeToggle } from "../ModeToggle";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
-import { CiSearch } from "react-icons/ci";
 import { FaBagShopping } from "react-icons/fa6";
 import { BiSolidUserVoice } from "react-icons/bi";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -21,6 +20,7 @@ import Loader from "../Loader/Loader";
 import { storePersistor } from "@/store";
 import { IoLogOutOutline, IoPersonCircleOutline } from "react-icons/io5";
 import { RiLoginBoxFill } from "react-icons/ri";
+import SearchComponent from "./SearchComponent";
 
 const Header = ({ data }) => {
     const { carts, totalCartPrice } = useSelector(state => state.cart);
@@ -124,26 +124,7 @@ const Header = ({ data }) => {
                                     </Link>
                                 </div>
                                 <div className="w-auto hidden xl:block 2xl:block">
-                                    <div className="w-full mx-auto">
-                                        <div className="flex">
-                                            <div className="relative w-full">
-                                                <input
-                                                    type="search"
-                                                    id="search-dropdown"
-                                                    className="block p-1 lg:p-2 xl:p-2 2xl:p-2 w-full z-20 bg-light-bgLighterGray border-none text-light-textGray rounded-lg focus:ring-light-blue focus:border-light-blue dark:bg-dark-bgLightGray dark:border-dark-bgLightGray dark:placeholder-dark-textWhite dark:text-white dark:focus:border-dark-light"
-                                                    placeholder="Enter Your Search Key..."
-                                                    required
-                                                />
-                                                <button
-                                                    type="submit"
-                                                    className="absolute top-0 end-0 p-2.5 font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                                >
-                                                    <CiSearch className="font-bold text-xl" />
-                                                    <span className="sr-only">Search</span>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <SearchComponent />
                                 </div>
                                 <div className="w-auto justify-self-end">
                                     <div className="flex gap-3 items-center">
@@ -183,24 +164,7 @@ const Header = ({ data }) => {
                             </div>
                         </div>
                         <div className="max-w-7xl md:w-full mx-auto my-3 xl:hidden 2xl:hidden">
-                            <div className="flex">
-                                <div className="relative w-full">
-                                    <input
-                                        type="search"
-                                        id="search-dropdown"
-                                        className="block p-2.5 w-full z-20 bg-light-bgLighterGray border-none text-light-textGray rounded-lg focus:ring-light-blue focus:border-light-blue dark:bg-dark-bgLightGray dark:border-dark-bgLightGray dark:placeholder-dark-textWhite dark:text-white dark:focus:border-dark-light"
-                                        placeholder="Enter Your Search Key..."
-                                        required
-                                    />
-                                    <button
-                                        type="submit"
-                                        className="absolute top-0 end-0 p-2.5 font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                    >
-                                        <CiSearch className="font-bold text-xl" />
-                                        <span className="sr-only">Search</span>
-                                    </button>
-                                </div>
-                            </div>
+                            <SearchComponent topMargin={"mt-2"} />
                         </div>
                     </div>
                     <div

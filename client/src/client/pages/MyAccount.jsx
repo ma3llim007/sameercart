@@ -11,13 +11,14 @@ import { userLogOut } from "@/features/home/userAuthSlice";
 import toastService from "@/services/toastService";
 import { storePersistor } from "@/store";
 import Loader from "../components/Loader/Loader";
+import useTopScroll from "../hooks/useTopScroll";
 
 const MyAccount = () => {
     const [activeTab, setActiveTab] = useState("dashboard");
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { _id: userId } = useSelector(state => state.userAuth?.user || {});
-
+    useTopScroll(0, [activeTab]);
     const { mutate, isPending } = useMutation({
         mutationFn: () => crudService.post("/users/log-out", false),
         onSuccess: data => {
@@ -47,10 +48,10 @@ const MyAccount = () => {
     if (isPending || DataIsPending) return <Loader />;
     return (
         <Container>
-            <section className="w-full my-10 rounded-lg shadow-lg mx-auto select-none">
-                <Tabs defaultValue={activeTab} className="flex flex-col md:flex-row gap-5">
+            <section className="w-full my-10 rounded-lg shadow-lg mx-auto select-none overflow-hidden">
+                <Tabs defaultValue={activeTab} className="flex flex-col lg:flex-row gap-5">
                     {/* Sidebar Tabs List */}
-                    <TabsList className="flex flex-col justify-start gap-4 bg-dark-dark p-4 rounded-lg w-4/5 md:w-48 lg:w-56 order-2 md:order-1 mx-auto h-max shadow-2xl">
+                    <TabsList className="flex flex-col justify-start gap-4 bg-dark-dark p-4 rounded-lg w-4/5 md:w-48 lg:w-56 order-2 lg:order-1 mx-auto h-max shadow-2xl">
                         {["dashboard", "profileInformation", "changePassword", "order"].map(tab => (
                             <TabsTrigger
                                 key={tab}
