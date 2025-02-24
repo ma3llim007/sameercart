@@ -12,10 +12,10 @@ const Categories = ({ categories }) => {
     return (
         <>
             <section className="w-full flex flex-col my-10 relative group">
-                <SectionHeader title="Popular Categories With Sub - Categories" />
+                <SectionHeader title="Popular Categories" />
                 <Swiper
                     modules={[Navigation, Pagination, Autoplay]}
-                    slidesPerView={2}
+                    slidesPerView={1}
                     navigation={true}
                     loop={true}
                     pagination={{ clickable: true }}
@@ -47,7 +47,8 @@ const Categories = ({ categories }) => {
                                         loading="lazy"
                                         src={category?.categoryImage}
                                         alt={category?.categoryName}
-                                        className="w-full h-auto object-cover rounded-lg mb-4 overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105"
+                                        className="w-full h-auto object-cover rounded-lg mb-4 overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105 pointer-events-none"
+                                        draggable="false"
                                     />
                                 </Link>
                                 <div className="flex flex-col gap-2">

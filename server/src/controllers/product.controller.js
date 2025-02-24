@@ -3,6 +3,7 @@ import { Product } from "../models/product.model.js";
 import { SubCategory } from "../models/subCategory.model.js";
 import { ApiError, ApiResponse, asyncHandler } from "../utils/index.js";
 
+// Get Product With Category And Sub Category
 const getProductByCategoryWithSubCategory = asyncHandler(async (req, res) => {
     const { categorySlug, subCategorySlug, page, limit } = req.query;
     if (!categorySlug?.trim() || !subCategorySlug?.trim()) {
@@ -64,6 +65,7 @@ const getProductByCategoryWithSubCategory = asyncHandler(async (req, res) => {
     }
 });
 
+// Get Product by Product Slug
 const getProductBySlug = asyncHandler(async (req, res) => {
     const { productSlug } = req.params;
 
@@ -137,6 +139,7 @@ const getProductBySlug = asyncHandler(async (req, res) => {
     }
 });
 
+// Searching of products
 const searchProducts = asyncHandler(async (req, res) => {
     try {
         const { term } = req.query;
@@ -151,11 +154,21 @@ const searchProducts = asyncHandler(async (req, res) => {
         if (!products.length) {
             return res.status(404).json(new ApiResponse(404, null, "No Matching Products Found"));
         }
-        
+
         return res.status(200).json(new ApiResponse(200, products, "Products Fetched Successfully"));
     } catch (_error) {
         return res.status(500).json(new ApiError(500, "Something Went Wrong! While Searching For  Products"));
     }
 });
 
-export { getProductByCategoryWithSubCategory, getProductBySlug, searchProducts };
+// new arrivals
+const newArrivals = asyncHandler(async (req, res) => {
+    try {
+        const newArrivalsProducts = await Product.find().sort().limit(9).sort({ createdAt: -1 }).select("productName productSlug productFeatureImage productShortDescription ratings");
+
+        return res.status(200).json(new ApiResponse(200, newArrivalsProducts, "New Arrivals Product Fetched Successfully"));
+    } catch (_error) {
+        return res.status(500).json(new ApiError(500, "Something Went Wrong! While Fetching Of New Arrivals Products"));
+    }
+});
+export { getProductByCategoryWithSubCategory, getProductBySlug, searchProducts, newArrivals };

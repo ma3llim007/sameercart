@@ -26,7 +26,7 @@ const Home = () => {
         },
     ];
 
-    const { data: popularCategories, isLoading } = useQuery({
+    const { data: popularCategories, isPending: popularCategoriesIsPending } = useQuery({
         queryKey: ["popularCategories"],
         queryFn: () => crudService.get("category/popular-categories"),
         onError: error => {
@@ -35,7 +35,16 @@ const Home = () => {
         },
     });
 
-    if (isLoading) return <Loader />;
+    const { data: newArrivalsData, isPending: newArrivalIsPending } = useQuery({
+        queryKey: ["newArrivals"],
+        queryFn: () => crudService.get("products/new-arrivals"),
+        onError: error => {
+            const message = error?.response?.data?.message || error?.message;
+            toastService.error(message || "Failed to fetch Data.");
+        },
+    });
+
+    if (popularCategoriesIsPending || newArrivalIsPending) return <Loader />;
     return (
         <>
             <Slider sliderData={sliderData} />
@@ -43,7 +52,7 @@ const Home = () => {
                 <IconSection />
                 <InfoCardSection />
                 <Categories categories={popularCategories} />
-                <ProductsSection />
+                <ProductsSection title="New Arrivals" productData={newArrivalsData?.data} />
                 <HomeBanner />
                 <ProductsSection title="Audio & Video" />
                 <ProductsSection title="Camera & Photo" />
