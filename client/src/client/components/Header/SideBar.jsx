@@ -1,5 +1,5 @@
 import { motion, easeInOut } from "framer-motion";
-import { FaFacebook, FaGoogle, FaInstagram, FaLinkedinIn, FaPlus, FaRegHeart, FaRegUser, FaTwitter } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaLinkedinIn, FaPlus, FaRegHeart, FaRegUser, FaTwitter } from "react-icons/fa";
 import { FaBagShopping } from "react-icons/fa6";
 import { IoCloseSharp } from "react-icons/io5";
 import { Link, NavLink } from "react-router-dom";
@@ -48,7 +48,7 @@ const SideBar = ({ isOpenModel, handleModel, wishListQty, cartQty, catgoryAndSub
                                 <nav className="group rounded-md" key={category._id}>
                                     <input type="checkbox" id={`toggle-${category?._id}`} className="hidden peer" />
                                     <label htmlFor={`toggle-${category?._id}`} className="flex justify-between items-center py-2 cursor-pointer rounded-md">
-                                        <Link onClick={handleModel} to={`/${category?.categorySlug}`}>
+                                        <Link onClick={handleModel} to={`sub-category/${category?.categorySlug}`}>
                                             {category?.categoryName}
                                         </Link>
                                         <div className="px-2 py-1 text-base">
@@ -102,7 +102,7 @@ const SideBar = ({ isOpenModel, handleModel, wishListQty, cartQty, catgoryAndSub
                 <div className="w-full px-5 my-2 mx-auto">
                     <ul className="flex flex-wrap justify-start gap-5 items-center">
                         <li className="bg-light-blue p-2 rounded-full">
-                            <a target="_blank" href="#" onClick={handleModel}>
+                            <a target="_blank" href="https://www.facebook.com/Ma3llim007/" onClick={handleModel}>
                                 <FaFacebook className="font-bold text-xl text-light-textWhite" />
                             </a>
                         </li>
@@ -117,12 +117,7 @@ const SideBar = ({ isOpenModel, handleModel, wishListQty, cartQty, catgoryAndSub
                             </a>
                         </li>
                         <li className="bg-light-blue p-2 rounded-full" onClick={handleModel}>
-                            <a target="_blank" href="#">
-                                <FaGoogle className="font-bold text-xl text-light-textWhite" />
-                            </a>
-                        </li>
-                        <li className="bg-light-blue p-2 rounded-full" onClick={handleModel}>
-                            <a target="_blank" href="https://www.linkedin.com/in/mohd-sameer-web/">
+                            <a target="_blank" href="https://www.linkedin.com/in/mohdsameer-dev/">
                                 <FaLinkedinIn className="font-bold text-xl text-light-textWhite" />
                             </a>
                         </li>
