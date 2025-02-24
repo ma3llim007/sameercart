@@ -11,7 +11,11 @@ const useSearchQuery = (query, delay = 500) => {
 
     // Apply debounced search when query changes
     useEffect(() => {
-        debouncedSearch(query);
+        if (query.trim()) {
+            debouncedSearch(query);
+        } else {
+            setDebouncedQuery("");
+        }
         return () => debouncedSearch.cancel();
     }, [query, debouncedSearch]);
 

@@ -1,3 +1,4 @@
+import { isValidObjectId } from "mongoose";
 import { Category } from "../models/category.model.js";
 import { Product } from "../models/product.model.js";
 import { SubCategory } from "../models/subCategory.model.js";
@@ -164,11 +165,35 @@ const searchProducts = asyncHandler(async (req, res) => {
 // new arrivals
 const newArrivals = asyncHandler(async (req, res) => {
     try {
-        const newArrivalsProducts = await Product.find().sort().limit(9).sort({ createdAt: -1 }).select("productName productSlug productFeatureImage productShortDescription ratings");
+        const newArrivalsProducts = await Product.find().sort({ createdAt: -1 }).limit(9).select("productName productSlug productFeatureImage productShortDescription ratings");
 
         return res.status(200).json(new ApiResponse(200, newArrivalsProducts, "New Arrivals Product Fetched Successfully"));
     } catch (_error) {
         return res.status(500).json(new ApiError(500, "Something Went Wrong! While Fetching Of New Arrivals Products"));
     }
 });
-export { getProductByCategoryWithSubCategory, getProductBySlug, searchProducts, newArrivals };
+
+// Get Products By Category
+const getProductByCategory = asyncHandler(async (req, res) => {
+    const { category } = req.query;
+
+    if (!category?.trim()) {
+        return res.status(422).json(new ApiError(422, "Category Id Is Required"));
+    }
+    if (!isValidObjectId(category)) {
+        return res.status(404).json(new ApiError(404, "Invalid Category Id"));
+    }
+    try {
+        const categoryProducts = await Product.find({
+            productCategoryId: category,
+        })
+            .sort({ createdAt: -1 })
+            .limit(9)
+            .select("productName productSlug productFeatureImage productShortDescription ratings");
+
+        return res.status(200).json(new ApiResponse(200, categoryProducts, "Product Fetched Successfully"));
+    } catch (_error) {
+        return res.status(500).json(new ApiError(500, "Something Went Wrong! While Fetching Of Products With Category"));
+    }
+});
+export { getProductByCategoryWithSubCategory, getProductBySlug, searchProducts, newArrivals, getProductByCategory };

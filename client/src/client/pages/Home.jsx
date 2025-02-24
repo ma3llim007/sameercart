@@ -7,6 +7,7 @@ import toastService from "@/services/toastService";
 import Loader from "../components/Loader/Loader";
 
 const Home = () => {
+    // Slider Data
     const sliderData = [
         {
             id: 1,
@@ -26,6 +27,7 @@ const Home = () => {
         },
     ];
 
+    // popular Categories Data
     const { data: popularCategories, isPending: popularCategoriesIsPending } = useQuery({
         queryKey: ["popularCategories"],
         queryFn: () => crudService.get("category/popular-categories"),
@@ -35,6 +37,7 @@ const Home = () => {
         },
     });
 
+    // New Product Arrivals
     const { data: newArrivalsData, isPending: newArrivalIsPending } = useQuery({
         queryKey: ["newArrivals"],
         queryFn: () => crudService.get("products/new-arrivals"),
@@ -44,7 +47,27 @@ const Home = () => {
         },
     });
 
-    if (popularCategoriesIsPending || newArrivalIsPending) return <Loader />;
+    // Product Of Mobile Computers
+    const { data: mobileComputerData, isPending: mobileComputerIsPending } = useQuery({
+        queryKey: ["mobileComputer"],
+        queryFn: () => crudService.get("products/get-products-by-category?category=677aa0b4fbf2956f2ee3cc28"),
+        onError: error => {
+            const message = error?.response?.data?.message || error?.message;
+            toastService.error(message || "Failed to fetch Data.");
+        },
+    });
+
+    // Product Of Tv Appliances And Electronics
+    const { data: appliancesElectronicsData, isPending: appliancesElectronicsIsPending } = useQuery({
+        queryKey: ["appliancesElectronics"],
+        queryFn: () => crudService.get("products/get-products-by-category?category=677aa0cafbf2956f2ee3cc2f"),
+        onError: error => {
+            const message = error?.response?.data?.message || error?.message;
+            toastService.error(message || "Failed to fetch Data.");
+        },
+    });
+
+    if (popularCategoriesIsPending || newArrivalIsPending || mobileComputerIsPending || appliancesElectronicsIsPending) return <Loader />;
     return (
         <>
             <Slider sliderData={sliderData} />
@@ -54,8 +77,8 @@ const Home = () => {
                 <Categories categories={popularCategories} />
                 <ProductsSection title="New Arrivals" productData={newArrivalsData?.data} />
                 <HomeBanner />
-                <ProductsSection title="Audio & Video" />
-                <ProductsSection title="Camera & Photo" />
+                <ProductsSection title="Mobiles Computers" productData={mobileComputerData?.data} />
+                <ProductsSection title="Tv Appliances Electronics" productData={appliancesElectronicsData?.data} />
                 <HomeBlog />
             </Container>
         </>
