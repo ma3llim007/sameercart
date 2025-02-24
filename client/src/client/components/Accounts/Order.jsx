@@ -19,7 +19,7 @@ const Order = ({ userId }) => {
         },
         enabled: !!userId,
     });
-    
+
     // Order Columns
     const orderColums = [
         { accessorKey: "no", header: "No" },
@@ -58,10 +58,10 @@ const Order = ({ userId }) => {
 
     if (orderIsPending) return <Loader />;
     return (
-        <>
+        <div className="w-full overflow-auto">
             <h1 className="text-2xl font-bold px-2 mb-5">Order</h1>
             <Table columns={orderColums} data={orderData} emptyMessage="Order's Is Empty" paginationOptions={{ pageSize: 10 }} sortable loading={orderIsPending} />
-        </>
+        </div>
     );
 };
 
