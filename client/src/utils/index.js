@@ -18,7 +18,6 @@ export {
     formatNumberWithCommas,
     calculateUserDetailsScore,
     loadScript,
-<<<<<<< HEAD
     orderViewActionOptions,
     getMaxDate,
     getMinDate,
@@ -26,6 +25,4 @@ export {
     paymentStatusClass,
     getToday,
     orderShippingActionOptions,
-=======
->>>>>>> 334d90f (Don With RazarPay Payment Integration)
 };
