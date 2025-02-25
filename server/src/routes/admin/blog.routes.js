@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addBlog, blogs, deleteBlog, editBlog } from "../../controllers/admin/blog.controller.js";
+import { addBlog, blogs, deleteBlog, editBlog, getBlog } from "../../controllers/admin/blog.controller.js";
 import { upload } from "../../middlewares/multer.middleware.js ";
 import { verifyAdmin } from "../../middlewares/auth.middleware.js";
 
@@ -22,5 +22,6 @@ router.route("/edit-blog").patch(
     editBlog
 );
 router.route("/delete-blog/:blogId").delete(deleteBlog);
+router.route("/blog/:blogId").get(getBlog);
 
 export default router;

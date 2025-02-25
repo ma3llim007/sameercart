@@ -194,6 +194,7 @@ const editBlog = asyncHandler(async (req, res) => {
 
     return res.status(200).json(new ApiResponse(200, blog, "Blog Update Successfully"));
 });
+
 // Delete Blog
 const deleteBlog = asyncHandler(async (req, res) => {
     const { blogId } = req.params;
@@ -236,4 +237,29 @@ const deleteBlog = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, {}, "Blog Delete Successfully"));
 });
 
-export { addBlog, blogs, deleteBlog, editBlog };
+// Get Blog By ID
+const getBlog = asyncHandler(async (req, res) => {
+    try {
+        const { blogId } = req.params;
+
+        if (!blogId) {
+            return res.status(422).json(new ApiError(422, "Blog ID is Required"));
+        }
+
+        if (!isValidObjectId(blogId)) {
+            return res.status(404).json(new ApiError(404, "Invalid Blog Id"));
+        }
+
+        // Finding the Blog
+        const blog = await Blog.findById(blogId);
+        if (!blog) {
+            return res.status(404).json(new ApiError(404, "Blog Not Found"));
+        }
+
+        return res.status(200).json(new ApiResponse(200, blog, "Blog Fetch Successfully"));
+    } catch (_error) {
+        return res.status(500).json(new ApiError(500, "Something Went Wrong! While Fetch Order Detail"));
+    }
+});
+
+export { addBlog, blogs, deleteBlog, editBlog, getBlog };

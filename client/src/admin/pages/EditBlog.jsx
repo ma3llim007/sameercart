@@ -1,21 +1,23 @@
-import { Controller, useForm } from "react-hook-form";
-import { Input, Loading, PageHeader, TextArea } from "../components";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { addBlogScheme } from "@/validation/admin/blogScheme";
 import { Suspense, useEffect } from "react";
-import { slugTransform } from "@/utils";
-import { Button } from "@/components/ui/button";
-import { FaPlus } from "react-icons/fa";
-import Loader from "@/client/components/Loader/Loader";
-import { RichTextEditor } from "@/components";
-import crudService from "@/api/crudService";
-import { useNavigate } from "react-router-dom";
+import { Input, Loading, PageHeader, TextArea } from "../components";
 import toastService from "@/services/toastService";
+import crudService from "@/api/crudService";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import { slugTransform } from "@/utils";
+import { RichTextEditor } from "@/components";
+import { Button } from "@/components/ui/button";
+import { FaEdit } from "react-icons/fa";
+import Loader from "@/client/components/Loader/Loader";
+import { editBlogScheme } from "@/validation/admin/blogScheme";
 
-const AddBlogs = () => {
+const EditBlog = () => {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
+    const { blogId } = useParams();
+
     const {
         register,
         handleSubmit,
@@ -23,11 +25,33 @@ const AddBlogs = () => {
         watch,
         setValue,
         control,
-        setError
+        setError,
     } = useForm({
         mode: "onChange",
-        resolver: yupResolver(addBlogScheme),
+        resolver: yupResolver(editBlogScheme),
     });
+
+    const {
+        data,
+        isPending: blogIsPending,
+        isSuccess,
+    } = useQuery({
+        queryKey: ["blog", blogId],
+        queryFn: () => crudService.get(`blog/blog/${blogId}`, true),
+        onError: err => {
+            toastService.error(err?.message || "Failed to fetch Data.");
+        },
+    });
+
+    useEffect(() => {
+        if (data?.data && isSuccess) {
+            const { blogTitle, blogSlug, blogShortDescription, blogDescription } = data?.data || {};
+            setValue("blogTitle", blogTitle);
+            setValue("blogSlug", blogSlug);
+            setValue("blogShortDescription", blogShortDescription);
+            setValue("blogDescription", blogDescription);
+        }
+    }, [isSuccess, data, setValue]);
 
     // Updating the slug value on title change
     useEffect(() => {
@@ -44,9 +68,24 @@ const AddBlogs = () => {
 
         return () => subscription.unsubscribe();
     }, [watch, setValue]);
-    
+
     const { mutate, isPending } = useMutation({
-        mutationFn: data => crudService.post("blog/add-blog", true, data, "multipart/form-data"),
+        mutationFn: data => {
+            const formData = new FormData();
+            formData.append("blogTitle", data?.blogTitle);
+            formData.append("blogSlug", data?.blogSlug);
+            formData.append("blogShortDescription", data?.blogShortDescription);
+            formData.append("blogDescription", data?.blogDescription);
+            if (data?.blogFeatureImage) {
+                formData.append("blogFeatureImage", data?.blogFeatureImage);
+            }
+            if (data?.blogDetailImage) {
+                formData.append("blogDetailImage", data?.blogDetailImage);
+            }
+            formData.append("blogId", blogId);
+
+            return crudService.patch("blog/edit-blog", true, formData, "multipart/form-data");
+        },
         onSuccess: data => {
             navigate("/admin/blogs/blog-list");
             queryClient.invalidateQueries("blogList");
@@ -57,13 +96,15 @@ const AddBlogs = () => {
             setError("root", { message });
         },
     });
+
+    if (blogIsPending) return <Loader />;
     return (
         <>
-            <PageHeader title={"Manage Blogs"} controller={"Blogs"} controllerUrl={"/admin/blogs/add-blog/"} page={"Add Blog's"} />
+            <PageHeader title={"Manage Blogs"} controller={"Blog Listing"} controllerUrl={"/admin/blogs/add-blog/"} page={"Edit Blog"} />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800">
                     <form className="space-y-5" onSubmit={handleSubmit(data => mutate(data))} encType="multipart/form-data">
-                        <h1 className="text-xl font-bold my-4 px-2">Add Blog</h1>
+                        <h1 className="text-xl font-bold my-4 px-2">Edit Blog</h1>
                         {errors.root && (
                             <div className="w-full my-4 bg-red-500 text-center rounded-md border border-red-600 py-3 px-4">
                                 <h4 className="text-white font-bold text-sm">{errors.root.message}</h4>
@@ -117,6 +158,14 @@ const AddBlogs = () => {
                                 />
                             </div>
                             <div className="w-full md:w-1/2 px-2 gap-4 md:gap-0">
+                                <div className="w-full">
+                                    <label className="inline-block mb-2 pl-1 text-base font-bold">Blog Feature Image</label>
+                                    <img src={data?.data?.blogFeatureImage} className="max-w-60 max-h-60 object-cover rounded" alt="Blog Feature Image" />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex flex-wrap my-2 gap-4 md:gap-0">
+                            <div className="w-full md:w-1/2 px-2 gap-4 md:gap-0">
                                 <Controller
                                     control={control}
                                     name="blogDetailImage"
@@ -133,6 +182,12 @@ const AddBlogs = () => {
                                         />
                                     )}
                                 />
+                            </div>
+                            <div className="w-full md:w-1/2 px-2 gap-4 md:gap-0">
+                                <div className="w-full">
+                                    <label className="inline-block mb-2 pl-1 text-base font-bold">Blog Details Image</label>
+                                    <img src={data?.data?.blogDetailImage} className="max-w-60 max-h-60 object-cover rounded" alt="Blog Feature Image" />
+                                </div>
                             </div>
                         </div>
                         <div className="w-full px-2">
@@ -166,7 +221,7 @@ const AddBlogs = () => {
                                     <Loading height="7" weight="7" />
                                 ) : (
                                     <>
-                                        <FaPlus /> Add
+                                        <FaEdit /> Update
                                     </>
                                 )}
                             </Button>
@@ -178,4 +233,4 @@ const AddBlogs = () => {
     );
 };
 
-export default AddBlogs;
+export default EditBlog;

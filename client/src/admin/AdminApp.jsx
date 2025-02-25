@@ -34,7 +34,9 @@ const ViewDeliveryOrder = lazy(() => import("@/admin/pages/ViewDeliveryOrder"));
 const ViewAllOrder = lazy(() => import("@/admin/pages/ViewAllOrder"));
 const UserListing = lazy(() => import("@/admin/pages/UserListing"));
 const ViewUser = lazy(() => import("@/admin/pages/ViewUser"));
-const AddBlogs = lazy(() => import("@/admin/pages/AddBlogs"))
+const AddBlogs = lazy(() => import("@/admin/pages/AddBlogs"));
+const BlogList = lazy(() => import("@/admin/pages/BlogList"));
+const EditBlog = lazy(() => import("@/admin/pages/EditBlog"));
 
 // Route Defining
 const adminRouters = createBrowserRouter([
@@ -370,10 +372,18 @@ const adminRouters = createBrowserRouter([
                         ),
                     },
                     {
-                        path: "view-user/:userId",
+                        path: "blog-list",
                         element: (
                             <Suspense fallback={<Loader />}>
-                                <ViewUser />
+                                <BlogList />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "edit-blog/:blogId",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <EditBlog />
                             </Suspense>
                         ),
                     },
