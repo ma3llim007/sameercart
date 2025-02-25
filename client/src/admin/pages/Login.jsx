@@ -8,7 +8,7 @@ import toastService from "@/services/toastService";
 import { Input } from "@/components";
 import crudService from "@/api/crudService";
 import { login } from "@/features/admin/authSlice";
-import { adminLoginSchema } from "@/validation";
+import { adminLoginSchema } from "@/validation/admin/AdminLoginSchema";
 
 const Login = () => {
     const navigate = useNavigate();

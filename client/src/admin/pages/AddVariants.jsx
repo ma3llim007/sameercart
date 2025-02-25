@@ -6,7 +6,6 @@ import { RiEdit2Fill } from "react-icons/ri";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addVariantScheme, editVariantImage } from "@/validation/admin/ProductScheme";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
@@ -14,6 +13,7 @@ import { formatDateTime } from "@/utils";
 import Badge from "@/components/Badge";
 import Model from "@/components/Model";
 import { LoadingOverlay } from "@/components";
+import { addVariantScheme, editVariantImage } from "@/validation/admin/ProductScheme";
 
 const AddVariants = () => {
     const { productId } = useParams();

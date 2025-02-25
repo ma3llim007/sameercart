@@ -5,13 +5,13 @@ import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { changePasswordSchema } from "@/validation";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogOut } from "@/features/home/userAuthSlice";
 import { storePersistor } from "@/store";
+import { changePasswordSchema } from "@/validation/UserScheme";
 
 const ChangePassword = () => {
     const {

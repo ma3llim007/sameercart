@@ -1,6 +1,6 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub } from "@/components/ui/sidebar";
-import { FaHome, FaList, FaUsers, FaCube, FaCubes, FaProductHunt, FaShippingFast, FaBorderAll } from "react-icons/fa";
+import { FaHome, FaList, FaUsers, FaCube, FaCubes, FaProductHunt, FaShippingFast, FaBorderAll, FaBlogger } from "react-icons/fa";
 import avatar from "../assets/avatar5.png";
 import { AiFillDashboard } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
@@ -108,6 +108,22 @@ const navBar = [
             },
         ],
         segment: "orders",
+    },
+    {
+        name: "Manage Blogs",
+        Icon: FaBlogger,
+        innerLists: [
+            {
+                name: "Add Blog",
+                urlLink: "/admin/blogs/add-blog",
+                Icon: FaPlus,
+            },
+            {
+                name: "Blog List",
+                urlLink: "/admin/blogs/blog-list",
+            },
+        ],
+        segment: "users",
     },
 ];
 export function AdminSideBar({ username, ...props }) {

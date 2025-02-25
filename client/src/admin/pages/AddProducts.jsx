@@ -12,8 +12,8 @@ import { productTypeOptions, slugTransform } from "@/utils";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import DOMPurify from "dompurify";
-import { addProductScheme } from "@/validation";
 import { LoadingOverlay } from "@/components";
+import { addProductScheme } from "@/validation/admin/ProductScheme";
 
 const AddProducts = () => {
     const queryClient = useQueryClient();

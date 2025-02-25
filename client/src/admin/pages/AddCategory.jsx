@@ -4,12 +4,12 @@ import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { FaPlus } from "react-icons/fa";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addCategoryScheme } from "@/validation";
 import { slugTransform } from "@/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import { useNavigate } from "react-router-dom";
 import toastService from "@/services/toastService";
+import { addCategoryScheme } from "@/validation/admin/categorySchema";
 
 const AddCategory = () => {
     const queryClient = useQueryClient();

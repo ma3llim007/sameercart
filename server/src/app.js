@@ -8,6 +8,7 @@ import productRouter from "./routes/admin/product.routes.js";
 import orderRouter from "./routes/admin/order.routes.js";
 import variantRouter from "./routes/admin/variant.routes.js";
 import usersRouter from "./routes/admin/users.routes.js";
+import blogRouter from "./routes/admin/blog.routes.js";
 import publicCategoryRouter from "./routes/category.routes.js";
 import publicSubCategoryRouter from "./routes/subcategory.routes.js";
 import publicProductRouter from "./routes/product.routes.js";
@@ -38,6 +39,7 @@ app.use("/api/v1/admin/product", productRouter);
 app.use("/api/v1/admin/variant", variantRouter);
 app.use("/api/v1/admin/order", orderRouter);
 app.use("/api/v1/admin/users", usersRouter);
+app.use("/api/v1/admin/blog", blogRouter);
 
 // Public Routes
 app.use("/api/v1/category", publicCategoryRouter);

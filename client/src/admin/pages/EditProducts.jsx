@@ -11,9 +11,9 @@ import { slugTransform, productTypeOptions } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { FaEdit } from "react-icons/fa";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { editProductScheme } from "@/validation/admin/ProductScheme";
 import { LoadingOverlay } from "@/components";
 import DOMPurify from "dompurify";
+import { editProductScheme } from "@/validation/admin/ProductScheme";
 
 const EditProducts = () => {
     const { productId } = useParams();

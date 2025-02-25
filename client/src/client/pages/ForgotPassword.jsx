@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { forgotPassword } from "@/validation";
 import { useMutation } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import Loader from "../components/Loader/Loader";
 import { useEffect, useState } from "react";
+import { forgotPassword } from "@/validation/UserScheme";
 
 const ForgotPassword = () => {
     const {

@@ -7,9 +7,9 @@ import { useMutation } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { registerUser } from "@/validation";
 import Loader from "../components/Loader/Loader";
 import { useEffect, useState } from "react";
+import { registerUser } from "@/validation/UserScheme";
 
 const Register = () => {
     const {

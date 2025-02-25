@@ -1,4 +1,3 @@
-import { shippingOrderScheme } from "@/validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -10,6 +9,7 @@ import { FaRegEdit } from "react-icons/fa";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { orderShippingActionPaymentOptions } from "@/utils/options";
+import { shippingOrderScheme } from "@/validation/admin/OrderScheme";
 
 const ShippingOrderForm = ({ orderId, setIsMutationIsLoading }) => {
     const navigate = useNavigate();

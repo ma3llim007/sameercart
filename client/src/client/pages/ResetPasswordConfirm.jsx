@@ -6,10 +6,10 @@ import Loader from "../components/Loader/Loader";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { resetPasswordConfrim } from "@/validation";
 import crudService from "@/api/crudService";
 import { useNavigate, useParams } from "react-router-dom";
 import toastService from "@/services/toastService";
+import { resetPasswordConfrim } from "@/validation/UserScheme";
 
 const ResetPasswordConfirm = () => {
     const {

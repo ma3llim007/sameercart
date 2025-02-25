@@ -6,13 +6,13 @@ import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { addProductScheme } from "@/validation";
 import { productTypeOptions } from "@/utils";
 import Loader from "@/client/components/Loader/Loader";
 import RichTextEditor from "../../components/Form/RichTextEditor";
 import { Button } from "@/components/ui/button";
 import { FaEdit } from "react-icons/fa";
 import { TiArrowBack } from "react-icons/ti";
+import { addProductScheme } from "@/validation/admin/ProductScheme";
 
 const ViewProduct = () => {
     const { productId } = useParams();

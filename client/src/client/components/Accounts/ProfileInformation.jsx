@@ -3,7 +3,6 @@ import crudService from "@/api/crudService";
 import { Input } from "@/components";
 import { Button } from "@/components/ui/button";
 import toastService from "@/services/toastService";
-import { profileInformation, addressInformation as addressInformationValidation } from "@/validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
@@ -12,6 +11,7 @@ import { FaEdit, FaSave } from "react-icons/fa";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { Country, State, City } from "country-state-city";
 import { upperCase } from "lodash";
+import { profileInformation, addressInformation as addressInformationValidation } from "@/validation/UserScheme";
 
 const ProfileInformation = ({ data }) => {
     const [editProfileInformation, setEditProfileInformation] = useState(false);
