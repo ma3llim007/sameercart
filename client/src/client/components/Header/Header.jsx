@@ -168,7 +168,7 @@ const Header = ({ data }) => {
                         </div>
                     </div>
                     <div
-                        className={`hidden justify-between h-12 px-5 py-8 lg:flex bg-light-blue text-light-bgLighterGray items-center gap-5 w-full z-20 transform transition-all duration-300 ease-in-out ${isSticky ? "fixed bg-light-blue top-0 left-0 shadow-lg opacity-100 translate-y-0 mt-0 z-50" : "relative mt-2"} `}
+                        className={`hidden justify-between h-12 px-5 py-8 lg:flex bg-light-blue text-light-bgLighterGray items-center gap-5 w-full z-20 transform transition-all duration-300 ease-in-out ${isSticky ? "fixed bg-light-blue top-0 left-0 shadow-lg opacity-100 translate-y-0 mt-0" : "relative mt-2"} `}
                     >
                         <nav className="w-4/5 mr-5 lg:w-full">
                             <ul className="flex gap-5 py-2 font-semibold items-center lg:justify-center xl:justify-start 2xl:justify-start">
