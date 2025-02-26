@@ -41,13 +41,13 @@ const ProductsSection = ({ title = "Featured Products", productData }) => {
             >
                 {productData?.map(product => (
                     <SwiperSlide key={product?._id} className="p-2">
-                        <div className="bg-light-bgLighterGray dark:bg-dark-bgGray cursor-pointer shadow-lg px-4 py-2 group overflow-hidden rounded-lg">
+                        <div className="bg-light-bgLighterGray dark:bg-dark-bgGray cursor-pointer shadow-lg px-4 py-2 group overflow-hidden rounded-lg flex flex-col items-center justify-center min-h-[550px] max-h-[550px] space-y-3">
                             <div className="relative">
                                 <img
                                     loading="lazy"
                                     src={product?.productFeatureImage}
                                     alt={product?.productName}
-                                    className="w-full h-72 object-cover rounded-lg mb-4 overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105"
+                                    className="w-full max-h-72 min-h-72 object-contain rounded-lg mb-4 overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105"
                                     draggable="false"
                                 />
                                 <span className="absolute text-white top-1 left-1 bg-light-blue px-1 leading-5 capitalize font-bold rounded-md text-[12px]">New</span>
