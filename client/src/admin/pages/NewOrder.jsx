@@ -118,7 +118,7 @@ const NewOrder = () => {
     return (
         <>
             <PageHeader title={"Manage Order's"} controller={"New Order's"} controllerUrl={"/admin/orders/new-order/"} />
-            <Table columns={orderColumns} data={orderData} emptyMessage="Order Is Not Found" loading={isPending} paginationOptions={{ pageSize: 10 }} sortable />
+            <Table columns={orderColumns} data={orderData} emptyMessage="New Order Is Not Found" loading={isPending} paginationOptions={{ pageSize: 10 }} sortable />
         </>
     );
 };

@@ -119,7 +119,7 @@ const CanceledOrder = () => {
     return (
         <>
             <PageHeader title={"Manage Order's"} controller={"Canceled Order"} controllerUrl={"/admin/orders/canceled-order/"} />
-            <Table columns={orderColumns} data={orderData} emptyMessage="Order Is Not Found" loading={isPending} paginationOptions={{ pageSize: 10 }} sortable />
+            <Table columns={orderColumns} data={orderData} emptyMessage="Canceled Order Is Not Found" loading={isPending} paginationOptions={{ pageSize: 10 }} sortable />
         </>
     );
 };

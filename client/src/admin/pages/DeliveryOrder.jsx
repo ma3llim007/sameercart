@@ -118,7 +118,7 @@ const DeliveryOrder = () => {
     return (
         <>
             <PageHeader title={"Manage Order's"} controller={"Delivery Orders"} controllerUrl={"/admin/orders/delivery-order/"} />
-            <Table columns={orderColumns} data={orderData} emptyMessage="Order Is Not Found" loading={isPending} paginationOptions={{ pageSize: 10 }} sortable />
+            <Table columns={orderColumns} data={orderData} emptyMessage="Delivery Order Is Not Found" loading={isPending} paginationOptions={{ pageSize: 10 }} sortable />
         </>
     );
 };

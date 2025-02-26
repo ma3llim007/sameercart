@@ -70,7 +70,6 @@ const ShippingOrderForm = ({ orderId, setIsMutationIsLoading }) => {
                         {...register("completeOrderdate", { valueAsDate: true })}
                         type="date"
                         disabled={isPending}
-                        // min={getToday().toISOString().split("T")[0]}
                         min={new Date().toISOString().split("T")[0]}
                         max={getMaxDate(3).toISOString().split("T")[0]}
                         className="text-xl rounded-sm p-3 border border-gray-600 dark:border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
