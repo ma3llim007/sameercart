@@ -23,7 +23,7 @@ const LegalNotice = () => {
                             <strong className="text-[17px]">Email: </strong> mohdsameer68257@gmail
                         </li>
                         <li>
-                            <strong className="text-[17px]">Phone: </strong> +91 98851 91161
+                            <strong className="text-[17px]">Phone: </strong> +91 13245 67890
                         </li>
                         <li>
                             <strong className="text-[17px]">VAT Number: </strong> IN123456789

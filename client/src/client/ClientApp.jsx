@@ -29,6 +29,7 @@ const VerifyEmail = lazy(() => import("../client/pages/VerifyEmail"));
 const ForgotPassword = lazy(() => import("../client/pages/ForgotPassword"));
 const ResetPasswordConfirm = lazy(() => import("../client/pages/ResetPasswordConfirm"));
 const OAuthSuccess = lazy(() => import("../client/pages/OAuthSuccess"));
+const OrderView = lazy(() => import("../client/pages/OrderView"))
 
 // Client Router
 const clientRouters = createBrowserRouter(
@@ -234,6 +235,14 @@ const clientRouters = createBrowserRouter(
                     element={
                         <Suspense fallback={<Loader />}>
                             <CheckOut />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path="view-order/:orderId"
+                    element={
+                        <Suspense fallback={<Loader />}>
+                            <OrderView />
                         </Suspense>
                     }
                 />

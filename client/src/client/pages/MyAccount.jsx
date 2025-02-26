@@ -52,10 +52,10 @@ const MyAccount = () => {
     if (isPending || DataIsPending) return <Loader />;
     return (
         <Container>
-            <section className="w-full my-10 rounded-lg shadow-lg mx-auto select-none overflow-hidden">
+            <section className="w-full my-10 rounded-lg shadow-lg mx-auto select-none">
                 <Tabs defaultValue={activeTab} className="flex flex-col lg:flex-row gap-5">
                     {/* Sidebar Tabs List */}
-                    <TabsList className="flex flex-col justify-start gap-4 bg-dark-dark p-4 rounded-lg w-4/5 md:w-48 lg:w-56 order-2 lg:order-1 mx-auto h-max shadow-2xl">
+                    <TabsList className="flex flex-col justify-start gap-4 bg-dark-dark p-4 rounded-lg w-4/5 md:w-48 lg:min-w-56 order-2 lg:order-1 mx-auto h-max shadow-2xl">
                         {["dashboard", "profileInformation", "changePassword", "order"].map(tab => (
                             <TabsTrigger
                                 key={tab}
@@ -80,7 +80,7 @@ const MyAccount = () => {
                             Logout
                         </p>
                     </TabsList>
-                    <div className="flex-1 bg-gray-300 dark:bg-gray-800 p-2 rounded-lg w-full order-1 lg:order-2 shadow-2xl">
+                    <div className="flex-1 bg-gray-300 dark:bg-gray-800 p-2 rounded-lg w-full order-1 lg:order-2 shadow-2xl overflow-scroll">
                         <TabsContent value="dashboard">
                             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
                                 <Dashboard user={data?.data} />

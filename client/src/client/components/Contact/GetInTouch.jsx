@@ -39,7 +39,7 @@ const GetInTouch = () => {
         <section className="w-full my-20">
             <h1 className="text-3xl mb-5 font-bold underline underline-offset-2 decoration-2 text-center text-light-blue dark:text-dark-light">Get In Touch</h1>
             <div className="flex flex-col lg:flex-row gap-5">
-                <div className="max-w-fit min-h-fit max-h-fit flex flex-col gap-5 bg-light-gray/50 dark:bg-dark-gray/30 p-10 rounded-lg">
+                <div className="w-full lg:max-w-fit min-h-fit max-h-fit flex flex-col gap-5 bg-light-gray/50 dark:bg-dark-gray/30 p-10 rounded-lg">
                     <div className="flex gap-5 items-center group">
                         <div className="w-12 h-12 border rounded-full inline-flex justify-center items-center group-hover:bg-light-deep group-hover:text-white transition-colors duration-300 ease-in-out transform">
                             <FaPhoneAlt className="text-lg" />

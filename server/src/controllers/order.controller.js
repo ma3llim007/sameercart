@@ -208,6 +208,8 @@ const getOrderByUser = asyncHandler(async (req, res) => {
                     orderStatus: 1,
                     totalAmount: 1,
                     orderItemCount: { $size: "$orderItems" },
+                    paymentType: 1,
+                    paymentStatus: 1,
                 },
             },
         ]);
@@ -217,4 +219,133 @@ const getOrderByUser = asyncHandler(async (req, res) => {
         return res.status(500).json(new ApiError(500, "Something Went Wrong While Fetching User Order"));
     }
 });
-export { createOrder, createOrderRazorPay, verifyRazorPayPayment, getOrderByUser };
+
+// Get Order By Order ID
+const viewOrder = asyncHandler(async (req, res) => {
+    try {
+        const { orderId } = req.params;
+        if (!orderId || orderId.trim() === "") {
+            return res.status(422).json(new ApiError(422, "Order ID Is Required"));
+        }
+
+        if (!isValidObjectId(orderId)) {
+            return res.status(400).json(new ApiError(400, "Invalid Order Id"));
+        }
+
+        const orderData = await Order.aggregate([
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(orderId),
+                },
+            },
+            {
+                $lookup: {
+                    from: "orderitems",
+                    localField: "orderItems",
+                    foreignField: "_id",
+                    as: "orderItems",
+                },
+            },
+            {
+                $lookup: {
+                    from: "variants",
+                    localField: "orderItems.variantId",
+                    foreignField: "_id",
+                    as: "orderItemsVariants",
+                },
+            },
+            {
+                $unwind: {
+                    path: "$orderItems",
+                    preserveNullAndEmptyArrays: true,
+                },
+            },
+            {
+                $set: {
+                    orderItems: {
+                        $mergeObjects: [
+                            "$orderItems",
+                            {
+                                variant: {
+                                    $arrayElemAt: [
+                                        {
+                                            $filter: {
+                                                input: "$orderItemsVariants",
+                                                as: "variant",
+                                                cond: {
+                                                    $eq: ["$$variant._id", "$orderItems.variantId"],
+                                                },
+                                            },
+                                        },
+                                        0,
+                                    ],
+                                },
+                            },
+                        ],
+                    },
+                },
+            },
+            {
+                $group: {
+                    _id: "$_id",
+                    shippingAddress: {
+                        $first: "$shippingAddress",
+                    },
+                    paymentStatus: { $first: "$paymentStatus" },
+                    orderStatus: { $first: "$orderStatus" },
+                    paymentType: { $first: "$paymentType" },
+                    totalAmount: { $first: "$totalAmount" },
+                    orderDate: { $first: "$orderDate" },
+                    additionalInformation: {
+                        $first: "$additionalInformation",
+                    },
+                    orderShippingDate: {
+                        $first: "$orderShippingDate",
+                    },
+                    orderCancelReason: {
+                        $first: "$orderCancelReason",
+                    },
+                    completeOrderdate: {
+                        $first: "$completeOrderdate",
+                    },
+                    orderItems: { $push: "$orderItems" },
+                },
+            },
+            {
+                $project: {
+                    _id: 1,
+                    shippingAddress: 1,
+                    paymentStatus: 1,
+                    orderStatus: 1,
+                    paymentType: 1,
+                    totalAmount: 1,
+                    orderDate: 1,
+                    additionalInformation: 1,
+                    orderShippingDate: 1,
+                    orderCancelReason: 1,
+                    completeOrderdate: 1,
+                    orderItems: {
+                        _id: 1,
+                        productName: 1,
+                        price: 1,
+                        quantity: 1,
+                        totalPrice: 1,
+                        variant: {
+                            _id: 1,
+                            sku: 1,
+                            discountPrice: 1,
+                            attributes: 1,
+                        },
+                        createdAt: 1,
+                    },
+                },
+            },
+        ]);
+
+        return res.status(200).json(new ApiResponse(200, orderData[0], "Order Fetch Successfully."));
+    } catch (_error) {
+        return res.status(500).json(new ApiError(500, "Something Went Wrong! While Fetch Order"));
+    }
+});
+
+export { createOrder, createOrderRazorPay, verifyRazorPayPayment, getOrderByUser, viewOrder };

@@ -2,7 +2,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Input, Loading, Select } from "../index";
 import { getMaxDate, orderShippingActionOptions } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { FaRegEdit } from "react-icons/fa";
@@ -10,6 +9,8 @@ import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { orderShippingActionPaymentOptions } from "@/utils/options";
 import { shippingOrderScheme } from "@/validation/admin/OrderScheme";
+import { Input, Select } from "@/components";
+import Loading from "../Loading";
 
 const ShippingOrderForm = ({ orderId, setIsMutationIsLoading }) => {
     const navigate = useNavigate();

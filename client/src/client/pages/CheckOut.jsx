@@ -212,7 +212,6 @@ const CheckOut = () => {
                 },
                 theme: {
                     color: "#0562d6",
-                    // backdrop_color: "#3D3D3D",
                 },
             };
             // Open Razorpay Payment Modal

@@ -46,8 +46,8 @@ const ReturnPolicy = () => {
                                         mohdsameer68257@gmail.com
                                     </a>
                                     or call
-                                    <a href="tel:+9885191161" className="text-light-blue dark:text-dark-light hover:underline mx-2">
-                                        +91 98851 91161
+                                    <a href="tel:+1234567890" className="text-light-blue dark:text-dark-light hover:underline mx-2">
+                                        +91 12345 67890
                                     </a>
                                     to receive your return authorization.
                                 </li>
@@ -115,8 +115,8 @@ const ReturnPolicy = () => {
                                 </li>
                                 <li>
                                     <strong className="mr-2">Phone:</strong>
-                                    <a href="tel:+919885191161" className="text-light-blue dark:text-dark-light hover:underline">
-                                        +91 98851 91161
+                                    <a href="tel:+911234567890" className="text-light-blue dark:text-dark-light hover:underline">
+                                        +91 12345 67890
                                     </a>
                                 </li>
                                 <li>

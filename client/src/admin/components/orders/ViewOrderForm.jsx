@@ -1,7 +1,6 @@
 import { getMaxDate, orderViewActionOptions } from "@/utils";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { Input, Loading, Select, TextArea } from "../index";
 import { Button } from "@/components/ui/button";
 import { FaRegEdit } from "react-icons/fa";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -9,6 +8,8 @@ import crudService from "@/api/crudService";
 import { useNavigate } from "react-router-dom";
 import toastService from "@/services/toastService";
 import { newOrderScheme } from "@/validation/admin/OrderScheme";
+import { Input, Select, TextArea } from "@/components";
+import Loading from "../Loading";
 
 const ViewOrderForm = ({ orderId, setMutateIsLoading }) => {
     const navigate = useNavigate();

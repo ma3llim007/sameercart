@@ -1,8 +1,8 @@
 import { capitalizeWords, formatDateTime } from "@/utils";
-import { Table } from "../index";
 import { upperFirst } from "lodash";
 import { Badge } from "@/components";
 import { FaRupeeSign } from "react-icons/fa";
+import Table from "../Table";
 
 const OrderItem = ({ orderItem }) => {
     // Order Item Columns

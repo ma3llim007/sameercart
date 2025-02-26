@@ -7,8 +7,8 @@ const PrivacyPolicy = () => {
         <>
             <Banner image={privacyPolicyBanner} title={"Privacy Policy"} />
             <Container>
-                <section className="w-full my-10">
-                    <div className="w-full p-4 space-y-8">
+                <section className="w-full my-10 p-4">
+                    <div className="w-full space-y-8">
                         <h1 className="text-4xl font-bold text-light-blue dark:text-dark-light mb-6">Privacy Policy</h1>
                         <p className="text-lg mb-6">
                             SameerCart, we is committed to protecting your privacy. This Privacy Policy outlines how we collect, use, disclose, and safeguard your information when you visit our
@@ -119,7 +119,7 @@ const PrivacyPolicy = () => {
                                     <strong>Email:</strong> mohdsameer68257@gmail.com
                                 </li>
                                 <li className="ml-6">
-                                    <strong>Phone:</strong> +91 98851 91161
+                                    <strong>Phone:</strong> +91 13245 67890
                                 </li>
                                 <li className="ml-6">
                                     <strong>Address:</strong> Hyderabad, Telangana
