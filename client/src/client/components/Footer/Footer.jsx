@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { FiPhoneCall } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import payment from "../../assets/payment.webp";
-import { FaFacebook, FaGoogle, FaInstagram, FaLinkedinIn, FaRegCopyright, FaTwitter } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaLinkedinIn, FaRegCopyright, FaTwitter } from "react-icons/fa";
 import { currentYear } from "@/utils";
 const Footer = () => {
     const year = useMemo(() => currentYear(), []);
@@ -13,13 +13,12 @@ const Footer = () => {
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-16 lg:grid-cols-4 lg:gap-1 xl:gap-0">
                     <div className="w-4/5">
                         <h4 className="font-bold text-xl mb-2 uppercase lg:text-base">about us</h4>
-                        <p className="mb-4 leading-7 lg:leading-7 lg:text-base">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti deleniti cupiditate a.</p>
+                        <p className="mb-4 leading-7 lg:leading-7 lg:text-base">We provide top-quality services with a focus on customer satisfaction. Your trust is our priority..</p>
                         <div className="flex items-start gap-2">
                             <FiPhoneCall className="text-4xl lg:text-3xl" />
                             <div className="flex flex-col gap-1">
                                 <h6 className="uppercase text-base">need help?</h6>
-                                <p className="font-semibold text-2xl lg:text-xl">0123456789</p>
-                                <p className="font-semibold text-2xl lg:text-xl">0123456789</p>
+                                <p className="font-semibold text-2xl lg:text-xl">+91 12345 67894</p>
                             </div>
                         </div>
                     </div>
@@ -86,7 +85,7 @@ const Footer = () => {
                         <div className="w-full my-4 mx-auto">
                             <ul className="flex flex-wrap justify-start gap-3 items-center">
                                 <li className="bg-light-deep p-2 rounded-full">
-                                    <a target="_blank" href="#">
+                                    <a target="_blank" href="https://www.facebook.com/Ma3llim007/">
                                         <FaFacebook className="font-bold text-xl text-light-textWhite" />
                                     </a>
                                 </li>
@@ -101,12 +100,7 @@ const Footer = () => {
                                     </a>
                                 </li>
                                 <li className="bg-light-deep p-2 rounded-full">
-                                    <a target="_blank" href="#">
-                                        <FaGoogle className="font-bold text-xl text-light-textWhite" />
-                                    </a>
-                                </li>
-                                <li className="bg-light-deep p-2 rounded-full">
-                                    <a target="_blank" href="https://www.linkedin.com/in/mohd-sameer-web/">
+                                    <a target="_blank" href="https://www.linkedin.com/in/mohdsameer-dev/">
                                         <FaLinkedinIn className="font-bold text-xl text-light-textWhite" />
                                     </a>
                                 </li>
@@ -118,7 +112,7 @@ const Footer = () => {
                 <div className="flex flex-col justify-center items-center py-5 md:flex-row">
                     <div className="w-full text-base leading-7 pb-4">
                         <p className="flex justify-center gap-2 items-center md:justify-start">
-                            <FaRegCopyright /> {year} <span>Sameer</span> Inspired By <span>Rozer.</span>
+                            <FaRegCopyright /> {year} <span>Mohd Sameer</span> | Designed & Inspired by <span>Rozer.</span>
                         </p>
                     </div>
                     <div className="w-full flex justify-center items-center lg:justify-end md:justify-end">

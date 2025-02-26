@@ -1,8 +1,8 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import ClientLayout from "../client/layouts/ClientLayout";
+import Loader from "@/client/components/Loader/Loader";
 import ProtectedRoute from "@/client/layouts/ProtectedRoute";
-import Loader from "./components/Loader/Loader";
 
 const Home = lazy(() => import("../client/pages/Home"));
 const AboutUs = lazy(() => import("../client/pages/AboutUs"));

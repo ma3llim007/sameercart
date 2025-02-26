@@ -12,6 +12,7 @@ import Categories from "../components/Home/Categories";
 import ProductsSection from "../components/Home/ProductsSection";
 import HomeBanner from "../components/Home/HomeBanner";
 import HomeBlog from "../components/Home/HomeBlog";
+import BrandSection from "../components/Home/BrandSection";
 
 const Home = () => {
     // Slider Data
@@ -42,6 +43,7 @@ const Home = () => {
             const message = error?.response?.data?.message || error?.message;
             toastService.error(message || "Failed to fetch Data.");
         },
+        staleTime: 10 * 60 * 1000,
     });
 
     // New Product Arrivals
@@ -86,6 +88,7 @@ const Home = () => {
                 <HomeBanner />
                 <ProductsSection title="Mobiles Computers" productData={mobileComputerData?.data} />
                 <ProductsSection title="Tv Appliances Electronics" productData={appliancesElectronicsData?.data} />
+                <BrandSection />
                 <HomeBlog />
             </Container>
         </>
