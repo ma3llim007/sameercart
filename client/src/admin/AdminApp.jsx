@@ -37,6 +37,8 @@ const ViewUser = lazy(() => import("@/admin/pages/ViewUser"));
 const AddBlogs = lazy(() => import("@/admin/pages/AddBlogs"));
 const BlogList = lazy(() => import("@/admin/pages/BlogList"));
 const EditBlog = lazy(() => import("@/admin/pages/EditBlog"));
+const ContactEnquiry = lazy(() => import("@/admin/pages/ContactEnquiry"));
+const ViewContactEnquiry = lazy(() => import("@/admin/pages/ViewContactEnquiry"));
 
 // Route Defining
 const adminRouters = createBrowserRouter([
@@ -114,6 +116,35 @@ const adminRouters = createBrowserRouter([
                         element: (
                             <Suspense fallback={<Loader />}>
                                 <ViewUser />
+                            </Suspense>
+                        ),
+                    },
+                ],
+            },
+            {
+                path: "enquiry",
+                children: [
+                    {
+                        index: true,
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <ContactEnquiry />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "contact-list/",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <ContactEnquiry />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "view-enquiry/:contactId",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <ViewContactEnquiry />
                             </Suspense>
                         ),
                     },
