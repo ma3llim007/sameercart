@@ -57,7 +57,7 @@ const ProductsList = () => {
             header: "Product Feature Image",
             cell: ({ row }) => (
                 <div className="w-full flex justify-center">
-                    <img src={row.original?.productFeatureImage} className="min-w-28 max-w-28 min-h-28 max-h-28 object-cover rounded-md" alt="Category Image" />
+                    <img src={row.original?.productFeatureImage} className="min-w-28 max-w-28 min-h-28 max-h-28 object-cover rounded-md" alt="Product Image" />
                 </div>
             ),
         },
