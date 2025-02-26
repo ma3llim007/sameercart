@@ -40,21 +40,21 @@ const ProductsSection = ({ title = "Featured Products", productData }) => {
                 className="w-full"
             >
                 {productData?.map(product => (
-                    <SwiperSlide key={product?._id} className="p-2">
-                        <div className="bg-light-bgLighterGray dark:bg-dark-bgGray cursor-pointer shadow-lg px-4 py-2 group overflow-hidden rounded-lg flex flex-col items-center justify-center min-h-[550px] max-h-[550px] space-y-3">
-                            <div className="relative">
+                    <SwiperSlide key={product?._id} className="p-3">
+                        <div className="group flex flex-col items-center justify-center min-h-[550px] max-h-[550px] space-y-4 rounded-lg bg-light-bgLighterGray dark:bg-dark-bgGray cursor-pointer shadow-lg px-4 py-4 overflow-hidden transition-all">
+                            <div className="relative w-full">
                                 <img
                                     loading="lazy"
                                     src={product?.productFeatureImage}
                                     alt={product?.productName}
-                                    className="w-full max-h-72 min-h-72 object-contain rounded-lg mb-4 overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105"
+                                    className="w-full h-72 object-contain rounded-lg overflow-hidden transition-transform duration-300 ease-in-out transform group-hover:scale-105"
                                     draggable="false"
                                 />
-                                <span className="absolute text-white top-1 left-1 bg-light-blue px-1 leading-5 capitalize font-bold rounded-md text-[12px]">New</span>
+                                <span className="absolute top-1 left-1 px-2 py-1 text-xs font-bold text-white bg-light-blue rounded-md">New</span>
                             </div>
-                            <div className="flex flex-col gap-5">
+                            <div className="flex flex-col gap-4 w-full">
                                 <Link to={`/product-details/${product?.productSlug}`}>
-                                    <h3 className="text-xl font-semibold mb-2 whitespace-nowrap truncate text-light-blue dark:text-dark-light">{capitalizeWords(product?.productName)}</h3>
+                                    <h3 className="text-xl font-semibold mb-2 truncate text-light-blue dark:text-dark-light">{capitalizeWords(product?.productName)}</h3>
                                 </Link>
                                 <p className="text-light-textGray dark:text-dark-textWhite text-base dark:opacity-60 line-clamp-2">{capitalizeWords(product?.productShortDescription)}</p>
                                 <Rating size={"text-base"} rating={product?.ratings.averageRating || 3} />
