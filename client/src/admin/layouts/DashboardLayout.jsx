@@ -1,8 +1,11 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Outlet } from "react-router-dom";
-import { AdminSideBar, Footer, Header, Loading } from "../components";
 import useAuth from "../hooks/useAuth";
 import toastService from "@/services/toastService";
+import { AdminSideBar } from "../components/AdminSideBar";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Loading from "../components/Loading";
 
 export default function DashboardLayout() {
     const { admin, isError, isLoading } = useAuth();

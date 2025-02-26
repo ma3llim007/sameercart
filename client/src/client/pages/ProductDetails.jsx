@@ -1,4 +1,3 @@
-import { Banner, Container, ProductDetailsTabSection } from "../components";
 import bannerImage from "../assets/banner/basket_banner.webp";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Link, useParams } from "react-router-dom";
@@ -17,6 +16,9 @@ import { addToCart } from "@/features/home/cartSlice";
 import { useDispatch } from "react-redux";
 import { addToWishList } from "@/features/home/wishlistSlice";
 import useTopScroll from "../hooks/useTopScroll";
+import Banner from "../components/Banner";
+import Container from "../components/Container";
+import ProductDetailsTabSection from "../components/Products/ProductDetailsTabSection";
 
 const ProductDetails = () => {
     const { productSlug } = useParams();

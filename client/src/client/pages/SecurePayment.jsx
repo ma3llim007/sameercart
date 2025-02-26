@@ -1,7 +1,9 @@
-import { Banner, Container, Faq } from "../components";
 import securePaymentBanner from "../assets/banner/secure_payment.webp";
 import { MdOutlineDoubleArrow } from "react-icons/md";
 import { FaCcMastercard, FaCcVisa, FaCreditCard, FaGooglePay, FaPaypal } from "react-icons/fa";
+import Banner from "../components/Banner";
+import Container from "../components/Container";
+import Faq from "../components/Faq";
 
 const faqs = [
     {

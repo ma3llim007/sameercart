@@ -1,5 +1,6 @@
 import returnPolicyBanner from "../assets/banner/return_policy.webp";
-import { Banner, Container } from "../components";
+import Banner from "../components/Banner";
+import Container from "../components/Container";
 
 const ReturnPolicy = () => {
     return (

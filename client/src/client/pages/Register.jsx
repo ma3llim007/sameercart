@@ -1,4 +1,3 @@
-import { Container, OAuthButtons } from "../components";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -10,6 +9,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Loader from "../components/Loader/Loader";
 import { useEffect, useState } from "react";
 import { registerUser } from "@/validation/UserScheme";
+import Container from "../components/Container";
+import OAuthButtons from "../components/OAuthButtons";
 
 const Register = () => {
     const {

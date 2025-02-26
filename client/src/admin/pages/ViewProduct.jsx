@@ -1,5 +1,4 @@
 import { Suspense, useEffect } from "react";
-import { Input, Loading, PageHeader, Select, TextArea } from "../components";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
 import crudService from "@/api/crudService";
@@ -13,6 +12,9 @@ import { Button } from "@/components/ui/button";
 import { FaEdit } from "react-icons/fa";
 import { TiArrowBack } from "react-icons/ti";
 import { addProductScheme } from "@/validation/admin/ProductScheme";
+import Loading from "../components/Loading";
+import PageHeader from "../components/PageHeader";
+import { Input, Select, TextArea } from "@/components";
 
 const ViewProduct = () => {
     const { productId } = useParams();
@@ -37,6 +39,7 @@ const ViewProduct = () => {
             toastService.error(err?.message || "Failed to fetch Data.");
         },
     });
+
     // Updating the defaultValue of From
     useEffect(() => {
         if (isSuccess && productData?.data) {

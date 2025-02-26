@@ -1,5 +1,4 @@
 import { Suspense, useEffect, useState } from "react";
-import { Input, Loading, PageHeader, Select, TextArea } from "../components";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,8 +11,10 @@ import { productTypeOptions, slugTransform } from "@/utils";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import DOMPurify from "dompurify";
-import { LoadingOverlay } from "@/components";
+import { Input, LoadingOverlay, Select, TextArea } from "@/components";
 import { addProductScheme } from "@/validation/admin/ProductScheme";
+import PageHeader from "../components/PageHeader";
+import Loading from "../components/Loading";
 
 const AddProducts = () => {
     const queryClient = useQueryClient();

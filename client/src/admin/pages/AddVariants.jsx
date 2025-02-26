@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { ButtonWithAlert, Input, Loading, PageHeader, ProductDetailsVariant, Table } from "../components";
 import { FaEdit, FaEye, FaPlus, FaRegTrashAlt, FaRupeeSign, FaTimes, FaTrash } from "react-icons/fa";
 import { RiEdit2Fill } from "react-icons/ri";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
@@ -12,8 +11,13 @@ import toastService from "@/services/toastService";
 import { formatDateTime } from "@/utils";
 import Badge from "@/components/Badge";
 import Model from "@/components/Model";
-import { LoadingOverlay } from "@/components";
+import { Input, LoadingOverlay } from "@/components";
 import { addVariantScheme, editVariantImage } from "@/validation/admin/ProductScheme";
+import ButtonWithAlert from "../components/ButtonWithAlert";
+import Loading from "../components/Loading";
+import PageHeader from "../components/PageHeader";
+import ProductDetailsVariant from "../components/ProductDetailsVariant";
+import Table from "../components/Table";
 
 const AddVariants = () => {
     const { productId } = useParams();

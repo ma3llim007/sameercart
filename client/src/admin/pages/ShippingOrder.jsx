@@ -3,11 +3,12 @@ import Loader from "@/client/components/Loader/Loader";
 import toastService from "@/services/toastService";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
-import { PageHeader, Table } from "../components";
 import { FaRupeeSign } from "react-icons/fa";
 import { capitalizeWords, formatDateTime, formatNumberWithCommas, paymentStatusClass, statusClass } from "@/utils";
 import { Badge } from "@/components";
 import { Button } from "@/components/ui/button";
+import PageHeader from "../components/PageHeader";
+import Table from "../components/Table";
 
 const ShippingOrder = () => {
     const navigate = useNavigate();

@@ -1,4 +1,3 @@
-import { Banner, Container } from "../components";
 import wishList from "../assets/banner/wish_list.webp";
 import emptyCartImage from "../assets/products/emptyCart.webp";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
@@ -11,6 +10,8 @@ import { Badge } from "@/components";
 import { upperCase } from "lodash";
 import { clearWishList, removeFromWishList } from "@/features/home/wishlistSlice";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import Banner from "../components/Banner";
+import Container from "../components/Container";
 
 const WishList = () => {
     const { wishlists } = useSelector(state => state.wishlist);

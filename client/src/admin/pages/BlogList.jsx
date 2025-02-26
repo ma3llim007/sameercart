@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { ButtonWithAlert, PageHeader, Table } from "../components";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
@@ -7,6 +6,9 @@ import { formatDateTime } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { LoadingOverlay } from "@/components";
 import Loader from "@/client/components/Loader/Loader";
+import ButtonWithAlert from "../components/ButtonWithAlert";
+import PageHeader from "../components/PageHeader";
+import Table from "../components/Table";
 
 const BlogList = () => {
     const navigate = useNavigate();

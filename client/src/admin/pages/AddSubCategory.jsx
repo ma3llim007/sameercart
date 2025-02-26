@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Input, Loading, PageHeader, Select } from "../components";
 import { Controller, useForm } from "react-hook-form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { slugTransform } from "@/utils";
@@ -10,6 +9,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { addSubCategoryScheme } from "@/validation/admin/subCategoyrSchema";
 import { useNavigate } from "react-router-dom";
 import toastService from "@/services/toastService";
+import Loading from "../components/Loading";
+import PageHeader from "../components/PageHeader";
+import { Input, Select } from "@/components";
 
 const AddSubCategory = () => {
     const queryClient = useQueryClient();

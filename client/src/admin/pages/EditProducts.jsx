@@ -1,5 +1,4 @@
 import { Suspense, useEffect, useState } from "react";
-import { ErrorMessage, Input, Loading, PageHeader, Select, TextArea } from "../components";
 import { Controller, useForm } from "react-hook-form";
 import RichTextEditor from "../../components/Form/RichTextEditor";
 import Loader from "@/client/components/Loader/Loader";
@@ -11,9 +10,12 @@ import { slugTransform, productTypeOptions } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { FaEdit } from "react-icons/fa";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { LoadingOverlay } from "@/components";
+import { Input, LoadingOverlay, Select, TextArea } from "@/components";
 import DOMPurify from "dompurify";
 import { editProductScheme } from "@/validation/admin/ProductScheme";
+import ErrorMessage from "../components/ErrorMessage";
+import PageHeader from "../components/PageHeader";
+import Loading from "../components/Loading";
 
 const EditProducts = () => {
     const { productId } = useParams();

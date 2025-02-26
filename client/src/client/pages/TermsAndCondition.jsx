@@ -1,6 +1,7 @@
-import { Banner, Container } from "../components";
 import termsAndcondition from "../assets/banner/terms_and_conditions.webp";
 import { Link } from "react-router-dom";
+import Banner from "../components/Banner";
+import Container from "../components/Container";
 
 const TermsAndCondition = () => {
     return (

@@ -1,7 +1,6 @@
 import crudService from "@/api/crudService";
 import Loader from "@/client/components/Loader/Loader";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ButtonWithAlert, PageHeader, Table } from "../components";
 import { formatDateTime } from "@/utils";
 import { Button } from "@/components/ui/button";
 import Badge from "@/components/Badge";
@@ -10,6 +9,9 @@ import toastService from "@/services/toastService";
 import { LoadingOverlay } from "@/components";
 import { upperFirst } from "lodash";
 import { FaEye } from "react-icons/fa";
+import Table from "../components/Table";
+import PageHeader from "../components/PageHeader";
+import ButtonWithAlert from "../components/ButtonWithAlert";
 
 const ProductsList = () => {
     const navigate = useNavigate();

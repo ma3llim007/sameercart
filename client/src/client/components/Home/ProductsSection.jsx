@@ -41,7 +41,7 @@ const ProductsSection = ({ title = "Featured Products", productData }) => {
             >
                 {productData?.map(product => (
                     <SwiperSlide key={product?._id} className="p-3">
-                        <div className="group flex flex-col items-center justify-center min-h-[550px] max-h-[550px] space-y-4 rounded-lg bg-light-bgLighterGray dark:bg-dark-bgGray cursor-pointer shadow-lg px-4 py-4 overflow-hidden transition-all">
+                        <div className="group flex flex-col items-center justify-center min-h-[520px] max-h-[520px] space-y-4 rounded-lg bg-light-bgLighterGray dark:bg-dark-bgGray cursor-pointer shadow-lg px-4 py-4 overflow-hidden transition-all">
                             <div className="relative w-full">
                                 <img
                                     loading="lazy"

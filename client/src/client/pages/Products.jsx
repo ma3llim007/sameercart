@@ -1,5 +1,4 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Banner, Container } from "../components";
 import { Link, useParams } from "react-router-dom";
 import bannerImage from "../assets/banner/basket_banner.webp";
 import { capitalizeWords, formatNumberWithCommas, slugToText } from "@/utils";
@@ -16,6 +15,8 @@ import Loader from "../components/Loader/Loader";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/features/home/cartSlice";
 import { addToWishList } from "@/features/home/wishlistSlice";
+import Banner from "../components/Banner";
+import Container from "../components/Container";
 
 const Products = () => {
     const { categorySlug, subCategorySlug } = useParams();

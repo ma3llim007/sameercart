@@ -1,5 +1,4 @@
 import { Controller, useForm } from "react-hook-form";
-import { Input, Loading, PageHeader, TextArea } from "../components";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { addBlogScheme } from "@/validation/admin/blogScheme";
@@ -8,10 +7,12 @@ import { slugTransform } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { FaPlus } from "react-icons/fa";
 import Loader from "@/client/components/Loader/Loader";
-import { RichTextEditor } from "@/components";
+import { Input, RichTextEditor, TextArea } from "@/components";
 import crudService from "@/api/crudService";
 import { useNavigate } from "react-router-dom";
 import toastService from "@/services/toastService";
+import PageHeader from "../components/PageHeader";
+import Loading from "../components/Loading";
 
 const AddBlogs = () => {
     const queryClient = useQueryClient();

@@ -1,5 +1,4 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Container } from "../components";
 import { Link, useNavigate } from "react-router-dom";
 import { FaHome, FaRupeeSign } from "react-icons/fa";
 import { FaBagShopping } from "react-icons/fa6";
@@ -20,6 +19,7 @@ import useTopScroll from "../hooks/useTopScroll";
 import { clearCart } from "@/features/home/cartSlice";
 import logo from "@/client/assets/Logo.svg";
 import { BillingDetails } from "@/validation/UserScheme";
+import Container from "../components/Container";
 
 const CheckOut = () => {
     const { user } = useSelector(state => state.userAuth);

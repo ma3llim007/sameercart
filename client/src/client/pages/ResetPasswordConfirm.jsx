@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Container } from "../components";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import Loader from "../components/Loader/Loader";
@@ -10,6 +9,7 @@ import crudService from "@/api/crudService";
 import { useNavigate, useParams } from "react-router-dom";
 import toastService from "@/services/toastService";
 import { resetPasswordConfrim } from "@/validation/UserScheme";
+import Container from "../components/Container";
 
 const ResetPasswordConfirm = () => {
     const {

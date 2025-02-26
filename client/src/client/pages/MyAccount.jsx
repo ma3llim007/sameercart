@@ -1,5 +1,4 @@
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { ChangePassword, Container, Dashboard, Order, ProfileInformation } from "../components";
 import { TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -12,6 +11,11 @@ import toastService from "@/services/toastService";
 import { storePersistor } from "@/store";
 import Loader from "../components/Loader/Loader";
 import useTopScroll from "../hooks/useTopScroll";
+import Container from "../components/Container";
+import Dashboard from "../components/Accounts/Dashboard";
+import ProfileInformation from "../components/Accounts/ProfileInformation";
+import ChangePassword from "../components/Accounts/ChangePassword";
+import Order from "../components/Accounts/Order";
 
 const MyAccount = () => {
     const [activeTab, setActiveTab] = useState("dashboard");

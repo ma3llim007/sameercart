@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Input, Loading, PageHeader } from "../components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
@@ -9,6 +8,9 @@ import { Button } from "@/components/ui/button";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { editVariantScheme } from "@/validation/admin/ProductScheme";
+import Loading from "../components/Loading";
+import PageHeader from "../components/PageHeader";
+import { Input } from "@/components";
 
 const EditVariant = () => {
     const { productId, variantId } = useParams();

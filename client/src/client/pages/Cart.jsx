@@ -1,5 +1,4 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Banner, Container } from "../components";
 import { Link } from "react-router-dom";
 import bannerImage from "../assets/banner/basket_banner.webp";
 import emptyCartImage from "../assets/products/emptyCart.webp";
@@ -13,6 +12,8 @@ import { Badge, Input } from "@/components";
 import { upperCase } from "lodash";
 import { clearCart, decrementQuanity, incrementQuanity, removeFromCart } from "@/features/home/cartSlice";
 import toastService from "@/services/toastService";
+import Banner from "../components/Banner";
+import Container from "../components/Container";
 
 const Cart = () => {
     const { carts, totalCartPrice } = useSelector(state => state.cart);

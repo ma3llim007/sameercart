@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Input, Loading, PageHeader } from "../components";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { FaPlus } from "react-icons/fa";
@@ -10,6 +9,9 @@ import crudService from "@/api/crudService";
 import { useNavigate } from "react-router-dom";
 import toastService from "@/services/toastService";
 import { addCategoryScheme } from "@/validation/admin/categorySchema";
+import PageHeader from "../components/PageHeader";
+import { Input } from "@/components";
+import Loading from "../components/Loading";
 
 const AddCategory = () => {
     const queryClient = useQueryClient();

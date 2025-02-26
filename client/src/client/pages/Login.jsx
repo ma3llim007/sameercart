@@ -1,4 +1,3 @@
-import { Container, OAuthButtons } from "../components";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -12,6 +11,8 @@ import toastService from "@/services/toastService";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "@/features/home/userAuthSlice";
+import Container from "../components/Container";
+import OAuthButtons from "../components/OAuthButtons";
 
 const Login = () => {
     const {

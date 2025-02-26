@@ -1,11 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { OrderDetails, OrderItem, PageHeader, UserDetails, ViewOrderForm } from "../components";
 import crudService from "@/api/crudService";
 import { useNavigate, useParams } from "react-router-dom";
 import toastService from "@/services/toastService";
 import Loader from "@/client/components/Loader/Loader";
 import { useEffect, useState } from "react";
 import { LoadingOverlay } from "@/components";
+import PageHeader from "../components/PageHeader";
+import ViewOrderForm from "../components/orders/ViewOrderForm";
+import UserDetails from "../components/orders/UserDetails";
+import OrderDetails from "../components/orders/OrderDetails";
+import OrderItem from "../components/orders/OrderItem";
 
 const ViewNewOrder = () => {
     const { orderId } = useParams();

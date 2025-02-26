@@ -1,10 +1,17 @@
 import slider1 from "../assets/sliders/slider1.webp";
 import slider2 from "../assets/sliders/slider2.webp";
-import { Categories, Container, HomeBanner, HomeBlog, IconSection, InfoCardSection, ProductsSection, Slider } from "../components";
 import { useQuery } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import Loader from "../components/Loader/Loader";
+import Slider from "../components/Home/Slider";
+import Container from "../components/Container";
+import IconSection from "../components/Home/IconSection";
+import InfoCardSection from "../components/Home/InfoCardSection";
+import Categories from "../components/Home/Categories";
+import ProductsSection from "../components/Home/ProductsSection";
+import HomeBanner from "../components/Home/HomeBanner";
+import HomeBlog from "../components/Home/HomeBlog";
 
 const Home = () => {
     // Slider Data

@@ -7,7 +7,8 @@ import { capitalizeWords, formatDateTime, formatNumberWithCommas, paymentStatusC
 import { useQuery } from "@tanstack/react-query";
 import { FaRupeeSign } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
-import { PageHeader, Table } from "../components";
+import Table from "../components/Table";
+import PageHeader from "../components/PageHeader";
 
 const DeliveryOrder = () => {
     const navigate = useNavigate();

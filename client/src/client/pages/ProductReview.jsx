@@ -1,4 +1,3 @@
-import { Banner, Container, Rating } from "../components";
 import bannerImage from "../assets/banner/basket_banner.webp";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Link } from "react-router-dom";
@@ -7,6 +6,9 @@ import { Input, TextArea } from "@/components";
 import { Button } from "@/components/ui/button";
 import { Loading } from "@/admin/components";
 import { FaPlus } from "react-icons/fa";
+import Banner from "../components/Banner";
+import Rating from "../components/Rating";
+import Container from "../components/Container";
 
 const ProductReview = () => {
     const [rating, setRating] = useState(0);

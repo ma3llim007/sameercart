@@ -3,7 +3,10 @@ import Loader from "@/client/components/Loader/Loader";
 import toastService from "@/services/toastService";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { OrderDetails, OrderItem, PageHeader, UserDetails } from "../components";
+import UserDetails from "../components/orders/UserDetails";
+import OrderDetails from "../components/orders/OrderDetails";
+import PageHeader from "../components/PageHeader";
+import OrderItem from "../components/orders/OrderItem";
 
 const ViewAllOrder = () => {
     const { orderId } = useParams();

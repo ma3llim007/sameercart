@@ -5,11 +5,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { Input, Loading, PageHeader, Select } from "../components";
 import { slugTransform } from "@/utils";
 import { FaEdit } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import toastService from "@/services/toastService";
+import Loading from "../components/Loading";
+import PageHeader from "../components/PageHeader";
+import { Input, Select } from "@/components";
 
 const EditSubCategory = () => {
     const queryClient = useQueryClient();

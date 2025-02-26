@@ -4,7 +4,10 @@ import toastService from "@/services/toastService";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { OrderDetails, OrderItem, PageHeader, UserDetails } from "../components";
+import PageHeader from "../components/PageHeader";
+import UserDetails from "../components/orders/UserDetails";
+import OrderDetails from "../components/orders/OrderDetails";
+import OrderItem from "../components/orders/OrderItem";
 
 const ViewDeliveryOrder = () => {
     const { orderId } = useParams();

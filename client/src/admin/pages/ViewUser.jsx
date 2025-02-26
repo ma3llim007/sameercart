@@ -3,9 +3,10 @@ import Loader from "@/client/components/Loader/Loader";
 import toastService from "@/services/toastService";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { PageHeader, UserDetails } from "../components";
 import { Button } from "@/components/ui/button";
 import { FaBackward } from "react-icons/fa6";
+import PageHeader from "../components/PageHeader";
+import UserDetails from "../components/orders/UserDetails";
 
 const ViewUser = () => {
     const navigate = useNavigate();

@@ -1,4 +1,3 @@
-import { ButtonWithAlert, PageHeader, Table } from "../components";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import crudService from "@/api/crudService";
@@ -8,6 +7,9 @@ import toastService from "@/services/toastService";
 import { formatDateTime } from "@/utils";
 import { LoadingOverlay } from "@/components";
 import { upperFirst } from "lodash";
+import ButtonWithAlert from "../components/ButtonWithAlert";
+import PageHeader from "../components/PageHeader";
+import Table from "../components/Table";
 
 const CategoryList = () => {
     const queryClient = useQueryClient();

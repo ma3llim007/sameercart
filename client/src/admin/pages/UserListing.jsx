@@ -1,12 +1,13 @@
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { useQuery } from "@tanstack/react-query";
-import { PageHeader, Table } from "../components";
 import Loader from "@/client/components/Loader/Loader";
 import { Badge } from "@/components";
 import { capitalizeWords } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import PageHeader from "../components/PageHeader";
+import Table from "../components/Table";
 
 const UserListing = () => {
     const navigate = useNavigate();

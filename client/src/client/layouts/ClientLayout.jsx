@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
-import { Footer, Header } from "../components";
 import crudService from "@/api/crudService";
 import { useQuery } from "@tanstack/react-query";
 import toastService from "@/services/toastService";
 import Loader from "../components/Loader/Loader";
+import Header from "../components/Header/Header";
+import Footer from "../components/Footer/Footer";
 
 const ClientLayout = () => {
     const { data, isLoading } = useQuery({

@@ -1,5 +1,4 @@
 import { Suspense, useEffect } from "react";
-import { Input, Loading, PageHeader, TextArea } from "../components";
 import toastService from "@/services/toastService";
 import crudService from "@/api/crudService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -7,11 +6,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { slugTransform } from "@/utils";
-import { RichTextEditor } from "@/components";
+import { Input, RichTextEditor, TextArea } from "@/components";
 import { Button } from "@/components/ui/button";
 import { FaEdit } from "react-icons/fa";
 import Loader from "@/client/components/Loader/Loader";
 import { editBlogScheme } from "@/validation/admin/blogScheme";
+import PageHeader from "../components/PageHeader";
+import Loading from "../components/Loading";
 
 const EditBlog = () => {
     const queryClient = useQueryClient();

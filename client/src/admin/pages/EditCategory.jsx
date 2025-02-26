@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Input, Loading, PageHeader } from "../components";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
@@ -9,8 +8,10 @@ import { slugTransform } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { FaEdit } from "react-icons/fa";
 import crudService from "@/api/crudService";
-import { LoadingOverlay } from "@/components";
+import { Input, LoadingOverlay } from "@/components";
 import toastService from "@/services/toastService";
+import PageHeader from "../components/PageHeader";
+import Loading from "../components/Loading";
 
 const EditCategory = () => {
     const queryClient = useQueryClient();

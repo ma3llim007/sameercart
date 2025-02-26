@@ -1,4 +1,3 @@
-import { Loading } from "@/admin/components";
 import crudService from "@/api/crudService";
 import { Input } from "@/components";
 import { Button } from "@/components/ui/button";
@@ -12,6 +11,7 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import { Country, State, City } from "country-state-city";
 import { upperCase } from "lodash";
 import { profileInformation, addressInformation as addressInformationValidation } from "@/validation/UserScheme";
+import Loading from "@/admin/components/Loading";
 
 const ProfileInformation = ({ data }) => {
     const [editProfileInformation, setEditProfileInformation] = useState(false);

@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { Container, OtpInput } from "../components";
 import { Input } from "@/components";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -8,6 +7,8 @@ import { useMutation } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { emailVerify } from "@/validation/UserScheme";
+import Container from "../components/Container";
+import OtpInput from "../components/OtpInput";
 
 const VerifyEmail = () => {
     const {

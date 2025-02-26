@@ -5,11 +5,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import bannerImage from "../assets/banner/basket_banner.webp";
 import Loader from "../components/Loader/Loader";
-import { Banner, Container } from "../components";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { upperFirst } from "lodash";
 import useTopScroll from "../hooks/useTopScroll";
+import Banner from "../components/Banner";
+import Container from "../components/Container";
 
 const AllCategory = () => {
     const [page, setPage] = useState(1);

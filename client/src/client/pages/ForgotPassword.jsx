@@ -1,5 +1,4 @@
 import { Input } from "@/components";
-import { Container } from "../components";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -9,6 +8,7 @@ import crudService from "@/api/crudService";
 import Loader from "../components/Loader/Loader";
 import { useEffect, useState } from "react";
 import { forgotPassword } from "@/validation/UserScheme";
+import Container from "../components/Container";
 
 const ForgotPassword = () => {
     const {

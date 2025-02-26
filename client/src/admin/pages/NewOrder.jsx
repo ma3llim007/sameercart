@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { PageHeader, Table } from "../components";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { Badge } from "@/components";
@@ -8,6 +7,8 @@ import { capitalizeWords, formatDateTime, formatNumberWithCommas, paymentStatusC
 import { Button } from "@/components/ui/button";
 import { FaRupeeSign } from "react-icons/fa";
 import Loader from "@/client/components/Loader/Loader";
+import Table from "../components/Table";
+import PageHeader from "../components/PageHeader";
 
 const NewOrder = () => {
     const navigate = useNavigate();

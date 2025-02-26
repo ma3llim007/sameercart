@@ -2,12 +2,15 @@ import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { ButtonWithAlert, Loading, PageHeader, Table } from "../components";
 import { formatDateTime } from "@/utils";
 import Badge from "@/components/Badge";
 import { Button } from "@/components/ui/button";
 import { LoadingOverlay } from "@/components";
 import { upperFirst } from "lodash";
+import ButtonWithAlert from "../components/ButtonWithAlert";
+import Loading from "../components/Loading";
+import PageHeader from "../components/PageHeader";
+import Table from "../components/Table";
 
 const SubCategoryList = () => {
     const queryClient = useQueryClient();

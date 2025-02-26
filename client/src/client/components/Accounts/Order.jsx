@@ -2,11 +2,11 @@ import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../Loader/Loader";
-import { Table } from "@/admin/components";
 import { formatDateTime, formatNumberWithCommas } from "@/utils";
 import { FaRupeeSign } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import Table from "@/admin/components/Table";
 
 const Order = ({ userId }) => {
     const navigate = useNavigate();

@@ -1,5 +1,4 @@
 import { Link, useParams } from "react-router-dom";
-import { Banner, Container } from "../components";
 import { capitalizeWords, slugToText } from "@/utils";
 import bannerImage from "../assets/banner/basket_banner.webp";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
@@ -10,6 +9,8 @@ import toastService from "@/services/toastService";
 import Loader from "../components/Loader/Loader";
 import { Button } from "@/components/ui/button";
 import useTopScroll from "../hooks/useTopScroll";
+import Banner from "../components/Banner";
+import Container from "../components/Container";
 
 const SubCategory = () => {
     const { categorySlug } = useParams();

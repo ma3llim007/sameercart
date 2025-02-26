@@ -1,6 +1,7 @@
-import { Banner, Container } from "../components";
 import legalNoticeBanner from "../assets/banner/legal_notice.webp";
 import { Link } from "react-router-dom";
+import Banner from "../components/Banner";
+import Container from "../components/Container";
 
 const LegalNotice = () => {
     return (
