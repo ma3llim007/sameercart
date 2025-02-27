@@ -7,7 +7,7 @@ import { slugTransform } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { FaPlus } from "react-icons/fa";
 import Loader from "@/client/components/Loader/Loader";
-import { Input, RichTextEditor, TextArea } from "@/components";
+import { Input, LoadingOverlay, RichTextEditor, TextArea } from "@/components";
 import crudService from "@/api/crudService";
 import { useNavigate } from "react-router-dom";
 import toastService from "@/services/toastService";
@@ -24,7 +24,7 @@ const AddBlogs = () => {
         watch,
         setValue,
         control,
-        setError
+        setError,
     } = useForm({
         mode: "onChange",
         resolver: yupResolver(addBlogScheme),
@@ -45,7 +45,7 @@ const AddBlogs = () => {
 
         return () => subscription.unsubscribe();
     }, [watch, setValue]);
-    
+
     const { mutate, isPending } = useMutation({
         mutationFn: data => crudService.post("blog/add-blog", true, data, "multipart/form-data"),
         onSuccess: data => {
@@ -58,6 +58,8 @@ const AddBlogs = () => {
             setError("root", { message });
         },
     });
+
+    if (isPending) return <LoadingOverlay />;
     return (
         <>
             <PageHeader title={"Manage Blogs"} controller={"Blogs"} controllerUrl={"/admin/blogs/add-blog/"} page={"Add Blog's"} />

@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { slugTransform } from "@/utils";
-import { Input, RichTextEditor, TextArea } from "@/components";
+import { Input, LoadingOverlay, RichTextEditor, TextArea } from "@/components";
 import { Button } from "@/components/ui/button";
 import { FaEdit } from "react-icons/fa";
 import Loader from "@/client/components/Loader/Loader";
@@ -99,6 +99,8 @@ const EditBlog = () => {
     });
 
     if (blogIsPending) return <Loader />;
+    if (isPending) return <LoadingOverlay />;
+
     return (
         <>
             <PageHeader title={"Manage Blogs"} controller={"Blog Listing"} controllerUrl={"/admin/blogs/add-blog/"} page={"Edit Blog"} />
