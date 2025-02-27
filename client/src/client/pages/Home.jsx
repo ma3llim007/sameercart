@@ -13,27 +13,31 @@ import ProductsSection from "../components/Home/ProductsSection";
 import HomeBanner from "../components/Home/HomeBanner";
 import HomeBlog from "../components/Home/HomeBlog";
 import BrandSection from "../components/Home/BrandSection";
+import { useMemo } from "react";
 
 const Home = () => {
     // Slider Data
-    const sliderData = [
-        {
-            id: 1,
-            imageUrl: slider1,
-            short_title: "Wireless Bluetooth Gaming",
-            title: "Bluetooth Gamepad",
-            achor_link: "/",
-            achor_title: "Show Now",
-        },
-        {
-            id: 2,
-            imageUrl: slider2,
-            short_title: "New Design Features",
-            title: "Hamsung Galaxy",
-            achor_link: "/contact-us",
-            achor_title: "Contact Us",
-        },
-    ];
+    const sliderData = useMemo(
+        () => [
+            {
+                id: 1,
+                imageUrl: slider1,
+                short_title: "Wireless Bluetooth Gaming",
+                title: "Bluetooth Gamepad",
+                achor_link: "/",
+                achor_title: "Show Now",
+            },
+            {
+                id: 2,
+                imageUrl: slider2,
+                short_title: "New Design Features",
+                title: "Hamsung Galaxy",
+                achor_link: "/contact-us",
+                achor_title: "Contact Us",
+            },
+        ],
+        []
+    );
 
     // popular Categories Data
     const { data: popularCategories, isPending: popularCategoriesIsPending } = useQuery({
@@ -76,7 +80,9 @@ const Home = () => {
         },
     });
 
-    if (popularCategoriesIsPending || newArrivalIsPending || mobileComputerIsPending || appliancesElectronicsIsPending) return <Loader />;
+    const isLoading = popularCategoriesIsPending || newArrivalIsPending || mobileComputerIsPending || appliancesElectronicsIsPending;
+    if (isLoading) return <Loader />;
+    
     return (
         <>
             <Slider sliderData={sliderData} />

@@ -10,7 +10,7 @@ const Footer = () => {
     return (
         <div className="w-full px-4 sm:px-8 pt-8 bg-light-blue text-white lg:px-9 xl:px-0 2xl:px-0">
             <div className="container mx-auto">
-                <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-16 lg:grid-cols-4 lg:gap-1 xl:gap-0">
+                <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-16 lg:grid-cols-4 lg:gap-1 xl:gap-0 pt-5 pb-10">
                     <div className="w-4/5">
                         <h4 className="font-bold text-xl mb-2 uppercase lg:text-base">about us</h4>
                         <p className="mb-4 leading-7 lg:leading-7 lg:text-base">We provide top-quality services with a focus on customer satisfaction. Your trust is our priority..</p>
@@ -39,6 +39,9 @@ const Footer = () => {
                             </li>
                             <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={"/contact-us"}>Contact Us</Link>
+                            </li>
+                            <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
+                                <Link to={"/blogs"}>Blogs</Link>
                             </li>
                             <li className="hover:ml-1 transition-all ease-in-out duration-300 cursor-pointer">
                                 <Link to={"/sitemap"}>Sitemap</Link>

@@ -29,7 +29,9 @@ const VerifyEmail = lazy(() => import("../client/pages/VerifyEmail"));
 const ForgotPassword = lazy(() => import("../client/pages/ForgotPassword"));
 const ResetPasswordConfirm = lazy(() => import("../client/pages/ResetPasswordConfirm"));
 const OAuthSuccess = lazy(() => import("../client/pages/OAuthSuccess"));
-const OrderView = lazy(() => import("../client/pages/OrderView"))
+const OrderView = lazy(() => import("../client/pages/OrderView"));
+const Blogs = lazy(() => import("../client/pages/Blogs"));
+const BlogDetails = lazy(() => import("../client/pages/BlogDetails"));
 
 // Client Router
 const clientRouters = createBrowserRouter(
@@ -209,6 +211,22 @@ const clientRouters = createBrowserRouter(
                 element={
                     <Suspense fallback={<Loader />}>
                         <OAuthSuccess />
+                    </Suspense>
+                }
+            />
+            <Route
+                path="/blogs"
+                element={
+                    <Suspense fallback={<Loader />}>
+                        <Blogs />
+                    </Suspense>
+                }
+            />
+            <Route
+                path="/blog-detail/:blogSlug"
+                element={
+                    <Suspense fallback={<Loader />}>
+                        <BlogDetails />
                     </Suspense>
                 }
             />

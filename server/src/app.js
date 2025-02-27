@@ -17,6 +17,7 @@ import publicUserRouter from "./routes/user.routes.js";
 import publicDashboardRouter from "./routes/dashboard.routes.js";
 import publicOrderRouter from "./routes/order.routes.js";
 import publicContactRouter from "./routes/contact.routes.js";
+import publicBlogRouter from "./routes/blog.routes.js";
 import "./config/passportStrategy.js";
 
 const app = express();
@@ -52,5 +53,6 @@ app.use("/api/v1/users", publicUserRouter);
 app.use("/api/v1/users/dashboard", publicDashboardRouter);
 app.use("/api/v1/order", publicOrderRouter);
 app.use("/api/v1/contacts", publicContactRouter);
+app.use("/api/v1/blog", publicBlogRouter);
 
 export { app };
