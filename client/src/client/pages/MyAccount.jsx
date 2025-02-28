@@ -1,6 +1,6 @@
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { TabsList, TabsTrigger } from "@radix-ui/react-tabs";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -12,10 +12,10 @@ import { storePersistor } from "@/store";
 import Loader from "../components/Loader/Loader";
 import useTopScroll from "../hooks/useTopScroll";
 import Container from "../components/Container";
-import Dashboard from "../components/Accounts/Dashboard";
-import ProfileInformation from "../components/Accounts/ProfileInformation";
-import ChangePassword from "../components/Accounts/ChangePassword";
-import Order from "../components/Accounts/Order";
+const Dashboard = lazy(() => import("../components/Accounts/Dashboard"));
+const ProfileInformation = lazy(() => import("../components/Accounts/ProfileInformation"));
+const ChangePassword = lazy(() => import("../components/Accounts/ChangePassword"));
+const Order = lazy(() => import("../components/Accounts/Order"));
 
 const MyAccount = () => {
     const [activeTab, setActiveTab] = useState("dashboard");
@@ -23,6 +23,7 @@ const MyAccount = () => {
     const navigate = useNavigate();
     const { _id: userId } = useSelector(state => state.userAuth?.user || {});
     useTopScroll(0, [activeTab]);
+
     const { mutate, isPending } = useMutation({
         mutationFn: () => crudService.post("/users/log-out", false),
         onSuccess: data => {
@@ -81,26 +82,28 @@ const MyAccount = () => {
                         </p>
                     </TabsList>
                     <div className="flex-1 bg-gray-300 dark:bg-gray-800 p-2 rounded-lg w-full order-1 lg:order-2 shadow-2xl overflow-scroll">
-                        <TabsContent value="dashboard">
-                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-                                <Dashboard user={data?.data} />
-                            </motion.div>
-                        </TabsContent>
-                        <TabsContent value="profileInformation">
-                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-                                <ProfileInformation data={data?.data} setActiveTab={setActiveTab} />
-                            </motion.div>
-                        </TabsContent>
-                        <TabsContent value="changePassword">
-                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-                                <ChangePassword />
-                            </motion.div>
-                        </TabsContent>
-                        <TabsContent value="order">
-                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-                                <Order userId={userId} />
-                            </motion.div>
-                        </TabsContent>
+                        <Suspense fallback={<Loader />}>
+                            <TabsContent value="dashboard">
+                                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                                    <Dashboard user={data?.data} />
+                                </motion.div>
+                            </TabsContent>
+                            <TabsContent value="profileInformation">
+                                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                                    <ProfileInformation data={data?.data} setActiveTab={setActiveTab} />
+                                </motion.div>
+                            </TabsContent>
+                            <TabsContent value="changePassword">
+                                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                                    <ChangePassword />
+                                </motion.div>
+                            </TabsContent>
+                            <TabsContent value="order">
+                                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                                    <Order userId={userId} />
+                                </motion.div>
+                            </TabsContent>
+                        </Suspense>
                     </div>
                 </Tabs>
             </section>

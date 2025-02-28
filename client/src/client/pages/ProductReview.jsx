@@ -1,14 +1,15 @@
-import bannerImage from "../assets/banner/basket_banner.webp";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import bannerImage from "../assets/banner/basket_banner.webp";
+import Banner from "../components/Banner";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import Container from "../components/Container";
+import Rating from "../components/Rating";
 import { Input, TextArea } from "@/components";
 import { Button } from "@/components/ui/button";
-import { Loading } from "@/admin/components";
-import { FaPlus } from "react-icons/fa";
-import Banner from "../components/Banner";
-import Rating from "../components/Rating";
-import Container from "../components/Container";
+import Loading from "@/admin/components/Loading";
+import { FaPlus } from "react-icons/fa6";
+import { useState } from "react";
+
 
 const ProductReview = () => {
     const [rating, setRating] = useState(0);
