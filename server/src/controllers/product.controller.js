@@ -1,8 +1,10 @@
-import { isValidObjectId } from "mongoose";
+import mongoose, { isValidObjectId } from "mongoose";
 import { Category } from "../models/category.model.js";
 import { Product } from "../models/product.model.js";
 import { SubCategory } from "../models/subCategory.model.js";
+import { Order } from "../models/order.model.js";
 import { ApiError, ApiResponse, asyncHandler } from "../utils/index.js";
+import { Review } from "../models/review.mode.js";
 
 // Get Product With Category And Sub Category
 const getProductByCategoryWithSubCategory = asyncHandler(async (req, res) => {
@@ -196,4 +198,154 @@ const getProductByCategory = asyncHandler(async (req, res) => {
         return res.status(500).json(new ApiError(500, "Something Went Wrong! While Fetching Of Products With Category"));
     }
 });
-export { getProductByCategoryWithSubCategory, getProductBySlug, searchProducts, newArrivals, getProductByCategory };
+
+// Add Product Review
+const addProductReview = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+    const { productId, rating, title, comment } = req.body;
+
+    if (!userId) {
+        return res.status(422).json(new ApiError(422, "User Id Is Required"));
+    }
+
+    if (!productId || rating === null || !title || !comment) {
+        return res.status(422).json(new ApiError(422, "All Fields Are Required"));
+    }
+
+    if (isNaN(rating)) {
+        return res.status(422).json(new ApiError(422, "Rating Should Be In Number Format Only"));
+    }
+
+    if (rating <= 0 || rating > 5) {
+        return res.status(403).json(new ApiError(403, "Rating Should Be Between 1 To 5 Only"));
+    }
+    if (!isValidObjectId(userId)) {
+        return res.status(404).json(new ApiError(404, "Invalid User Id"));
+    }
+
+    if (!isValidObjectId(productId)) {
+        return res.status(404).json(new ApiError(404, "Invalid Product Id"));
+    }
+
+    // Check if the user has purchased this product
+    const orderDetails = await Order.aggregate([
+        { $match: { userId: new mongoose.Types.ObjectId(userId) } },
+        { $lookup: { from: "orderitems", localField: "orderItems", foreignField: "_id", as: "orderItems" } },
+        { $unwind: { path: "$orderItems", preserveNullAndEmptyArrays: true } },
+        { $match: { "orderItems.productId": new mongoose.Types.ObjectId(productId) } },
+        { $project: { orderStatus: 1 } },
+    ]);
+
+    if (!orderDetails.length) {
+        return res.status(403).json(new ApiError(403, "You Must Purchase The Product Before Adding A Review"));
+    }
+
+    const order = orderDetails[0];
+    if (order?.orderStatus !== "Delivery") {
+        return res.status(404).json(new ApiError(404, "You Can Only Review Products After Delivery"));
+    }
+
+    // Check If User Already Review This Product
+    const existingReview = await Review.findOne({ userId, productId });
+    if (existingReview) {
+        return res.status(400).json(new ApiError(400, "You Have Already Reviewed This Product"));
+    }
+
+    // Add New Review
+    const review = await Review.create({ userId, productId, rating, title, comment });
+
+    // Update Product Rating Statistics
+    const product = await Product.findById(productId);
+    if (!product) {
+        return res.status(404).json(new ApiError(404, "Product Not Found"));
+    }
+
+    const totalReviews = product.ratings.numberOfReviews + 1;
+    const totalRating = product.ratings.averageRating * product.ratings.numberOfReviews + rating;
+    const newAverageRating = totalRating / totalReviews;
+
+    product.ratings.numberOfReviews = totalReviews;
+    product.ratings.averageRating = newAverageRating.toFixed(1);
+    await product.save();
+
+    return res.status(201).json(new ApiResponse(201, {}, "Review Added Successfully"));
+});
+
+// Edit Product Review
+const editProductReview = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+    const { reviewId } = req.params;
+    const { productId, rating, title, comment } = req.body;
+
+    if (!userId) {
+        return res.status(422).json(new ApiError(422, "User Id Is Required"));
+    }
+
+    if (!productId || rating === null || !title || !comment) {
+        return res.status(422).json(new ApiError(422, "All Fields Are Required"));
+    }
+
+    if (isNaN(rating)) {
+        return res.status(422).json(new ApiError(422, "Rating Should Be In Number Format Only"));
+    }
+
+    if (rating <= 0 || rating > 5) {
+        return res.status(403).json(new ApiError(403, "Rating Should Be Between 1 To 5 Only"));
+    }
+
+    if (!reviewId) {
+        return res.status(422).json(new ApiError(422, "Review Id Is Required"));
+    }
+
+    if (!isValidObjectId(userId)) {
+        return res.status(404).json(new ApiError(404, "Invalid User Id"));
+    }
+
+    if (!isValidObjectId(productId)) {
+        return res.status(404).json(new ApiError(404, "Invalid Product Id"));
+    }
+
+    if (!isValidObjectId(reviewId)) {
+        return res.status(404).json(new ApiError(404, "Invalid Review Id"));
+    }
+
+    // Check if at least one field is provided for update
+    if (!title && !comment && !rating) {
+        return res.status(400).json(new ApiError(400, "At Least One Field (Rating, Title, Or Comment) Is Required For Update"));
+    }
+
+    const review = await Review.findOne({ _id: reviewId, userId, productId });
+    if (!review) {
+        return res.status(404).json(new ApiError(404, "Review Not Found"));
+    }
+
+    const oldRating = review?.rating;
+
+    // Update Review Fields
+    if (rating) {
+        review.rating = rating;
+    }
+    if (title) {
+        review.title = title;
+    }
+    if (comment) {
+        review.comment = comment;
+    }
+
+    await review.save();
+
+    // Update Product Rating Statistics
+    const product = await Product.findById(productId);
+    if (!product) {
+        return res.status(404).json(new ApiError(404, "Product Not Found"));
+    }
+
+    const totalReviews = product.ratings.numberOfReviews;
+    const totalRating = product.ratings.averageRating * product.ratings.numberOfReviews - oldRating + rating;
+    product.ratings.averageRating = (totalRating / totalReviews).toFixed(1);
+    await product.save();
+
+    return res.status(200).json(new ApiResponse(200, {}, "Review Updated Successfully"));
+});
+
+export { getProductByCategoryWithSubCategory, getProductBySlug, searchProducts, newArrivals, getProductByCategory, addProductReview, editProductReview };

@@ -20,7 +20,7 @@ const orderItemSchema = new Schema(
         },
         productId: {
             type: Schema.Types.ObjectId,
-            ref: "Admin",
+            ref: "Product",
             required: [true, "Product Is Required"],
         },
         variantId: {

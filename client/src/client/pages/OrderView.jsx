@@ -9,6 +9,7 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import OrderDetails from "@/admin/components/orders/OrderDetails";
 import OrderItem from "@/admin/components/orders/OrderItem";
 import { Button } from "@/components/ui/button";
+import Container from "../components/Container";
 
 const OrderView = () => {
     const { orderId } = useParams();
@@ -28,7 +29,7 @@ const OrderView = () => {
 
     if (isPending) return <Loader />;
     return (
-        <>
+        <Container>
             <div className="w-full my-4 bg-gray-700 bg-opacity-70 py-4 px-5 rounded-md-md shadow-md select-none space-y-5">
                 <Breadcrumb className="text-white">
                     <BreadcrumbList className="text-lg">
@@ -67,6 +68,7 @@ const OrderView = () => {
                             totalAmount: data.data?.totalAmount,
                             additionalInformation: data.data?.additionalInformation,
                             completeOrderdate: data.data?.completeOrderdate,
+                            isClient: true,
                         }}
                     />
                     <OrderItem orderItem={orderItems} />
@@ -75,7 +77,7 @@ const OrderView = () => {
                     </Button>
                 </div>
             </div>
-        </>
+        </Container>
     );
 };
 

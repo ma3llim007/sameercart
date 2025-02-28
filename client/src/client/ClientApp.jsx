@@ -143,14 +143,6 @@ const clientRouters = createBrowserRouter(
                 }
             />
             <Route
-                path="/create-review/:productId"
-                element={
-                    <Suspense fallback={<Loader />}>
-                        <ProductReview />
-                    </Suspense>
-                }
-            />
-            <Route
                 path="/cart"
                 element={
                     <Suspense fallback={<Loader />}>
@@ -261,6 +253,14 @@ const clientRouters = createBrowserRouter(
                     element={
                         <Suspense fallback={<Loader />}>
                             <OrderView />
+                        </Suspense>
+                    }
+                />
+                <Route
+                    path="create-review/:productId"
+                    element={
+                        <Suspense fallback={<Loader />}>
+                            <ProductReview />
                         </Suspense>
                     }
                 />

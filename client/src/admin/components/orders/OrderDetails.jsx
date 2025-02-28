@@ -1,6 +1,8 @@
 import { Badge } from "@/components";
+import { Button } from "@/components/ui/button";
 import { capitalizeWords, formatDateTime, formatNumberWithCommas, paymentStatusClass, statusClass } from "@/utils";
 import { FaRupeeSign } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const OrderDetails = ({ order }) => {
     return (
@@ -65,22 +67,34 @@ const OrderDetails = ({ order }) => {
                         </th>
                         <td className="p-3 text-left">{capitalizeWords(order?.additionalInformation) || "-"}</td>
                     </tr>
-                    {order.orderCancelReason && (
+                    {order.orderCancelReason ? (
                         <tr className="hover:bg-gray-300 hover:bg-opacity-60 dark:hover:bg-gray-800 transition">
                             <th scope="col" className="text-left p-3 font-semibold">
                                 Order Cancel Reason
                             </th>
                             <td className="p-3 text-left">{capitalizeWords(order?.orderCancelReason) || "-"}</td>
                         </tr>
-                    )}
-                    {order.completeOrderdate && (
+                    ) : null}
+                    {order.completeOrderdate ? (
                         <tr className="hover:bg-gray-300 hover:bg-opacity-60 dark:hover:bg-gray-800 transition">
                             <th scope="col" className="text-left p-3 font-semibold">
                                 Complete Order Date
                             </th>
                             <td className="p-3 text-left">{formatDateTime(order?.completeOrderdate) || "-"}</td>
                         </tr>
-                    )}
+                    ) : null}
+                    {order.isClient & (order.orderStatus === "Delivery") ? (
+                        <tr className="hover:bg-gray-300 hover:bg-opacity-60 dark:hover:bg-gray-800 transition">
+                            <th scope="col" className="text-left p-3 font-semibold">
+                                Add Your Review
+                            </th>
+                            <td className="p-3 text-left">
+                                <Link to={"/account/create-review"}>
+                                    <Button className="Purple">Go To Review</Button>
+                                </Link>
+                            </td>
+                        </tr>
+                    ) : null}
                 </tbody>
             </table>
         </div>
