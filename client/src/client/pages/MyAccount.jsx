@@ -82,28 +82,34 @@ const MyAccount = () => {
                         </p>
                     </TabsList>
                     <div className="flex-1 bg-gray-300 dark:bg-gray-800 p-2 rounded-lg w-full order-1 lg:order-2 shadow-2xl overflow-scroll">
-                        <Suspense fallback={<Loader />}>
-                            <TabsContent value="dashboard">
-                                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                        <TabsContent value="dashboard">
+                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                                <Suspense fallback={<Loader />}>
                                     <Dashboard user={data?.data} />
-                                </motion.div>
-                            </TabsContent>
-                            <TabsContent value="profileInformation">
-                                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                                </Suspense>
+                            </motion.div>
+                        </TabsContent>
+                        <TabsContent value="profileInformation">
+                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                                <Suspense fallback={<Loader />}>
                                     <ProfileInformation data={data?.data} setActiveTab={setActiveTab} />
-                                </motion.div>
-                            </TabsContent>
-                            <TabsContent value="changePassword">
-                                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                                </Suspense>
+                            </motion.div>
+                        </TabsContent>
+                        <TabsContent value="changePassword">
+                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                                <Suspense fallback={<Loader />}>
                                     <ChangePassword />
-                                </motion.div>
-                            </TabsContent>
-                            <TabsContent value="order">
-                                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                                </Suspense>
+                            </motion.div>
+                        </TabsContent>
+                        <TabsContent value="order">
+                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                                <Suspense fallback={<Loader />}>
                                     <Order userId={userId} />
-                                </motion.div>
-                            </TabsContent>
-                        </Suspense>
+                                </Suspense>
+                            </motion.div>
+                        </TabsContent>
                     </div>
                 </Tabs>
             </section>
