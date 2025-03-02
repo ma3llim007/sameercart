@@ -70,7 +70,7 @@ const Blogs = () => {
                                             {capitalizeWords(blog?.blogTitle)}
                                         </h4>
                                     </Link>
-                                    <div className="flex items-center text-sm sm:text-base">
+                                    <div className="flex items-center text-sm sm:text-base flex-wrap gap-2">
                                         <div className="flex gap-1.5 items-center">
                                             <FaUser />
                                             By Admin

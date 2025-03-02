@@ -1,7 +1,8 @@
 import Rating from "../Rating";
 import dummyUserImage from "../../assets/users/dummyUser.webp";
+import { capitalizeWords } from "@/utils";
 
-const ReviewCard = ({ userImage, userName, rating, reviewText }) => {
+const ReviewCard = ({ userImage, userName, rating, reviewHeading, reviewText }) => {
     return (
         <div className="border border-dark-deep grid grid-cols-[auto,1fr] gap-5 p-4 rounded-lg overflow-hidden">
             <div className="relative w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28">
@@ -13,11 +14,12 @@ const ReviewCard = ({ userImage, userName, rating, reviewText }) => {
                 />
             </div>
             <div className="flex flex-col gap-2 items-start justify-start">
-                <h5 className="text-lg font-semibold">{userName}</h5>
+                <h4 className="text-lg font-semibold">{userName}</h4>
                 <div>
                     <Rating size="text-base" rating={rating} />
                 </div>
-                <p className="text-base">{reviewText}</p>
+                <h5 className="text-lg font-bold">{capitalizeWords(reviewHeading)}</h5>
+                <p className="text-base">{capitalizeWords(reviewText)}</p>
             </div>
         </div>
     );

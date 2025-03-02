@@ -68,10 +68,9 @@ const OrderView = () => {
                             totalAmount: data.data?.totalAmount,
                             additionalInformation: data.data?.additionalInformation,
                             completeOrderdate: data.data?.completeOrderdate,
-                            isClient: true,
                         }}
                     />
-                    <OrderItem orderItem={orderItems} />
+                    <OrderItem orderItem={orderItems} orderStatus={data?.data?.orderStatus} />
                     <Button className="Secondary" onClick={() => navigate("/account/dashboard/")}>
                         <FaBackward /> Back To Accont Dashboad
                     </Button>

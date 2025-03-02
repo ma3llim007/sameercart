@@ -28,6 +28,10 @@ const CheckOut = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const queryClient = useQueryClient();
+    if (!carts.length) {
+        toastService.info("Your Cart Is Empty So Can't Access The CheckOut Page");
+        navigate("/");
+    }
 
     const {
         handleSubmit,
@@ -235,6 +239,7 @@ const CheckOut = () => {
     };
     useTopScroll(0, [createOrderIsPending, payNowOrderIsPending]);
     if (DataIsPending || createOrderIsPending || payNowOrderIsPending) return <Loader />;
+
     return (
         <>
             <section className="w-full mt-4 bg-gray-700 bg-opacity-70 py-4 px-5 rounded-md-md shadow-md select-none">

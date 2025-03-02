@@ -327,6 +327,7 @@ const viewOrder = asyncHandler(async (req, res) => {
                     orderItems: {
                         _id: 1,
                         productName: 1,
+                        productId: 1,
                         price: 1,
                         quantity: 1,
                         totalPrice: 1,

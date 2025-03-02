@@ -116,3 +116,9 @@ export const contactUsScheme = Yup.object().shape({
     subject: Yup.string().required("Subject Is Required").min(3, "Subject Must Be At Least 3 Characters Long"),
     message: Yup.string().required("Message Is Required").min(3, "Message Must Be At Least 3 Characters Long"),
 });
+
+export const productReview = Yup.object().shape({
+    rating: Yup.number().min(1, "Rating Is Required").max(5, "Rating Must Be Between 1 To 5").required("Please Provide A Rating"),
+    title: Yup.string().min(3, "Title Must Be At Least 3 Characters").max(100, "Title Cannot Exceed 100 Characters").required("Title Is Required"),
+    comment: Yup.string().min(10, "Comment Must Be At Least 10 Characters").max(500, "Comment Cannot Exceed 500 Characters").required("Comment Is Required"),
+});

@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import toastService from "@/services/toastService";
 
 const ProtectedRoute = () => {
     const navigate = useNavigate();
@@ -10,6 +11,7 @@ const ProtectedRoute = () => {
     useEffect(() => {
         if (!user || !isAuthenticated) {
             navigate("/login", { replace: true });
+            toastService.error("Login First To Access The Authorized Pages");
         }
     }, [user, isAuthenticated, navigate]);
 

@@ -199,6 +199,29 @@ const getProductByCategory = asyncHandler(async (req, res) => {
     }
 });
 
+// Get Product By Product Id
+const getProductById = asyncHandler(async (req, res) => {
+    const { productId } = req.params;
+    if (!productId) {
+        return res.status(422).json(new ApiError(422, "Product ID Is Required"));
+    }
+    if (!isValidObjectId(productId)) {
+        return res.status(422).json(new ApiError(422, "Invalid Product ID"));
+    }
+
+    try {
+        const product = await Product.findOne({ _id: productId }).select("productName productSlug productFeatureImage productShortDescription");
+
+        if (!product) {
+            return res.status(404).json(new ApiResponse(404, null, "Product Not Found"));
+        }
+
+        return res.status(200).json(new ApiResponse(200, product, "Product Fetch Successfully"));
+    } catch (error) {
+        return res.status(500).json(new ApiError(500, error.message));
+    }
+});
+
 // Add Product Review
 const addProductReview = asyncHandler(async (req, res) => {
     const userId = req.user._id;
@@ -252,7 +275,7 @@ const addProductReview = asyncHandler(async (req, res) => {
     }
 
     // Add New Review
-    const review = await Review.create({ userId, productId, rating, title, comment });
+    const _review = await Review.create({ userId, productId, rating, title, comment });
 
     // Update Product Rating Statistics
     const product = await Product.findById(productId);
@@ -268,7 +291,7 @@ const addProductReview = asyncHandler(async (req, res) => {
     product.ratings.averageRating = newAverageRating.toFixed(1);
     await product.save();
 
-    return res.status(201).json(new ApiResponse(201, {}, "Review Added Successfully"));
+    return res.status(201).json(new ApiResponse(201, {}, "Review Added Successfully. Thank You"));
 });
 
 // Edit Product Review
@@ -348,4 +371,45 @@ const editProductReview = asyncHandler(async (req, res) => {
     return res.status(200).json(new ApiResponse(200, {}, "Review Updated Successfully"));
 });
 
-export { getProductByCategoryWithSubCategory, getProductBySlug, searchProducts, newArrivals, getProductByCategory, addProductReview, editProductReview };
+// Fetching Product Review Based on The Product ID
+const productReview = asyncHandler(async (req, res) => {
+    const { productId } = req.params;
+    try {
+        // const productReviews = await Review.find({ productId }).select("rating title comment");
+        const productReviews = await Review.aggregate([
+            {
+                $match: { productId: new mongoose.Types.ObjectId(productId) },
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "userId",
+                    foreignField: "_id",
+                    as: "user",
+                },
+            },
+            {
+                $unwind: {
+                    path: "$user",
+                    preserveNullAndEmptyArrays: true,
+                },
+            },
+            {
+                $project: {
+                    user: {
+                        firstName: 1,
+                        lastName: 1,
+                    },
+                    title: 1,
+                    rating: 1,
+                    comment: 1,
+                },
+            },
+        ]);
+
+        return res.status(200).json(new ApiResponse(200, productReviews, "Product Review Fetch Successfully"));
+    } catch (_error) {
+        return res.status(500).json(new ApiError(500, "Something Went Wrong! While Fetching Product Review"));
+    }
+});
+export { getProductByCategoryWithSubCategory, getProductBySlug, searchProducts, newArrivals, getProductByCategory, addProductReview, editProductReview, getProductById, productReview };

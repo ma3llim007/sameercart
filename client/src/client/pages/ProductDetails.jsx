@@ -34,7 +34,7 @@ const ProductDetails = () => {
     const { data, isLoading, isFetching } = useQuery({
         queryKey: ["productDetails", productSlug],
         queryFn: () => crudService.get(`/products/product-details/${productSlug}`),
-        cacheTime: 2 * 60 * 1000,
+        cacheTime: 3 * 60 * 1000,
         onError: error => {
             const message = error?.response?.data?.message || error?.message;
             toastService.error(message || "Failed to fetch Data.");
@@ -255,7 +255,7 @@ const ProductDetails = () => {
                                 <h3 className="text-xl font-semibold">Rating:</h3>
                                 <div className="flex flex-row gap-3 items-center">
                                     <p className="text-base font-medium">{productData?.ratings?.averageRating}</p>
-                                    <Rating size="text-base" rating={productData?.ratings?.averageRating || 3} />
+                                    <Rating size="text-base" rating={productData?.ratings?.averageRating} />
                                     <p className="text-base whitespace-nowrap">{formatNumberWithCommas(productData?.ratings?.numberOfReviews || 0)} Ratings</p>
                                 </div>
                             </div>
@@ -320,7 +320,7 @@ const ProductDetails = () => {
                         </div>
                     </div>
                     {/* Product Tab Details */}
-                    <ProductDetailsTabSection productDescription={productData?.productDescription} productSpecification={productData?.productSpecification} />
+                    <ProductDetailsTabSection productDescription={productData?.productDescription} productSpecification={productData?.productSpecification} productId={productData?._id}/>
                 </section>
             </Container>
         </>
