@@ -61,7 +61,7 @@ const Header = ({ data }) => {
     if (isPending) return <Loader />;
     return (
         <>
-            <header className="w-screen flex flex-col text-xs sm:text-sm lg:text-base xl:text-base 2xl:text-base shadow select-none bg-light-bgWhite dark:bg-dark-bgDark">
+            <header className="w-full flex flex-col text-xs sm:text-sm lg:text-base xl:text-base 2xl:text-base shadow select-none bg-light-bgWhite dark:bg-dark-bgDark">
                 <div className="w-full">
                     <div className="px-4 sm:px-10 lg:px-12 xl:px-4 2xl:px-4">
                         <div className="w-full flex mt-2 flex-col sm:flex-row sm:gap-5 sm:justify-between sm:items-center">

@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
-    overflow-x: hidden;
-}
-
 @layer base {
     :root {
         --deep: #146cda;
