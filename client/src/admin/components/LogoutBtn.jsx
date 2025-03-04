@@ -1,4 +1,3 @@
-import { useMutation } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 import toastService from "@/services/toastService";
@@ -16,6 +15,7 @@ import {
 import crudService from "@/api/crudService";
 import { logout } from "@/features/admin/authSlice";
 import { storePersistor } from "@/store";
+import { useMutation } from "@tanstack/react-query";
 
 const LogoutBtn = () => {
     const dispatch = useDispatch();

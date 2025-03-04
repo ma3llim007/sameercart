@@ -10,7 +10,7 @@ import Rating from "../components/Rating";
 import { FaCartPlus, FaFacebook, FaHeart, FaInstagram, FaRupeeSign, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components";
+import { Badge, Input } from "@/components";
 import { FaShuffle } from "react-icons/fa6";
 import { addToCart } from "@/features/home/cartSlice";
 import { useDispatch } from "react-redux";
@@ -144,7 +144,7 @@ const ProductDetails = () => {
         };
         dispatch(addToWishList(cartItem));
     };
-    
+
     if (isLoading || isFetching) return <Loader />;
     return (
         <>
@@ -259,6 +259,11 @@ const ProductDetails = () => {
                                     <p className="text-base whitespace-nowrap">{formatNumberWithCommas(productData?.ratings?.numberOfReviews || 0)} Ratings</p>
                                 </div>
                             </div>
+                            {productData?.productType === "variable" && selectedVariant?.stockQuantity <= 0 ? (
+                                <Badge title={"Out Of Stock"} className="Danger max-w-fit text-base !font-extrabold underline rounded" />
+                            ) : productData?.productType === "simple" && productData?.productStock <= 0 ? (
+                                <Badge title={"Out Of Stock"} className="Danger max-w-fit text-base !font-extrabold underline rounded" />
+                            ) : null}
                             {/* Display Variant Groups */}
                             {formattedVariantGroup &&
                                 Object.keys(formattedVariantGroup).length > 0 &&
@@ -320,7 +325,7 @@ const ProductDetails = () => {
                         </div>
                     </div>
                     {/* Product Tab Details */}
-                    <ProductDetailsTabSection productDescription={productData?.productDescription} productSpecification={productData?.productSpecification} productId={productData?._id}/>
+                    <ProductDetailsTabSection productDescription={productData?.productDescription} productSpecification={productData?.productSpecification} productId={productData?._id} />
                 </section>
             </Container>
         </>

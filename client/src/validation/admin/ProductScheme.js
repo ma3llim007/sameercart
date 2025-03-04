@@ -218,3 +218,13 @@ export const editVariantImage = Yup.object().shape({
         .required("Variant Image Is Required")
         .test("fileType", "Unsupported file format", value => isValidFileType(value)),
 });
+
+export const editProductStock = Yup.object().shape({
+    productStock: Yup.string()
+        .required("Stock Quantity Is Required")
+        .test(
+            "is-positive",
+            ({ value }) => `Stock Quantity Must Be A Positive Number.`,
+            value => value > 0
+        ),
+});

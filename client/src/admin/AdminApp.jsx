@@ -39,6 +39,8 @@ const BlogList = lazy(() => import("@/admin/pages/BlogList"));
 const EditBlog = lazy(() => import("@/admin/pages/EditBlog"));
 const ContactEnquiry = lazy(() => import("@/admin/pages/ContactEnquiry"));
 const ViewContactEnquiry = lazy(() => import("@/admin/pages/ViewContactEnquiry"));
+const OutOfStockProductList = lazy(() => import("@/admin/pages/OutOfStockProductList"));
+const UpdateStock = lazy(() => import("@/admin/pages/UpdateStock"));
 
 // Route Defining
 const adminRouters = createBrowserRouter([
@@ -264,6 +266,22 @@ const adminRouters = createBrowserRouter([
                         element: (
                             <Suspense fallback={<Loader />}>
                                 <ViewProduct />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "products-stock-list",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <OutOfStockProductList />
+                            </Suspense>
+                        ),
+                    },
+                    {
+                        path: "update-stock/:productId",
+                        element: (
+                            <Suspense fallback={<Loader />}>
+                                <UpdateStock />
                             </Suspense>
                         ),
                     },

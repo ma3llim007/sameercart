@@ -2,7 +2,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub } from "@/components/ui/sidebar";
 import { FaHome, FaList, FaUsers, FaCube, FaCubes, FaProductHunt, FaShippingFast, FaBorderAll, FaBlogger } from "react-icons/fa";
 import avatar from "../assets/avatar5.png";
-import { AiFillDashboard } from "react-icons/ai";
+import { AiFillDashboard, AiOutlineStock } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import { BsFillCartCheckFill } from "react-icons/bs";
@@ -85,6 +85,11 @@ const navBar = [
             {
                 name: "Products List",
                 urlLink: "/admin/products/products-list",
+            },
+            {
+                name: "Products Stock",
+                urlLink: "/admin/products/products-stock-list",
+                Icon: AiOutlineStock,
             },
         ],
         segment: "products",

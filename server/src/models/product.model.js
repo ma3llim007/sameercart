@@ -53,7 +53,6 @@ const productSchema = new Schema(
         basePrice: {
             type: Number,
             min: [0, "Product Price Cannot Be Negative"],
-            default: 0,
         },
         productDiscountPrice: {
             type: Number,
@@ -68,7 +67,6 @@ const productSchema = new Schema(
         productStock: {
             type: Number,
             min: [0, "Product Stock Cannot Be Negative"],
-            default: 0,
         },
         ratings: {
             averageRating: {

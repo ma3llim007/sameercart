@@ -338,12 +338,7 @@ const updateProduct = asyncHandler(async (req, res) => {
         // check if there's a conflict with either name or slug
         const duplicateProduct = await Product.findOne({
             _id: { $ne: productId },
-            $or: [
-                ...(productName ? [{ productName }] : []),
-                ...(productSlug ? [{ productSlug }] : []),
-                // { productName: productName ? productName : currentProduct.productName },
-                // { productSlug: productSlug ? productSlug : currentProduct.productSlug },
-            ],
+            $or: [...(productName ? [{ productName }] : []), ...(productSlug ? [{ productSlug }] : [])],
         });
 
         // check if there's a conflict with either name or slug
@@ -430,4 +425,110 @@ const updateProduct = asyncHandler(async (req, res) => {
     }
 });
 
-export { addProduct, productListing, ProductGetById, deleteProduct, updateProduct };
+// Listing the less stock product
+const outOfStockProducts = asyncHandler(async (req, res) => {
+    try {
+        const outofStockProducts = await Product.aggregate([
+            {
+                $addFields: {
+                    productVariants: {
+                        $cond: {
+                            if: {
+                                $eq: ["$productType", "variable"],
+                            },
+                            then: "$productVariants",
+                            else: [],
+                        },
+                    },
+                },
+            },
+            {
+                $lookup: {
+                    from: "variants",
+                    localField: "productVariants",
+                    foreignField: "_id",
+                    as: "variantDetails",
+                },
+            },
+            {
+                $addFields: {
+                    filteredVariants: {
+                        $filter: {
+                            input: "$variantDetails",
+                            as: "variant",
+                            cond: {
+                                $lt: ["$$variant.stockQuantity", 6],
+                            },
+                        },
+                    },
+                },
+            },
+            {
+                $match: {
+                    $or: [
+                        {
+                            productType: "simple",
+                            productStock: {
+                                $lt: 6,
+                            },
+                        },
+                        {
+                            $expr: {
+                                $gt: [{ $size: "$filteredVariants" }, 0],
+                            },
+                        },
+                    ],
+                },
+            },
+            {
+                $project: {
+                    _id: 1,
+                    productName: 1,
+                    productSlug: 1,
+                    productFeatureImage: 1,
+                    productType: 1,
+                    productStock: 1,
+                    filteredVariants: 1,
+                    updatedAt: 1,
+                },
+            },
+        ]);
+
+        return res.status(200).json(new ApiResponse(200, outofStockProducts, "Out Of Stock Products Fetch Successfully"));
+    } catch (error) {
+        return res.status(500).json(new ApiError(500, error.message));
+    }
+});
+
+// Update Product Stock
+const updateProductStock = asyncHandler(async (req, res) => {
+    const { productId } = req.params;
+    const { productStock } = req.body;
+    if (!productId || !productId.trim() === "") {
+        return res.status(422).json(new ApiError(422, "Product ID Is Required"));
+    }
+    if (!productStock) {
+        return res.status(422).json(new ApiError(422, "Product Stock Is Required"));
+    }
+
+    if (!isValidObjectId(productId)) {
+        return res.status(400).json(new ApiError(400, "Invalid Product ID"));
+    }
+
+    try {
+        const currentProduct = await Product.findById(productId);
+        if (!currentProduct) {
+            return res.status(404).json(new ApiError(404, "Product Not Found"));
+        }
+
+        if (productStock) {
+            currentProduct.productStock = currentProduct.productStock + productStock;
+        }
+
+        await currentProduct.save();
+        return res.status(200).json(new ApiResponse(200, currentProduct, "Product Stock Update Successfully"));
+    } catch (error) {
+        return res.status(500).json(new ApiError(500, error.message));
+    }
+});
+export { addProduct, productListing, ProductGetById, deleteProduct, updateProduct, outOfStockProducts, updateProductStock };
