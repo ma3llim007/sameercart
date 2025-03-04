@@ -77,6 +77,7 @@ const NewOrder = () => {
                 <div className="max-w-44 min-w-44 flex flex-col gap-2 items-start">
                     <p>
                         <strong>Street: </strong>
+                        {capitalizeWords(row.original?.shippingAddress?.street)}
                     </p>
                     <p>
                         <strong>City: </strong>
