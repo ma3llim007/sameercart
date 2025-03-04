@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 import payment from "../../assets/payment.webp";
 import { FaFacebook, FaInstagram, FaLinkedinIn, FaRegCopyright, FaTwitter } from "react-icons/fa";
 import { currentYear } from "@/utils";
+import Container from "../Container";
 const Footer = () => {
     const year = useMemo(() => currentYear(), []);
 
     return (
         <div className="w-full px-4 sm:px-8 pt-8 bg-light-blue text-white lg:px-9 xl:px-0 2xl:px-0">
-            <div className="container mx-auto">
+            <Container>
                 <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-16 lg:grid-cols-4 lg:gap-1 xl:gap-0 pt-5 pb-10">
                     <div className="w-4/5">
                         <h4 className="font-bold text-xl mb-2 uppercase lg:text-base">about us</h4>
@@ -122,7 +123,7 @@ const Footer = () => {
                         <img className="max-w-7xl object-cover" src={payment} alt="Payment" />
                     </div>
                 </div>
-            </div>
+            </Container>
         </div>
     );
 };
