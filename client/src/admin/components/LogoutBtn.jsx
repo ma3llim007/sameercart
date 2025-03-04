@@ -42,7 +42,7 @@ const LogoutBtn = () => {
         <>
             <AlertDialog>
                 <AlertDialogTrigger asChild>
-                    <Button className="Danger">Logout</Button>
+                    <Button className="Danger w-full">Log Out</Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent className="bg-white dark:bg-slate-950">
                     <AlertDialogHeader>

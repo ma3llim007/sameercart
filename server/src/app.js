@@ -10,6 +10,7 @@ import variantRouter from "./routes/admin/variant.routes.js";
 import usersRouter from "./routes/admin/users.routes.js";
 import blogRouter from "./routes/admin/blog.routes.js";
 import contactRouter from "./routes/admin/contact.routes.js";
+import dashboardRouter from "./routes/admin/dashboard.routes.js";
 import publicCategoryRouter from "./routes/category.routes.js";
 import publicSubCategoryRouter from "./routes/subcategory.routes.js";
 import publicProductRouter from "./routes/product.routes.js";
@@ -56,6 +57,7 @@ app.use("/api/v1/admin/order", publicLimiter, orderRouter);
 app.use("/api/v1/admin/users", publicLimiter, usersRouter);
 app.use("/api/v1/admin/blog", publicLimiter, blogRouter);
 app.use("/api/v1/admin/contact", publicLimiter, contactRouter);
+app.use("/api/v1/admin/dashboard", publicLimiter, dashboardRouter);
 
 // Public Routes
 app.use("/api/v1/category", publicLimiter, publicCategoryRouter);

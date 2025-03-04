@@ -9,6 +9,7 @@ import { BsFillCartCheckFill } from "react-icons/bs";
 import { FaMessage, FaPlus } from "react-icons/fa6";
 import { TbShoppingCartCancel } from "react-icons/tb";
 import { CiDeliveryTruck } from "react-icons/ci";
+import LogoutBtn from "./LogoutBtn";
 
 const navBar = [
     { name: "Main Site", Icon: FaHome, urlLink: "/" },
@@ -200,6 +201,9 @@ export function AdminSideBar({ username, ...props }) {
                             })}
                         </SidebarMenu>
                     </SidebarGroupContent>
+                    <div className="w-full my-4">
+                        <LogoutBtn />
+                    </div>
                 </SidebarGroup>
             </SidebarContent>
         </Sidebar>
