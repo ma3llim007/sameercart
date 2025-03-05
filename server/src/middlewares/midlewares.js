@@ -14,7 +14,7 @@ const publicLimiter = rateLimit({
 // Stricter limiter for authentication routes
 const authLimiter = rateLimit({
     windowMs: 10 * 60 * 1000, // 10 Minutes
-    max: 10,
+    max: 30,
     handler: (_, res) => {
         return res.status(429).json(new ApiError(429, null, "Too Many Requests Form This Ip, Please Try Again Later."));
     },

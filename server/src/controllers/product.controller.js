@@ -5,6 +5,8 @@ import { SubCategory } from "../models/subCategory.model.js";
 import { Order } from "../models/order.model.js";
 import { ApiError, ApiResponse, asyncHandler } from "../utils/index.js";
 import { Review } from "../models/review.mode.js";
+import { generateCacheKey } from "../utils/redis.utils.js";
+import redisClient from "../config/redis.js";
 
 // Get Product With Category And Sub Category
 const getProductByCategoryWithSubCategory = asyncHandler(async (req, res) => {
@@ -19,6 +21,15 @@ const getProductByCategoryWithSubCategory = asyncHandler(async (req, res) => {
 
         if (isNaN(pageNumber) || pageNumber < 1) pageNumber = 1;
         if (isNaN(limitNumber) || limitNumber < 1) limitNumber = 9;
+
+        // Generate a Unique cache key based on page & limit
+        const key = generateCacheKey(req);
+
+        // Check if data exists in Redis cache
+        const cacheData = await redisClient.get(key);
+        if (cacheData) {
+            return res.status(200).json(new ApiResponse(200, JSON.parse(cacheData), "Sub Category Fetch Successfully"));
+        }
 
         // Calculate the number of documents to skip
         const skip = (pageNumber - 1) * limitNumber;
@@ -61,6 +72,9 @@ const getProductByCategoryWithSubCategory = asyncHandler(async (req, res) => {
             return res.status(200).json(new ApiResponse(200, { products: [], pageNumber, totalPages }, "No Sub Category Found"));
         }
 
+        // Setting the data in cache
+        await redisClient.setEx(key, 300, JSON.stringify({ products, pageNumber, totalPages }));
+
         // Return The Pagination Sub Category With Metadata
         return res.status(200).json(new ApiResponse(200, { products, pageNumber, totalPages }, "Sub Category Fetch Successfully"));
     } catch (error) {
@@ -71,6 +85,13 @@ const getProductByCategoryWithSubCategory = asyncHandler(async (req, res) => {
 // Get Product by Product Slug
 const getProductBySlug = asyncHandler(async (req, res) => {
     const { productSlug } = req.params;
+    const key = generateCacheKey(req);
+
+    // Check if data exists in Redis cache
+    const cacheData = await redisClient.get(key);
+    if (cacheData) {
+        return res.status(200).json(new ApiResponse(200, JSON.parse(cacheData), "Product Fetch Successfully"));
+    }
 
     try {
         const product = await Product.aggregate([
@@ -136,6 +157,9 @@ const getProductBySlug = asyncHandler(async (req, res) => {
             return res.status(404).json(new ApiResponse(404, null, "Product Not Found"));
         }
 
+        // Setting the data in cache
+        await redisClient.setEx(key, 120, JSON.stringify(product[0]));
+
         return res.status(200).json(new ApiResponse(200, product[0], "Product Fetch Successfully"));
     } catch (error) {
         return res.status(500).json(new ApiError(500, error.message));
@@ -166,8 +190,17 @@ const searchProducts = asyncHandler(async (req, res) => {
 
 // new arrivals
 const newArrivals = asyncHandler(async (req, res) => {
+    const key = generateCacheKey(req);
+
+    // Check if data exists in Redis cache
+    const cacheData = await redisClient.get(key);
+    if (cacheData) {
+        return res.status(200).json(new ApiResponse(200, JSON.parse(cacheData), "New Arrivals Product Fetched Successfully"));
+    }
     try {
         const newArrivalsProducts = await Product.find().sort({ createdAt: -1 }).limit(9).select("productName productSlug productFeatureImage productShortDescription ratings");
+        // Setting the data in cache
+        await redisClient.setEx(key, 600, JSON.stringify(newArrivalsProducts));
 
         return res.status(200).json(new ApiResponse(200, newArrivalsProducts, "New Arrivals Product Fetched Successfully"));
     } catch (_error) {
@@ -178,6 +211,13 @@ const newArrivals = asyncHandler(async (req, res) => {
 // Get Products By Category
 const getProductByCategory = asyncHandler(async (req, res) => {
     const { category } = req.query;
+    const key = generateCacheKey(req);
+
+    // Check if data exists in Redis cache
+    const cacheData = await redisClient.get(key);
+    if (cacheData) {
+        return res.status(200).json(new ApiResponse(200, JSON.parse(cacheData), "Product Fetched Successfully"));
+    }
 
     if (!category?.trim()) {
         return res.status(422).json(new ApiError(422, "Category Id Is Required"));
@@ -193,6 +233,9 @@ const getProductByCategory = asyncHandler(async (req, res) => {
             .limit(9)
             .select("productName productSlug productFeatureImage productShortDescription ratings");
 
+        // Setting the data in cache
+        await redisClient.setEx(key, 600, JSON.stringify(categoryProducts));
+
         return res.status(200).json(new ApiResponse(200, categoryProducts, "Product Fetched Successfully"));
     } catch (_error) {
         return res.status(500).json(new ApiError(500, "Something Went Wrong! While Fetching Of Products With Category"));
@@ -202,6 +245,7 @@ const getProductByCategory = asyncHandler(async (req, res) => {
 // Get Product By Product Id
 const getProductById = asyncHandler(async (req, res) => {
     const { productId } = req.params;
+    
     if (!productId) {
         return res.status(422).json(new ApiError(422, "Product ID Is Required"));
     }
@@ -374,8 +418,8 @@ const editProductReview = asyncHandler(async (req, res) => {
 // Fetching Product Review Based on The Product ID
 const productReview = asyncHandler(async (req, res) => {
     const { productId } = req.params;
+    
     try {
-        // const productReviews = await Review.find({ productId }).select("rating title comment");
         const productReviews = await Review.aggregate([
             {
                 $match: { productId: new mongoose.Types.ObjectId(productId) },
@@ -412,4 +456,5 @@ const productReview = asyncHandler(async (req, res) => {
         return res.status(500).json(new ApiError(500, "Something Went Wrong! While Fetching Product Review"));
     }
 });
+
 export { getProductByCategoryWithSubCategory, getProductBySlug, searchProducts, newArrivals, getProductByCategory, addProductReview, editProductReview, getProductById, productReview };

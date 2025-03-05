@@ -1,11 +1,22 @@
+import redisClient from "../config/redis.js";
 import { Blog } from "../models/blog.model.js";
 import { ApiError, ApiResponse, asyncHandler } from "../utils/index.js";
+import { generateCacheKey } from "../utils/redis.utils.js";
 
 // Get Blogs
 const getBlogs = asyncHandler(async (req, res) => {
     try {
         let page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 9;
+
+        // Generate a Unique cache key based on page & limit
+        const key = generateCacheKey(req);
+
+        // Check if data exists in Redis cache
+        const cacheData = await redisClient.get(key);
+        if (cacheData) {
+            return res.status(200).json(new ApiResponse(200, JSON.parse(cacheData), "Blogs Fetch Successfully"));
+        }
 
         // Calculate the number of documents to skip
         const skip = (page - 1) * limit;
@@ -29,6 +40,9 @@ const getBlogs = asyncHandler(async (req, res) => {
             return res.status(200).json(new ApiResponse(200, { blogs: [], page, totalPages }, "No Blogs Found"));
         }
 
+        // Setting the data in cache
+        await redisClient.setEx(key, 600, JSON.stringify({ blogs, page, totalPages }));
+        
         return res.status(200).json(new ApiResponse(200, { blogs, page, totalPages }, "Blogs Fetch Successfully"));
     } catch (_error) {
         return res.status(500).json(new ApiError(500, "Something Went Wrong! While Fetching Blogs"));

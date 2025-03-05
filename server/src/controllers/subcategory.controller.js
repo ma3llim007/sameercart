@@ -1,14 +1,25 @@
+import redisClient from "../config/redis.js";
 import { Category } from "../models/category.model.js";
 import { SubCategory } from "../models/subCategory.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { generateCacheKey } from "../utils/redis.utils.js";
 
 // all Sub-categories
 const subcategories = asyncHandler(async (req, res) => {
     try {
         let page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 9;
+
+        // Generate a Unique cache key based on page & limit
+        const key = generateCacheKey(req);
+
+        // Check if data exists in Redis cache
+        const cacheData = await redisClient.get(key);
+        if (cacheData) {
+            return res.status(200).json(new ApiResponse(200, JSON.parse(cacheData), "Sub Category Fetch Successfully"));
+        }
 
         // Calculate the number of documents to skip
         const skip = (page - 1) * limit;
@@ -32,6 +43,9 @@ const subcategories = asyncHandler(async (req, res) => {
             return res.status(200).json(new ApiResponse(200, { subcategories: [], page, totalPages }, "No Sub Category Found"));
         }
 
+        // Setting the data in cache
+        await redisClient.setEx(key, 600, JSON.stringify({ subcategories, page, totalPages }));
+
         // Return the paginated categories with metadata
         return res.status(200).json(new ApiResponse(200, { subcategories, page, totalPages }, "Sub Category Fetch Successfully"));
     } catch (error) {
@@ -51,6 +65,14 @@ const subCategoryByCategory = asyncHandler(async (req, res) => {
         let page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 9;
 
+        // Generate a Unique cache key based on page & limit
+        const key = generateCacheKey(req);
+
+        // Check if data exists in Redis cache
+        const cacheData = await redisClient.get(key);
+        if (cacheData) {
+            return res.status(200).json(new ApiResponse(200, JSON.parse(cacheData), "Sub Category Fetch Successfully"));
+        }
         // Calculate the number of documents to skip
         const skip = (page - 1) * limit;
 
@@ -75,6 +97,9 @@ const subCategoryByCategory = asyncHandler(async (req, res) => {
         if (!subCategorys.length) {
             return res.status(200).json(new ApiResponse(200, { subCategory: [], page, totalPages }, "No Sub Category Found"));
         }
+
+        // Setting the data in cache
+        await redisClient.setEx(key, 600, JSON.stringify({ subCategorys, page, totalPages }));
 
         // Return The Pagination Sub Category With Metadata
         return res.status(200).json(new ApiResponse(200, { subCategorys, page, totalPages }, "Sub Category Fetch Successfully"));

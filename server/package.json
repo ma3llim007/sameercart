@@ -32,11 +32,13 @@
         "passport-google-oauth20": "^2.0.0",
         "passport-jwt": "^4.0.1",
         "razorpay": "^2.9.5",
+        "redis": "^4.7.0",
         "uuid": "^11.0.5",
         "webp-converter": "^2.3.3"
     },
     "devDependencies": {
         "@eslint/js": "^9.17.0",
+        "autocannon": "^8.0.0",
         "eslint": "^9.17.0",
         "globals": "^15.14.0",
         "nodemon": "^3.1.7",
