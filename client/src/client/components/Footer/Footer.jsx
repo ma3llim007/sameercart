@@ -78,6 +78,8 @@ const Footer = () => {
                         <div className="relative w-full mt-2 overflow-hidden">
                             <input
                                 type="email"
+                                id="newsletter"
+                                name="newsletter"
                                 className="block p-3 w-full z-20 bg-light-bgWhite text-black border-none rounded-lg ring-transparent outline-none px-2 font-medium lg:text-base"
                                 placeholder="Enter Your Email Here"
                                 required

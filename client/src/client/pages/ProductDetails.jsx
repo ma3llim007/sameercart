@@ -11,7 +11,6 @@ import { FaCartPlus, FaFacebook, FaHeart, FaInstagram, FaRupeeSign, FaTwitter, F
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge, Input } from "@/components";
-import { FaShuffle } from "react-icons/fa6";
 import { addToCart } from "@/features/home/cartSlice";
 import { useDispatch } from "react-redux";
 import { addToWishList } from "@/features/home/wishlistSlice";
@@ -292,24 +291,53 @@ const ProductDetails = () => {
                             {/* Quantity Controls */}
                             <div className="flex items-center gap-4">
                                 <div className="flex justify-center items-center gap-4">
-                                    <Button onClick={() => handleQuantityChange("decrement")} disabled={quantity === 1} className="text-2xl" variant="outline">
+                                    <Button
+                                        onClick={() => handleQuantityChange("decrement")}
+                                        disabled={
+                                            quantity === 1 ||
+                                            (productData?.productType === "variable" && selectedVariant?.stockQuantity <= 0) ||
+                                            (productData?.productType === "simple" && productData?.productStock <= 0)
+                                        }
+                                        className="text-2xl"
+                                        variant="outline"
+                                    >
                                         -
                                     </Button>
-                                    <Input value={quantity || 1} readOnly className="text-center" />
-                                    <Button onClick={() => handleQuantityChange("increment")} variant="outline" disabled={quantity === 10}>
+                                    <Input
+                                        disabled={
+                                            (productData?.productType === "variable" && selectedVariant?.stockQuantity <= 0) ||
+                                            (productData?.productType === "simple" && productData?.productStock <= 0)
+                                        }
+                                        value={quantity || 1}
+                                        readOnly
+                                        className="text-center"
+                                    />
+                                    <Button
+                                        onClick={() => handleQuantityChange("increment")}
+                                        variant="outline"
+                                        disabled={
+                                            quantity === 10 ||
+                                            (productData?.productType === "variable" && selectedVariant?.stockQuantity <= 0) ||
+                                            (productData?.productType === "simple" && productData?.productStock <= 0)
+                                        }
+                                    >
                                         +
                                     </Button>
                                 </div>
-                                <Button onClick={handleAddToCart} className="text-base Primary" title="Add To Cart">
+                                <Button
+                                    disabled={
+                                        (productData?.productType === "variable" && selectedVariant?.stockQuantity <= 0) || (productData?.productType === "simple" && productData?.productStock <= 0)
+                                    }
+                                    onClick={handleAddToCart}
+                                    className="text-base Primary"
+                                    title="Add To Cart"
+                                >
                                     <FaCartPlus /> Add To Cart
                                 </Button>
                             </div>
                             <div className="flex items-center gap-4">
                                 <Button onClick={handleAddToWishList} className="text-base Teal" title="Add To Wishlist">
                                     <FaHeart /> Add To Wishlist
-                                </Button>
-                                <Button className="text-base Purple" title="Add To Compare">
-                                    <FaShuffle /> Add To Compare
                                 </Button>
                             </div>
                             {/* Sharing Links */}

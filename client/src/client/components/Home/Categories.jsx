@@ -68,7 +68,9 @@ const Categories = ({ categories }) => {
                                             </Link>
                                         ))}
                                     </ul>
-                                    <Button className="Primary uppercase">View All</Button>
+                                    <Link to={`/sub-category/${category.categorySlug}`}>
+                                        <Button className="Primary uppercase w-full">View All</Button>
+                                    </Link>
                                 </div>
                             </div>
                         </SwiperSlide>

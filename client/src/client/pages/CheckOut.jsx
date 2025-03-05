@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaHome, FaRupeeSign } from "react-icons/fa";
 import { FaBagShopping } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
-import { Badge, Input, TextArea } from "@/components";
+import { Badge, Input, LoadingOverlay, TextArea } from "@/components";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import crudService from "@/api/crudService";
@@ -29,8 +29,7 @@ const CheckOut = () => {
     const dispatch = useDispatch();
     const queryClient = useQueryClient();
     if (!carts.length) {
-        toastService.info("Your Cart Is Empty So Can't Access The CheckOut Page");
-        navigate("/");
+        navigate("/account/dashboard");
     }
 
     const {
@@ -238,7 +237,8 @@ const CheckOut = () => {
         }
     };
     useTopScroll(0, [createOrderIsPending, payNowOrderIsPending]);
-    if (DataIsPending || createOrderIsPending || payNowOrderIsPending) return <Loader />;
+    if (DataIsPending) return <Loader />;
+    if (createOrderIsPending || payNowOrderIsPending) return <LoadingOverlay />;
 
     return (
         <>

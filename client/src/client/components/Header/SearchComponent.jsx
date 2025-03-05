@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -6,6 +6,7 @@ import { capitalizeWords } from "@/utils";
 import useSearchQuery from "@/client/hooks/useSearchQuery";
 
 const SearchComponent = ({ topMargin }) => {
+    const id = useId();
     const [query, setQuery] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
     const searchRef = useRef(null);
@@ -32,7 +33,8 @@ const SearchComponent = ({ topMargin }) => {
                     <div className="relative w-full">
                         <input
                             type="text"
-                            id="search"
+                            name={id}
+                            id={id}
                             className="block w-full px-4 py-2 text-base lg:text-lg xl:text-lg 2xl:text-lg bg-light-bgGray placeholder-gray-500 rounded border border-transparent focus:ring-2 focus:ring-light-blue focus:outline-none transition-all duration-200 ease-in-out dark:bg-dark-bgLightGray dark:text-white dark:placeholder-gray-300 dark:focus:ring-dark-light"
                             placeholder="Enter Your Search Key..."
                             required

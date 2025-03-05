@@ -2,6 +2,9 @@ import mongoose, { isValidObjectId } from "mongoose";
 import { Order } from "../../models/order.model.js";
 import { ApiError, ApiResponse, asyncHandler, sendOrderStatusEmail } from "../../utils/index.js";
 import { User } from "../../models/user.model.js";
+import { OrderItem } from "../../models/orderItem.model.js";
+import { Product } from "../../models/product.model.js";
+import { Variant } from "../../models/variant.model.js";
 
 // Get Orders
 const getOrder = asyncHandler(async (req, res) => {
@@ -309,6 +312,21 @@ const shippingOrderAction = asyncHandler(async (req, res) => {
         }
 
         await order.save();
+
+        // Fetch Order Items Properly
+        const orderItems = await OrderItem.find({
+            _id: { $in: order.orderItems },
+        });
+
+        // Loop through order items and update stock
+        for (const item of orderItems) {
+            if (!item.variantId) {
+                await Product.updateOne({ _id: item.productId }, { $inc: { productStock: -item.quantity } });
+            } else {
+                await Variant.updateOne({ _id: item.variantId }, { $inc: { stockQuantity: -item.quantity } });
+            }
+        }
+
         try {
             await sendOrderStatusEmail(user, order, {
                 title: "Your Order Successfully Delivered To You",
