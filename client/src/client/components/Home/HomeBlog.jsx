@@ -44,7 +44,7 @@ const HomeBlog = () => {
                         />
                         <div className="flex flex-col gap-5 p-2">
                             <Link to={`/blog-detail/${blog?.blogSlug}`}>
-                                <h4 className="text-base sm:text-xl xl:text-2xl font-semibold whitespace-nowrap overflow-hidden text-ellipsis text-light-blue dark:text-dark-light">
+                                <h4 className="text-base sm:text-xl xl:text-2xl font-semibold whitespace-nowrap overflow-hidden text-ellipsis text-light-blue dark:text-white">
                                     {capitalizeWords(blog?.blogTitle)}
                                 </h4>
                             </Link>
