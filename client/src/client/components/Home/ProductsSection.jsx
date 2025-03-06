@@ -70,14 +70,14 @@ const ProductsSection = ({ title = "Featured Products", productData }) => {
                 ))}
             </Swiper>
             <button
-                className="absolute z-20 text-base mx-5 top-1/2 left-4 transform -translate-y-1/2 bg-light-bgWhite text-light-textDarkGray dark:bg-dark-bgDark dark:text-dark-textWhite p-2 rounded-full shadow"
+                className="absolute z-10 text-base mx-5 top-1/2 left-4 transform -translate-y-1/2 bg-light-bgWhite text-light-textDarkGray dark:bg-dark-bgDark dark:text-dark-textWhite p-2 rounded-full shadow"
                 onClick={() => swiperRef.current.slidePrev()}
             >
                 <FaArrowAltCircleLeft />
             </button>
 
             <button
-                className="absolute z-20 text-base mx-5 top-1/2 right-4 transform -translate-y-1/2 bg-light-bgWhite text-light-textDarkGray dark:bg-dark-bgDark dark:text-dark-textWhite p-2 rounded-full shadow"
+                className="absolute z-10 text-base mx-5 top-1/2 right-4 transform -translate-y-1/2 bg-light-bgWhite text-light-textDarkGray dark:bg-dark-bgDark dark:text-dark-textWhite p-2 rounded-full shadow"
                 onClick={() => swiperRef.current.slideNext()}
             >
                 <FaArrowAltCircleRight />
