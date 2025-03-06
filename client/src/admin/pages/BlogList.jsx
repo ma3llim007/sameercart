@@ -4,11 +4,12 @@ import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { formatDateTime } from "@/utils";
 import { Button } from "@/components/ui/button";
-import { LoadingOverlay } from "@/components";
 import Loader from "@/client/components/Loader/Loader";
 import ButtonWithAlert from "../components/ButtonWithAlert";
 import PageHeader from "../components/PageHeader";
 import Table from "../components/Table";
+import LoadingOverlay from "@/components/LoadingOverlay";
+import { Helmet } from "react-helmet-async";
 
 const BlogList = () => {
     const navigate = useNavigate();
@@ -84,6 +85,11 @@ const BlogList = () => {
     if (deleteIsPending) return <LoadingOverlay />;
     return (
         <>
+            <Helmet>
+                <title>Manage Blog Posts | sameerCart</title>
+                <meta name="description" content="View and manage all blog posts on sameerCart. Edit, delete, and update content." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Blogs"} controller={"Blogs"} controllerUrl={"/admin/blogs/blog-list"} page={"Blog's List"} />
             <Table columns={blogColums} data={blogData} paginationOptions={{ pageSize: 10 }} sortable loading={isLoading} />
         </>

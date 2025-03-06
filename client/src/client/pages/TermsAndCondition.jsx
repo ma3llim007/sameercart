@@ -2,10 +2,20 @@ import termsAndcondition from "../assets/banner/terms_and_conditions.webp";
 import { Link } from "react-router-dom";
 import Banner from "../components/Banner";
 import Container from "../components/Container";
+import { Helmet } from "react-helmet-async";
 
 const TermsAndCondition = () => {
     return (
         <>
+            <Helmet>
+                <title>Terms and Conditions - SameerCart</title>
+                <meta name="description" content="Read the terms and conditions of SameerCart. Learn about our policies on purchases, returns, and usage." />
+                <meta name="keywords" content="terms and conditions, SameerCart policies, online shopping rules, ecommerce guidelines" />
+                <meta property="og:title" content="Terms and Conditions - SameerCart" />
+                <meta property="og:description" content="Check out the terms and conditions of using SameerCart's services." />
+                <meta property="og:url" content="https://sameercart.com/terms-and-conditions" />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
             <Banner image={termsAndcondition} title={"Terms And Condition"} />
             <Container>
                 <section className="w-full my-10 space-y-5">
@@ -13,8 +23,11 @@ const TermsAndCondition = () => {
                         <h1 className="text-3xl font-bold text-light-blue dark:text-dark-light mb-2">Introduction</h1>
                         <p className="text-lg">
                             Welcome to SameerCart. By accessing and using this website, you agree to comply with and be bound by the following Terms and Conditions. These terms govern your use of the
-                            website and services offered by SameerCart located at <Link className="text-dark-link" to={"/"}>http://localhost:5173/</Link>. If you do not agree with any part of these terms, please discontinue
-                            using our website.
+                            website and services offered by SameerCart located at{" "}
+                            <Link className="text-dark-link" to={"/"}>
+                                http://localhost:5173/
+                            </Link>
+                            . If you do not agree with any part of these terms, please discontinue using our website.
                         </p>
                     </div>
                     <div className="w-full">

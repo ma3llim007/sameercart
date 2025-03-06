@@ -8,10 +8,12 @@ import { slugTransform } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { FaEdit } from "react-icons/fa";
 import crudService from "@/api/crudService";
-import { Input, LoadingOverlay } from "@/components";
 import toastService from "@/services/toastService";
 import PageHeader from "../components/PageHeader";
 import Loading from "../components/Loading";
+import LoadingOverlay from "@/components/LoadingOverlay";
+import Input from "@/components/Form/Input";
+import { Helmet } from "react-helmet-async";
 
 const EditCategory = () => {
     const queryClient = useQueryClient();
@@ -96,6 +98,11 @@ const EditCategory = () => {
     if (isPending) return <LoadingOverlay />;
     return (
         <>
+            <Helmet>
+                <title>Edit Category | sameerCart</title>
+                <meta name="description" content="Modify an existing product category in sameerCart admin panel. Update category name, description, and status." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Category"} controller={"Category"} controllerUrl={"/admin/category/edit-category/"} page={"Edit Category"} />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800">

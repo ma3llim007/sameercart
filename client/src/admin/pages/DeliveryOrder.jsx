@@ -1,6 +1,6 @@
 import crudService from "@/api/crudService";
 import Loader from "@/client/components/Loader/Loader";
-import { Badge } from "@/components";
+import Badge from "@/components/Badge";
 import { Button } from "@/components/ui/button";
 import toastService from "@/services/toastService";
 import { capitalizeWords, formatDateTime, formatNumberWithCommas, paymentStatusClass, statusClass } from "@/utils";
@@ -9,6 +9,7 @@ import { FaRupeeSign } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import Table from "../components/Table";
 import PageHeader from "../components/PageHeader";
+import { Helmet } from "react-helmet-async";
 
 const DeliveryOrder = () => {
     const navigate = useNavigate();
@@ -119,6 +120,11 @@ const DeliveryOrder = () => {
     if (isPending) return <Loader />;
     return (
         <>
+            <Helmet>
+                <title>Delivered Orders | sameerCart</title>
+                <meta name="description" content="View and manage all delivered orders in sameerCart admin panel. Track successful transactions." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Order's"} controller={"Delivery Orders"} controllerUrl={"/admin/orders/delivery-order/"} />
             <Table columns={orderColumns} data={orderData} emptyMessage="Delivery Order Is Not Found" loading={isPending} paginationOptions={{ pageSize: 10 }} sortable />
         </>

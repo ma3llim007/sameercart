@@ -6,13 +6,17 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { slugTransform } from "@/utils";
-import { Input, LoadingOverlay, RichTextEditor, TextArea } from "@/components";
 import { Button } from "@/components/ui/button";
 import { FaEdit } from "react-icons/fa";
 import Loader from "@/client/components/Loader/Loader";
 import { editBlogScheme } from "@/validation/admin/blogScheme";
 import PageHeader from "../components/PageHeader";
 import Loading from "../components/Loading";
+import LoadingOverlay from "@/components/LoadingOverlay";
+import Input from "@/components/Form/Input";
+import TextArea from "@/components/Form/TextArea";
+import RichTextEditor from "@/components/Form/RichTextEditor";
+import { Helmet } from "react-helmet-async";
 
 const EditBlog = () => {
     const queryClient = useQueryClient();
@@ -103,6 +107,11 @@ const EditBlog = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Edit Blog Post | sameerCart</title>
+                <meta name="description" content="Modify and update an existing blog post in sameerCart admin panel. Manage SEO and content optimization." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Blogs"} controller={"Blog Listing"} controllerUrl={"/admin/blogs/add-blog/"} page={"Edit Blog"} />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800">

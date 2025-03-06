@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import returnPolicyBanner from "../assets/banner/return_policy.webp";
 import Banner from "../components/Banner";
 import Container from "../components/Container";
@@ -5,6 +6,16 @@ import Container from "../components/Container";
 const ReturnPolicy = () => {
     return (
         <>
+            <Helmet>
+                <title>Return & Refund Policy - SameerCart</title>
+                <meta name="description" content="Learn about SameerCart's return and refund policy. Hassle-free returns and easy refunds for your online shopping." />
+                <meta name="keywords" content="return policy, refund policy, SameerCart returns, product exchange, money-back guarantee" />
+                <meta property="og:title" content="Return & Refund Policy - SameerCart" />
+                <meta property="og:description" content="Need to return a product? Check out SameerCart's easy return and refund policy for hassle-free shopping." />
+                <meta property="og:url" content="https://sameercart.com/return-policy" />
+                <meta property="og:type" content="website" />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
             <Banner title={"Return Policy"} image={returnPolicyBanner} />
             <Container>
                 <section className="w-full my-10">

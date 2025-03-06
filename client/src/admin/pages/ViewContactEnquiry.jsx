@@ -7,6 +7,7 @@ import { capitalizeWords } from "@/utils";
 import PageHeader from "../components/PageHeader";
 import { Button } from "@/components/ui/button";
 import { FaBackward, FaReply } from "react-icons/fa";
+import { Helmet } from "react-helmet-async";
 
 const ViewContactEnquiry = () => {
     const { contactId } = useParams();
@@ -30,6 +31,11 @@ const ViewContactEnquiry = () => {
     if (isLoading) return <Loading />;
     return (
         <>
+            <Helmet>
+                <title>View Enquiry | sameerCart</title>
+                <meta name="description" content="Check details of customer contact enquiries in sameerCart admin panel." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Enquiry's"} controller={"All Enquiry"} controllerUrl={"/admin/enquiry/contact-list/"} page={"View Enquiry"} />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800 space-y-5">

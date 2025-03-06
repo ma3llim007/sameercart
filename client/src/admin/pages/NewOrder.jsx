@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
-import { Badge } from "@/components";
+import Badge from "@/components/Badge";
 import { Link, useNavigate } from "react-router-dom";
 import { capitalizeWords, formatDateTime, formatNumberWithCommas, paymentStatusClass, statusClass } from "@/utils";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { FaRupeeSign } from "react-icons/fa";
 import Loader from "@/client/components/Loader/Loader";
 import Table from "../components/Table";
 import PageHeader from "../components/PageHeader";
+import { Helmet } from "react-helmet-async";
 
 const NewOrder = () => {
     const navigate = useNavigate();
@@ -119,6 +120,11 @@ const NewOrder = () => {
     if (isPending) return <Loader />;
     return (
         <>
+            <Helmet>
+                <title>New Orders | sameerCart</title>
+                <meta name="description" content="View and manage newly placed orders in sameerCart admin panel. Process and confirm orders efficiently." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Order's"} controller={"New Order's"} controllerUrl={"/admin/orders/new-order/"} />
             <Table columns={orderColumns} data={orderData} emptyMessage="New Order Is Not Found" loading={isPending} paginationOptions={{ pageSize: 10 }} sortable />
         </>

@@ -8,18 +8,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { capitalizeWords, formatNumberWithCommas } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { FaRupeeSign, FaTrash } from "react-icons/fa";
-import { Badge, Input } from "@/components";
 import { upperCase } from "lodash";
 import { clearCart, decrementQuanity, incrementQuanity, removeFromCart } from "@/features/home/cartSlice";
 import toastService from "@/services/toastService";
 import Banner from "../components/Banner";
 import Container from "../components/Container";
+import Badge from "@/components/Badge";
+import Input from "@/components/Form/Input";
+import { Helmet } from "react-helmet-async";
 
 const Cart = () => {
     const { carts, totalCartPrice } = useSelector(state => state.cart);
     const dispatch = useDispatch();
     return (
         <>
+            <Helmet>
+                <title>Your Shopping Cart - SameerCart</title>
+                <meta name="description" content="Review your selected products before proceeding to checkout on SameerCart." />
+                <meta property="og:title" content="Your Shopping Cart - SameerCart" />
+                <meta property="og:description" content="View your cart and proceed to a seamless checkout experience on SameerCart." />
+                <meta name="robots" content="noindex, follow" />
+            </Helmet>
             <Banner title={"Cart"} image={bannerImage}>
                 <Breadcrumb>
                     <BreadcrumbList className="text-lg">

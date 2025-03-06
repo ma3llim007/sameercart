@@ -11,6 +11,7 @@ import { upperFirst } from "lodash";
 import useTopScroll from "../hooks/useTopScroll";
 import Banner from "../components/Banner";
 import Container from "../components/Container";
+import { Helmet } from "react-helmet-async";
 
 const AllCategory = () => {
     const [page, setPage] = useState(1);
@@ -33,6 +34,16 @@ const AllCategory = () => {
     if (isLoading || isFetching) return <Loader />;
     return (
         <>
+            <Helmet>
+                <title>Shop by Category - SameerCart</title>
+                <meta name="description" content="Explore a wide range of product categories on SameerCart. Find the best deals on fashion, electronics, home essentials, and more." />
+                <meta name="keywords" content="shopping categories, online store, buy online, best deals, SameerCart categories" />
+                <meta property="og:title" content="Shop by Category - SameerCart" />
+                <meta property="og:description" content="Browse and shop from various categories on SameerCart. Discover top deals today!" />
+                <meta property="og:url" content="https://sameercart.com/category" />
+                <meta property="og:type" content="website" />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
             <Banner title={"Category"} image={bannerImage}>
                 <Breadcrumb>
                     <BreadcrumbList className="text-lg">

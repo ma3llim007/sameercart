@@ -2,10 +2,21 @@ import legalNoticeBanner from "../assets/banner/legal_notice.webp";
 import { Link } from "react-router-dom";
 import Banner from "../components/Banner";
 import Container from "../components/Container";
+import { Helmet } from "react-helmet-async";
 
 const LegalNotice = () => {
     return (
         <>
+            <Helmet>
+                <title>Return & Refund Policy - SameerCart</title>
+                <meta name="description" content="Learn about SameerCart's return and refund policy. Hassle-free returns and easy refunds for your online shopping." />
+                <meta name="keywords" content="return policy, refund policy, SameerCart returns, product exchange, money-back guarantee" />
+                <meta property="og:title" content="Return & Refund Policy - SameerCart" />
+                <meta property="og:description" content="Need to return a product? Check out SameerCart's easy return and refund policy for hassle-free shopping." />
+                <meta property="og:url" content="https://sameercart.com/return-policy" />
+                <meta property="og:type" content="website" />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
             <Banner image={legalNoticeBanner} title={"Legal Notice"} />
             <Container>
                 <section className="w-full my-10 p-4">

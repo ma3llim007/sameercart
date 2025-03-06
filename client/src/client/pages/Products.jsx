@@ -17,6 +17,7 @@ import { addToCart } from "@/features/home/cartSlice";
 import { addToWishList } from "@/features/home/wishlistSlice";
 import Banner from "../components/Banner";
 import Container from "../components/Container";
+import { Helmet } from "react-helmet-async";
 
 const Products = () => {
     const { categorySlug, subCategorySlug } = useParams();
@@ -45,6 +46,16 @@ const Products = () => {
     if (isLoading) return <Loader />;
     return (
         <>
+            <Helmet>
+                <title>{subCategorySlug.replace("-", " ")} Products - SameerCart</title>
+                <meta name="description" content={`Buy top-quality ${subCategorySlug.replace("-", " ")} products at the best prices on SameerCart. Fast delivery and secure shopping.`} />
+                <meta name="keywords" content={`${subCategorySlug}, buy ${subCategorySlug} online, best ${subCategorySlug} products, SameerCart`} />
+                <meta property="og:title" content={`${subCategorySlug.replace("-", " ")} Products - SameerCart`} />
+                <meta property="og:description" content={`Discover the latest ${subCategorySlug.replace("-", " ")} collection on SameerCart. Shop now!`} />
+                <meta property="og:url" content={`https://sameercart.com/${categorySlug}/${subCategorySlug}/products`} />
+                <meta property="og:type" content="website" />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
             <Banner title={"Products"} image={bannerImage}>
                 <Breadcrumb>
                     <BreadcrumbList className="text-lg">

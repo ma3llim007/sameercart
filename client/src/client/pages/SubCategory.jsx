@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import useTopScroll from "../hooks/useTopScroll";
 import Banner from "../components/Banner";
 import Container from "../components/Container";
+import { Helmet } from "react-helmet-async";
 
 const SubCategory = () => {
     const { categorySlug } = useParams();
@@ -34,6 +35,16 @@ const SubCategory = () => {
     if (isLoading) return <Loader />;
     return (
         <>
+            <Helmet>
+                <title>{categorySlug.replace("-", " ")} - Buy Online | SameerCart</title>
+                <meta name="description" content={`Shop the best ${categorySlug.replace("-", " ")} on SameerCart. High-quality products at unbeatable prices.`} />
+                <meta name="keywords" content={`${categorySlug}, buy ${categorySlug} online, best ${categorySlug}, SameerCart`} />
+                <meta property="og:title" content={`${categorySlug.replace("-", " ")} - Buy Online | SameerCart`} />
+                <meta property="og:description" content={`Discover top-rated ${categorySlug.replace("-", " ")} products on SameerCart and shop hassle-free.`} />
+                <meta property="og:url" content={`https://sameercart.com/sub-category/${categorySlug}`} />
+                <meta property="og:type" content="website" />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
             <Banner title={title} image={bannerImage}>
                 <Breadcrumb>
                     <BreadcrumbList className="text-lg">

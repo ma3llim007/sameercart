@@ -20,7 +20,7 @@ const ClientLayout = () => {
     if (isLoading) return <Loader />;
 
     return (
-        <div className="h-screen w-full flex flex-col overflow-x-hidden">
+        <div className="min-h-screen w-full flex flex-col !overflow-x-hidden">
             <Header data={data} />
             <main className="flex-grow">
                 <Outlet />

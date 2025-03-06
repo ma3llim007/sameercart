@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import Loading from "../components/Loading";
+import { Helmet } from "react-helmet-async";
 
 const COLORS = ["#3b82f6", "#ef4444", "#f59e0b", "#10b981", "#a855f7", "#6366f1", "#ec4899", "#22d3ee", "#84cc16", "#f43f5e", "#eab308", "#14b8a6", "#db2777", "#8b5cf6"];
 
@@ -65,6 +66,11 @@ const Dashboard = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Admin Dashboard | sameerCart</title>
+                <meta name="description" content="Overview of website analytics, product management, and order processing in sameerCart admin panel." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Dashboard"} controller={"Dashboard"} controllerUrl={"/admin/dashboard/"} />
             <section className="container mx-auto px-4 mb-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 select-none">

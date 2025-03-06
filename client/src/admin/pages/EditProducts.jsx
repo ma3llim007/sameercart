@@ -10,12 +10,16 @@ import { slugTransform, productTypeOptions } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { FaEdit } from "react-icons/fa";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Input, LoadingOverlay, Select, TextArea } from "@/components";
 import DOMPurify from "dompurify";
 import { editProductScheme } from "@/validation/admin/ProductScheme";
 import ErrorMessage from "../components/ErrorMessage";
 import PageHeader from "../components/PageHeader";
 import Loading from "../components/Loading";
+import LoadingOverlay from "@/components/LoadingOverlay";
+import Input from "@/components/Form/Input";
+import Select from "@/components/Form/Select";
+import TextArea from "@/components/Form/TextArea";
+import { Helmet } from "react-helmet-async";
 
 const EditProducts = () => {
     const { productId } = useParams();
@@ -183,6 +187,11 @@ const EditProducts = () => {
     }
     return (
         <>
+            <Helmet>
+                <title>Edit Product | sameerCart</title>
+                <meta name="description" content="Update product details, pricing, images, and stock availability in sameerCart admin panel." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Products"} controller={"Products"} controllerUrl={"/admin/products/products-list"} page={"Edit Product's"} />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800">

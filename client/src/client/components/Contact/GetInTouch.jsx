@@ -1,5 +1,4 @@
 import crudService from "@/api/crudService";
-import { Input, TextArea } from "@/components";
 import { Button } from "@/components/ui/button";
 import toastService from "@/services/toastService";
 import { contactUsScheme } from "@/validation/UserScheme";
@@ -9,6 +8,8 @@ import { useForm } from "react-hook-form";
 import { FaFacebook, FaGlobe, FaInstagram, FaLinkedinIn, FaPhoneAlt, FaTwitter } from "react-icons/fa";
 import { IoLocation } from "react-icons/io5";
 import Loader from "../Loader/Loader";
+import Input from "@/components/Form/Input";
+import TextArea from "@/components/Form/TextArea";
 
 const GetInTouch = () => {
     const {

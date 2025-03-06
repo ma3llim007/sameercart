@@ -1,6 +1,6 @@
 import crudService from "@/api/crudService";
 import Loader from "@/client/components/Loader/Loader";
-import { Badge } from "@/components";
+import Badge from "@/components/Badge";
 import { Button } from "@/components/ui/button";
 import toastService from "@/services/toastService";
 import { capitalizeWords, formatDateTime, formatNumberWithCommas, paymentStatusClass, statusClass } from "@/utils";
@@ -9,6 +9,7 @@ import { FaRupeeSign } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import PageHeader from "../components/PageHeader";
 import Table from "../components/Table";
+import { Helmet } from "react-helmet-async";
 
 const AllOrder = () => {
     const navigate = useNavigate();
@@ -120,6 +121,11 @@ const AllOrder = () => {
     if (isPending) return <Loader />;
     return (
         <>
+            <Helmet>
+                <title>All Orders | sameerCart</title>
+                <meta name="description" content="View and manage all orders in the admin panel of sameerCart. Track order status, history, and details." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Order's"} controller={"All Orders"} controllerUrl={"/admin/orders/all-order/"} />
             <Table columns={orderColumns} data={orderData} emptyMessage="Order Is Not Found" loading={isPending} paginationOptions={{ pageSize: 10 }} sortable />
         </>

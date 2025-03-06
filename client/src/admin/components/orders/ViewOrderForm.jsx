@@ -8,8 +8,10 @@ import crudService from "@/api/crudService";
 import { useNavigate } from "react-router-dom";
 import toastService from "@/services/toastService";
 import { newOrderScheme } from "@/validation/admin/OrderScheme";
-import { Input, Select, TextArea } from "@/components";
 import Loading from "../Loading";
+import Select from "@/components/Form/Select";
+import Input from "@/components/Form/Input";
+import TextArea from "@/components/Form/TextArea";
 
 const ViewOrderForm = ({ orderId, setMutateIsLoading }) => {
     const navigate = useNavigate();

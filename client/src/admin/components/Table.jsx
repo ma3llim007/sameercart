@@ -4,7 +4,7 @@ import { Table as CnTable, TableBody, TableCell, TableHead, TableHeader, TableRo
 import { Button } from "@/components/ui/button";
 import { ImSortAmountDesc, ImSortAmountAsc } from "react-icons/im";
 import Loading from "./Loading";
-import { Input } from "@/components";
+import Input from "@/components/Form/Input";
 
 const Table = ({ columns, data, paginationOptions = { pageSize: 10 }, sortable = true, loading = false, emptyMessage = "No Data Available" }) => {
     // State for global search filter

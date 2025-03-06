@@ -9,8 +9,9 @@ import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import { orderShippingActionPaymentOptions } from "@/utils/options";
 import { shippingOrderScheme } from "@/validation/admin/OrderScheme";
-import { Input, Select } from "@/components";
 import Loading from "../Loading";
+import Select from "@/components/Form/Select";
+import Input from "@/components/Form/Input";
 
 const ShippingOrderForm = ({ orderId, setIsMutationIsLoading }) => {
     const navigate = useNavigate();

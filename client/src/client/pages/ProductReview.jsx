@@ -4,7 +4,6 @@ import Banner from "../components/Banner";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Container from "../components/Container";
 import Rating from "../components/Rating";
-import { Input, TextArea } from "@/components";
 import { Button } from "@/components/ui/button";
 import Loading from "@/admin/components/Loading";
 import { FaPlus } from "react-icons/fa6";
@@ -17,6 +16,9 @@ import { capitalizeWords } from "@/utils";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { productReview } from "@/validation/UserScheme";
+import Input from "@/components/Form/Input";
+import TextArea from "@/components/Form/TextArea";
+import { Helmet } from "react-helmet-async";
 
 const ProductReview = () => {
     const { productId } = useParams();
@@ -59,7 +61,7 @@ const ProductReview = () => {
         },
         onSuccess: data => {
             toastService.success(data?.message || "Review Added Successfully. Thank You");
-            navigate(-1)
+            navigate(-1);
         },
         onError: error => {
             const message = error?.response?.data?.message || error?.message;
@@ -72,6 +74,11 @@ const ProductReview = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Product Reviews - SameerCart</title>
+                <meta name="description" content="Read reviews and share your experience with products on SameerCart." />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
             <Banner title={"Create Review"} image={bannerImage}>
                 <Breadcrumb>
                     <BreadcrumbList className="text-lg">
@@ -124,7 +131,7 @@ const ProductReview = () => {
                                 <Input
                                     placeholder="What's most important to know?"
                                     {...register("title")}
-                                    // disabled={isPending}
+                                    disabled={isPending}
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
                                     error={errors.title?.message}
                                 />
@@ -140,6 +147,7 @@ const ProductReview = () => {
                                     className="text-xl rounded-sm p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-800"
                                     rows={4}
                                     {...register("comment")}
+                                    disabled={isPending}
                                 />
                                 <p className="my-2">We will notify you via email as soon as your review is processed.</p>
                             </div>

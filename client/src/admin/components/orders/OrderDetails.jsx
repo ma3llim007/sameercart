@@ -1,4 +1,4 @@
-import { Badge } from "@/components";
+import Badge from "@/components/Badge";
 import { capitalizeWords, formatDateTime, formatNumberWithCommas, paymentStatusClass, statusClass } from "@/utils";
 import { FaRupeeSign } from "react-icons/fa";
 

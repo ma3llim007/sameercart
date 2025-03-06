@@ -11,7 +11,9 @@ import { Button } from "@/components/ui/button";
 import toastService from "@/services/toastService";
 import Loading from "../components/Loading";
 import PageHeader from "../components/PageHeader";
-import { Input, Select } from "@/components";
+import Select from "@/components/Form/Select";
+import Input from "@/components/Form/Input";
+import { Helmet } from "react-helmet-async";
 
 const EditSubCategory = () => {
     const queryClient = useQueryClient();
@@ -105,6 +107,11 @@ const EditSubCategory = () => {
     if (isLoading) return <Loading />;
     return (
         <>
+            <Helmet>
+                <title>Edit Subcategory | sameerCart</title>
+                <meta name="description" content="Modify an existing product subcategory in sameerCart admin panel. Update subcategory name and details." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title="Manage Sub-Category" controller="Sub-Category" controllerUrl="/admin/sub-category/" page="Edit Sub Category" />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800">

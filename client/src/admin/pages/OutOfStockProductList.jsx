@@ -6,10 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
 import PageHeader from "../components/PageHeader";
 import Table from "../components/Table";
 import { upperFirst } from "lodash";
-import { Badge } from "@/components";
+import Badge from "@/components/Badge";
 import { FaEye } from "react-icons/fa";
 import { formatDateTime } from "@/utils";
 import { Button } from "@/components/ui/button";
+import { Helmet } from "react-helmet-async";
 
 const OutOfStockProductList = () => {
     const navigate = useNavigate();
@@ -85,6 +86,11 @@ const OutOfStockProductList = () => {
     if (isLoading) return <Loader />;
     return (
         <>
+            <Helmet>
+                <title>Out of Stock Products | sameerCart</title>
+                <meta name="description" content="View and manage out-of-stock products in the admin panel of sameerCart. Restock products efficiently." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Product"} controller={"Product"} controllerUrl={"/admin/products/products-list"} page={"Out Of Stock Product's List"} />
             <Table columns={productColums} data={productData} paginationOptions={{ pageSize: 10 }} sortable loading={isLoading} />
         </>

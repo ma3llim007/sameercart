@@ -14,6 +14,7 @@ import HomeBanner from "../components/Home/HomeBanner";
 import HomeBlog from "../components/Home/HomeBlog";
 import BrandSection from "../components/Home/BrandSection";
 import { useMemo } from "react";
+import { Helmet } from "react-helmet-async";
 
 const Home = () => {
     // Slider Data
@@ -82,9 +83,19 @@ const Home = () => {
 
     const isLoading = popularCategoriesIsPending || newArrivalIsPending || mobileComputerIsPending || appliancesElectronicsIsPending;
     if (isLoading) return <Loader />;
-    
+
     return (
         <>
+            <Helmet>
+                <title>SameerCart - Best Online Shopping Platform</title>
+                <meta name="description" content="Shop the best products at SameerCart. Get exclusive deals on electronics, fashion, and more!" />
+                <meta name="keywords" content="SameerCart, online shopping, ecommerce, best deals, fashion, electronics" />
+                <meta property="og:title" content="SameerCart - Best Online Shopping Platform" />
+                <meta property="og:description" content="Find amazing deals on top-quality products at SameerCart." />
+                <meta property="og:image" content="https://sameercart.com/src/client/assets/Logo.svg" />
+                <meta property="og:url" content="https://sameercart.com/" />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
             <Slider sliderData={sliderData} />
             <Container>
                 <IconSection />

@@ -10,6 +10,7 @@ import OrderDetails from "@/admin/components/orders/OrderDetails";
 import OrderItem from "@/admin/components/orders/OrderItem";
 import { Button } from "@/components/ui/button";
 import Container from "../components/Container";
+import { Helmet } from "react-helmet-async";
 
 const OrderView = () => {
     const { orderId } = useParams();
@@ -29,54 +30,61 @@ const OrderView = () => {
 
     if (isPending) return <Loader />;
     return (
-        <Container>
-            <div className="w-full my-4 bg-gray-700 bg-opacity-70 py-4 px-5 rounded-md-md shadow-md select-none space-y-5">
-                <Breadcrumb className="text-white">
-                    <BreadcrumbList className="text-lg">
-                        <BreadcrumbItem className="flex items-center">
-                            <Link className="flex items-center gap-2" to="/">
-                                <FaHome /> Home
-                            </Link>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <Link className="flex items-center gap-2" to="/account/dashboard">
-                                <IoPersonCircleOutline /> Account
-                            </Link>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <Link className="flex items-center gap-2" to="/account/dashboard">
-                                <FaJediOrder /> Order
-                            </Link>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbPage>{"View Order"}</BreadcrumbPage>
-                        </BreadcrumbItem>
-                    </BreadcrumbList>
-                </Breadcrumb>
-                <hr />
-                <div className="space-y-4">
-                    <OrderDetails
-                        order={{
-                            orderId: data?.data?._id,
-                            orderDate: data.data?.orderDate,
-                            paymentStatus: data.data?.paymentStatus,
-                            orderStatus: data.data?.orderStatus,
-                            paymentType: data.data?.paymentType,
-                            totalAmount: data.data?.totalAmount,
-                            additionalInformation: data.data?.additionalInformation,
-                            completeOrderdate: data.data?.completeOrderdate,
-                        }}
-                    />
-                    <OrderItem orderItem={orderItems} orderStatus={data?.data?.orderStatus} />
-                    <Button className="Secondary" onClick={() => navigate("/account/dashboard/")}>
-                        <FaBackward /> Back To Accont Dashboad
-                    </Button>
+        <>
+            <Helmet>
+                <title>Order #{orderId} - SameerCart</title>
+                <meta name="description" content={`View details for your order #${orderId} on SameerCart.`} />
+                <meta name="robots" content="noindex, follow" />
+            </Helmet>
+            <Container>
+                <div className="w-full my-4 bg-gray-700 bg-opacity-70 py-4 px-5 rounded-md-md shadow-md select-none space-y-5">
+                    <Breadcrumb className="text-white">
+                        <BreadcrumbList className="text-lg">
+                            <BreadcrumbItem className="flex items-center">
+                                <Link className="flex items-center gap-2" to="/">
+                                    <FaHome /> Home
+                                </Link>
+                            </BreadcrumbItem>
+                            <BreadcrumbSeparator />
+                            <BreadcrumbItem>
+                                <Link className="flex items-center gap-2" to="/account/dashboard">
+                                    <IoPersonCircleOutline /> Account
+                                </Link>
+                            </BreadcrumbItem>
+                            <BreadcrumbSeparator />
+                            <BreadcrumbItem>
+                                <Link className="flex items-center gap-2" to="/account/dashboard">
+                                    <FaJediOrder /> Order
+                                </Link>
+                            </BreadcrumbItem>
+                            <BreadcrumbSeparator />
+                            <BreadcrumbItem>
+                                <BreadcrumbPage>{"View Order"}</BreadcrumbPage>
+                            </BreadcrumbItem>
+                        </BreadcrumbList>
+                    </Breadcrumb>
+                    <hr />
+                    <div className="space-y-4">
+                        <OrderDetails
+                            order={{
+                                orderId: data?.data?._id,
+                                orderDate: data.data?.orderDate,
+                                paymentStatus: data.data?.paymentStatus,
+                                orderStatus: data.data?.orderStatus,
+                                paymentType: data.data?.paymentType,
+                                totalAmount: data.data?.totalAmount,
+                                additionalInformation: data.data?.additionalInformation,
+                                completeOrderdate: data.data?.completeOrderdate,
+                            }}
+                        />
+                        <OrderItem orderItem={orderItems} orderStatus={data?.data?.orderStatus} />
+                        <Button className="Secondary" onClick={() => navigate("/account/dashboard/")}>
+                            <FaBackward /> Back To Accont Dashboad
+                        </Button>
+                    </div>
                 </div>
-            </div>
-        </Container>
+            </Container>
+        </>
     );
 };
 

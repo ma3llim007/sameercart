@@ -10,7 +10,6 @@ import Rating from "../components/Rating";
 import { FaCartPlus, FaFacebook, FaHeart, FaInstagram, FaRupeeSign, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Badge, Input } from "@/components";
 import { addToCart } from "@/features/home/cartSlice";
 import { useDispatch } from "react-redux";
 import { addToWishList } from "@/features/home/wishlistSlice";
@@ -18,6 +17,9 @@ import useTopScroll from "../hooks/useTopScroll";
 import Banner from "../components/Banner";
 import Container from "../components/Container";
 import ProductDetailsTabSection from "../components/Products/ProductDetailsTabSection";
+import Badge from "@/components/Badge";
+import Input from "@/components/Form/Input";
+import { Helmet } from "react-helmet-async";
 
 const ProductDetails = () => {
     const { productSlug } = useParams();
@@ -147,6 +149,16 @@ const ProductDetails = () => {
     if (isLoading || isFetching) return <Loader />;
     return (
         <>
+            <Helmet>
+                <title>{productSlug.replace("-", " ")} - Buy Now | SameerCart</title>
+                <meta name="description" content={`Get the best deal on ${productSlug.replace("-", " ")}. High-quality products at unbeatable prices. Shop now on SameerCart.`} />
+                <meta name="keywords" content={`${productSlug}, buy ${productSlug} online, best ${productSlug}, SameerCart`} />
+                <meta property="og:title" content={`${productSlug.replace("-", " ")} - Buy Now | SameerCart`} />
+                <meta property="og:description" content={`Find the best ${productSlug.replace("-", " ")} only on SameerCart. Fast delivery and secure payment.`} />
+                <meta property="og:url" content={`https://sameercart.com/product-details/${productSlug}`} />
+                <meta property="og:type" content="product" />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
             <Banner title={"Products"} image={bannerImage}>
                 <Breadcrumb>
                     <BreadcrumbList className="text-lg">

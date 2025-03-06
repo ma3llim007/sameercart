@@ -10,8 +10,9 @@ import { useNavigate } from "react-router-dom";
 import toastService from "@/services/toastService";
 import { addCategoryScheme } from "@/validation/admin/categorySchema";
 import PageHeader from "../components/PageHeader";
-import { Input } from "@/components";
+import Input from "@/components/Form/Input";
 import Loading from "../components/Loading";
+import { Helmet } from "react-helmet-async";
 
 const AddCategory = () => {
     const queryClient = useQueryClient();
@@ -63,6 +64,11 @@ const AddCategory = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Add Category | sameerCart</title>
+                <meta name="description" content="Create a new product category in sameerCart admin panel to organize your inventory." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Category"} controller={"Category"} controllerUrl={"/admin/category/add-category/"} page={"Add Category's"} />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800">

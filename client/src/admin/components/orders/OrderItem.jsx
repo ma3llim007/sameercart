@@ -1,10 +1,10 @@
 import { capitalizeWords, formatDateTime } from "@/utils";
 import { upperFirst } from "lodash";
-import { Badge } from "@/components";
 import { FaRupeeSign } from "react-icons/fa";
 import Table from "../Table";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import Badge from "@/components/Badge";
 
 const OrderItem = ({ orderItem, orderStatus }) => {
     // Order Item Columns

@@ -7,12 +7,16 @@ import { slugTransform } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { FaPlus } from "react-icons/fa";
 import Loader from "@/client/components/Loader/Loader";
-import { Input, LoadingOverlay, RichTextEditor, TextArea } from "@/components";
 import crudService from "@/api/crudService";
 import { useNavigate } from "react-router-dom";
 import toastService from "@/services/toastService";
 import PageHeader from "../components/PageHeader";
 import Loading from "../components/Loading";
+import LoadingOverlay from "@/components/LoadingOverlay";
+import Input from "@/components/Form/Input";
+import TextArea from "@/components/Form/TextArea";
+import RichTextEditor from "@/components/Form/RichTextEditor";
+import { Helmet } from "react-helmet-async";
 
 const AddBlogs = () => {
     const queryClient = useQueryClient();
@@ -62,6 +66,11 @@ const AddBlogs = () => {
     if (isPending) return <LoadingOverlay />;
     return (
         <>
+            <Helmet>
+                <title>Add New Blog | sameerCart</title>
+                <meta name="description" content="Create and publish a new blog post on sameerCart admin panel. Manage content and SEO settings." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Blogs"} controller={"Blogs"} controllerUrl={"/admin/blogs/add-blog/"} page={"Add Blog's"} />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800">

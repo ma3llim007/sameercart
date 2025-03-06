@@ -11,13 +11,15 @@ import toastService from "@/services/toastService";
 import { formatDateTime } from "@/utils";
 import Badge from "@/components/Badge";
 import Model from "@/components/Model";
-import { Input, LoadingOverlay } from "@/components";
 import { addVariantScheme, editVariantImage } from "@/validation/admin/ProductScheme";
 import ButtonWithAlert from "../components/ButtonWithAlert";
 import Loading from "../components/Loading";
 import PageHeader from "../components/PageHeader";
 import ProductDetailsVariant from "../components/ProductDetailsVariant";
 import Table from "../components/Table";
+import LoadingOverlay from "@/components/LoadingOverlay";
+import Input from "@/components/Form/Input";
+import { Helmet } from "react-helmet-async";
 
 const AddVariants = () => {
     const { productId } = useParams();
@@ -277,6 +279,11 @@ const AddVariants = () => {
     if (isPending || isPendingDeleteVariant || isPendingDeleteImageMutate) return <LoadingOverlay />;
     return (
         <>
+            <Helmet>
+                <title>Edit Product Variant | sameerCart</title>
+                <meta name="description" content="Modify existing product variants in sameerCart admin panel, including pricing and stock." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader
                 title={"Manage Variant"}
                 controller={"Products"}

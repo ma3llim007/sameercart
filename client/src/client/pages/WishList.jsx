@@ -6,12 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { capitalizeWords, formatNumberWithCommas } from "@/utils";
 import { FaRupeeSign, FaTrash } from "react-icons/fa";
-import { Badge } from "@/components";
+import Badge from "@/components/Badge";
 import { upperCase } from "lodash";
 import { clearWishList, removeFromWishList } from "@/features/home/wishlistSlice";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import Banner from "../components/Banner";
 import Container from "../components/Container";
+import { Helmet } from "react-helmet-async";
 
 const WishList = () => {
     const { wishlists } = useSelector(state => state.wishlist);
@@ -33,6 +34,11 @@ const WishList = () => {
     };
     return (
         <>
+            <Helmet>
+                <title>Your Wishlist - SameerCart</title>
+                <meta name="description" content="Save your favorite products and shop them later on SameerCart." />
+                <meta name="robots" content="noindex, follow" />
+            </Helmet>
             <Banner title={"WishList"} image={wishList}>
                 <Breadcrumb>
                     <BreadcrumbList className="text-lg">

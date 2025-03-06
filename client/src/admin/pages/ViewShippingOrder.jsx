@@ -5,11 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ShippingOrderForm from "../components/orders/ShippingOrderForm";
-import { LoadingOverlay } from "@/components";
 import PageHeader from "../components/PageHeader";
 import UserDetails from "../components/orders/UserDetails";
 import OrderDetails from "../components/orders/OrderDetails";
 import OrderItem from "../components/orders/OrderItem";
+import LoadingOverlay from "@/components/LoadingOverlay";
+import { Helmet } from "react-helmet-async";
 
 const ViewShippingOrder = () => {
     const { orderId } = useParams();
@@ -39,6 +40,11 @@ const ViewShippingOrder = () => {
     if (isMutationIsLoading) return <LoadingOverlay />;
     return (
         <>
+            <Helmet>
+                <title>View Shipping Order | sameerCart</title>
+                <meta name="description" content="Check details of a shipping order in sameerCart admin panel, including tracking and delivery status." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Order's"} controller={"Shipping Order Listing"} controllerUrl={"/admin/orders/shipping-order/"} page={"View Shipping Order"} />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-4 bg-gray-100 dark:bg-slate-800">

@@ -4,6 +4,7 @@ import { FaCcMastercard, FaCcVisa, FaCreditCard, FaGooglePay, FaPaypal } from "r
 import Banner from "../components/Banner";
 import Container from "../components/Container";
 import Faq from "../components/Faq";
+import { Helmet } from "react-helmet-async";
 
 const faqs = [
     {
@@ -26,6 +27,16 @@ const faqs = [
 const SecurePayment = () => {
     return (
         <>
+            <Helmet>
+                <title>Secure Payment Methods - SameerCart</title>
+                <meta name="description" content="Shop safely with SameerCart! We offer secure payment options, including credit cards, PayPal, and more. Your transactions are protected." />
+                <meta name="keywords" content="secure payment, online payment, safe transactions, credit card, PayPal, SameerCart payments" />
+                <meta property="og:title" content="Secure Payment Methods - SameerCart" />
+                <meta property="og:description" content="Enjoy secure and reliable payments with SameerCart. We support multiple payment methods to ensure a smooth shopping experience." />
+                <meta property="og:url" content="https://sameercart.com/secure-payment" />
+                <meta property="og:type" content="website" />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
             <Banner image={securePaymentBanner} title={"Secure Payment"} />
             <Container>
                 <section className="w-full mb-5 mt-10 px-4 py-4">

@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import PageHeader from "../components/PageHeader";
-import { Input } from "@/components";
+import Input from "@/components/Form/Input";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import Loading from "../components/Loading";
@@ -10,6 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { editProductStock } from "@/validation/admin/ProductScheme";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
+import { Helmet } from "react-helmet-async";
 
 const UpdateStock = () => {
     const { productId } = useParams();
@@ -39,6 +40,11 @@ const UpdateStock = () => {
     });
     return (
         <>
+            <Helmet>
+                <title>Update Stock | sameerCart</title>
+                <meta name="description" content="Update and manage product stock levels in the admin panel of sameerCart. Ensure products are always available." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader
                 title={"Manage Product"}
                 controller={"Product's List"}

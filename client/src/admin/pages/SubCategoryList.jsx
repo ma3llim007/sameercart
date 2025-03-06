@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { formatDateTime } from "@/utils";
 import Badge from "@/components/Badge";
 import { Button } from "@/components/ui/button";
-import { LoadingOverlay } from "@/components";
 import { upperFirst } from "lodash";
 import ButtonWithAlert from "../components/ButtonWithAlert";
 import Loading from "../components/Loading";
 import PageHeader from "../components/PageHeader";
 import Table from "../components/Table";
+import LoadingOverlay from "@/components/LoadingOverlay";
+import { Helmet } from "react-helmet-async";
 
 const SubCategoryList = () => {
     const queryClient = useQueryClient();
@@ -140,6 +141,11 @@ const SubCategoryList = () => {
     if (isPendingDeleteSubCategory) return <LoadingOverlay />;
     return (
         <>
+            <Helmet>
+                <title>Manage Subcategories | sameerCart</title>
+                <meta name="description" content="View and manage product subcategories in sameerCart admin panel. Add, edit, and delete subcategories." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title="Manage Sub-Category" controller="Sub-Category" controllerUrl="/admin/sub-category/" page="Sub Category's List" />
             <Table columns={subCategoryColumns} data={subCategoryData} paginationOptions={{ pageSize: 10 }} sortable loading={isLoading} />
         </>

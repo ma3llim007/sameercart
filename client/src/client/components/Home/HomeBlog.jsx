@@ -60,7 +60,8 @@ const HomeBlog = () => {
                             </div>
                             <div className="flex flex-col gap-2">
                                 <p className="text-light-textGray dark:text-dark-textWhite text-base leading-relaxed line-clamp-2">{upperFirst(blog?.blogShortDescription)}</p>
-                                <Link to={`/blog-detail/${blog?.blogSlug}`} className="self-start mt-auto">
+                                <Link to={`/blog-detail/${blog?.blogSlug}`} className="self-start mt-auto" aria-label={`Read More About ${blog?.blogTitle}`}>
+                                    <span className="sr-only">Read More About {blog?.blogTitle}</span>
                                     <Button className="text-base Primary">Read More</Button>
                                 </Link>
                             </div>

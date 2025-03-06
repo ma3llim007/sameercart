@@ -1,6 +1,5 @@
 import crudService from "@/api/crudService";
-import { Input } from "@/components";
-import { Button } from "@/components/ui/button";
+import Input from "@/components/Form/Input";import { Button } from "@/components/ui/button";
 import toastService from "@/services/toastService";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

@@ -4,12 +4,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import toastService from "@/services/toastService";
 import Loader from "@/client/components/Loader/Loader";
 import { useEffect, useState } from "react";
-import { LoadingOverlay } from "@/components";
 import PageHeader from "../components/PageHeader";
 import ViewOrderForm from "../components/orders/ViewOrderForm";
 import UserDetails from "../components/orders/UserDetails";
 import OrderDetails from "../components/orders/OrderDetails";
 import OrderItem from "../components/orders/OrderItem";
+import LoadingOverlay from "@/components/LoadingOverlay";
+import { Helmet } from "react-helmet-async";
 
 const ViewNewOrder = () => {
     const { orderId } = useParams();
@@ -39,6 +40,11 @@ const ViewNewOrder = () => {
     if (mutateIsLoading) return <LoadingOverlay />;
     return (
         <>
+            <Helmet>
+                <title>View Order Details | sameerCart</title>
+                <meta name="description" content="Check details of a newly placed order in sameerCart admin panel. View customer information and order status." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Order's"} controller={"New Order Listing"} controllerUrl={"/admin/orders/new-order/"} page={"View Order"} />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-4 bg-gray-100 dark:bg-slate-800">

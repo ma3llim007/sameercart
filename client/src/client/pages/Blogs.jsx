@@ -13,6 +13,7 @@ import { capitalizeWords, formatDateTime } from "@/utils";
 import { FaCalendarAlt, FaUser } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { upperFirst } from "lodash";
+import { Helmet } from "react-helmet-async";
 
 const Blogs = () => {
     const [page, setPage] = useState(1);
@@ -35,6 +36,11 @@ const Blogs = () => {
     if (isLoading || isFetching) return <Loader />;
     return (
         <>
+            <Helmet>
+                <title>Latest Blogs & Shopping Tips - SameerCart</title>
+                <meta name="description" content="Read our latest blogs and shopping guides to make smarter purchases on SameerCart." />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
             <Banner title={"Blogs"} image={bannerImage}>
                 <Breadcrumb>
                     <BreadcrumbList className="text-lg">
@@ -82,7 +88,8 @@ const Blogs = () => {
                                     </div>
                                     <div className="flex flex-col gap-2">
                                         <p className="text-light-textGray dark:text-dark-textWhite text-base leading-relaxed line-clamp-2">{upperFirst(blog?.blogShortDescription)}</p>
-                                        <Link to={`/blog-detail/${blog?.blogSlug}`} className="self-start mt-auto">
+                                        <Link to={`/blog-detail/${blog?.blogSlug}`} className="self-start mt-auto" aria-label={`Read More About ${blog?.blogTitle}`}>
+                                            <span className="sr-only">Read More About {blog?.blogTitle}</span>
                                             <Button className="text-base Primary">Read More</Button>
                                         </Link>
                                     </div>

@@ -10,8 +10,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { editVariantScheme } from "@/validation/admin/ProductScheme";
 import Loading from "../components/Loading";
 import PageHeader from "../components/PageHeader";
-import { Input } from "@/components";
-
+import Input from "@/components/Form/Input";
+import { Helmet } from "react-helmet-async";
 const EditVariant = () => {
     const { productId, variantId } = useParams();
     const navigate = useNavigate();
@@ -86,6 +86,11 @@ const EditVariant = () => {
     if (isLoading) return <Loading />;
     return (
         <>
+            <Helmet>
+                <title>Edit Product Variant | sameerCart</title>
+                <meta name="description" content="Modify existing product variants in sameerCart admin panel, including pricing and stock." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader
                 title={"Manage Variant"}
                 controller={"Products"}

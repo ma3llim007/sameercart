@@ -1,6 +1,6 @@
 import crudService from "@/api/crudService";
 import Loader from "@/client/components/Loader/Loader";
-import { Badge } from "@/components";
+import Badge from "@/components/Badge";
 import { Button } from "@/components/ui/button";
 import toastService from "@/services/toastService";
 import { capitalizeWords, formatDateTime, formatNumberWithCommas, paymentStatusClass, statusClass } from "@/utils";
@@ -9,6 +9,7 @@ import { FaRupeeSign } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import PageHeader from "../components/PageHeader";
 import Table from "../components/Table";
+import { Helmet } from "react-helmet-async";
 
 const CanceledOrder = () => {
     const navigate = useNavigate();
@@ -120,6 +121,11 @@ const CanceledOrder = () => {
     if (isPending) return <Loader />;
     return (
         <>
+            <Helmet>
+                <title>Canceled Orders | sameerCart</title>
+                <meta name="description" content="View and manage all canceled orders in sameerCart admin panel. Check refund and customer queries." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Order's"} controller={"Canceled Order"} controllerUrl={"/admin/orders/canceled-order/"} />
             <Table columns={orderColumns} data={orderData} emptyMessage="Canceled Order Is Not Found" loading={isPending} paginationOptions={{ pageSize: 10 }} sortable />
         </>

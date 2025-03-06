@@ -14,7 +14,10 @@ import { TiArrowBack } from "react-icons/ti";
 import { addProductScheme } from "@/validation/admin/ProductScheme";
 import Loading from "../components/Loading";
 import PageHeader from "../components/PageHeader";
-import { Input, Select, TextArea } from "@/components";
+import Input from "@/components/Form/Input";
+import Select from "@/components/Form/Select";
+import TextArea from "@/components/Form/TextArea";
+import { Helmet } from "react-helmet-async";
 
 const ViewProduct = () => {
     const { productId } = useParams();
@@ -91,6 +94,11 @@ const ViewProduct = () => {
     if (isLoading) return <Loading />;
     return (
         <>
+            <Helmet>
+                <title>View Product Details | sameerCart</title>
+                <meta name="description" content="Check detailed information about a specific product in sameerCart admin panel." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Products"} controller={"Products"} controllerUrl={"/admin/products/products-list"} page={"View Product"} />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800">

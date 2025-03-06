@@ -6,12 +6,13 @@ import { Button } from "@/components/ui/button";
 import Badge from "@/components/Badge";
 import { Link, useNavigate } from "react-router-dom";
 import toastService from "@/services/toastService";
-import { LoadingOverlay } from "@/components";
 import { upperFirst } from "lodash";
 import { FaEye } from "react-icons/fa";
 import Table from "../components/Table";
 import PageHeader from "../components/PageHeader";
 import ButtonWithAlert from "../components/ButtonWithAlert";
+import LoadingOverlay from "@/components/LoadingOverlay";
+import { Helmet } from "react-helmet-async";
 
 const ProductsList = () => {
     const navigate = useNavigate();
@@ -115,6 +116,11 @@ const ProductsList = () => {
     if (deleteIsPending) return <LoadingOverlay />;
     return (
         <>
+            <Helmet>
+                <title>Manage Products | sameerCart</title>
+                <meta name="description" content="View and manage all products listed on sameerCart. Add, edit, delete, and update stock information." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Product"} controller={"Product"} controllerUrl={"/admin/products/products-list"} page={"Product's List"} />
             <Table columns={productColums} data={productData} paginationOptions={{ pageSize: 10 }} sortable loading={isLoading} />
         </>

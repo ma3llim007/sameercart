@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaHome, FaRupeeSign } from "react-icons/fa";
 import { FaBagShopping } from "react-icons/fa6";
 import { useForm } from "react-hook-form";
-import { Badge, Input, LoadingOverlay, TextArea } from "@/components";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import crudService from "@/api/crudService";
@@ -20,6 +19,11 @@ import { clearCart } from "@/features/home/cartSlice";
 import logo from "@/client/assets/Logo.svg";
 import { BillingDetails } from "@/validation/UserScheme";
 import Container from "../components/Container";
+import LoadingOverlay from "@/components/LoadingOverlay";
+import Input from "@/components/Form/Input";
+import TextArea from "@/components/Form/TextArea";
+import Badge from "@/components/Badge";
+import { Helmet } from "react-helmet-async";
 
 const CheckOut = () => {
     const { user } = useSelector(state => state.userAuth);
@@ -242,6 +246,15 @@ const CheckOut = () => {
 
     return (
         <>
+            <Helmet>
+                <title>Secure Checkout - SameerCart</title>
+                <meta name="description" content="Complete your purchase securely on SameerCart. Fast and safe checkout with multiple payment options." />
+                <meta name="keywords" content="checkout, secure checkout, online payment, ecommerce checkout, SameerCart" />
+                <meta property="og:title" content="Secure Checkout - SameerCart" />
+                <meta property="og:description" content="Finish your shopping with our secure and fast checkout process." />
+                <meta property="og:url" content="https://sameercart.com/checkout" />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <section className="w-full mt-4 bg-gray-700 bg-opacity-70 py-4 px-5 rounded-md-md shadow-md select-none">
                 <Breadcrumb className="text-white">
                     <BreadcrumbList className="text-lg">

@@ -5,11 +5,12 @@ import Badge from "@/components/Badge";
 import { Button } from "@/components/ui/button";
 import toastService from "@/services/toastService";
 import { formatDateTime } from "@/utils";
-import { LoadingOverlay } from "@/components";
 import { upperFirst } from "lodash";
 import ButtonWithAlert from "../components/ButtonWithAlert";
 import PageHeader from "../components/PageHeader";
 import Table from "../components/Table";
+import LoadingOverlay from "@/components/LoadingOverlay";
+import { Helmet } from "react-helmet-async";
 
 const CategoryList = () => {
     const queryClient = useQueryClient();
@@ -135,6 +136,11 @@ const CategoryList = () => {
     if (isLoading || isPending) return <LoadingOverlay />;
     return (
         <>
+            <Helmet>
+                <title>Manage Categories | sameerCart</title>
+                <meta name="description" content="View and manage product categories in sameerCart admin panel. Add, edit, and delete categories easily." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Category"} controller={"Category"} controllerUrl={"/admin/category/category-list/"} page={"Category's List"} />
             <Table columns={categoryColums} data={categoryData} paginationOptions={{ pageSize: 10 }} sortable loading={isLoading} />
         </>

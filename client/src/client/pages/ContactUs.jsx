@@ -4,10 +4,20 @@ import { Link } from "react-router-dom";
 import Banner from "../components/Banner";
 import Container from "../components/Container";
 import GetInTouch from "../components/Contact/GetInTouch";
+import { Helmet } from "react-helmet-async";
 
 const ContactUs = () => {
     return (
         <>
+            <Helmet>
+                <title>Contact Us - SameerCart</title>
+                <meta name="description" content="Have questions? Contact SameerCart for customer support, inquiries, and assistance." />
+                <meta name="keywords" content="contact SameerCart, customer support, ecommerce help" />
+                <meta property="og:title" content="Contact Us - SameerCart" />
+                <meta property="og:description" content="Reach out to SameerCart for any inquiries or support." />
+                <meta property="og:url" content="https://sameercart.com/contact-us" />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
             <Banner image={contactBanner} title={"Contact Us"}>
                 <Breadcrumb>
                     <BreadcrumbList className="text-lg">

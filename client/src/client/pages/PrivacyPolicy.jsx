@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import privacyPolicyBanner from "../assets/banner/privacy_polics.webp";
 import Banner from "../components/Banner";
 import Container from "../components/Container";
@@ -5,6 +6,16 @@ import Container from "../components/Container";
 const PrivacyPolicy = () => {
     return (
         <>
+            <Helmet>
+                <title>Privacy Policy - SameerCart</title>
+                <meta name="description" content="Read SameerCart's Privacy Policy to understand how we collect, use, and protect your personal information while shopping online." />
+                <meta name="keywords" content="privacy policy, data protection, online security, SameerCart privacy, customer data security" />
+                <meta property="og:title" content="Privacy Policy - SameerCart" />
+                <meta property="og:description" content="Learn how SameerCart protects your personal data and ensures a safe shopping experience." />
+                <meta property="og:url" content="https://sameercart.com/privacy-policy" />
+                <meta property="og:type" content="website" />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
             <Banner image={privacyPolicyBanner} title={"Privacy Policy"} />
             <Container>
                 <section className="w-full my-10 p-4">

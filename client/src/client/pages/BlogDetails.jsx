@@ -14,6 +14,7 @@ import DOMPurify from "dompurify";
 import reactParser from "html-react-parser";
 import { Button } from "@/components/ui/button";
 import { upperFirst } from "lodash";
+import { Helmet } from "react-helmet-async";
 
 const BlogDetails = () => {
     const { blogSlug } = useParams();
@@ -44,6 +45,11 @@ const BlogDetails = () => {
     if (isLoading || isFetching || relatedIsFetching || relatedIsLoading) return <Loading />;
     return (
         <>
+            <Helmet>
+                <title>{blogSlug.replace("-", " ")} - Blog | SameerCart</title>
+                <meta name="description" content={`Read the latest insights on ${blogSlug.replace("-", " ")} on SameerCart.`} />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
             <Banner title={slugToText(blogSlug)} image={bannerImage}>
                 <Breadcrumb>
                     <BreadcrumbList className="text-lg">
@@ -114,7 +120,8 @@ const BlogDetails = () => {
                                                 </div>
                                                 <div className="flex flex-col gap-2">
                                                     <p className="text-light-textGray dark:text-dark-textWhite text-base leading-relaxed line-clamp-2">{upperFirst(blog?.blogShortDescription)}</p>
-                                                    <Link to={`/blog-detail/${blog?.blogSlug}`} className="self-start mt-auto">
+                                                    <Link to={`/blog-detail/${blog?.blogSlug}`} className="self-start mt-auto" aria-label={`Read More About ${blog?.blogTitle}`}>
+                                                        <span className="sr-only">Read More About {blog?.blogTitle}</span>
                                                         <Button className="text-base Primary">Read More</Button>
                                                     </Link>
                                                 </div>

@@ -7,7 +7,7 @@ import { FaRupeeSign } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import Table from "@/admin/components/Table";
-import { Badge } from "@/components";
+import Badge from "@/components/Badge";
 
 const Order = ({ userId }) => {
     const navigate = useNavigate();

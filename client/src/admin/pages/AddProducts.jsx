@@ -11,10 +11,14 @@ import { productTypeOptions, slugTransform } from "@/utils";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import DOMPurify from "dompurify";
-import { Input, LoadingOverlay, Select, TextArea } from "@/components";
 import { addProductScheme } from "@/validation/admin/ProductScheme";
 import PageHeader from "../components/PageHeader";
 import Loading from "../components/Loading";
+import LoadingOverlay from "@/components/LoadingOverlay";
+import Input from "@/components/Form/Input";
+import Select from "@/components/Form/Select";
+import TextArea from "@/components/Form/TextArea";
+import { Helmet } from "react-helmet-async";
 
 const AddProducts = () => {
     const queryClient = useQueryClient();
@@ -106,6 +110,11 @@ const AddProducts = () => {
     if (isPending) return <LoadingOverlay />;
     return (
         <>
+            <Helmet>
+                <title>Add New Product | sameerCart</title>
+                <meta name="description" content="Add a new product to sameerCart store. Upload images, set pricing, and manage inventory." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Products"} controller={"Products"} controllerUrl={"/admin/products/products-list"} page={"Add Product's"} />
             <section className="w-full">
                 <div className="my-4 w-full container mx-auto border-t-4 border-blue-700 rounded-lg p-2 bg-gray-100 dark:bg-slate-800">

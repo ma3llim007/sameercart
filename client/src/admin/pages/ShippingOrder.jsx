@@ -5,10 +5,11 @@ import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { FaRupeeSign } from "react-icons/fa";
 import { capitalizeWords, formatDateTime, formatNumberWithCommas, paymentStatusClass, statusClass } from "@/utils";
-import { Badge } from "@/components";
+import Badge from "@/components/Badge";
 import { Button } from "@/components/ui/button";
 import PageHeader from "../components/PageHeader";
 import Table from "../components/Table";
+import { Helmet } from "react-helmet-async";
 
 const ShippingOrder = () => {
     const navigate = useNavigate();
@@ -119,6 +120,11 @@ const ShippingOrder = () => {
     if (isPending) return <Loader />;
     return (
         <>
+            <Helmet>
+                <title>Orders in Shipping | sameerCart</title>
+                <meta name="description" content="Track and manage shipping orders in sameerCart admin panel. Update delivery status and logistics." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Order's"} controller={"Shipping Order"} controllerUrl={"/admin/orders/shipping-order/"} />
             <Table columns={orderColumns} data={orderData} emptyMessage="Shipping Order Is Not Found" loading={isPending} paginationOptions={{ pageSize: 10 }} sortable />
         </>

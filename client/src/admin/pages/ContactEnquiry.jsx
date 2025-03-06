@@ -8,7 +8,8 @@ import Table from "../components/Table";
 import { Button } from "@/components/ui/button";
 import ButtonWithAlert from "../components/ButtonWithAlert";
 import queryClient from "@/api/queryClientConfig";
-import { LoadingOverlay } from "@/components";
+import LoadingOverlay from "@/components/LoadingOverlay";
+import { Helmet } from "react-helmet-async";
 
 const ContactEnquiry = () => {
     const navigate = useNavigate();
@@ -64,11 +65,16 @@ const ContactEnquiry = () => {
     ];
 
     const contactData = Array.isArray(data?.data) ? data.data.map((contact, index) => ({ no: index + 1, ...contact })) : [];
-    
+
     if (deleteEnquiryIsPending) return <LoadingOverlay />;
     if (isPending) return <Loader />;
     return (
         <>
+            <Helmet>
+                <title>Contact Enquiries | sameerCart</title>
+                <meta name="description" content="View and respond to customer contact enquiries in sameerCart admin panel." />
+                <meta name="robots" content="noindex, nofollow" />
+            </Helmet>
             <PageHeader title={"Manage Enquiry's"} controller={"All Enquiry"} controllerUrl={"/admin/enquiry/contact-list/"} />
             <Table columns={contactColumns} data={contactData} emptyMessage="Contact Is Empty" loading={isPending} paginationOptions={{ pageSize: 10 }} sortable />
         </>
