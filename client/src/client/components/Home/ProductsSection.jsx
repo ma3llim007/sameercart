@@ -54,7 +54,7 @@ const ProductsSection = ({ title = "Featured Products", productData }) => {
                             </div>
                             <div className="flex flex-col gap-4 w-full">
                                 <Link to={`/product-details/${product?.productSlug}`}>
-                                    <h3 className="text-xl font-semibold mb-2 truncate text-light-blue dark:text-dark-light">{capitalizeWords(product?.productName)}</h3>
+                                    <h3 className="text-xl font-semibold mb-2 truncate text-light-blue dark:text-white">{capitalizeWords(product?.productName)}</h3>
                                 </Link>
                                 <p className="text-light-textGray dark:text-dark-textWhite text-base dark:opacity-60 line-clamp-2">{capitalizeWords(product?.productShortDescription)}</p>
                                 <Rating size={"text-base"} rating={product?.ratings.averageRating || 3} />
@@ -72,6 +72,7 @@ const ProductsSection = ({ title = "Featured Products", productData }) => {
             <button
                 className="absolute z-10 text-base mx-5 top-1/2 left-4 transform -translate-y-1/2 bg-light-bgWhite text-light-textDarkGray dark:bg-dark-bgDark dark:text-dark-textWhite p-2 rounded-full shadow"
                 onClick={() => swiperRef.current.slidePrev()}
+                aria-label="Go Back"
             >
                 <FaArrowAltCircleLeft />
             </button>
@@ -79,6 +80,7 @@ const ProductsSection = ({ title = "Featured Products", productData }) => {
             <button
                 className="absolute z-10 text-base mx-5 top-1/2 right-4 transform -translate-y-1/2 bg-light-bgWhite text-light-textDarkGray dark:bg-dark-bgDark dark:text-dark-textWhite p-2 rounded-full shadow"
                 onClick={() => swiperRef.current.slideNext()}
+                aria-label="Go Next"
             >
                 <FaArrowAltCircleRight />
             </button>

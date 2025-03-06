@@ -5,7 +5,7 @@ import { ApiError } from "../utils/index.js";
 // General limiter for public routes
 const publicLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 Minutes
-    max: 100,
+    max: 500,
     handler: (_, res) => {
         return res.status(429).json(new ApiError(429, null, "Too Many Requests Form This IP, Please Try Again Later."));
     },

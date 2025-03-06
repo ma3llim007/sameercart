@@ -69,7 +69,7 @@ const Header = ({ data }) => {
                             <div className="flex justify-center text-center items-center gap-2">
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <div className="flex gap-1 cursor-pointer items-center outline-none" role="button" tabIndex="0">
+                                        <div className="flex gap-1 cursor-pointer items-center outline-none" role="button" tabIndex="0" aria-label="Expand Setting Menu">
                                             Setting <IoIosArrowDown />
                                         </div>
                                     </DropdownMenuTrigger>
@@ -172,62 +172,72 @@ const Header = ({ data }) => {
                     >
                         <nav className="w-4/5 mr-5 lg:w-full">
                             <ul className="flex gap-5 py-2 font-semibold items-center lg:justify-center xl:justify-start 2xl:justify-start">
-                                <NavLink to={"/"} className="relative group">
-                                    Home
-                                    <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
-                                </NavLink>
-                                <NavLink className="relative group" to={"/about-us"}>
-                                    About Us
-                                    <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
-                                </NavLink>
-                                <div className="inline-flex gap-5">
-                                    {data?.data.map(category => (
-                                        <DropdownMenu key={category._id}>
-                                            <div className="flex items-center gap-1">
-                                                <Link
-                                                    to={`/sub-category/${category?.categorySlug}`}
-                                                    className="flex gap-1 cursor-pointer items-center outline-none"
-                                                    role="button"
-                                                    tabIndex={0}
-                                                    aria-haspopup="true"
-                                                    aria-expanded="false"
-                                                >
-                                                    {upperFirst(category?.categoryName)}
-                                                </Link>
-                                                <DropdownMenuTrigger asChild>
-                                                    <button>
-                                                        <IoIosArrowDown />
-                                                    </button>
-                                                </DropdownMenuTrigger>
-                                            </div>
+                                <li>
+                                    <NavLink to={"/"} className="relative group">
+                                        Home
+                                        <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="relative group" to={"/about-us"}>
+                                        About Us
+                                        <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <div className="inline-flex gap-5">
+                                        {data?.data.map(category => (
+                                            <DropdownMenu key={category._id}>
+                                                <div className="flex items-center gap-1">
+                                                    <Link
+                                                        to={`/sub-category/${category?.categorySlug}`}
+                                                        className="flex gap-1 cursor-pointer items-center outline-none"
+                                                        role="button"
+                                                        tabIndex={0}
+                                                        aria-haspopup="true"
+                                                        aria-expanded="false"
+                                                    >
+                                                        {upperFirst(category?.categoryName)}
+                                                    </Link>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <button aria-label="Expand Menu">
+                                                            <IoIosArrowDown />
+                                                        </button>
+                                                    </DropdownMenuTrigger>
+                                                </div>
 
-                                            <DropdownMenuContent
-                                                align="center"
-                                                className="min-w-[9rem] overflow-hidden p-1 shadow-md border-none divide-light-border dark:divide-dark-border bg-light-blue text-light-textWhite dark:text-dark-textWhite z-40"
-                                                sideOffset={22}
-                                            >
-                                                {category?.subcategories.map(subcategory => (
-                                                    <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer" key={subcategory?._id}>
-                                                        <Link
-                                                            to={`${category.categorySlug}/${subcategory?.subCategorySlug}/products`}
-                                                            className="px-4 py-2 text-base border-b rounded-none border-opacity-50 border-light-gray"
-                                                        >
-                                                            {upperCase(subcategory?.subCategoryName)}
-                                                        </Link>
-                                                    </DropdownMenuItem>
-                                                ))}
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    ))}
-                                </div>
-                                <NavLink className="relative group" to={"/category"}>
-                                    Category
-                                    <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
-                                </NavLink>
-                                <NavLink className="relative group" to={"/contact-us"}>
-                                    Contact Us
-                                    <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
-                                </NavLink>
+                                                <DropdownMenuContent
+                                                    align="center"
+                                                    className="min-w-[9rem] overflow-hidden p-1 shadow-md border-none divide-light-border dark:divide-dark-border bg-light-blue text-light-textWhite dark:text-dark-textWhite z-40"
+                                                    sideOffset={22}
+                                                >
+                                                    {category?.subcategories.map(subcategory => (
+                                                        <DropdownMenuItem asChild className="py-2 px-4 cursor-pointer" key={subcategory?._id}>
+                                                            <Link
+                                                                to={`${category.categorySlug}/${subcategory?.subCategorySlug}/products`}
+                                                                className="px-4 py-2 text-base border-b rounded-none border-opacity-50 border-light-gray"
+                                                            >
+                                                                {upperCase(subcategory?.subCategoryName)}
+                                                            </Link>
+                                                        </DropdownMenuItem>
+                                                    ))}
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        ))}
+                                    </div>
+                                </li>
+                                <li>
+                                    <NavLink className="relative group" to={"/category"}>
+                                        Category
+                                        <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink className="relative group" to={"/contact-us"}>
+                                        Contact Us
+                                        <span className="absolute left-0 bottom-0 h-0.5 w-full bg-light-bgWhite transition-all ease-in-out duration-300 scale-x-0 group-hover:scale-x-100"></span>
+                                    </NavLink>
+                                </li>
                             </ul>
                         </nav>
                         <div className="text-sm w-[15%] lg:hidden xl:block 2xl:block">

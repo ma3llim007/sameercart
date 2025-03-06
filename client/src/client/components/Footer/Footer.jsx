@@ -18,7 +18,7 @@ const Footer = () => {
                         <div className="flex items-start gap-2">
                             <FiPhoneCall className="text-4xl lg:text-3xl" />
                             <div className="flex flex-col gap-1">
-                                <h6 className="uppercase text-base">need help?</h6>
+                                <h4 className="uppercase text-base">need help?</h4>
                                 <p className="font-semibold text-2xl lg:text-xl">+91 12345 67894</p>
                             </div>
                         </div>
@@ -91,22 +91,22 @@ const Footer = () => {
                         <div className="w-full my-4 mx-auto">
                             <ul className="flex flex-wrap justify-start gap-3 items-center">
                                 <li className="bg-light-deep p-2 rounded-full">
-                                    <a target="_blank" href="https://www.facebook.com/Ma3llim007/">
+                                    <a target="_blank" href="https://www.facebook.com/Ma3llim007/" aria-label="Visit My Facebook">
                                         <FaFacebook className="font-bold text-xl text-light-textWhite" />
                                     </a>
                                 </li>
                                 <li className="bg-light-deep p-2 rounded-full">
-                                    <a target="_blank" href="https://x.com/ma_3llim_007">
+                                    <a target="_blank" href="https://x.com/ma_3llim_007" aria-label="Visit My Twitter">
                                         <FaTwitter className="font-bold text-xl text-light-textWhite" />
                                     </a>
                                 </li>
                                 <li className="bg-light-deep p-2 rounded-full">
-                                    <a target="_blank" href="https://www.instagram.com/ma_3llim_007/">
+                                    <a target="_blank" href="https://www.instagram.com/ma_3llim_007/" aria-label="Visit My Instagram">
                                         <FaInstagram className="font-bold text-xl text-light-textWhite" />
                                     </a>
                                 </li>
                                 <li className="bg-light-deep p-2 rounded-full">
-                                    <a target="_blank" href="https://www.linkedin.com/in/mohdsameer-dev/">
+                                    <a target="_blank" href="https://www.linkedin.com/in/mohdsameer-dev/" aria-label="Visit My LinkedIn">
                                         <FaLinkedinIn className="font-bold text-xl text-light-textWhite" />
                                     </a>
                                 </li>

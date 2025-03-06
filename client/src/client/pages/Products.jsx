@@ -105,10 +105,10 @@ const Products = () => {
                                         className="w-4/5 h-60 object-contain rounded group-hover:scale-105 transition-all duration-300 ease-in-out transform"
                                     />
                                     <Link to={`/product-details/${product?.productSlug}`}>
-                                        <h4 className="text-lg text-center font-bold text-light-deep dark:text-dark-light line-clamp-1">{capitalizeWords(product.productName)}</h4>
+                                        <h2 className="text-lg text-center font-bold text-light-deep dark:text-white line-clamp-1">{capitalizeWords(product.productName)}</h2>
                                     </Link>
                                     <Link to={`/product-details/${product?.productSlug}`} className="py-2">
-                                        <p className="text-light-textGray dark:text-dark-textWhite text-base text-center line-clamp-2">{upperFirst(product?.productShortDescription)}</p>
+                                        <p className="text-light-textGray dark:text-dark-textLightGray text-base text-center line-clamp-2">{upperFirst(product?.productShortDescription)}</p>
                                     </Link>
                                     <div>
                                         <Rating size={"text-base"} rating={product?.ratings.averageRating || 3} />
@@ -125,7 +125,7 @@ const Products = () => {
                                                     {formatNumberWithCommas(product?.basePrice)}
                                                 </p>
                                                 {product?.basePrice > product?.productDiscountPrice && (
-                                                    <p className="text-sm font-semibold text-red-600">
+                                                    <p className="text-sm font-semibold text-red-900 dark:contrast-200">
                                                         {Math.round(((product?.basePrice - product?.productDiscountPrice) / product?.basePrice) * 100)}% Off
                                                     </p>
                                                 )}
@@ -187,9 +187,9 @@ const Products = () => {
                             ))}
                         </div>
                         <div className="w-full flex flex-col items-center gap-6 justify-between mt-6 py-4 border-t border-gray-400">
-                            <h5 className="text-center text-lg font-medium">
+                            <h3 className="text-center text-lg font-medium">
                                 You Are Currently Viewing <strong>Page: {pageNumber}</strong> Out Of <strong>{totalPages}</strong> Pages.
-                            </h5>
+                            </h3>
                             <div className="flex gap-4">
                                 <Button onClick={() => setPage(page - 1)} disabled={page === 1} className="btnXl" variant="outline">
                                     Previous

@@ -73,22 +73,22 @@ const GetInTouch = () => {
                         <h2 className="text-3xl font-bold">Follow Us:</h2>
                         <ul className="flex flex-wrap justify-start gap-3 items-center mt-5">
                             <li className="bg-light-deep p-2 rounded-full">
-                                <a target="_blank" href="https://www.facebook.com/Ma3llim007/">
+                                <a target="_blank" href="https://www.facebook.com/Ma3llim007/" aria-label="Visit My Facebook">
                                     <FaFacebook className="font-bold text-xl text-light-textWhite" />
                                 </a>
                             </li>
                             <li className="bg-light-deep p-2 rounded-full">
-                                <a target="_blank" href="https://x.com/ma_3llim_007">
+                                <a target="_blank" href="https://x.com/ma_3llim_007" aria-label="Visit My Twitter">
                                     <FaTwitter className="font-bold text-xl text-light-textWhite" />
                                 </a>
                             </li>
                             <li className="bg-light-deep p-2 rounded-full">
-                                <a target="_blank" href="https://www.instagram.com/ma_3llim_007/">
+                                <a target="_blank" href="https://www.instagram.com/ma_3llim_007/" aria-label="Visit My Instagram">
                                     <FaInstagram className="font-bold text-xl text-light-textWhite" />
                                 </a>
                             </li>
                             <li className="bg-light-deep p-2 rounded-full">
-                                <a target="_blank" href="https://www.linkedin.com/in/mohdsameer-dev/">
+                                <a target="_blank" href="https://www.linkedin.com/in/mohdsameer-dev/" aria-label="Visit My LinkedIn">
                                     <FaLinkedinIn className="font-bold text-xl text-light-textWhite" />
                                 </a>
                             </li>

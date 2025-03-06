@@ -37,47 +37,57 @@ const SideBar = ({ isOpenModel, handleModel, wishListQty, cartQty, catgoryAndSub
                 <hr className="my-2 opacity-25" />
                 <nav className="w-full px-5 mt-10 mb-5">
                     <ul className="flex flex-col items-start gap-5 p-2 text-xl font-semibold overflow-y-scroll">
-                        <NavLink onClick={handleModel} to={"/"}>
-                            Home
-                        </NavLink>
-                        <NavLink onClick={handleModel} to={"/about-us"}>
-                            About Us
-                        </NavLink>
-                        <div className="w-full space-y-2">
-                            {catgoryAndSubCategory.map(category => (
-                                <nav className="group rounded-md" key={category._id}>
-                                    <input type="checkbox" id={`toggle-${category?._id}`} className="hidden peer" />
-                                    <label htmlFor={`toggle-${category?._id}`} className="flex justify-between items-center py-2 cursor-pointer rounded-md">
-                                        <Link onClick={handleModel} to={`sub-category/${category?.categorySlug}`}>
-                                            {category?.categoryName}
-                                        </Link>
-                                        <div className="px-2 py-1 text-base">
-                                            <FaPlus className="transform peer-checked:rotate-45 transition-transform duration-300" />
-                                        </div>
-                                    </label>
+                        <li>
+                            <NavLink onClick={handleModel} to={"/"}>
+                                Home
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink onClick={handleModel} to={"/about-us"}>
+                                About Us
+                            </NavLink>
+                        </li>
+                        <li>
+                            <div className="w-full space-y-2">
+                                {catgoryAndSubCategory.map(category => (
+                                    <nav className="group rounded-md" key={category._id}>
+                                        <input type="checkbox" id={`toggle-${category?._id}`} className="hidden peer" />
+                                        <label htmlFor={`toggle-${category?._id}`} className="flex justify-between items-center py-2 cursor-pointer rounded-md">
+                                            <Link onClick={handleModel} to={`sub-category/${category?.categorySlug}`}>
+                                                {category?.categoryName}
+                                            </Link>
+                                            <div className="px-2 py-1 text-base">
+                                                <FaPlus className="transform peer-checked:rotate-45 transition-transform duration-300" />
+                                            </div>
+                                        </label>
 
-                                    <ul className="ml-4 mt-2 space-y-1 hidden peer-checked:block transition-all duration-700 ease-in-out transform">
-                                        {category?.subcategories.map(subcategory => (
-                                            <li key={subcategory?._id} className="py-1">
-                                                <Link
-                                                    onClick={handleModel}
-                                                    to={`/${category.categorySlug}/${subcategory.subCategorySlug}/products`}
-                                                    className="block px-3 py-1 underline underline-offset-4"
-                                                >
-                                                    {subcategory?.subCategoryName}
-                                                </Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </nav>
-                            ))}
-                        </div>
-                        <NavLink onClick={handleModel} to={"/category"}>
-                            Category
-                        </NavLink>
-                        <NavLink onClick={handleModel} to={"/contact-us"}>
-                            Contact Us
-                        </NavLink>
+                                        <ul className="ml-4 mt-2 space-y-1 hidden peer-checked:block transition-all duration-700 ease-in-out transform">
+                                            {category?.subcategories.map(subcategory => (
+                                                <li key={subcategory?._id} className="py-1">
+                                                    <Link
+                                                        onClick={handleModel}
+                                                        to={`/${category.categorySlug}/${subcategory.subCategorySlug}/products`}
+                                                        className="block px-3 py-1 underline underline-offset-4"
+                                                    >
+                                                        {subcategory?.subCategoryName}
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </nav>
+                                ))}
+                            </div>
+                        </li>
+                        <li>
+                            <NavLink onClick={handleModel} to={"/category"}>
+                                Category
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink onClick={handleModel} to={"/contact-us"}>
+                                Contact Us
+                            </NavLink>
+                        </li>
                     </ul>
                 </nav>
                 <div className="w-full px-5 mb-6">
@@ -102,21 +112,21 @@ const SideBar = ({ isOpenModel, handleModel, wishListQty, cartQty, catgoryAndSub
                 <div className="w-full px-5 my-2 mx-auto">
                     <ul className="flex flex-wrap justify-start gap-5 items-center">
                         <li className="bg-light-blue p-2 rounded-full">
-                            <a target="_blank" href="https://www.facebook.com/Ma3llim007/" onClick={handleModel}>
+                            <a target="_blank" href="https://www.facebook.com/Ma3llim007/" onClick={handleModel} aria-label="Visit My Facebook">
                                 <FaFacebook className="font-bold text-xl text-light-textWhite" />
                             </a>
                         </li>
-                        <li className="bg-light-blue p-2 rounded-full" onClick={handleModel}>
+                        <li className="bg-light-blue p-2 rounded-full" onClick={handleModel} aria-label="Visit My Twitter">
                             <a target="_blank" href="https://x.com/ma_3llim_007">
                                 <FaTwitter className="font-bold text-xl text-light-textWhite" />
                             </a>
                         </li>
-                        <li className="bg-light-blue p-2 rounded-full" onClick={handleModel}>
+                        <li className="bg-light-blue p-2 rounded-full" onClick={handleModel} aria-label="Visit My Instagram">
                             <a target="_blank" href="https://www.instagram.com/ma_3llim_007/">
                                 <FaInstagram className="font-bold text-xl text-light-textWhite" />
                             </a>
                         </li>
-                        <li className="bg-light-blue p-2 rounded-full" onClick={handleModel}>
+                        <li className="bg-light-blue p-2 rounded-full" onClick={handleModel} aria-label="Visit My LinkedIn">
                             <a target="_blank" href="https://www.linkedin.com/in/mohdsameer-dev/">
                                 <FaLinkedinIn className="font-bold text-xl text-light-textWhite" />
                             </a>
