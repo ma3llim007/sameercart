@@ -1,6 +1,6 @@
 import slider1 from "../assets/sliders/slider1.webp";
 import slider2 from "../assets/sliders/slider2.webp";
-import { useQuery } from "@tanstack/react-query";
+import { useQueries, useQueryClient } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import Loader from "../components/Loader/Loader";
@@ -13,10 +13,21 @@ import ProductsSection from "../components/Home/ProductsSection";
 import HomeBanner from "../components/Home/HomeBanner";
 import HomeBlog from "../components/Home/HomeBlog";
 import BrandSection from "../components/Home/BrandSection";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Helmet } from "react-helmet-async";
 
+// Generic function to fetch data
+const fetchData = async url => {
+    try {
+        return await crudService.get(url);
+    } catch (error) {
+        const message = error?.response?.data?.message || error?.message;
+        toastService.error(message || "Failed To Fetch Data.");
+    }
+};
+
 const Home = () => {
+    const queryClient = useQueryClient();
     // Slider Data
     const sliderData = useMemo(
         () => [
@@ -40,50 +51,40 @@ const Home = () => {
         []
     );
 
-    // popular Categories Data
-    const { data: popularCategories, isPending: popularCategoriesIsPending } = useQuery({
-        queryKey: ["popularCategories"],
-        queryFn: () => crudService.get("category/popular-categories"),
-        onError: error => {
-            const message = error?.response?.data?.message || error?.message;
-            toastService.error(message || "Failed to fetch Data.");
-        },
-        staleTime: 10 * 60 * 1000,
+    // Define queries
+    const queries = [
+        { key: "popularCategories", url: "category/popular-categories", staleTime: 20 * 60 * 1000 },
+        { key: "newArrivals", url: "products/new-arrivals", staleTime: 20 * 60 * 1000 },
+        { key: "mobileComputer", url: "products/get-products-by-category?category=677aa0b4fbf2956f2ee3cc28", staleTime: 20 * 60 * 1000 },
+        { key: "appliancesElectronics", url: "products/get-products-by-category?category=677aa0cafbf2956f2ee3cc2f", staleTime: 20 * 60 * 1000 },
+    ];
+
+    // Prefetch data on mount
+    useEffect(() => {
+        queries.map(({ key, url, staleTime }) => {
+            queryClient.prefetchQuery({
+                queryKey: [key],
+                queryFn: () => fetchData(url),
+                staleTime: staleTime || 0,
+            });
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [queryClient]);
+
+    // UseQueries for multiple queries
+    const queryResults = useQueries({
+        queries: queries.map(({ key, url, staleTime }) => ({
+            queryKey: [key],
+            queryFn: () => fetchData(url),
+            staleTime: staleTime || 0,
+        })),
     });
 
-    // New Product Arrivals
-    const { data: newArrivalsData, isPending: newArrivalIsPending } = useQuery({
-        queryKey: ["newArrivals"],
-        queryFn: () => crudService.get("products/new-arrivals"),
-        onError: error => {
-            const message = error?.response?.data?.message || error?.message;
-            toastService.error(message || "Failed to fetch Data.");
-        },
-    });
+    // Extract data & loading states
+    const [popularCategories, newArrivalsData, mobileComputerData, appliancesElectronicsData] = queryResults.map(query => query.data);
 
-    // Product Of Mobile Computers
-    const { data: mobileComputerData, isPending: mobileComputerIsPending } = useQuery({
-        queryKey: ["mobileComputer"],
-        queryFn: () => crudService.get("products/get-products-by-category?category=677aa0b4fbf2956f2ee3cc28"),
-        onError: error => {
-            const message = error?.response?.data?.message || error?.message;
-            toastService.error(message || "Failed to fetch Data.");
-        },
-    });
-
-    // Product Of Tv Appliances And Electronics
-    const { data: appliancesElectronicsData, isPending: appliancesElectronicsIsPending } = useQuery({
-        queryKey: ["appliancesElectronics"],
-        queryFn: () => crudService.get("products/get-products-by-category?category=677aa0cafbf2956f2ee3cc2f"),
-        onError: error => {
-            const message = error?.response?.data?.message || error?.message;
-            toastService.error(message || "Failed to fetch Data.");
-        },
-    });
-
-    const isLoading = popularCategoriesIsPending || newArrivalIsPending || mobileComputerIsPending || appliancesElectronicsIsPending;
+    const isLoading = queryResults.some(query => query.isPending);
     if (isLoading) return <Loader />;
-
     return (
         <>
             <Helmet>
