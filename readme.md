@@ -6,25 +6,25 @@
 
 [SameerCart](https://sameercart.onrender.com/) is a full-featured eCommerce application designed to provide a seamless shopping experience. Users can browse products, add them to their cart, and complete secure purchases. The platform includes robust features like user authentication, product management, order tracking, and payment gateway integration.
 
-
 ## Features
 
 -   Secure user authentication & authorization (Sign Up, Login, Logout, Password Reset)
--   Product browsing, filtering, and search functionality
+-   Product browsing, and search functionality
 -   Shopping cart and smooth checkout process
 -   Order management and real-time order tracking
 -   Secure payment gateway integration via Razorpay
--   Admin panel for managing products, orders, and users
+-   Admin panel for managing users, products, orders, and content
 -   Fully responsive design for mobile and desktop users
 
 ## Technologies Used
 
 -   **Frontend:** React.js (with Context API & Hooks)
+-   **Styling:** TailwindCSS And ShadCN
 -   **Backend:** Node.js / Express.js
 -   **Database:** MongoDB with Mongoose ORM
 -   **Authentication:** JWT-based authentication
 -   **Payment Gateway:** Razorpay for secure transactions
--   **Hosting & Deployment:** Render for backend and Vercel for frontend
+-   **Hosting & Deployment:** Render
 
 ## Installation
 
@@ -33,41 +33,49 @@ To set up the project locally, follow these steps:
 ### Frontend Setup
 
 1. Navigate to the `client` directory:
-   ```bash
-   cd client
-   ```
+
+    ```bash
+    cd client
+    ```
 
 2. Install dependencies:
-   ```bash
-   yarn
-   ```
+
+    ```bash
+    yarn
+    ```
 
 3. Set up environment variables:
-   ```bash
-   cp .env.sample .env
-   ```
-   Update `.env` file with your credentials (e.g., Backend URL,etc.).
+
+    ```bash
+    cp .env.sample .env
+    ```
+
+    Update `.env` file with your credentials (e.g., Backend URL,etc.).
 
 4. Start the frontend server:
-   ```bash
-   yarn start
-   ```
-   The frontend should be accessible at `http://localhost:5173`.
+    ```bash
+    yarn start
+    ```
+    The frontend should be accessible at `http://localhost:5173`.
+
 ---
+
 ### Backend Setup
 
 1. Navigate to the `server` directory:
-   ```bash
-   cd ../server
-   ```
+    ```bash
+    cd ../server
+    ```
 2. Install dependencies:
-   ```bash
-   yarn
-   ```
+    ```bash
+    yarn
+    ```
 3. Set up environment variables:
-   ```bash
-   cp .env.sample .env
-   ```
+
+    ```bash
+    cp .env.sample .env
+    ```
+
     Update `.env` file with your credentials (e.g., database URI, Stripe keys, JWT secret, etc.).
 
 4. Start the backend server:
@@ -77,6 +85,7 @@ To set up the project locally, follow these steps:
     The backend should be accessible at `http://localhost:8000`.
 
 ---
+
 ## Usage
 
 To explore the application:
@@ -86,17 +95,18 @@ To explore the application:
 -   Browse products and add items to your shopping cart.
 -   Proceed to checkout and make secure payments using Razorpay.
 -   Track your order status in real-time.
+-   **Admin users can log in to the Admin Panel to manage Users, Contact Enquiry, Category, Sub-Category, Products, Orders, And Blogs.**
 
 ## ⚠️ Warning & Danger Zone
-- **Do not use real credit/debit card details unless you intend to make an actual purchase.**
-- **For testing purposes, use Stripe's test card details to avoid unintended transactions.**
-- **Unauthorized transactions will not be refunded.**
-- **Ensure your credentials and payment details are securely stored and not shared with others.**
 
+-   **Use only test card details for payments** (provided by RazorPay in test mode).
+-   **Do not enter real credit card information in the development environment.**
+-   **Admin panel access is restricted to authorized users only.**
+-   **Unauthorized transactions will not be refunded.**
+-   Misuse of the platform may result in account suspension.
 
 ## Development & Contribution
-
-Want to contribute? Follow these steps:
+### Steps to Contribute
 
 1. Clone the repository:
     ```bash
@@ -117,11 +127,10 @@ Want to contribute? Follow these steps:
     ```
 5. Open a pull request on GitHub and describe your changes.
 
-## Contributing Guidelines
-
--   Ensure code follows project structure and best practices.
--   Submit detailed pull requests with clear descriptions.
--   Report bugs and suggest improvements via GitHub Issues.
+## Contribution Guidelines
+- Follow project structure and best practices.
+- Submit detailed pull requests with clear descriptions.
+- Report bugs and suggest improvements via GitHub Issues.
 
 ## License
 
@@ -129,7 +138,74 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgements
 
--   **React.js:** For a scalable and flexible frontend.
--   **React Context API:** For efficient state management.
--   **Express.js & MongoDB:** For a robust backend architecture.
--   **Razorpay:** For secure and seamless payment processing.
+-  React.js: Scalable and flexible frontend.
+-  React Context API: Efficient state management.
+-  TailwindCSS & Shadcn: Rich UI and styling.
+-  Express.js & MongoDB: Robust backend architecture.
+-  Razorpay: Secure and seamless payment processing.
+
+<br>
+
+---
+<br>
+
+# **Admin Dashboard**
+The Admin Panel in [SameerCart](https://sameercart.onrender.com/) provides full control over the eCommerce platform, allowing administrators to manage users, categories, content inquiries, products, orders, and blogs efficiently.
+
+## Key Features
+- User Management: Handle user roles, authentication, and account statuses.
+- Category & Sub-Category Management: Organize and structure product listings effectively.
+- Content Inquiry Management: Track and respond to customer queries.
+- Product Management: Maintain inventory, pricing, and promotions.
+- Order Management: Process and update order statuses, refunds, and invoices.
+- Blog Management: Publish and manage engaging content for customers.
+
+![Admin Dashboard](images/admin/Admin-Dashboard.png)
+
+### 1. User Management
+- View, search, and filter registered users.
+- Assign and manage user roles (Admin, Customer, Vendor).
+- Activate, deactivate, or delete user accounts.
+- Reset passwords and manage authentication settings.
+
+#### Manage User's
+![Manage User](images/admin/Manage-Users.png)
+
+#### View User Profile
+![View User Profile](images/admin/View-User-Profile.png)
+
+### 2. Category & Sub-Category Management
+- Create, edit, and delete categories and sub-categories.
+- Assign icons or images for better navigation.
+- Manage descriptions, SEO metadata, and sorting orders.
+
+#### Manage Category's
+![Manage Category's](images/admin/Manage-Categories.png)
+
+#### Add Category
+![Add Category](images/admin/Add-Category.png)
+
+#### Edit Category
+![Manage User](images/admin/Edit-Category.png)
+
+### 3. Content Inquiry Management
+- View and respond to customer inquiries.
+- Categorize and filter inquiries for quick access.
+- Automate responses for common queries.
+
+### 4. Product Management
+- Add, update, and delete products.
+- Manage product specifications, images, pricing, and stock levels.
+- Assign categories and sub-categories.
+- Enable discounts, offers, and promotional tags.
+
+### 5. Order Management
+- View and manage customer orders.
+- Update order statuses (Pending, Processing, Shipped, Delivered, Canceled).
+- Generate invoices and shipping labels.
+- Handle customer refunds and returns.
+
+### 6. Blog Management
+- Create, edit, and delete blog posts.
+- Manage categories and tags.
+- Schedule posts and manage publishing settings.
