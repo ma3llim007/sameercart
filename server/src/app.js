@@ -34,7 +34,7 @@ app.use(
         },
     })
 );
-
+app.use("trust proxy", 1);
 // Routes
 app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/", publicRoutes);
