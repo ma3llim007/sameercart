@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 const HttpOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: "None",
 };
 
 const accessTokenAutoRefresh = async (req, res, next) => {

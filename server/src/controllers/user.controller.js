@@ -10,7 +10,7 @@ import { isValidObjectId } from "mongoose";
 export const HttpOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: "None",
 };
 
 // Register User
@@ -428,8 +428,8 @@ const loginWithOAuth = asyncHandler(async (req, res) => {
                     "Login Successful. Welcome back!"
                 )
             );
-    } catch (_error) {
-        return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    } catch (error) {
+        return res.status(500).json(new ApiError(500, error.message || "Internal Server Error"));
     }
 });
 

@@ -28,7 +28,7 @@ const verifyToken = (token, secret) => {
 const HttpOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: "None",
 };
 
 // Register Admin
