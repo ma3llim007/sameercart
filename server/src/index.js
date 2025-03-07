@@ -8,7 +8,7 @@ connectDB()
     .then(() => {
         app.listen(process.env.PORT || 8000, () => {
             // eslint-disable-next-line no-console
-            console.log(`🚀 Server Is Running`);
+            console.log("🚀 Server Is Running");
         });
     })
     .catch((error) => {
