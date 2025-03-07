@@ -7,7 +7,7 @@ import toastService from "@/services/toastService";
 import Loader from "../components/Loader/Loader";
 import { capitalizeWords, formatNumberWithCommas } from "@/utils";
 import Rating from "../components/Rating";
-import { FaCartPlus, FaFacebook, FaHeart, FaInstagram, FaRupeeSign, FaTwitter, FaWhatsapp } from "react-icons/fa";
+import { FaCartPlus, FaHeart, FaRupeeSign } from "react-icons/fa";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { addToCart } from "@/features/home/cartSlice";
@@ -351,16 +351,6 @@ const ProductDetails = () => {
                                 <Button onClick={handleAddToWishList} className="text-base Teal" title="Add To Wishlist">
                                     <FaHeart /> Add To Wishlist
                                 </Button>
-                            </div>
-                            {/* Sharing Links */}
-                            <div className="flex gap-4 items-center">
-                                <h3 className="text-xl font-bold">Share:</h3>
-                                <div className="flex gap-5 my-4 text-xl">
-                                    <FaFacebook />
-                                    <FaTwitter />
-                                    <FaWhatsapp />
-                                    <FaInstagram />
-                                </div>
                             </div>
                         </div>
                     </div>

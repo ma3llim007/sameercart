@@ -23,7 +23,7 @@ const Rating = ({ rating, size = "text-base", onRatingChange, enableHover = fals
         }
     };
     return (
-        <div className="w-full flex items-center gap-2" role="radiogroup" aria-labelledby={ratingId}>
+        <div className="w-full flex items-center gap-1" role="radiogroup" aria-labelledby={ratingId}>
             <span id={ratingId} className="sr-only">
                 Star Rating
             </span>
