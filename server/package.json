@@ -5,6 +5,7 @@
     "license": "MIT",
     "scripts": {
         "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
+        "start": "node -r dotenv/config --experimental-json-modules src/index.js",
         "lint": "eslint . ",
         "lint:fix": "eslint . --fix ",
         "format": "prettier --write ."
