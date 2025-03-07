@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+import tailwindcssAnimation from "tailwindcss-animate";
+import typography from "@tailwindcss/typography";
+
 export const darkMode = ["class"];
 export const content = ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"];
 export const theme = {
@@ -128,5 +131,5 @@ export const theme = {
         },
     },
 };
-// eslint-disable-next-line no-undef
-export const plugins = [require("tailwindcss-animate"), require("@tailwindcss/typography")];
+
+export const plugins = [tailwindcssAnimation, typography];
