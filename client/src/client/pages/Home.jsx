@@ -1,6 +1,8 @@
+import { lazy, Suspense, useEffect, useMemo } from "react";
+import { Helmet } from "react-helmet-async";
+import { useQueries, useQueryClient } from "@tanstack/react-query";
 import slider1 from "../assets/sliders/slider1.webp";
 import slider2 from "../assets/sliders/slider2.webp";
-import { useQueries, useQueryClient } from "@tanstack/react-query";
 import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import Loader from "../components/Loader/Loader";
@@ -8,13 +10,11 @@ import Slider from "../components/Home/Slider";
 import Container from "../components/Container";
 import IconSection from "../components/Home/IconSection";
 import InfoCardSection from "../components/Home/InfoCardSection";
-import Categories from "../components/Home/Categories";
-import ProductsSection from "../components/Home/ProductsSection";
+const Categories = lazy(() => import("../components/Home/Categories"));
+const ProductsSection = lazy(() => import("../components/Home/ProductsSection"));
 import HomeBanner from "../components/Home/HomeBanner";
 import HomeBlog from "../components/Home/HomeBlog";
 import BrandSection from "../components/Home/BrandSection";
-import { useEffect, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 
 // Generic function to fetch data
 const fetchData = async url => {
@@ -101,13 +101,23 @@ const Home = () => {
             <Container>
                 <IconSection />
                 <InfoCardSection />
-                <Categories categories={popularCategories} />
-                <ProductsSection title="New Arrivals" productData={newArrivalsData?.data} />
+                <Suspense fallback={<Loader />}>
+                    <Categories categories={popularCategories} />
+                </Suspense>
+                <Suspense fallback={<Loader />}>
+                    <ProductsSection title="New Arrivals" productData={newArrivalsData?.data} />
+                </Suspense>
                 <HomeBanner />
-                <ProductsSection title="Mobiles Computers" productData={mobileComputerData?.data} />
-                <ProductsSection title="Tv Appliances Electronics" productData={appliancesElectronicsData?.data} />
+                <Suspense fallback={<Loader />}>
+                    <ProductsSection title="Mobiles Computers" productData={mobileComputerData?.data} />
+                </Suspense>
+                <Suspense fallback={<Loader />}>
+                    <ProductsSection title="Tv Appliances Electronics" productData={appliancesElectronicsData?.data} />
+                </Suspense>
                 <BrandSection />
-                <HomeBlog />
+                <Suspense fallback={<Loader />}>
+                    <HomeBlog />
+                </Suspense>
             </Container>
         </>
     );
