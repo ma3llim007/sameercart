@@ -1,11 +1,11 @@
+import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import crudService from "@/api/crudService";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import crudService from "@/api/crudService";
 import toastService from "@/services/toastService";
 import Loader from "../components/Loader/Loader";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
-import { useEffect } from "react";
 
 const fetchHeaderContent = async () => {
     try {

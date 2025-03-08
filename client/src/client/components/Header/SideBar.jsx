@@ -102,7 +102,7 @@ const SideBar = ({ isOpenModel, handleModel, wishListQty, cartQty, catgoryAndSub
                             </Link>
                         </div>
                         <div className="relative">
-                            <Link to="/wishlist" onClick={handleModel}>
+                            <Link to="/cart" onClick={handleModel}>
                                 <FaBagShopping className="text-2xl font-extrabold cursor-pointer" />
                                 <span className="absolute top-3 right-3 inline-flex justify-center items-center w-5 h-5 text-xs font-bold text-white bg-red-600 rounded-full">{cartQty}</span>
                             </Link>
