@@ -3,6 +3,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import ClientLayout from "../client/layouts/ClientLayout";
 import Loader from "@/client/components/Loader/Loader";
 import ProtectedRoute from "@/client/layouts/ProtectedRoute";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 const Home = lazy(() => import("../client/pages/Home"));
 const AboutUs = lazy(() => import("../client/pages/AboutUs"));
@@ -36,7 +37,14 @@ const BlogDetails = lazy(() => import("../client/pages/BlogDetails"));
 // Client Router
 const clientRouters = createBrowserRouter(
     createRoutesFromElements(
-        <Route path="/" element={<ClientLayout />}>
+        <Route
+            path="/"
+            element={
+                <ErrorBoundary>
+                    <ClientLayout />
+                </ErrorBoundary>
+            }
+        >
             <Route
                 index
                 path=""
